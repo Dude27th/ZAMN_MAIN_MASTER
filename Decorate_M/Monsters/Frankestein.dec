@@ -1,0 +1,293 @@
+ACTOR Frankestein : MonsterClass_ZAMN 12303
+{
+  Health 1550
+  Speed 9.5//10
+  Radius 18
+  Height 50
+  Scale 1.25
+  Mass 70000
+  MeleeRange 128//40
+  MaxStepHeight 20
+  //$Category "Zombies Ate My Neighbors/Monsters/Bosses"
+  //$Sprite "FRKSA0"
+  //Args 0 "IndexAnim"
+  //$Color 4
+  DamageFactor "MonsterFist", 5.2
+  DamageFactor "WeedWacker", 2
+  DamageFactor "Tomatoes", 2.2
+  DamageFactor "Soda", 6.2
+  DamageFactor "Water", 1
+  DamageFactor "Bazooka", 16.5//31
+  DamageFactor "FireExtinguisher", 0
+  DamageFactor "Popsicle", 1
+  DamageFactor "Crucifix", 19.3
+
+  DamageType "FrankenRay"
+  Monster
+  -NOPAIN
+  //+FORCEPAIN
+  -STANDSTILL
+	States
+	{ 
+		//WIP////////////////////////////////
+		Spawn:
+		  TNT1 AA 0
+		  FRKS ABCD 8 A_CheckSightOrRange(96.0,"SeeWait")//A_CheckSightOrRange(128.0,"SeeWait")
+		  Loop
+		SeeWait:
+		  FRKS ABCD 8//8
+		  FRKS ABCD 8//8
+		  FRKS ABCD 8//8
+		See:
+		  //TNT1 A 0 A_FaceTarget
+		  TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	      TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST) 
+		  TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		  TNT1 A 0 //A_Recoil(-1)//
+		  FRKW AA 2 A_Chase
+		  TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	      TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST) 
+		  TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		  FRKW BB 2 A_Chase
+          TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	      TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST) 
+		  TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		  TNT1 A 0 //A_Recoil(-1)//
+		  FRKW CC 2 A_Chase
+          TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	      TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST) 
+		  TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		  FRKW DD 2 A_Chase
+		  Loop
+		Melee:
+		  TNT1 AA 0 A_ChangeFlag("NOPAIN",TRUE)
+
+		Melee4Ray:
+		  TNT1 AA 0 A_FaceTarget
+		  TNT1 A 0 A_PlaySound("Frankestein/Attack",7,1.0,FALSE,ATTN_NONE)//A_PlaySound("Frankestein/Attack")
+		  //Fire Ray 4 directions
+		  /*
+		  //All at once, now this, not between frames
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,0)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,90)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,180)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,270)
+		  */
+		MeleeRayA1:
+		  TNT1 A 0 A_SetArg(0,1)
+		  FRKA A 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,90)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayB1")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayB1:
+		  TNT1 A 0 A_SetArg(0,2)
+		  FRKA B 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,0)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,45)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayC1")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayC1:
+		  TNT1 A 0 A_SetArg(0,3)
+		  FRKA C 4 A_FaceTarget
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayD1")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayD1:
+		  TNT1 A 0 A_SetArg(0,4)
+		  FRKA D 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,180)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,135)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayE1")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayE1:
+		  TNT1 A 0 A_SetArg(0,5)
+		  FRKA E 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,270)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayF1")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayF1:
+		  TNT1 A 0 A_SetArg(0,6)
+		  FRKA F 4 A_FaceTarget
+		  TNT1 A 0
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		  //Fire Ray 4 directions
+		  /*
+		  //All at once, now this, not between frames
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,0)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,90)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,180)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,270)
+		  */
+		MeleeRayA2:
+		  TNT1 A 0 A_SetArg(0,1)
+		  FRKA A 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,90)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayB2")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayB2:
+		  TNT1 A 0 A_SetArg(0,2)
+		  FRKA B 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,0)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,45)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayC2")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayC2:
+		  TNT1 A 0 A_SetArg(0,3)
+		  FRKA C 4 A_FaceTarget
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayD2")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayD2:
+		  TNT1 A 0 A_SetArg(0,4)
+		  FRKA D 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,180)
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,135)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayE2")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayE2:
+		  TNT1 A 0 A_SetArg(0,5)
+		  FRKA E 4 A_FaceTarget
+		  TNT1 A 0 A_SpawnItemEx("FrankenRay",0,0,0,10,10,0,270)
+		  TNT1 A 0 A_JumpIf(!(A_CheckProximity("","FEPuff",16.0,1)),"MeleeRayF2")
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		MeleeRayF2:
+		  TNT1 A 0 A_SetArg(0,6)
+		  FRKA F 4 A_FaceTarget
+		  TNT1 A 0
+		  TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		  TNT1 A 0 A_SetArg(0,0)
+		  Goto See
+		Pain:
+		  TNT1 AA 0
+		  TNT1 A 0 A_JumpIf(Args[0] == 1,"PainA1")
+		  TNT1 A 0 A_JumpIf(Args[0] == 2,"PainA2")
+		  TNT1 A 0 A_JumpIf(Args[0] == 3,"PainA3")
+		  TNT1 A 0 A_JumpIf(Args[0] == 4,"PainA4")
+		  TNT1 A 0 A_JumpIf(Args[0] == 5,"PainA5")
+		  TNT1 A 0 A_JumpIf(Args[0] == 6,"PainA6")
+		  FRKW A 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto See
+		PainA1:
+		  FRKA A 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto MeleeRayA1
+		PainA2:
+		  FRKA B 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto MeleeRayB1
+		PainA3:
+		  FRKA C 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto MeleeRayC1
+		PainA4:
+		  FRKA D 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto MeleeRayD1
+		PainA5:
+		  FRKA E 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto MeleeRayE1
+		PainA6:
+		  FRKA F 1 A_JumpIfInventory("FreezeTime",1,"GoToFriz")
+		  Goto MeleeRayF1
+		GoToFriz:
+		  TNT1 A 0 //ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+		  Goto FreezeTime
+		Pain.Popsicle:
+		Pain.FireExtinguisher:
+		  TNT1 A 0 ACS_NamedExecuteAlways("GiveFreeze",0,15,0,0)
+		FreezeTime:
+		  TNT1 AA 0
+		  TNT1 A 0 A_JumpIf(Args[0] == 1,"FreezeTime1")
+		  TNT1 A 0 A_JumpIf(Args[0] == 2,"FreezeTime2")
+		  TNT1 A 0 A_JumpIf(Args[0] == 3,"FreezeTime3")
+		  TNT1 A 0 A_JumpIf(Args[0] == 4,"FreezeTime4")
+		  TNT1 A 0 A_JumpIf(Args[0] == 5,"FreezeTime5")
+		  TNT1 A 0 A_JumpIf(Args[0] == 6,"FreezeTime6")
+		  FRKF Y 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto See
+		FreezeTime1:
+		  FRKF A 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto MeleeRayB1
+		FreezeTime2:
+		  FRKF B 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto MeleeRayC1
+		FreezeTime3:
+		  FRKF C 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto MeleeRayD1
+		FreezeTime4:
+		  FRKF D 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto MeleeRayE1
+		FreezeTime5:
+		  FRKF E 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto MeleeRayF1
+		FreezeTime6:
+		  FRKF F 1 A_TakeInventory("FreezeTime",1)
+		  TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		Goto See
+		Pain.Alert:
+		  TNT1 A 0 A_JumpIfInTargetInventory("ZekeToken",1,"ChangeTarget")
+		  TNT1 A 0 A_JumpIfInTargetInventory("JulieToken",1,"ChangeTarget")
+		Goto See
+		Death:
+		  FRKD ABCDE 4
+		Stop
+	}
+}
+
+Actor FrankenRay
+{
+  Radius 8
+  Height 15
+  Speed  12
+  Damage (10)
+  Scale 1.75
+  DamageType "Frankestein"
+  SeeSound ""
+  DeathSound ""
+  Projectile
+  -SOLID
+  +CANPASS
+  +THRUSPECIES
+  //+FLOORHUGGER
+  +BOUNCEONWALLS
+  +BOUNCEONACTORS
+  States
+  {
+	Spawn:
+	  TNT1 A 0 
+	  TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+	  FRAY AB 4 BRIGHT
+	  FRAY AB 4 //BRIGHT
+	  FRAY AB 4 BRIGHT
+	  FRAY AB 4 //BRIGHT
+	  FRAY AB 4 BRIGHT
+	  FRAY AB 4 //BRIGHT
+	Death:
+	  TNT1 A 1 
+	  Stop
+  }
+}
+
+// Not used, doesn't work
+/*
+Actor FrankenRaySpawner
+{
+	Height 10
+	Radius 4
+	+NOCLIP
+	States
+	{
+		Spawn:
+		TNT1 AA 0
+		ALRT A 1  A_SetAngle(angle+315)
+		TNT1 A 0  A_CustomMissile("FrankenRay",0,0,0)
+		ALRT A 1  A_SetAngle(angle+90)
+		TNT1 A 0  A_CustomMissile("FrankenRay",0,0,0)
+		ALRT A 1  A_SetAngle(angle+90)
+		TNT1 A 0  A_CustomMissile("FrankenRay",0,0,0)
+		ALRT A 1  A_SetAngle(angle+90)
+		TNT1 A 0  A_CustomMissile("FrankenRay",0,0,0)
+		ALRT A 0  A_SetAngle(angle+45)
+		Stop
+	}	
+}*/

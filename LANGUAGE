@@ -1,0 +1,31 @@
+[enu default]
+GOTCHAINGUN = "";
+WATERAMMO = "";
+GOTBAZOOKA = "";
+GOTSSODA = "";
+GOTTOMATO = "";
+SURVIVOR = "";
+HAMBURGER= "";
+STARTWEAPON="";
+STARTITEM="";
+
+QUITMSG = "Are you gonna let \nDr.Tongue get away with it?";
+TXT_YES = "Yeah";
+TXT_NO = "Nope";
+
+QUITMSG1 = "Is that a Chainsaw I hear ?";
+QUITMSG2 = "Sure! Those neighbors look \nlike they can save themselves...";
+QUITMSG3 = "Are you gonna let \nDr.Tongue get away with it?";
+QUITMSG4 = "Too much terror for you ?";
+QUITMSG5 = "If he is Dr.Tongue, that Frakenstein creature would be \nthe Tonguestein monster ??";
+QUITMSG6 = "I feel like I could...\nTAKE ON THE WORLD!";
+QUITMSG7 = "Thanks for playing! ^^";
+
+QUITMSG8 = "Is that a Chainsaw I hear ?";
+QUITMSG9 = "Sure! Those neighbors look \nlike they can save themselves...";
+QUITMSG10 = "Are you gonna let \nDr.Tongue get away with it?";
+QUITMSG11 = "Too much terror for you ?";
+QUITMSG12 = "If he is Dr.Tongue, that Frakenstein creature would be \nthe Tonguestein monster ??";
+QUITMSG13 = "I feel like I could...\nTAKE ON THE WORLD!";
+QUITMSG14 = "Thanks for playing! ^^";
+

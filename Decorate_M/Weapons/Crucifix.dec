@@ -1,0 +1,283 @@
+Actor CrucifixToken : WeaponToken_ZAMN
+{}
+
+Actor Firing : Inventory
+{	Inventory.MaxAmount 1	}
+
+Actor Crucifix_ZAMN : WeaponClass_ZAMN	//Base Class
+{
+	Weapon.SelectionOrder 350
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 20
+	Weapon.SlotNumber 7
+	DamageType "Crucifix"
+	States
+	{
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Deselect:	//Generic State::
+			TNT1 A 0 A_TakeInventory("CrucifixToken",1)
+			TNT1 A 0 ACS_NamedExecuteAlways("SetInvulnerableCrucifixOff",0,0,0,0)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait
+		Select:		//Generic State::
+			TNT1 A 0 A_PlaySound("Player/Select",1,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}
+
+
+Actor CRUCFX_Z : Crucifix_ZAMN
+{
+	Weapon.AmmoType "CRUCFX_Z_Ammo"
+	Inventory.RestrictedTo "ZEKE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		CRXZ A 1 A_WeaponReady
+		Goto Ready
+	NotReady:
+		CRXZ A 1 A_WeaponOffset(0,40)
+		CRXZ A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		CRXZ A 1 A_WeaponOffset(0,60)
+		CRXZ A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 A_GiveInventory("CrucifixToken",1)
+		TNT1 A 0 A_JumpIfInventory("Firing",1,"DoFire")
+		CRXZ BDFHI 1
+		Goto DoFire
+	DoFire:
+		TNT1 A 0 ACS_NamedExecuteAlways("SetInvulnerableCrucifixOn",0,0,0,0)
+		TNT1 A 0 A_CheckProximity("SlowDown","MushroomSeed",32,1,CPXF_ANCESTOR)//	A_JumpIfCloser(16/*16*/, "Missile")
+		Goto DoFireFire
+	SlowDown:
+		TNT1 A 0 ACS_NamedExecuteAlways("HazardSlowdown",0,0,0,0)
+	DoFireFire:
+		CRXZ JK 1
+		TNT1 A 0 A_PlaySound("Crucifix/Shine",0,100)
+		CRXZ L 5 A_FireCustomMissile("CrucifixEntity",0,0,0,16,0,0)
+		TNT1 A 0 A_TakeInventory("CRUCFX_Z_Ammo",1)
+		CRXZ MOQ 1
+		CRXZ X 4
+		TNT1 A 0 A_GiveInventory("Firing",1)
+		TNT1 A 0 A_Refire
+		CRXZ HGFE 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		CRXZ DCB 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 ACS_NamedExecuteAlways("SetInvulnerableCrucifixOff",0,0,0,0)
+		TNT1 A 0 A_TakeInventory("Firing",1)
+		Goto Ready
+   }
+}
+
+Actor CRUCFX_J : Crucifix_ZAMN
+{
+	Weapon.AmmoType "CRUCFX_J_Ammo"
+	Inventory.RestrictedTo "JULIE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		CRXJ A 1 A_WeaponReady
+		Goto Ready
+	NotReady:
+		CRXJ A 1 A_WeaponOffset(0,40)
+		CRXJ A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		CRXJ A 1 A_WeaponOffset(0,60)
+		CRXJ A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 A_GiveInventory("CrucifixToken",1)
+		TNT1 A 0 A_JumpIfInventory("Firing",1,"DoFire")
+		CRXJ BDFHI 1
+		Goto DoFire
+	DoFire:
+		TNT1 A 0 ACS_NamedExecuteAlways("SetInvulnerableCrucifixOn",0,0,0,0)
+		TNT1 A 0 A_CheckProximity("SlowDown","MushroomSeed",32,1,CPXF_ANCESTOR)//	A_JumpIfCloser(16/*16*/, "Missile")
+		Goto DoFireFire
+	SlowDown:
+		TNT1 A 0 ACS_NamedExecuteAlways("HazardSlowdown",0,0,0,0)
+	DoFireFire:
+		CRXJ JK 1
+		TNT1 A 0 A_PlaySound("Crucifix/Shine",0,100)
+		CRXJ L 5 A_FireCustomMissile("CrucifixEntity",0,0,0,16,0,0) 
+		TNT1 A 0 A_TakeInventory("CRUCFX_J_Ammo",1)
+		CRXJ MOQ 1
+		CRXJ X 4
+		TNT1 A 0 A_GiveInventory("Firing",1)
+		TNT1 A 0 A_Refire
+		CRXJ HGFE 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		CRXJ DCB 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 ACS_NamedExecuteAlways("SetInvulnerableCrucifixOff",0,0,0,0)
+		TNT1 A 0 A_TakeInventory("Firing",1)
+		Goto Ready
+	}
+}
+
+
+
+
+Actor CrucifixEntity : Ammo
+{
+Health 1000
+Radius 10
+Height 20
+Speed  20
+Damage (10)
+Scale 1.50
++RIPPER
++NOEXTREMEDEATH
+-SOLID
++NOBLOOD
++PUSHABLE
+Inventory.Amount 200
+Inventory.MaxAmount 400
+Ammo.BackpackAmount 200
+Ammo.BackpackMaxAmount 400
+Inventory.Icon "ZBAZA0"
+Projectile
+DamageType "Crucifix"
+ States
+{
+ Spawn: 
+ CRXP A 1
+ TNT1 A 0 A_CustomMissile("Crucifix_Ent1", 0, 0, 20)
+ TNT1 A 1
+ TNT1 A 0 A_SpawnItemEx("Crucifix_Spark",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+ Stop
+ Death:
+ CRXP ABCDE 1
+ Stop
+ }
+}
+
+Actor Crucifix_Ent1 : CrucifixEntity
+{
+Speed  10
+Tag 2200
+-NOCLIP
+-PUSHABLE
+States
+	{
+	Spawn:
+	CRXP ABCD 1 Bright
+	TNT1 A 0 A_CustomMissile("Crucifix_Ent2", 0, 0, 20)
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("Crucifix_Spark",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	Stop
+	}
+}
+
+Actor Crucifix_Ent2 : CrucifixEntity
+{
+Speed  10
+Tag 2200
+-NOCLIP
+-PUSHABLE
+States
+	{
+	Spawn:
+	CRXP ABCD 1 Bright
+	TNT1 A 0 A_CustomMissile("Crucifix_Ent3", 0, 0, 20)
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("Crucifix_Spark",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	Stop
+	}
+}
+
+Actor Crucifix_Ent3 : CrucifixEntity
+{
+Speed  10
+Tag 2200
+-NOCLIP
+-PUSHABLE
+States
+	{
+	Spawn:
+	CRXP ABCD 1 Bright
+	TNT1 A 0 A_CustomMissile("Crucifix_Ent4", 0, 0, 20)
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("Crucifix_Spark",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	Stop
+	}
+}
+
+Actor Crucifix_Ent4 : CrucifixEntity
+{
+Speed  10
+Tag 2200
+-NOCLIP
+-PUSHABLE
+States
+	{
+	Spawn:
+	TNT1 A 1 
+	CRXP ABCD 1 Bright
+	Stop
+	}
+}
+
+Actor CRUCFX_Z_Ammo : Ammo {Inventory.MaxAmount 400}//CrucifixEntity {}
+Actor CRUCFX_J_Ammo : Ammo {Inventory.MaxAmount 400}//CrucifixEntity {}
+
+Actor Crucifix_Spark : CrucifixEntity
+{
++NOCLIP
+States
+	{
+	Spawn:
+	CRXP BCDE 1 Bright
+	Stop
+	}
+}
+

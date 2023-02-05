@@ -1,0 +1,135 @@
+//Third person camera simulation.
+//By solarsnowfall
+  
+#library "ThirdPersonCamera" 
+#include "zcommon.acs"
+
+#define C_TID		1000	//Default camera tid
+#define MAX_R		60	//Maximum radius (or distance from the player) 		//It was 128
+#define ADJUST_R	8	//Amount to adjust the camera by //It was 8
+#define VIEW_HEIGHT	41.0	//The approximate height of the player's view
+
+bool cam_mode[8];		//Variable for turning the camera on or off. (For each player number)
+	
+Script "ThirdPerson" (void)//(923) ENTER
+{
+	if(CheckInventory("SpectatorMode") != 1)
+	{
+		if(cam_mode[PlayerNumber ()] == OFF)	//Skip if unnecesary
+		{
+		cam_mode[PlayerNumber ()] = ON;
+		ACS_NamedExecuteAlways ("CameraPoint", 0, PlayerNumber (),0);
+		}
+	}
+	
+	
+}
+
+Script "ThirdPerson2" (void)
+{
+	if(CheckInventory("SpectatorMode") != 1)
+	{
+		if(cam_mode[PlayerNumber ()] == OFF)	//Skip if unnecesary
+		{
+		cam_mode[PlayerNumber ()] = ON;
+		ACS_NamedExecuteAlways ("CameraPoint", 0, PlayerNumber (),1);
+		}
+	}
+}
+
+//Debug in case that the camera bugs out again
+Script "TestCamera" (void)
+{
+	while(true)
+	{
+	Str check;
+	if(cam_mode[PlayerNumber ()])
+		{check= "true";}
+	else
+		{check= "false";}
+	print(s: StrParam(s:"Third Person is: ", s: check ));
+	Delay(1);
+	}
+	//Restart;
+}
+
+Script "CameraPoint" (int p_num, int MoreRadius)
+{
+	int r = 0;
+	if(MoreRadius == 1)
+		r = MAX_R * 2;
+	else
+		r = MAX_R;
+	
+	while (cam_mode[p_num] == ON)
+	{	
+		int a = GetActorAngle (0);
+		int p = GetActorPitch (0);
+		int x = GetActorX (0);
+		int y = GetActorY (0);
+		int z = GetActorZ (0) + VIEW_HEIGHT;
+		int xyr = r * cos (p) >> 16;
+		
+		if (!ThingCountName ("ChaseCam", C_TID+p_num))
+		{
+			while (!Spawn ("ChaseCam", x-cos(a)*xyr, y-sin(a)*xyr, z+sin(p)*r, C_TID+p_num, a >> 8) && r > 0)
+			{
+				r -= ADJUST_R;
+				xyr = cos (p) * r >> 16;
+			}
+			
+			if (ThingCountName ("ChaseCam", C_TID + p_num))
+				ChangeCamera (C_TID + p_num, 0, 0);
+			else
+			{
+				//Reset Camera instead of saying that it failed
+				Delay(1);
+				Restart;
+				//cam_mode[p_num] = OFF;
+				//print (s:"Camera script failed to initialize.");
+			}
+		}
+		 else
+		{
+			while (!SetActorPosition (C_TID+p_num, x-cos(a)*xyr, y-sin(a)*xyr, z+sin(p)*r, 0) && r > 0)
+			{
+				r -= ADJUST_R;
+				xyr = cos (p) * r >> 16;
+			}
+			
+			SetActorAngle (C_TID + p_num, a);
+			SetActorPitch (C_TID + p_num, p);
+			
+			if (r < MAX_R) 
+                              r += ADJUST_R;
+		}
+		
+		delay (1);
+	} 
+}
+
+
+
+Script "FirstPerson" (void) //(926) DEATH
+{
+	/*
+	while(cam_mode[PlayerNumber ()]){
+	cam_mode[PlayerNumber ()] = OFF;
+	Thing_Remove (C_TID + PlayerNumber ());
+	Delay(1);
+	}*/
+	/*
+	cam_mode[PlayerNumber ()] = OFF;
+	Thing_Remove (C_TID + PlayerNumber ());	*/
+	if(cam_mode[PlayerNumber ()] == ON)		//Skip if unnecesary
+	{
+	cam_mode[PlayerNumber ()] = OFF;
+	Thing_Remove (C_TID + PlayerNumber ());
+	}
+}
+
+Script "RemoveCamera" (int p_num) DISCONNECT
+{
+       cam_mode[p_num] = OFF;
+       Thing_Remove (C_TID + p_num);
+}

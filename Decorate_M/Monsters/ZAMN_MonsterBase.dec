@@ -1,0 +1,215 @@
+Actor MonsterClass_ZAMN
+{
+	Health 10	//Depends on resistances
+	PainChance 0
+	Mass 400
+	MaxStepHeight 16
+
+	//	Weapons Damage Resistances	[Generic]
+	DamageFactor "MonsterFist", 		1
+	DamageFactor "WeedWacker", 			1
+	DamageFactor "Tomatoes", 			1
+	DamageFactor "Soda", 				1
+	DamageFactor "Water", 				1
+	DamageFactor "Bazooka", 			1
+	DamageFactor "FireExtinguisher",	0
+	DamageFactor "Popsicle", 			1
+	DamageFactor "Crucifix", 			1
+	DamageFactor "Silverware", 			1
+	DamageFactor "Plates", 				1
+	DamageFactor "FootBall", 			1
+	DamageFactor "MartianGun", 			0
+	DamageFactor "FlameThrower", 		1
+	DamageFactor "Banana", 				1
+
+	//	Monster Damage Resistances
+	DamageFactor "Zombie", 				0
+	DamageFactor "BabyDoll", 			0
+	DamageFactor "ChainsawBasic", 		0
+	DamageFactor "GiantPod", 			0
+	DamageFactor "FloorHazard", 		0
+	DamageFactor "FrankenRay", 			0
+	DamageFactor "Martian", 			0
+	DamageFactor "FootballTackle_Right",0
+	DamageFactor "FootballTackle_Left", 0
+	DamageFactor "RedBlob", 			0
+	Monster
+	+FLOORCLIP
+	+NOBLOOD
+	+NOTELEFRAG
+	+NOEXTREMEDEATH
+	+NOINFIGHTING 
+	+SOLID			
+	SeeSound ""
+	AttackSound ""
+	PainSound ""
+	DeathSound ""
+	ActiveSound ""
+	Obituary ""
+	States
+	{
+		Raise:			//Generic State
+			TNT1 A 1
+			Stop	
+
+		//--------------------------------------------------//
+		Melee_Check:	//Generic State
+			"----" A 0 A_Jump(127,"MeleeDel3")
+			"----" A 0 A_Jump(107,"MeleeDel2")
+			"----" A 0 A_Jump(87, "MeleeDel1")
+			"----" A 0 A_Jump(256,"MeleeReal")
+			Stop
+		MeleeDel1:		//Generic State
+			"----" A 1 A_FaceTarget
+			"----" A 0 A_Jump(256,"MeleeDel2")
+			Stop
+		MeleeDel2:		//Generic State
+			"----" A 1 A_FaceTarget
+			"----" A 0 A_Jump(256,"MeleeDel3")
+			Stop
+		MeleeDel3:		//Generic State
+			"----" A 1 A_FaceTarget
+			"----" A 0 A_Jump(256,"MeleeReal")
+			Stop
+		//--------------------------------------------------//
+		FreezeTime:		//Generic State
+			"----" A 1 A_TakeInventory("FreezeTime",1)
+			"----" A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+			"----" A 0 A_Jump(256, "See")
+			Stop
+
+		FreezeTime_Zombie:
+			"----" A 1 A_TakeInventory("FreezeTime",1)
+			"----" A 0 A_CheckProximity("FreezeOk","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			"----" A 0 A_JumpIfInTargetLOS("FreezeOk",90,JLOSF_NOSIGHT,0,0)
+			"----" A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			Stop
+		FreezeOk:
+			"----" A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+			"----" A 0 A_Jump(256, "See")
+			Stop
+		//--------------------------------------------------//
+
+	//Spawnable No Conflict
+		Vanish_Zombie:	//Generic State
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,599,0,360,"Idle")
+			TNT1 A 0 A_Jump(256, "Vanish")
+			Stop
+		Vanish_Mummy:	//[Specific for Mummy]
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,0,0)
+			MUMY A 1 A_CheckProximity("See","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST|CPXF_CHECKSIGHT)
+							/*^  This hides the fact that that there's no despawn animation, there should be a despawn animation*/
+			TNT1 A 0 A_Jump(256, "Vanish")
+			Stop
+		Vanish:			//Generic State
+			TNT1 A 0 A_ChangeFlag(Invulnerable, True)
+			TNT1 A 0 A_ChangeFlag(NoPain, True)
+			TNT1 A 0 A_CheckSight("Unspawn")
+			TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			TNT1 A 0 A_Jump(256, "Vanish_Animation")
+			Stop
+
+		Pain.Alert:		//Generic State
+			TNT1 A 0 A_JumpIfInTargetInventory("ZekeToken",1,"ChangeTarget")
+			TNT1 A 0 A_JumpIfInTargetInventory("JulieToken",1,"ChangeTarget")
+			TNT1 A 0 A_Jump(256,"See")
+			Stop
+
+	}
+}
+
+
+
+//Inherits from MonsterClass but with MonsterLimit checks
+Actor SpawnableMonster_ZAMN : MonsterClass_ZAMN
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 //Hi ^^
+			TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+			TNT1 A 0 ACS_NamedExecuteAlways("MonsterMore",0,0,0,0)	
+			TNT1 A 0 A_Jump(256,"Spawn_Set")
+			Stop
+
+		Unspawn:	//Generic State
+			TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			Stop
+	}
+}
+
+//Inherits from MonsterClass but without MonsterLimit checks
+Actor SpawnableMonsterNoAdd_ZAMN : MonsterClass_ZAMN
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0 //Hi ^^
+			TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+			//TNT1 A 0 ACS_NamedExecuteAlways("MonsterMore",0,0,0,0)	
+			TNT1 A 0 A_Jump(256,"Spawn_Set")
+			Stop
+		Unspawn:	//Generic State
+			//TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			Stop
+	}
+}
+
+
+//"MonsterClass_ZAMN" but "no_spawnable" + "no_distance_triggers" + "no_monsterlimitcheck"
+Actor StaticMonsterClass_ZAMN
+{
+	Health 10	//Depends on resistances
+	PainChance 0
+	Speed 0
+	Mass 400
+	MaxStepHeight 16
+
+	//	Weapons Damage Resistances	[Generic]
+	DamageFactor "MonsterFist", 		1
+	DamageFactor "WeedWacker", 			1
+	DamageFactor "Tomatoes", 			1
+	DamageFactor "Soda", 				1
+	DamageFactor "Water", 				1
+	DamageFactor "Bazooka", 			1
+	DamageFactor "FireExtinguisher",	0
+	DamageFactor "Popsicle", 			1
+	DamageFactor "Crucifix", 			1
+	DamageFactor "Silverware", 			1
+	DamageFactor "Plates", 				1
+	DamageFactor "FootBall", 			1
+	DamageFactor "MartianGun", 			0
+	DamageFactor "FlameThrower", 		1
+	DamageFactor "Banana", 				1
+
+	//	Monster Damage Resistances
+	DamageFactor "Zombie", 				0
+	DamageFactor "BabyDoll", 			0
+	DamageFactor "ChainsawBasic", 		0
+	DamageFactor "GiantPod", 			0
+	DamageFactor "FloorHazard", 		0
+	DamageFactor "FrankenRay", 			0
+	DamageFactor "Martian", 			0
+	DamageFactor "FootballTackle_Right",0
+	DamageFactor "FootballTackle_Left", 0
+	DamageFactor "RedBlob", 			0
+	Monster
+	+FLOORCLIP
+	+NOBLOOD
+	+NOTELEFRAG
+	+NOEXTREMEDEATH
+	+NOINFIGHTING 
+	+SOLID			
+	SeeSound ""
+	AttackSound ""
+	PainSound ""
+	DeathSound ""
+	ActiveSound ""
+	Obituary ""
+	States
+	{
+		Raise:		//Generic State
+			TNT1 A 1
+			Stop
+	}
+}

@@ -1,0 +1,1219 @@
+#library "LevelScripts"
+#include "zcommon.acs"
+#include "CUValues.acs"
+                     
+///////////////////////////////
+//     MAIN LEVEL SCRIPTS    //
+///////////////////////////////
+   
+Script "DontStart" ENTER
+{	SetPlayerProperty(FALSE,ON,PROP_FROZEN);	}
+
+Script "StartPlayer" (void)	//Wrapper
+{ACS_NamedExecuteAlways("SetPlayer",0,0,0,0);}
+
+
+
+//Intro Control
+int TitleCardsDone=0;
+int CustomTitleCardMode=0;
+int CustomCardNumber=0;
+int SkipTitleCards=0;
+
+//Coordinates
+int StartPointX1 = 0;
+int StartPointY1 = 0;
+int StartPointZ1 = 0;
+int StartPointAngle1 = 0;
+
+int StartPointX2 = 0;
+int StartPointY2 = 0;
+int StartPointZ2 = 0;
+int StartPointAngle2 = 0;
+
+
+
+
+Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
+{
+	if(!IsOpenGL())		//<-- Deactivate to test on OpenGL
+		ACS_NamedExecuteAlways("SoftwareCulling",0,0,0,0);
+	else if(GetCvar("reducedetail"))
+		ACS_NamedExecuteAlways("ReduceDetail",0,0,0,0);
+ 
+	//Freeze the player so it watches the Level Cards animation
+	SetPlayerProperty(FALSE,OFF,PROP_FROZEN);
+	TakeInventory("SelectToken",9999);
+
+	
+	//Updates the current level number
+	if(GetCVar("lctoggle")!= NumLevel)
+		{	SetCvar("lctoggle",NumLevel);	}
+	
+	//Storages the level progress in a Console Variable , 
+	//so you can start a game from this map or any previous ones.
+	if(GetCvar("lptoggle") < NumLevel)
+		{	SetCvar("lptoggle",NumLevel);	}
+
+	//Storages the bonus levels unlocked.
+	if(BonuLevel != 0)
+		{
+			switch(BonuLevel)
+			{
+				//Bonus Levels
+				case 1:	if(GetCvar("b1toggle") != 1){ SetCvar("b1toggle",1); }	BonuLevel= 0;	Break;
+				case 2:	if(GetCvar("b2toggle") != 1){ SetCvar("b2toggle",1); }	BonuLevel= 0;	Break;
+				case 3:	if(GetCvar("b3toggle") != 1){ SetCvar("b3toggle",1); }	BonuLevel= 0;	Break;
+				case 4:	if(GetCvar("b4toggle") != 1){ SetCvar("b4toggle",1); }	BonuLevel= 0;	Break;
+				case 5:	if(GetCvar("b5toggle") != 1){ SetCvar("b5toggle",1); }	BonuLevel= 0;	Break;
+				case 6:	if(GetCvar("b6toggle") != 1){ SetCvar("b6toggle",1); }	BonuLevel= 0;	Break;
+				case 7:	if(GetCvar("b7toggle") != 1){ SetCvar("b7toggle",1); }	BonuLevel= 0;	Break;
+
+				//Easter Egg Levels
+				case 31: if(GetCvar("e1toggle") != 1){ SetCvar("e1toggle",1); }	BonuLevel= 0;	Break;
+				case 32: if(GetCvar("e2toggle") != 1){ SetCvar("e2toggle",1); }	BonuLevel= 0;	Break;
+				case 33: if(GetCvar("e3toggle") != 1){ SetCvar("e3toggle",1); }	BonuLevel= 0;	Break;
+				case 34: if(GetCvar("e4toggle") != 1){ SetCvar("e4toggle",1); }	BonuLevel= 0;	Break;
+			}
+		}
+	
+	//Cleans the custom level Number 
+	if((GetCVar("customlevelnumber")!= 0)&&(NumLevel == 0))
+		{	SetCvar("customlevelnumber",0);	}
+
+	//Unsets the musicoff Cvar that might have been setup by a previous exit door
+	SetCVar("musicoff",0);
+
+	Delay(1);//(2);
+
+	SetPlayerProperty(FALSE,ON,PROP_TOTALLYFROZEN);
+	ACS_NamedExecuteAlways("CallAnimation",0,0,0,0);	//<-- Calls Title Cards Animation
+	Delay(1);
+	while(TitleCardsDone==0)
+	{Delay(1);}
+	
+
+	//Co-Op Spectator Mode!
+	if(CheckInventory("SpectatorMode")==1)
+	{
+		ACS_NamedExecuteAlways("SpectatorMode",0,0,0,0);
+		switch(PlayerNumber())
+		{
+			case 0: Teleport(TAG_P1FINISHSPOT, 0, 0);
+					Break;
+			case 1:	Teleport(TAG_P2FINISHSPOT, 0, 0);
+					Break;
+		}
+	}
+	
+
+	//Co-Op Bug Fix : if Player is started even after being dead
+	if((CheckInventory("Health") == 1)||(CheckInventory("AlreadyDead") == 1))
+	{	while(true){	Delay(1);	}}
+
+
+	//The Level Starts!//
+	SetPlayerProperty(FALSE,OFF,PROP_TOTALLYFROZEN);
+	SetPlayerProperty(FALSE,OFF,PROP_FROZEN);
+	SetActorPosition(2000,StartPointX1,StartPointY1,StartPointZ1,FALSE);
+	SetActorAngle(2000,StartPointAngle1);
+	if(PlayerCount() > 1)
+	{	SetActorPosition(2001,StartPointX2,StartPointY2,StartPointZ2,FALSE);
+		SetActorAngle(2001,StartPointAngle2);	}
+	
+	ChangeCamera(0,0,0);	//**	//[Reverted] A camera delay 
+	
+	//Give HUD Tokens
+	if(CheckInventory("ZekeTicket"))
+			if(CheckInventory("Ghoul_Mod"))
+				{TakeInventory("ZekeTicket",1);	GiveInventory("ZekeGPToken",1);	}
+			else
+				{TakeInventory("ZekeTicket",1);	GiveInventory("ZekeToken",1);	}
+
+	else if(CheckInventory("JulieTicket"))
+			if(CheckInventory("Ghoul_Mod"))
+				{	TakeInventory("JulieTicket",1);	GiveInventory("JulieGPToken",1);}
+			else
+				{	TakeInventory("JulieTicket",1);	GiveInventory("JulieToken",1);	}
+			
+
+	//Start Music and Score Letters (?)
+	ACS_NamedExecuteAlways("DynamicMusic",0,MusicTrack,0,0);	
+	TakeInventory("ScoreNoCheck",1);
+	Delay(1);
+	//ChangeCamera(0,0,0);	//**
+	ACS_NamedExecuteAlways("ScoreCheck",0,1,0,0);
+}
+
+//Wrapper
+Script "ReduceDetail" (void)
+{	Thing_Remove(404);	}
+
+//Title Cards Checks and Control
+Script "SetTitleCardsDone" (void)
+{	TitleCardsDone=1;	}
+Script "NoTitleCards" (void)
+{	SkipTitleCards=1;	}
+Script "CustomTitleCards" (int CardsNumber)
+{	CustomTitleCardMode=1;	CustomCardNumber= CardsNumber;}
+
+
+Script "CallAnimation" (void)
+{
+	Delay(1);
+
+	//FastMode	(aka "Skip Title Cards")
+	if((GetCVar("skipttl")==1)||(SkipTitleCards == 1))		
+	{	Delay(1);
+		ACS_NamedExecuteAlways("SetTitleCardsDone",0,0,0,0);
+		Terminate;	}
+	
+	//CustomMode
+	if(CustomTitleCardMode==1)
+	{	ACS_NamedExecuteAlways("CustomTitleAnimation",0,CustomCardNumber,0,0);	}
+
+	//NormalMode
+	else
+	{	ACS_NamedExecuteAlways("TitleAnimation",0,0,0,0);	}
+
+	//Note: Custom/Normal mode don't need to call "SetTitleCardsDone" in this script,
+	//-----	the animations call it themselves at the end.
+}
+
+
+
+
+
+//Move the players to their starting position in the map
+Script "StartPointCoordinates" (int PointNumber)
+{
+	switch(PointNumber)
+		{
+			case 1 : StartPointX1 = GetActorX(0);	StartPointY1 = GetActorY(0);	StartPointZ1 = GetActorZ(0);	StartPointAngle1 = GetActorAngle(0);	Break;
+			case 2 : StartPointX2 = GetActorX(0);	StartPointY2 = GetActorY(0);	StartPointZ2 = GetActorZ(0);	StartPointAngle2 = GetActorAngle(0);	Break;
+		}
+}
+ 
+#define MUS_NOTHING	1000			//This ignores any check and only loops
+#define MUS_NOTRACK	999				//This deactivates safely the dynamic music.
+#define MUS_HELP	998				//This shows the tracklist.
+int FinishJingle	=	0;			//This prevents music overriding when finishing a level 
+int SetTrack		= 	0;			//"ChangeMusic" script uses this variable to change the music
+bool warned			=	false;		//This prevents the "InvalidTrack" warning appearing constantly
+Script "DynamicMusic" (int TrackNumber)
+	{	
+		//Ignore entire script and wait
+		//if(TrackNumber == MUS_NOTHING)
+		//	{Delay(1);	Restart;}
+		
+		//Check if zamn music reset should wait
+		if((GetCvar("musicoff")==1))
+			{Delay(1);	Restart;}
+
+		//This deactivates the music, for music mods support
+		if(GetCvar("nozamnmusic"))	
+			{ACS_NamedExecute("HelpMusic",0,0,0,0);	Terminate;}
+
+
+		//Track number is invalid
+		if( (TrackNumber <= 0)&&(!warned) )
+			{ACS_NamedExecuteAlways("InvalidTrack",0,0,0,0);	TrackNumber= MUS_NOTRACK;	warned=true;}
+
+		//Track number is invalid
+		//if( (TrackNumber == MUS_HELP)&&(!warned) )
+		//	{ACS_NamedExecuteAlways("MusicInfo",0,0,0,0);	TrackNumber= MUS_NOTHING;	Delay(1);	Restart;}
+	
+		//Track number is set to no track
+		if(TrackNumber == MUS_NOTRACK)
+			{SetMusic("*",0);	Terminate;}
+
+		//Track number is changed to...
+		if(SetTrack != 0)				//[Co-Op Bugfix]
+			{TrackNumber = SetTrack; 	Delay(PlayerNumber()+1);	SetTrack= 0;}
+		
+		//Main Loop
+		if(GetCvar("snd_musicvolume") > 0 ) //<-- It's very important to check if the game has volume !!
+		{	
+		warned=false;
+			if(TrackNumber < 80)
+			{
+				//if SnesMusic
+				if(GetCVAR("mutoggle")==0)
+						{	
+							if(FinishJingle == 1)
+							{	/*SetMusic("FINISH",0);*/ Terminate;	}
+							else
+							{
+								switch(TrackNumber)
+								{
+									case 1:	SetMusic("ZOMBIEPC",0);	Break;
+									case 2:	SetMusic("EVENING",0);	Break;
+									case 3:	SetMusic("NOASSEMB",0);	Break;
+									case 4:	SetMusic("BOSSBATL",0);	Break;
+									case 5:	SetMusic("WEIRDKDS",0);	Break;
+									case 6:	SetMusic("PYRAMMU",0); 	Break;
+									case 7:	SetMusic("CURSE",0);	Break;
+									case 8:	SetMusic("TITANIC",0);	Break;
+									case 9:	SetMusic("MARSCHMU",0);	Break;
+									
+									//Special Cases:
+									//NOTE: Cases where both tracks where available in both versions will be considered a bug, and not a special case.
+									//I wanted to add options for fixed/no fixed versions while playing, but ultimately most people would recall
+									//the Snes selection anyway as it was the original selection. Also I want to have this done for future mappers.
+									
+									//-------------------//
+									//|| Normal Levels ||//
+									//-------------------//
+									
+									//|Office Of The Doomed|//
+									case 10:	SetMusic("NOASSEMB",0);	Break;		//SetMusic("OFFICE",0); Break;
+									
+									//|Zombie House Party|//
+									case 11:	SetMusic("ZOMBIEPC",0);	Break;		//SetMusic("OFFICE",0); Break;
+								
+									//|Curse Of The Tongue|//
+									case 12:	SetMusic("UNUSEDSN",0);	Break;		//SetMusic("PYRAMMU",0); Break;		//Originally
+								
+									//------------------//
+									//|| Bonus Levels ||//
+									//------------------//
+									//|Mushroom Men|//
+									case 13:	SetMusic("WEIRDKDS",0);	Break;
+									
+									//|Cheerleaders Vs Monsters|//
+									case 14:	SetMusic("EVENING",0);	Break;
+
+									//case 1000:	Break;
+									//Default:	TrackNumber = MUS_HELP; Break;
+				
+								}
+							}
+						} 
+				//if Sega Genesis Music
+				else if(GetCVAR("mutoggle")==1)
+						{ 	
+							if(FinishJingle == 1)
+							{	/*SetMusic("FINISH2",0);*/ Terminate;	}
+							else
+							{
+								switch(TrackNumber)
+								{
+									case 1:	SetMusic("ZOMBIEP2",0);	Break;
+									case 2:	SetMusic("EVENIN2",0);	Break;
+									case 3:	SetMusic("NOASSEM2",0);	Break;
+									case 4:	SetMusic("BOSSBAT2",0);	Break;
+									case 5:	SetMusic("WEIRDKD2",0);	Break;
+									case 6:	SetMusic("PYRAMI2",0); 	Break;
+									case 7:	SetMusic("CURS2",0);	Break;
+									case 8:	SetMusic("TITANI2",0);	Break;
+									case 9:	SetMusic("MARSCHE2",0);	Break;
+									
+									//Special Cases:
+									//NOTE: Cases where both tracks where available in both versions will be considered a bug, and not a special case.
+									//I wanted to add options for fixed/no fixed versions while playing, but ultimately most people would recall
+									//the Snes selection anyway as it was the original selection. Also I want to have this done for future mappers.
+									
+									//-------------------//
+									//|| Normal Levels ||//
+									//-------------------//
+									
+									//|Office Of The Doomed|//
+									case 10:	SetMusic("OFFIC2",0);	Break;
+									
+									//|Zombie House Party|//
+									case 11:	SetMusic("OFFIC2",0);	Break;
+									
+									//|Curse Of The Tongue|//
+									case 12:	SetMusic("CARNIVA2",0);	Break;
+									
+									//------------------//
+									//|| Bonus Levels ||//
+									//------------------//
+									//|Mushroom Men|//
+									case 13:	SetMusic("OFFIC2",0);	Break;
+									
+									//|Cheerleaders Vs Monsters|//
+									case 14:	SetMusic("OFFIC2",0); 	Break;
+
+									//case 1000:	Break;
+									//Default:	TrackNumber = MUS_HELP; Break;
+				
+								}
+							}
+							
+						}
+				//if Lame Genie Covers
+				else if(GetCVAR("mutoggle")==2)
+						{ 	
+							if(FinishJingle == 1)
+							{	/*SetMusic("LGFINISH",0);*/ Terminate;	}
+							else
+							{
+								switch(TrackNumber)
+								{
+									case 1:	SetMusic("LGZOMBIE",0);	Break;
+									case 2:	SetMusic("LGEVENIN",0);	Break;
+									case 3:	SetMusic("LGASSEMB",0);	Break;
+									case 4:	SetMusic("LGBOSS",0);	Break;
+									case 5:	SetMusic("LGWERD",0);	Break;
+									case 6:	SetMusic("LGPYRAMD",0); Break;
+									case 7:	SetMusic("LGCURSE",0);	Break;
+									case 8:	SetMusic("LGTITANC",0);	Break;
+									case 9:	SetMusic("LGMARS",0);	Break;
+									
+									//Special Cases:
+									//NOTE: Cases where both tracks where available in both versions will be considered a bug, and not a special case.
+									//I wanted to add options for fixed/no fixed versions while playing, but ultimately most people would recall
+									//the Snes selection anyway as it was the original selection. Also I want to have this done for future mappers.
+									
+									//-------------------//
+									//|| Normal Levels ||//
+									//-------------------//
+									
+									//|Office Of The Doomed|//
+									case 10:	SetMusic("LGASSEMB",0);	Break;		//SetMusic("LGOFFICE",0); Break;
+									
+									//|Zombie House Party|//
+									case 11:	SetMusic("LGZOMBIE",0);	Break;		//SetMusic("LGOFFICE",0); Break;
+									
+									//|Curse Of The Tongue|//
+									case 12:	SetMusic("LGPYRAMD",0);	Break;		//SetMusic("LGUNUSED",0); Break;
+									
+									//------------------//
+									//|| Bonus Levels ||//
+									//------------------//
+									//|Mushroom Men|//
+									case 13:	SetMusic("LGWERD",0);	Break;		//SetMusic("LGOFFICE",0); Break;
+									
+									//|Cheerleaders Vs Monsters|//
+									case 14:	SetMusic("LGEVENIN",0);	Break;		//SetMusic("LGOFFICE",0); Break;
+
+									//case 1000:	Break;
+									//Default:	TrackNumber = MUS_HELP; Break;
+				
+								}
+							}	
+						}
+				//if Nihbru Covers				
+				/* Added here for future reference, but the CVAR doesn't go to 3, because the tracks hasn't been included yet*/
+				else if(GetCVAR("mutoggle")==3)
+						{
+							if(FinishJingle == 1)
+							{	/*SetMusic("NBFINISH",0);*/ Terminate;	}
+							else
+							{
+								switch(TrackNumber)
+								{
+									case 1:	SetMusic("NBZOMBIE",0);	Break;
+									case 2:	SetMusic("NBEVENIN",0);	Break;
+									case 3:	SetMusic("NBASSEMB",0);	Break;
+									case 4:	SetMusic("NBBOSS",0);	Break;
+									case 5:	SetMusic("NBWERD",0);	Break;
+									case 6:	SetMusic("NBPYRAMD",0); Break;
+									case 7:	SetMusic("NBCURSE",0);	Break;
+									case 8:	SetMusic("NBTITANC",0);	Break;
+									case 9:	SetMusic("NBMARS",0);	Break;
+									
+									//Special Cases:
+									//NOTE: Cases where both tracks where available in both versions will be considered a bug, and not a special case.
+									//I wanted to add options for fixed/no fixed versions while playing, but ultimately most people would recall
+									//the Snes selection anyway as it was the original selection. Also I want to have this done for future mappers.
+									
+									//-------------------//
+									//|| Normal Levels ||//
+									//-------------------//
+									
+									//|Office Of The Doomed|//
+									case 10:	SetMusic("NBASSEMB",0);	Break;		//SetMusic("NBOFFICE",0);	Break;
+									
+									//|Zombie House Party|//
+									case 11:	SetMusic("NBZOMBIE",0);	Break;		//SetMusic("NBOFFICE",0);	Break;
+									
+									//|Curse Of The Tongue|//
+									case 12:	SetMusic("NBPYRAMD",0);	Break;		//SetMusic("NBUNUSED",0);	Break;
+									
+									//------------------//
+									//|| Bonus Levels ||//
+									//------------------//
+									//|Mushroom Men|//
+									case 13:	SetMusic("NBWERD",0);	Break;		//SetMusic("NBOFFICE",0);	Break;
+									
+									//|Cheerleaders Vs Monsters|//
+									case 14:	SetMusic("NBEVENIN",0);	Break;		//SetMusic("NBOFFICE",0);	Break;
+
+									//case 1000:	Break;
+									//Default:	TrackNumber = MUS_HELP; Break;
+				
+								}
+							}
+						}
+			}
+
+			//If specific track, regardless of version
+			else if(TrackNumber >= 80)
+			{
+				switch(TrackNumber)
+					{
+						//Snes Tracks
+						case 80:	SetMusic("ZOMBIEPC",0);	Break;
+						case 81:	SetMusic("EVENING",0);	Break;
+						case 82:	SetMusic("NOASSEMB",0);	Break;
+						case 83:	SetMusic("BOSSBATL",0);	Break;
+						case 84:	SetMusic("WEIRDKDS",0);	Break;
+						case 85:	SetMusic("PYRAMMU",0); 	Break;
+						case 86:	SetMusic("CURSE",0);	Break;
+						case 87:	SetMusic("TITANIC",0);	Break;
+						case 88:	SetMusic("MARSCHER",0);	Break;
+						case 89:	SetMusic("*",0);	Break;	//SetMusic("OFFICE",0);	Break;
+						case 90:	SetMusic("*",0);	Break;	//SetMusic("CARNIVAL",0);	Break;
+						case 91:	SetMusic("UNUSEDSN",0);	Break;
+					
+						//Genesis / Megadrive Tracks
+						case 92:	SetMusic("ZOMBIEP2",0);	Break;
+						case 93:	SetMusic("EVENIN2",0);	Break;
+						case 94:	SetMusic("NOASSEM2",0);	Break;
+						case 95:	SetMusic("BOSSBAT2",0);	Break;
+						case 96:	SetMusic("WEIRDKD2",0);	Break;
+						case 97:	SetMusic("PYRAMI2",0); 	Break;
+						case 98:	SetMusic("CURS2",0);	Break;
+						case 99:	SetMusic("TITANI2",0);	Break;
+						case 100:	SetMusic("MARSCHE2",0);	Break;
+						case 101:	SetMusic("OFFIC2",0);	Break;
+						case 102:	SetMusic("CARNIVA2",0);	Break;
+						case 103:	SetMusic("*",0);	Break;	//SetMusic("UNUSEDS2",0);	Break;
+						
+						//Lame Genie Cover Tracks
+						case 104:	SetMusic("LGZOMBIE",0);	Break;
+						case 105:	SetMusic("LGEVENIN",0);	Break;
+						case 106:	SetMusic("LGASSEMB",0);	Break;
+						case 107:	SetMusic("LGBOSS",0);	Break;
+						case 108:	SetMusic("LGWERD",0);	Break;
+						case 109:	SetMusic("LGPYRAMD",0); Break;
+						case 110:	SetMusic("LGCURSE",0);	Break;
+						case 111:	SetMusic("LGTITANC",0);	Break;
+						case 112:	SetMusic("LGMARS",0);	Break;
+						case 113:	SetMusic("*",0);	Break;	//SetMusic("LGOFFICE",0);	Break;
+						case 114:	SetMusic("*",0);	Break;	//SetMusic("LGCARNIV",0);	Break;
+						case 115:	SetMusic("*",0);	Break;	//SetMusic("LGUNUSED",0);	Break;
+						
+						//Nihbru Cover Tracks
+						case 116:	SetMusic("*",0);	Break;	//SetMusic("NBZOMBIE",0);	Break;
+						case 117:	SetMusic("*",0);	Break;	//SetMusic("NBEVENIN",0);	Break;
+						case 118:	SetMusic("*",0);	Break;	//SetMusic("NBASSEMB",0);	Break;
+						case 119:	SetMusic("*",0);	Break;	//SetMusic("NBBOSS",0);	Break;
+						case 120:	SetMusic("*",0);	Break;	//SetMusic("NBWERD",0);	Break;
+						case 121:	SetMusic("*",0);	Break;	//SetMusic("NBPYRAMD",0); Break;
+						case 122:	SetMusic("*",0);	Break;	//SetMusic("NBCURSE",0);	Break;
+						case 123:	SetMusic("*",0);	Break;	//SetMusic("NBTITANC",0);	Break;
+						case 124:	SetMusic("*",0);	Break;	//SetMusic("NBMARS",0);	Break;
+						case 125:	SetMusic("*",0);	Break;	//SetMusic("NBOFFICE",0);	Break;
+						case 126:	SetMusic("*",0);	Break;	//SetMusic("NBCARNIV",0);	Break;
+						case 127:	SetMusic("*",0);	Break;	//SetMusic("NBUNUSED",0);	Break;
+
+						//Ghoul Patrol Tracks
+						case 150:	SetMusic("02AGHPT",0);	Break;
+						case 151:	SetMusic("02BGHPT",0);	Break;
+						case 152:	SetMusic("METRMS1",0);	Break;
+						//That's all the tracks this mod has ^^, more can be included by adding more cases here, 
+						//and in the version specific tracks as well if neccesary
+
+						//case 1000:	Break;
+						//Default:	TrackNumber = MUS_HELP; Break;
+					}
+			}
+		}
+		SetTrack= 0;
+		Delay(1);
+		Restart;
+	}
+
+// This script doesn't work as the volume is a cvar which can't be changed by scripting
+// Don't remove it tho as it's still being called
+Script "HelpMusic" (void)	// 
+{
+	int musicvolume = GetCvar("snd_musicvolume");
+	/*
+	SetCvar("snd_musicvolume",0);	
+	while(TitleCardsDone==0)
+	{Delay(1);}
+	SetCvar("snd_musicvolume",musicvolume);
+	*/
+}
+
+// This script deactivates the Dynamic Music at the start of 
+// the level if the user wants to, to improve performance a little
+Script "DynamicMusicCheck" OPEN
+	{
+		Delay (2);
+		if(GetCVar("dmtoggle")==0)
+			{ Delay(1);
+			Terminate; }
+		if(GetCVar("dmtoggle")==1)
+			{ Delay(1);
+			ACS_NamedTerminate("DynamicMusic",0);}
+	}
+
+//Unused by now
+//Possible line block under conditions
+/*
+Script "NoMonstersHere" (void)
+{
+	if(CheckInventory("MonsterToken")==1)
+	{
+		Thing_Stop(0);
+		SetActorAngle(0,GetActorAngle(0)+180);
+		ThrustThing(GetActorAngle(0),5,0);
+	}
+	Delay(1);
+}*/
+//------------------------------------//
+
+
+Script "TeleportMe" (void)
+{	
+	if(CheckInventory("AlreadyDead")!=1)
+	{
+		switch(PlayerNumber())
+		{
+			case 0: Teleport(TAG_P1FINISHSPOT, 0, 0);
+					Break;
+			case 1:	Teleport(TAG_P2FINISHSPOT, 0, 0);
+					Break;
+		}
+	}
+}
+
+// Level End Jingle and teleport to the waiting room
+int CanWarp = 0;
+int BonusLevel = 0;
+Script "LevelEnd" (void)
+{
+	FinishJingle = 1;
+	SetCVar("musicoff",1);
+	
+	//Co-Op Bug Fix : Player is teleported even after being dead
+	if(CheckActorInventory(2000,"Health") != 1)
+	{	TeleportOther(2000, TAG_P1FINISHSPOT, 0);	
+		TakeActorInventory(2000,"GooTimer",500);	}
+	
+	
+	if(PlayerCount()>0)
+	{
+		//Co-Op Bug Fix : Player is teleported even after being dead
+		if(CheckActorInventory(2001,"Health") != 1)
+		{	TeleportOther(2001, TAG_P2FINISHSPOT, 0);	
+			GiveActorInventory(2001,"ScoreNoCheck",1);
+			TakeActorInventory(2001,"ScoreActive",1);
+			TakeActorInventory(2001,"GooTimer",500);	}
+		
+	}
+	
+	
+	ACS_NamedTerminate("DynamicMusic",0);
+	Delay(2);
+	if(GetCVar("mutoggle")==0)
+			{ SetMusic("FINISH",0); }
+	if(GetCVar("mutoggle")==1)
+			{ SetMusic("FINISH2",0);}
+	if(GetCVar("mutoggle")==2)
+			{ SetMusic("LGFINISH",0);}
+	if(GetCVar("mutoggle")==3)
+			{ SetMusic("NBFINISH",0);}
+	Delay(105);
+	SetMusic("*",0);
+	ChangeCamera(25,1,0);
+	SetPlayerProperty(TRUE,ON,PROP_TOTALLYFROZEN);
+	ACS_NamedExecuteAlways("ShowTime",0,0,0,0);
+	while(CanWarp == 0)
+	{Delay(1);}
+	
+	//Bonus / Easter Egg Check
+	BonusLevel = ACS_NamedExecuteWithResult("BonusCheck",0,0,0,0);
+	if(BonusLevel == 0)
+	{BonusLevel = ACS_NamedExecuteWithResult("EasterEggCheck",0,0,0,0);}
+
+	//Next Level Warp
+	ACS_NamedExecuteAlways("LevelSelect",0,BonusLevel,ACS_NamedExecuteAlways("GetTid",0,0,0,0),0);
+}	
+
+Script "Youcanwarpnow" (void)
+{ CanWarp = 1; }
+
+
+		
+	
+///////////////////////////////
+//         TELEPORTS!        //
+///////////////////////////////
+
+Script "FinishPoint1" (void)
+	{ Thing_ChangeTID(0,TAG_P1FINISHSPOT); }
+	
+Script "FinishPoint2" (void)
+	{ Thing_ChangeTID(0,TAG_P2FINISHSPOT); }
+
+
+///////////////////////////////
+
+
+
+///////////////////////////////
+//        TRAMPOLINES!       //
+///////////////////////////////
+
+
+
+// Wrapper	(if not specified in the level itself)////////////////////////////////
+Script "TrampolineJump" (int TrampolineTag, int Pallete)						//
+{	ACS_NamedExecuteAlways("TrampolineMaster",0,TrampolineTag,Pallete,0);	}	//
+//////////////////////////////////////////////////////////////////////////////////
+
+
+Script "TrampolineMaster" (int trampolinetag, int pallete)
+{
+	if(trampolinetag!=0)
+		{
+			str bouncetiles[3];
+			int playertag=ACS_NamedExecuteWithResult("GetTid",0,0,0,0);
+			ACS_NamedExecuteAlways("Trampoline Sound",0,0,0,0);
+			ThrustThingZ(playertag,48,0,0);
+			switch(pallete){
+				case 0:	bouncetiles[0]="TRAMP_J"; bouncetiles[1]="TRAMP_J2"; bouncetiles[2]="TRAMP_F";	Break;
+				case 1: bouncetiles[0]="NTRAM_J"; bouncetiles[1]="NTRAM_J2"; bouncetiles[2]="NTRAM_F";	Break;
+				case 2: bouncetiles[0]="TTRAMPJ"; bouncetiles[1]="TTRAMPJ2"; bouncetiles[2]="TTRAMPF";	Break;
+				case 3: /* Winter */																	Break;
+				case 4: /* Spring */																	Break;
+			}
+			ChangeFloor(trampolinetag,bouncetiles[0]);
+			Delay(10);
+			ChangeFloor(trampolinetag,bouncetiles[1]);
+			Delay(5);
+			ChangeFloor(trampolinetag,bouncetiles[2]);
+		}
+	else
+		{
+		if(trampolinetag==0)
+			{	
+			Log(s: "There is no sector tag asigned for this trampoline!\n---------------------------------------------------\n( Argument 1 )");
+			}
+		}
+}
+
+Script "Trampoline_NoTexture" (int jumpforce)
+{
+	int playertag=ACS_NamedExecuteWithResult("GetTid",0,0,0,0);
+	ACS_NamedExecuteAlways("Trampoline Sound",0,0,0,0);
+	ThrustThingZ(playertag,jumpforce,0,0);
+}
+
+Script "Trampoline Sound" (void)
+{
+	if(CheckInventory("Bouncing")==1)
+		{	Delay(10);
+			TakeInventory("Bouncing",1);
+			Terminate;	}
+	else
+		{	GiveInventory("TrampolineSound",1);
+			Delay(15);
+			TakeInventory("Bouncing",1);	}
+}
+
+
+
+
+
+
+
+//Werewolf Timer (and also General Timer below, some variables are used there as well. If you compare on earlier demos you'll notice that the general timer is just and extended version of the werewolf timer but with custom script at the end and with icon options, so it was kinda dumb having two scripts that did the same thing, so now it's handled trough the expanded version. This should also make the Hud less obtuse as is not necessary to check for both , just the later.)                                                        
+int time = 0;
+int survivors = 0;
+int nighttime = 0;
+int start = 0;
+
+#define SCR_WEREWOLFSPECIAL -701
+Script "WerewolfCountdown" (int settime, int numsurv)
+{
+	survivors = numsurv;
+
+	//Not "ExecuteAlways", or it will run the counter twice discounting twice as faster the time
+	ACS_NamedExecute("GeneralCountdown", 0, settime, SCR_WEREWOLFSPECIAL, 0);
+}
+
+//Don't erase the Werewolf Scripts
+//Because they are still being used when "GeneralCountdown" is called with the SCR_WEREWOLFSPECIAL.
+Script "WolfWaitStart" (void)
+{
+	start = 0;
+	while(time >= 1)
+	{	if(start < 1)
+		{	
+			//The counter will wait to start only when the 
+			//players are already in the level
+			for (int n = 0; n < PlayerCount(); n++)	
+			{	
+			if(CheckActorInventory(2000 + n, "ZekeToken") == 1)
+					start = 1;
+			if(CheckActorInventory(2000 + n, "JulieToken") == 1)
+					start = 1;	}
+		}
+		
+		if(start == 1)
+		{	time--;	}
+		Delay(1);
+	}
+	
+	//When it's finished sets the nighttime, which the
+	//Tourists survivors check to transform
+	ACS_NamedExecuteAlways("SetNightTime",0,0,0,0);
+	for (n = 0; n < PlayerCount(); n++)	
+			//{	TakeActorInventory(2000 + n,"WolfCountdown",1);}
+			{	TakeActorInventory(2000 + n,"GeneralTimer",1);}
+}
+
+Script "SetNightTime" (void)
+{	nighttime = 1;	}
+
+Script "SurvivorWolf" (void)
+{	survivors--;	}
+
+Script "NightCheck" (void)
+{
+	if(nighttime == 1)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+
+//////////////////////////////////////////////////////////
+
+int TimerIcon = 0;
+Script "GeneralCountdown" (int settime, int numscript, int icon)
+{
+	time = settime * 35;
+	TimerIcon = icon;
+	switch(numscript)
+	{
+		case SCR_WEREWOLFSPECIAL:
+				ACS_NamedExecute("WolfWaitStart",0,0,0,0);
+				TimerIcon = 4;
+				Break;
+		Default:
+				ACS_NamedExecute("CountdownWaitStart",0,numscript,0,0);
+	}
+	
+	for (int n = 0; n < PlayerCount(); n++)	
+			{	GiveActorInventory(2000 + n,"GeneralTimer",1);	}
+}
+
+Script "CountdownWaitStart" (int numscript)
+{
+	start = 0;
+	while(time >= 1)
+	{	if(start < 1)
+		{	
+			for (int n = 0; n < PlayerCount(); n++)	
+			{	
+			if((CheckActorInventory(2000 + n, "ZekeToken") == 1)||(CheckActorInventory(2000 + n, "ZekeGPToken") == 1))
+					start = 1;
+			if((CheckActorInventory(2000 + n, "JulieToken") == 1)||(CheckActorInventory(2000 + n, "JulieGPToken") == 1))
+					start = 1;	}
+		}
+		
+		if(start == 1)
+		{	time--;	}
+		Delay(1);
+		
+		if(start == 2)
+			Terminate;
+	}
+	
+	//Failed to prevent the countdown
+	ACS_Execute(numscript,0,0,0);
+	for (n = 0; n < PlayerCount(); n++)	
+			{	
+				TakeActorInventory(2000 + n,"GeneralTimer",1);
+				
+				//TakeActorInventory(2000 + n,"ShowGoal",1);
+			}
+}
+
+Script "GetIconTimer" (void)
+{
+	SetResultValue(TimerIcon);
+}
+
+Script "GetTime" (void)
+{
+	SetResultValue(time);
+}
+
+
+Script "StopCountdown" (void)
+{
+	start = 2;
+	for (int n = 0; n < PlayerCount(); n++)	
+			{	
+				TakeActorInventory(2000 + n,"GeneralTimer",1);
+				
+				TakeActorInventory(2000 + n,"CheerleaderCountdown",1);
+				TakeActorInventory(2000 + n,"BabyCountdown",1);
+				TakeActorInventory(2000 + n,"DogCountdown",1);
+				TakeActorInventory(2000 + n,"WolfCountdown",1);
+			}
+}
+
+
+
+int targetscurrent = 0;
+int targetsgoal = 0;
+int countscript = 0;
+int CountIcon = 0;
+
+Script "SetGoalCount" (int target, int numscript, int showicon)
+{
+	targetsgoal = target;
+	CountIcon = showicon;
+	countscript= numscript;
+	for (int n = 0; n < PlayerCount(); n++)	
+		{	
+			GiveActorInventory(2000 + n,"GeneralGoal",1);
+		}
+}
+
+Script "GetIconCount" (void)
+{	SetResultValue(CountIcon);	}
+
+Script "GetCurrentCount" (void)
+{	SetResultValue(targetscurrent);	}
+
+Script "GetGoalCount" (void)
+{	SetResultValue(targetsgoal);	}
+
+Script "AddOneToGoal" (void)
+{
+	targetscurrent++;
+	if(targetscurrent == targetsgoal)
+	{
+		if(countscript!=0)
+			{	ACS_Execute(countscript,0,0,0,0);	}
+		for (int n = 0; n < PlayerCount(); n++)	
+		{	
+			TakeActorInventory(2000 + n,"GeneralGoal",1);
+			TakeActorInventory(2000 + n,"CheerleaderCountdown",1);
+			TakeActorInventory(2000 + n,"BabyCountdown",1);
+			TakeActorInventory(2000 + n,"DogCountdown",1);
+			TakeActorInventory(2000 + n,"WolfCountdown",1);
+		}
+	}
+} 
+
+Script "TakeOneToGoal" (void)
+{
+	targetscurrent--;
+	if(targetscurrent == targetsgoal)
+	{
+		if(countscript!=0)
+			{	ACS_Execute(countscript,0,0,0,0);	}
+		for (int n = 0; n < PlayerCount(); n++)	
+		{	
+			TakeActorInventory(2000 + n,"GeneralGoal",1);
+			TakeActorInventory(2000 + n,"CheerleaderCountdown",1);
+			TakeActorInventory(2000 + n,"BabyCountdown",1);
+			TakeActorInventory(2000 + n,"DogCountdown",1);
+			TakeActorInventory(2000 + n,"WolfCountdown",1);
+		}
+	}
+}
+
+Script "StopGoalCount" (void)
+{
+		for (int n = 0; n < PlayerCount(); n++)	
+		{	
+			TakeActorInventory(2000 + n,"GeneralGoal",1);
+			TakeActorInventory(2000 + n,"CheerleaderCountdown",1);
+			TakeActorInventory(2000 + n,"BabyCountdown",1);
+			TakeActorInventory(2000 + n,"DogCountdown",1);
+			TakeActorInventory(2000 + n,"WolfCountdown",1);
+		}
+}
+
+
+
+
+
+
+
+
+
+//Just use culling on necesary flat 3D floors that aren't near triggers
+Script "SoftwareCulling" (void)
+{
+	//3D Floors Culling
+	Floor_LowerInstant(404,0,2024);
+	Ceiling_LowerInstant(404,0,2024);
+	
+	//Script Culling 404 (if written in current map)
+	ACS_NamedExecuteAlways("ReduceDetail",0,0,0,0);//ACS_Execute(404,0,0,0,0);
+	
+	
+}
+
+
+//Placeholder if Script 404 in map doesn't exist
+Script 404 (void)
+{}
+
+//Placeholder if LevelSelected item is used outside Level/Bonus Select maps
+Script "LevelSelected" (void)
+{}
+
+
+/*____________________________________BONUS SCRIPTS_________________________________________*/
+
+//TEN CHEERLEADERS
+
+int CheerleaderGoal= 0;
+int CheerleaderCount = 0;		//Ten Cheerleaders Bonus
+bool CheerleaderBonus= false;
+Script "TenCheerleaderBonus" (int Goal)			//Startup Bonus Script
+{	
+	CheerleaderBonus= true;	
+	if(Goal!=0)
+		CheerleaderGoal= Goal;
+	else
+		CheerleaderGoal= 10;
+}
+
+Script "IsTenCheerleaderBonus" (void)
+{
+	if(CheerleaderBonus)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "GetCheerleaderGoal" (void)
+{	SetResultValue(CheerleaderGoal);	}
+
+Script "GetCheerleaderCount" (void)
+{	SetResultValue(CheerleaderCount);	}
+
+Script "CheerleaderPlus" (void)
+{	CheerleaderCount++;	}
+
+// LYCANTHROPY PREVENTED
+
+int NoLycantrophyGoal= 0;
+int NoLycantrophyCount= 0;
+bool ActiveLycantrophyBonus= false;
+
+Script "NoLycantrophyBonus" (int Goal)	//Startup Bonus Script
+{	
+	if(Goal!=0)
+	{
+		ActiveLycantrophyBonus= true;	
+		NoLycantrophyGoal= Goal;
+		NoLycantrophyCount= Goal;
+	}
+}
+ 
+Script "IsNoLycantrophyBonus" (void)
+{
+	if(ActiveLycantrophyBonus)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "IsNoLycantrophyAchieved" (void)
+{
+	if(NoLycantrophyCount == NoLycantrophyGoal)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+ 
+Script "DiscountNoLycantrophy" (void)	//Trigger:	Tourist Wolf Transformation
+{	NoLycantrophyCount=NoLycantrophyCount-1;	}
+
+
+
+// NO BAZOOKA FIRED
+
+int BazookaFireP1= 0;
+int BazookaFireP2= 0;
+bool NoBazookaFireBonus= false;
+
+Script "NoBazookaFireBonus" (void)	//Startup Bonus Script
+{	
+	NoBazookaFireBonus = true;	
+}
+
+Script "IsNoBazookaFireBonus" (void)
+{
+	if(NoBazookaFireBonus)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "IsNoBazookaFireAchieved" (void)
+{
+	if((BazookaFireP1 == 0)&&(BazookaFireP2 == 0))
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "CountBazookaFire" (int PlayerTag)	//Trigger:	Player Firing Bazooka
+{
+	if(PlayerTag == 2000)
+		BazookaFireP1++;
+	else
+		BazookaFireP2++;
+}
+
+
+
+// 
+
+
+/*______________________________________FUNCTIONS___________________________________________*/
+
+ 
+//Wrapper
+
+Script "ChangeMusic" (int Track)
+{
+	SetTrack = Track;
+}
+
+Script "AreTitleCardsDone" (void)
+{
+	SetResultValue(TitleCardsDone);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//This script was dropped, more info at the end.
+/*global int 6:PlayersNoClass;		//[If reactivated replace the number of this variable, because is used by the survivors now]
+
+Script "CheckClasses" ENTER		
+{
+	PlayersNoClass = 0;		//Deactivates Script
+	//W.I.P. interface to select class in co-op, it works but GZDoom can't fully change a player class so some weapons doesn't work properly
+	//and the Monster Potion doesn't work at all as it uses that class change system and you can't change classes twice simultaneously
+
+
+	if(CheckInventory("NoClassed")==1)
+	{
+		PlayersNoClass++;	
+		bool Ready=false;
+		int ClassShow=1;
+		while(!Ready)
+		{	
+			SetFont("LEVEL_VE");
+			HudMessage(s:"A";HUDMSG_PLAIN, 1001, 0, 0.0, 0.0, 1873*10);
+			SetHudSize(320, 250, FALSE);
+			int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+			switch(ClassShow)
+				{
+				case 1: 	SetFont("CLPZEK01");
+							break;
+				case 2: 	SetFont("CLPJUL01");
+							break;
+				}
+			HudMessage(s:"A";HUDMSG_PLAIN, 999, 0, 160.0, 110.0, 1873*8);
+			
+			SetFont("LEFT_AR1");
+			HudMessage(s:"A";HUDMSG_PLAIN, 998, 0, 90.0, 110.0, 1873*8);
+			SetFont("RIGHT_A1");
+			HudMessage(s:"A";HUDMSG_PLAIN, 997, 0, 230.0, 110.0, 1873*8);
+			if(Buttons & (BT_MOVELEFT)|| Buttons & (BT_LEFT)||Buttons & (BT_MOVERIGHT)|| Buttons & (BT_RIGHT))
+			{ 	if(ClassShow == 2 )
+					{	ClassShow = 1;	Delay(8);	}
+				else
+					{	ClassShow = 2;  Delay(8);	}
+			}
+			if(Buttons & (BT_ATTACK)||Buttons & (BT_ALTATTACK))
+			{
+				Break;
+			}
+			
+			
+		Delay(1);
+		}
+		PlayersNoClass--;
+		TakeInventory("NoClassed",1);
+		switch(ClassShow){
+		
+			case 1:
+						MorphActor(0,"ZEKE_PLAYER","",0x7FFFFFFF,MRF_FULLHEALTH|MRF_ADDSTAMINA|MRF_WHENINVULNERABLE|MRF_NEWTIDBEHAVIOUR,"NoFlash","NoFlash");
+						if(CheckInventory("WATERRIFLE_JULIE")==1)
+							{
+								TakeInventory("WATERRIFLE_JULIE",1);
+								GiveInventory("WATERRIFLE_ZEKE",1);
+							}
+						if(CheckInventory("JulieTicket")==1)
+							{
+							TakeInventory("JulieTicket",1);
+							GiveInventory("ZekeTicket",1);
+							}
+						Break;
+			
+			case 2:
+						MorphActor(0,"JULIE_PLAYER","",0x7FFFFFFF,MRF_FULLHEALTH|MRF_ADDSTAMINA|MRF_WHENINVULNERABLE|MRF_NEWTIDBEHAVIOUR,"NoFlash","NoFlash");
+						if(CheckInventory("WATERRIFLE_ZEKE")==1)
+							{
+								TakeInventory("WATERRIFLE_ZEKE",1);
+								GiveInventory("WATERRIFLE_JULIE",1);
+							}
+						if(CheckInventory("ZekeTicket")==1)
+							{
+								TakeInventory("ZekeTicket",1);
+								GiveInventory("JulieTicket",1);
+							}
+		}
+		
+		
+		 
+	}
+}*/
+// The script was dropped due to the morphing system causing several issues with potions,
+// and between weapon classes.
+//
+// This created bugs in which both players where considered to be "morphed" 
+// at the start of the level, this prevented changing classes properly, which made unstable
+// the monster potion transformations, and all the potion transformations in general.
+//
+// A shame because this could have made the original ZAMN's player selection possible
+// and Co-Op would have been easier to set up as well
+
+
+
+
+

@@ -1,0 +1,39 @@
+ACTOR CHORIZEI 13337
+{
+  Height 30
+  PainChance 1
+  Speed 0
+  Radius 10
+  Mass 100
+  XScale 1.25
+  YScale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Mall"
+  +SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    CHOR A -1//3
+    Loop
+  }
+}
+
+ACTOR MEETII 13338
+{
+  Height 30
+  PainChance 1
+  Speed 0
+  Radius 10
+  Mass 100
+  XScale 1.25
+  YScale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Mall"
+  +SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    MITI A -1//3
+    Loop
+  }
+}

@@ -1,0 +1,645 @@
+Actor FootballPlayer : MonsterClass_ZAMN 12307
+{
+  Health 9999
+  Radius 32
+  Height 64
+  Speed 10  //Maybe not useful
+  XScale 1.7
+  YScale 1.5
+  Mass 4000
+  MaxStepHeight 12
+  //$Category "Zombies Ate My Neighbors/Monsters"
+  //Arg0 "FacingStart"		//2: Left	|	1: Right
+  //Arg1 "VerticalMove"		//2: Down 	| 	1: Up
+  //Arg2 "ChangeCounter"	//[If >= 4 then he is stuck]
+  //$Color 4
+  DamageFactor "MonsterFist", 		0
+  DamageFactor "WeedWacker", 		0	
+  DamageFactor "Tomatoes", 			0
+  DamageFactor "Soda", 				0
+  DamageFactor "Water", 			0
+  DamageFactor "Bazooka", 			0
+  DamageFactor "FireExtinguisher",	0
+  DamageFactor "Popsicle", 			0
+  DamageFactor "Crucifix", 			0
+  DamageFactor "Silverware", 		0
+  DamageFactor "Plates", 			0
+  DamageFactor "FootBall", 			0.9
+  DamageFactor "MartianGun", 		0
+  DamageFactor "FlameThrower", 		0
+  DamageFactor "Banana", 			0
+ Monster
+ +INVULNERABLE
+ -SOLID
+ +NOPAIN	//?
+ -STANDSTILL
+ -PUSHABLE
+ +CANPASS
+ +THRUSPECIES
+ States
+	{
+		Spawn:
+			TNT1 A 1 
+			TNT1 A 1 //ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+			TNT1 A 0 A_SetArg(0, 0)	//Check left or right
+			TNT1 A 0 A_SetArg(1, 1)	//Always start up
+			FTBP A 1 //A_LookEX(0,0,0,0,360,"Idle")
+		Idle:
+			TNT1 A 0 A_JumpIf(Args[0] == 0, "SetArg")
+			FTBP AB 4 A_CheckProximity("Move","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			Loop
+
+		SetArg:
+			TNT1 A 0 A_JumpIf(angle >= 270,  "SetFaceRight")
+			TNT1 A 0 A_JumpIf(angle <   90,  "SetFaceRight")
+			Goto SetFaceLeft
+
+		SetFaceRight:
+			TNT1 A 0 //A_Log("SetFaceRight")
+			TNT1 A 0 A_SetAngle(0,0,0)
+			TNT1 A 0 A_SetArg(0, 1)
+			Goto Idle	//Wait for player now
+		SetFaceLeft:
+			TNT1 A 0 //A_Log("SetFaceLeft")
+			TNT1 A 0 A_SetAngle(180,0,0)
+			TNT1 A 0 A_SetArg(0, 2)
+			Goto Idle	//Wait for player now
+
+
+		//Right or Left
+		Move:
+			TNT1 A 0 A_JumpIf(Args[0] == 1, "MoveRight")
+			TNT1 A 0 A_JumpIf(Args[0] == 2, "MoveLeft")
+			Goto Idle
+
+		//Right: Up or Down
+		MoveRight:
+			TNT1 A 0 A_JumpIf(Args[1] == 1, "RightUp")
+			TNT1 A 0 A_JumpIf(Args[1] == 2, "RightDown")
+			TNT1 A 0 A_JumpIf(Args[1] == 0, "RightFront")
+			Goto Idle
+
+		//Left:  Up or Down
+		MoveLeft:
+			TNT1 A 0 A_JumpIf(Args[1] == 1, "LeftUp")
+			TNT1 A 0 A_JumpIf(Args[1] == 2, "LeftDown")
+			TNT1 A 0 A_JumpIf(Args[1] == 0, "LeftFront")
+			Goto Idle
+
+		GoRight:
+		RightUp:
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+		
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+		RightUp_Half:
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR/*|CPXF_CHECKSIGHT|CPXF_SETTARGET*/|CPXF_CLOSEST)
+
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR/*|CPXF_CHECKSIGHT|CPXF_SETTARGET*/|CPXF_CLOSEST)
+	
+		RightDown:
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(315,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Right
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR/*|CPXF_CHECKSIGHT|CPXF_SETTARGET*/|CPXF_CLOSEST)
+
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(315,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR/*|CPXF_CHECKSIGHT|CPXF_SETTARGET*/|CPXF_CLOSEST)
+
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(315,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR/*|CPXF_CHECKSIGHT|CPXF_SETTARGET*/|CPXF_CLOSEST)
+	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(315,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR/*|CPXF_CHECKSIGHT|CPXF_SETTARGET*/|CPXF_CLOSEST)
+			TNT1 A 0 A_SetArg(2, 0)
+			FTBP D 1
+			TNT1 A 0 
+			//Goto GoRight//Loop
+	
+		RightFront:
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Right
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+	
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Right
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Right
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(0,0,0)
+	
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			Goto RightUp_Half	//Loop
+	
+		GoLeft:
+		LeftUp:
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+		LeftUp_Half:
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+
+		LeftDown:
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(225,0,0)	
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Left
+			//TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			//TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			//TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(225,0,0)	
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(225,0,0)	
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 2)
+			TNT1 A 0 A_SetAngle(225,0,0)	
+			TNT1 A 0 A_Recoil(-10)		//Recoil Down-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_SetArg(2, 0)
+			FTBP D 1
+			TNT1 A 0 
+			//Goto GoLeft//Loop
+
+		LeftFront:
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 1)
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Left
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	
+			TNT1 A 0 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Left
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 //A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 //A_CheckProximity("ChangeDirection","FootballWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetArg(0, 2)
+			TNT1 A 0 A_SetArg(1, 0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Left
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-8,0,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SpawnItemEx("FootballWallCheck",-16,-16,16,80,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 A_CheckProximity("ChangeDirection","FootballWallDetected",160,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			Goto LeftUp_Half
+	
+		ChangeDirection:
+			TNT1 A 0 A_JumpIf(Args[2] >= 4, "Unstuck")
+			TNT1 A 0 A_SetArg(0, CallACS("ShuffleDirection",Args[0]))
+			TNT1 A 0 A_SetArg(1, CallACS("ShuffleDirection",Args[1]))
+			TNT1 A 0 A_SetArg(2, Args[2] + 1)
+			FTBP A 1
+			Goto Move
+
+		Pain.FootBall:	//Only with Football
+			FTBP EFG 8
+			Goto ChangeDirection
+
+		Pain:
+		Goto Idle
+
+		Unstuck:
+			TNT1 A 0 //A_Log("Stuck :c")
+			TNT1 A 0 A_SetArg(2, 0)
+			TNT1 A 0 A_JumpIf(Args[0] == 1, "UnstuckLeft")
+			TNT1 A 0 A_JumpIf(Args[0] == 2, "UnstuckRight")
+			Goto Idle
+
+		UnstuckRight:
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-12)		//Recoil Up-Right
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-12)		//Recoil Up-Right
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 	
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(45,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Right
+			TNT1 A 0 A_SetAngle(0,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleRight", 0,0, 32, 20,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 
+			Goto RightDown
+
+		UnstuckLeft:
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-12)		//Recoil Up-Left
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-12)		//Recoil Up-Left
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP A 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP AB 2 
+			TNT1 A 0 A_Stop
+			TNT1 A 0 A_SetAngle(135,0,0)
+			TNT1 A 0 A_Recoil(-10)		//Recoil Up-Left
+			TNT1 A 0 A_SetAngle(180,0,0)
+			FTBP C 1 A_SpawnItemEx("FootballTackleLeft", 0,0, 32, 20,0,0,180,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+			FTBP CD 2
+			Goto LeftDown
+	}
+}
+
+Actor FootballTackle : FastProjectile
+{
+	Height 2
+	Radius 32//24
+	Speed 80
+	RenderStyle "None"
+	Damage(1)
+	//-RIPPER
+	-SOLID
+	//+NOCLIP
+	//+THRUACTORS
+	States
+	{
+		Spawn:
+			ALRT B 2//4 //A_log("Tackle")
+		Death:
+			Stop
+
+	}
+}
+
+Actor FootballTackleRight : FootballTackle
+{DamageType "FootballTackle_Right"}
+
+Actor FootballTackleLeft : FootballTackle
+{DamageType "FootballTackle_Left"}
+
+
+
+Actor FootballWallCheck : FastProjectile
+{
+	Height 2//4
+	Speed 80
+	RenderStyle "None"
+	+RIPPER
+	-SOLID
+	+THRUACTORS
+	States
+	{
+		Spawn:
+			ALRT AA 1 
+			{	 if(CallACS("CheckAvobeWater") == 1)
+					{return state ("Death");}
+				A_CheckProximity("Death","CollisionHelper",512,1,0);
+				return state(0);
+			}
+			Stop
+		Death:
+			TNT1 A 1 A_SpawnItemEx("FootballWallDetected")	
+			Stop
+	}
+}
+
+Actor FootballWallDetected	//If colission gets funky change the TNT1 to ALRT to see
+{							//what is hitting into
+	Height 4
+	Radius 8
+	RenderStyle "None"
+	+NOCLIP
+	States
+	{
+	Spawn:
+		SRVD A 2//4
+		Stop
+	}
+}
+
+//Honestly if you have troublesome points on a map and can't fix them easily
+//with the UDMF map options, just place this lil guys and they should be detected as colisson too ...... or not, they may fail too
+Actor CollisionHelper 12309
+{
+	Height 4
+	Radius 32
+	RenderStyle "None"
+	//$Category "Zombies Ate My Neighbors"
+	+NOCLIP
+	States
+	{
+		Spawn:
+			SRVD A -1	//SHOULD'T BE 1 SO IT'S DETECTABLE ??
+			Loop
+	}
+}

@@ -1,0 +1,56 @@
+// Alpha Stuff
+//$GZDB_SKIP
+
+ACTOR BANANAS 13289
+{
+  Height 25
+  PainChance 1
+  Speed 0
+  Radius 30
+  Mass 100  
+  //$Category "Zombies Ate My Neighbors/Decorations/Fruit&Vegetables"
+  +SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    BANS A -1//3
+    Loop
+  }
+}
+
+ACTOR BANA 13290
+{
+  Height 25
+  PainChance 1
+  Speed 0
+  Radius 15
+  Mass 100  
+  //$Category "Zombies Ate My Neighbors/Decorations/Fruit&Vegetables"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    BANA A -1//3
+    Loop
+  }
+}
+
+ACTOR BANB 13291
+{
+  Height 25
+  PainChance 1
+  Speed 0
+  Radius 15
+  Mass 100  
+  //$Category "Zombies Ate My Neighbors/Decorations/Fruit&Vegetables"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    BANB A -1//3
+    Loop
+  }
+}

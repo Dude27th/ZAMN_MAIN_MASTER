@@ -1,0 +1,59 @@
+//
+//TODO LIST:
+//----------- High Priority ------------//
+//
+// - [BUG] Failed Spawns:	Sometimes the Spawners [especially the Zombie Spawner] creates problems with the 
+//							spawning scripts. And all spawn points stop working until they player activate
+//							the spawns causing the problem again.
+//
+// - Rework Triggers :		They don't need to have different actors for different palletes-.
+//							It can just be an argument.
+//
+// - All levels  tweak:		Tiny drawer window should have the Door's top as well.
+//							They can't end on the wooden floor.
+//
+//							Water shadow shouldn't be sector based, but 3D floor based. [Look at "Dinner On Monster Island" for explanation]
+//
+// - Weapons / Easter Eggs:	Use a global str to determine the game type, default should be ZAMN.
+//							When all weapons cheat is active check this variable, and launch a Script Cleaning easter eggs weapon.
+//							Easter Egg Weapons should inherit for differet weapon class actors. (Ex: "WeaponBase_Ghoul" | "WeaponBase_Smash" | "WeaponBase_Sky")
+//							This way weapon detection is easier, hopefully.
+//
+//------------ Low Priority ------------//
+//
+// - [BUG]	:				Player's Invincibility frames can retrigger at times, breaking invulnerability times.
+//							(Somewhat fixed now due to "HealthCheckHelper" reactivating Invulnerbaility)
+//							Still, the player fails sometimes to enter Pain State, skipping Invulnerability.
+//							
+//
+// - Frankestein:			Finish Voxel Spawn animation !
+//							[RECOVERED !! I'LL FINISH THIS WHEN I CAN BUT, IM TIRED]
+//							[MIGHT NEED ANOTHER MONTH FOR POLISHING, TOO MANY ASSETS WITHOUT A FINAL PASS :/]
+//
+// - RedBlob:				Try to fix their projectile, to move trough 3D floors. If they are outside the players sight.
+//							(YEAH, HOW TO CHECK FOR IMPACT ON 3D FLOORS THO ?)
+//
+//-------------- Optional --------------//
+//
+// - Try to make a 3D model for the MartianRay weapon.	
+//							(I NEED TO WORK WITH BLENDER AGAIN OR GOD HELP ME)
+//
+// - Chainsaw Maniacs:		Study more in depth and rework if necessary the Health and Damage Resistance of the Chainsaw Maniacs.
+//							Apparently they have a large health pool but they can be killed faster under specific circustances.
+//							The lives system might need some reworking.
+//							(YEAH, SEVERAL MONSTERS NEED MORE FINE TUNNING, EVEN MORE NOW THAT)
+//							(I HAVE MORE EXACT INFO ABOUT THEIR RESISTANCES, INCLUDING BOSSES)
+//
+// - Custom Level Idea:		"Campament Fear", a mix between a slasher Friday 13th-esque place, with a Lover's Peak.
+//							(ALL RIGHT THIS SOUNDS COOL, BUT YEAH A LOT OF ASSETS SHOULD BE MADE FOR IT)
+//							(IN THE BACKBURNER FOR NOW)
+//
+//----------- Maybe won't fix ----------//
+//
+// - Zeke doesn't have Hurt Rotations but Julie does.		
+//
+// - Add the sprite variation of several voxel decorations. 	
+//
+// - Exit Door:  			If two survivor interactions occur at the same time the exit door might have 
+//							his spawn coordinates overrated and spawn in the middle of both survivors.
+

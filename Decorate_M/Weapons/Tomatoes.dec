@@ -1,0 +1,173 @@
+Actor TomatoToken : WeaponToken_ZAMN
+{}
+
+Actor Tomato_ZAMN : WeaponClass_ZAMN //Base Class
+{
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 5
+	Weapon.SlotNumber 2
+	DamageType "Tomatoes"
+	States
+	{
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Deselect:	//Generic State::
+			TNT1 A 0 A_TakeInventory("TomatoToken",1)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait
+		Select:		//Generic State::
+			TNT1 A 0 A_PlaySound("Player/Select",1,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}
+
+ACTOR TOMATO_Z : Tomato_ZAMN
+{
+   Weapon.AmmoType "TOMATO_Z_Ammo"
+	Inventory.RestrictedTo "ZEKE_PLAYER"
+   States
+   {
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TOMF A 1 A_WeaponReady
+		Loop
+	NotReady:
+		TOMF A 1 A_WeaponOffset(0,40)
+		TOMF A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		TOMF A 1 A_WeaponOffset(0,60)
+		TOMF A 1 A_WeaponOffset(0,40)
+		Goto Ready 
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 A_GiveInventory("TomatoToken",1)
+		TOMF ABCCDEFG 1
+		TOMA B 1 A_FireCustomMissile("TomatoAmmo",3,0,10,0,0,10)
+		TOMA C 1 A_TakeInventory("TOMATO_Z_Ammo",1)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TOMA DEF 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 2
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TOMA KJI 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TOMA HG 1
+		Goto Ready
+   }
+}
+
+ACTOR TOMATO_J : Tomato_ZAMN
+{
+   Weapon.AmmoType "TOMATO_J_Ammo"
+	Inventory.RestrictedTo "JULIE_PLAYER"
+   States
+   {
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TMJF A 1 A_WeaponReady
+		Loop
+	NotReady:
+		TMJF A 1 A_WeaponOffset(0,40)
+		TMJF A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		TMJF A 1 A_WeaponOffset(0,60)
+		TMJF A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 A_GiveInventory("TomatoToken",1)
+		TMJF ABCCDEFG 1
+		TMJA B 1 A_FireCustomMissile("TomatoAmmo",3,0,10,0,0,10)
+		TMJA C 1 A_TakeInventory("TOMATO_J_Ammo",1)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TMJA DEF 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 2
+		TMJA KJI 1
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TMJA HG 1
+		Goto Ready
+   }
+}
+
+actor TomatoAmmo : Ammo
+{
+Radius 6
+Height 7
+Speed  23
+Damage (10)
+Inventory.Amount 5
+Inventory.MaxAmount 50
+Ammo.BackpackAmount 10
+Ammo.BackpackMaxAmount 50
+Inventory.Icon "TOTTA0"
+Inventory.PickupMessage ""
+Projectile
+DamageType "Tomatoes"
+SeeSound "Tomatoes/Throw"
+Obituary "" 
++BOUNCEONWALLS
+-LOWGRAVITY
+-NOGRAVITY
++NOEXTREMEDEATH
+ States
+{
+	Spawn:
+		TOMP A 20 
+		Goto Death
+	Death:
+		TOPD ABC 4
+		stop
+ }
+}
+ 
+Actor TOMATO_Z_Ammo : Ammo {Inventory.MaxAmount 50}//TomatoAmmo {}
+Actor TOMATO_J_Ammo : Ammo {Inventory.MaxAmount 50}//TomatoAmmo {}
+

@@ -1,0 +1,275 @@
+			    
+
+			    Special Thanks to:
+			    ------------------
+
+ + "Piranha Plant" for the ZAMN Editor tool who made the spawn points and several items and game logic more understandable
+ + Josiah D. Plummer for his "ZOMBIES ATE MY NEIGHBORS WEAPONS GUIDE" which apported essential information about weapon damages/resistances and item spawns
+ + "MaxEd" for GZDoom Builder
+ + Simon Judd for Slade 3 (It's a Doom Editor )
+ + "Graf Zahl" and everyone who made GZDoom possible
+ + "ID Software" for creating Doom
+ + "LucasArts" for creating "Zombies Ate My Neighbors"
+ + Ken Silverman for Slab6
+
+
+			Really Special Thanks to as well:
+			---------------------------------
+
+ + "R&R" for some sprite edits when the project was still on Alpha.
+ + "BFG" for helping with the initial EvilDoll behaviour.
+ + "QuakeDoomNukem" for riping the Title Cards of all the levels and making them strips, also compressing the music files to .ogg to reduce file size.
+ + "ThePixelPigeon" for his amazing spritework on the Titanic Toddler and extra Werewolf frames!
+ + "Catoidi" from BoxParty for their guidance about anonymous functions.
+ + "Alphaent(Blorc)" from Hellslinger/Doosk/Titan because I have learnt several Decorate and ACS things through the years from his work.
+ + And "Zombie101" for being a cool dude and helping with some creative ideas about the project ^^
+
+ + And my Patreon Supporters as well: ^^ (as 12/10/22)
+	
+	- "Alexander Shoemaker"
+	- "Armando Castro"
+	- "Avery Estler"
+	- "Benjamin Holesapple"
+	- "bhomz"
+	- "BigCJ"
+	- "Brian Castro"
+	- "Chey Benton"
+	- "Clint R Strand"
+	- "Dan"
+	- "Dec"
+	- "DeTwelve"
+	- "Eric Kaminski"
+	- "Eric Kowiatek"
+	- "Jared Black"
+	- "Jaysen Patton"
+	- "Jet Blackriver"
+	- "Joost Peters"
+	- "Lucia Shelton"
+	- "Marionette Creep"
+	- "Mark Minnick"
+	- "Marshall Banana"
+	- "MartyJ"
+	- "Matthew Tsonetokoy"
+	- "Mr.W"
+	- "Nick Glauber"
+	- "Raistlin"
+	- "Rob Domyanich"
+	- "Rob Sheridan"
+	- "Stephen Haw"
+	- "Tanner West"
+	- "Teddy Rasmussen"
+	- "Thanos Titan"
+	- "Thomas Ekenryd"
+		
++ And my former Patreons too c:
+	
+	- "Alebeard"
+	- "Amelia DeCruz"
+	- "Brando"
+	- "Brian Corbin"
+	- "Bryce"
+	- "Budget"
+	- "Captain Tempesta"
+	- "Chad Vantine"
+	- "Christopher Cole"
+	- "Crayola"
+	- "Diego Arriagada"
+	- "Erian Zoutman"
+	- "Eric Kentroller"
+	- "Gabs"
+	- "Hailo"
+	- "JackieGC"
+	- "Jay_Def"
+	- "Jhon Smith"
+	- "Levon Grant"
+	- "mgproductions2007"
+	- "Mitch Loveless"
+	- "Nathan Lough"
+	- "Nathaniel Stephens"
+	- "Plebles"
+	- "Soul3dg3 Gaming"
+	- "Swordsmage"
+	- "Tom Jacob"
+	- "Tyler Carl Lloyd Gamble"
+	- "Tyler Costain"
+	- "Ulises Ordonez"
+	- "Valet2 (Valentin)"
+	- "Videorama Arcade Club"
+	- "Yuzu_peel"
+	- "Бибарсов Тимур"
+	- "Плеханов Сергей"
+	- "ロクサス"
+
+				/////////////////////////////////////////////
+				//     THANK YOU ALL FOR THE SUPPORT !     //
+				//                   ^^                    //
+				/////////////////////////////////////////////
+				
+
+
+
+
+
+
+				    Credits:
+				    --------
+
+|---------------- Zamn Community ----------------|
+
+Extra Game Over Colors:
+-----------------------
+	By Zombie101's Hacks:
+		- "101 Zamn"
+		- "Unused Zamn"
+		- "Zamn: The Lost Levels"
+		- "Elite Zamn"
+		- "Elite Zamn 2"
+		- "Doomsday 2"
+
+	By Board_Avenger's Hacks:
+		- "Bloody Disgusting Edition"
+
+	By DackR's Hacks:
+		- "Bloody Ooze Hack"
+
+Custom Survivor Sprites:
+------------------------
+	By Izzy Glow's Hacks:
+		- "Courage The Cowardly Dog": From "Classic Games 2" Romhack.
+
+Custom Level/Palletes:
+------------------------
+	- "Spring"(wip) for Grass Tileset, from "Zamn: The Sequel" Romhack.
+		By Droter, PiranhaPlant, Chromister and Jon Groobz.
+
+
+ZAMN Rips:
+----------
+
++ Several Rips where used from https://www.spriters-resource.com/snes/zombiesneighbours/
+  Between Level Layouts sprites and Enemies sprites, the rippers who I used their work from are:
+	
+	- "Rogultgot"
+	- "Thanwe"
+	- "PaperBoo"
+	- "FattyMcGee"
+	- "Moniker321"
+	- "BarackObama"
+	
++ All other sprites where ripped by myself or edited from existing sprites.
++ Voxels made from scratch in VoxelShop/MagicaVoxel by myself and converted to .kvx with Slab6.
++ Sound Effects ripped with "Zamn Editor" and Snes9x, edited with Audacity.
++ Wall textures are made from edits of Zamn Tiles or sometimes completely redrawn, by myself ("Dude27th")
++ All sprites, textures, and graphics edited with Paint.net
+
+
+|---------------- Doom Community ----------------|
+ACS Libraries:
+--------------
+
+ + Radar: "Cybermind" & "Endless123".
+	As this Radar was adapted and updated (for 21:9 as well) from their "Small Hud Add-on" radar.
+
+ + ThirdPersonCamera: By "Solarsnowfall"
+
+ + ACSUtils: By Alexander Korshun and the ACSUtils contributors.
+
+
+Weapon Sprites: 
+---------------
+
+[Zombies Ate My Neighbors]
+
+ + WaterGuns:
+	- Sprite itself: (Source Unknown, tried to locate it before with no luck)
+	- Hands based on Caleb's hands from Blood , edited by "R&R"
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+ + MonsterFists:
+	- Sprite itself: (Known sprites, needed source)
+	- Purple version made by "R&R"
+
+ + WeedWacker:
+	- Sprite itself: Apported by "R&R"
+	- Hands severely edited from Caleb's hands from Blood
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+ + Bazooka:
+	- Sprite itself: Borrowed from "All Out War 2" mod, presumably the authors of this sprite could be "Blox" or/and "Dusk" 
+	- Hands edited from Caleb's hands from Blood
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+ + FireExtinguisher:
+	- Sprite itself by "IMX" , palleted to the Doom pallete by "Marrub"
+	- Resized and modified by "Dude27th"
+	- Hands edited from Caleb's hands from Blood and Blood's alpha shotgun (or beta shotgun?)
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+ + Crucifix(aka AncientArtifact):
+	- Sprite itself is a screenshot based on a 3D model by "Shiva3D". Link: https://www.turbosquid.com/es/3d-models/3d-cross-1-1213615
+	- Hands edited from Caleb's hands from Blood , arm from the Blood's alpha/beta shotgun sprite
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+ + Sodas:
+	- Sprite itself based on this photo https://www.lockhaven.edu/~dsimanek/puzzles/soda_can.jpg
+	- Fake logo created by a online image generator with a Coca-Cola font.
+	- Hands are from Powerslave pc version.
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+ + Tomatoes:
+	- Sprite itself based on this photo https://www.seriouseats.com/images/2015/06/20150622-tomato-guide-cherry-shutterstock.jpg
+	- Hands are heavily edited from Dude27th's hands, by "Dude27th"
+	- Final edits as Julie's Jacket or Zeke's Clock by "Dude27th"
+
+
+
+[Ghoul Patrol]
+
+
++ Crossbows:
+	- Sprite itself and hands are from Redneck Rampage's Crossbow.
+	- Arrow edited from "mooseknuckle"'s arrow for his Crossbow from "Who Dun It"
+	- Recolor an final edits by "Dude27th"
+
+
+
+General Use Sprites:
+--------------------
+
+[Zombies Ate My Neighbors]
+
++ Julie's Jacket:
+	- Sprite itself based on this photo https://s-media-cache-ak0.pinimg.com/736x/ba/c0/91/bac09191d4b5fa1f482d866fc8e18cc8.jpg
+
++ Sky1 Texture from the FreeDoom project
+
+
+
+[Ghoul Patrol]
+
++ Julie's Jacket:
+	- Sprite itself based on this photo https://s-media-cache-ak0.pinimg.com/736x/ba/c0/91/bac09191d4b5fa1f482d866fc8e18cc8.jpg
+
+
+Sounds:
+-------
+
++ Punch Sound from the FreeDoom project
+
+
+|---------------- Other Sources  ----------------|
+
+For "Camp Terror":
+	- "Deer Trophy" sprites edited from the game "Lisa: The Painful"
+	- "Rope Texture" edited from Donkey Kong Country 2.
+
+
+
+
+
+
+
+
+That's all I think...
+Thanks for reading! ^^
+	

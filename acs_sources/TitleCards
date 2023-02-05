@@ -1,0 +1,266 @@
+#library "TitleCards"
+#include "zcommon.acs"
+  
+      
+str TitleCards[2];	//Global Array for the cards selected
+
+global str 1:FirstCard;
+global str 2:SecndCard;
+
+#define rm		0.001
+Script "TitleAnimation" (void)
+{
+	//														//Black Texture Tag(2)	--	TitleCards
+	SetLineTexture(3,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_VD");	//Black Texture Tag(3)	--	Fade Layer
+	TranslucentLine(3, 0, 0);
+	// Load the corresponding titlecards
+	TitleCards[0]= FirstCard;
+	TitleCards[1]= SecndCard;
+	Delay(80);
+	
+	Line_SetTextureOffset(2,0,209000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);			//Reset Card Position
+	SetLineTexture(2,SIDE_FRONT,TEXTURE_MIDDLE,TitleCards[0]);				//First Card
+	ACS_NamedExecuteAlways("Fall_1",0,0,0,0);		Delay(6);
+	PlaySound(0,"Something/Bam1",CHAN_BODY,1.0,false,ATTN_NONE,false);				//BoomSound
+	ACS_NamedExecuteAlways("BounceCard",0,0,0,0);	Delay(28);
+	Delay(60);
+	
+	Line_SetTextureOffset(2,0,209000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);			//Reset Card Position
+	SetLineTexture(2,SIDE_FRONT,TEXTURE_MIDDLE,TitleCards[1]);				//Second Card
+	ACS_NamedExecuteAlways("Fall_2",0,0,0,0);		Delay(7);
+	PlaySound(0, "Something/Bam1",CHAN_BODY,1.0,false,ATTN_NONE,false);			//BoomSound
+	ACS_NamedExecuteAlways("BounceCard",0,0,0,0);	Delay(28);
+	Delay(60);
+	
+	ACS_NamedExecuteAlways("Fade",0,0,0,0);	Delay(7);						//Fade Out Card
+	SetLineTexture(2,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_VD");					//Reset Card
+	Line_SetTextureOffset(2,0,209000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);			//Reset Card Position
+	Delay(80);		//Original
+	Delay(4);
+	ACS_NamedExecuteAlways("SetTitleCardsDone",0,0,0,0);
+}
+
+str CustomTitleCards[10];	//Global Array for the cards selected
+
+global int 10:CustomCardTime[];
+
+global str 11:CustomCard1;
+global str 12:CustomCard2;
+global str 13:CustomCard3;
+global str 14:CustomCard4;
+global str 15:CustomCard5;
+global str 16:CustomCard6;
+global str 17:CustomCard7;
+global str 18:CustomCard8;
+global str 19:CustomCard9;
+global str 20:CustomCard10;
+
+
+
+Script "CustomTitleAnimation" (int Cards)
+{
+	//														//Black Texture Tag(2)	--	TitleCards
+	SetLineTexture(3,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_VD");	//Black Texture Tag(3)	--	Fade Layer
+	TranslucentLine(3, 0, 0);
+	// Load the corresponding titlecards
+	CustomTitleCards[0]= CustomCard1;
+	CustomTitleCards[1]= CustomCard2;
+	CustomTitleCards[2]= CustomCard3;
+	CustomTitleCards[3]= CustomCard4;
+	CustomTitleCards[4]= CustomCard5;
+	CustomTitleCards[5]= CustomCard6;
+	CustomTitleCards[6]= CustomCard7;
+	CustomTitleCards[7]= CustomCard8;
+	CustomTitleCards[8]= CustomCard9;
+	CustomTitleCards[9]= CustomCard10;
+	Delay(80);
+ 
+
+	for(int i=0; i< Cards; i++)												//For Each Card Do:
+	{																			//---------------------
+		Line_SetTextureOffset(2,0,209000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);			//Reset Card Position
+		SetLineTexture(2,SIDE_FRONT,TEXTURE_MIDDLE,CustomTitleCards[i]);		//Set Card
+
+		if(i % 2 != 0)
+		{	ACS_NamedExecuteAlways("Fall_1",0,0,0,0);		Delay(6);			//Fall Card 1
+			PlaySound(0, "Something/Bam1",CHAN_BODY,1.0,false,ATTN_NONE,false);			//BoomSound
+		}
+		else
+		{	ACS_NamedExecuteAlways("Fall_2",0,0,0,0);		Delay(7);			//Fall Card 2
+			PlaySound(0, "Something/Bam1",CHAN_BODY,1.0,false,ATTN_NONE,false);			//BoomSound
+		}
+
+		ACS_NamedExecuteAlways("BounceCard",0,0,0,0);	Delay(28);				//Bounce Card 
+		//Delay(60);															//Static Card	[Old]
+		
+		//Card Idle Time														//Static Card	[New]
+		if(CustomCardTime[i] != 0)
+			Delay(CustomCardTime[i]);
+		else
+			Delay(60);
+	}																			//---------------------
+
+
+	ACS_NamedExecuteAlways("Fade",0,0,0,0);	Delay(7);						//Fade Out Card
+	SetLineTexture(2,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_VD");					//Reset Card
+	Line_SetTextureOffset(2,0,209000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);			//Reset Card Position
+	Delay(80);		//Original
+	Delay(4);
+	ACS_NamedExecuteAlways("SetTitleCardsDone",0,0,0,0);
+}
+
+
+Script "Fall_1" (void)
+{
+	Line_SetTextureOffset(2,0,177000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,145000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,113000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,81000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,49000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,17000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+}
+
+
+Script "BounceCard" (void)
+{
+	Line_SetTextureOffset(2,0,17000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-15000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,15000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-13000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,9000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-7000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,8000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-6000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,7000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-5000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,6000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-4000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,5000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,7000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,4000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-2000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,3000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,-1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,2000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,00000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,1000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);
+}
+
+Script "Fall_2" (void)
+{
+	Line_SetTextureOffset(2,0,209000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,193000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,161000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,129000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,97000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,65000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+	Line_SetTextureOffset(2,0,33000*rm,SIDE_FRONT,TEXFLAG_MIDDLE);	Delay(1);
+}
+
+Script "Fade" (void)
+{
+	TranslucentLine(3, 36, 0);	Delay(1);
+	TranslucentLine(3, 72, 0);	Delay(1);
+	TranslucentLine(3, 108, 0);	Delay(1);
+	TranslucentLine(3, 144, 0);	Delay(1);
+	TranslucentLine(3, 180, 0);	Delay(1);
+	TranslucentLine(3, 216, 0);	Delay(1);
+	TranslucentLine(3, 256, 0);	Delay(1);
+}
+
+Script "SetCardTime" (int index, int tics)
+{
+	CustomCardTime[index]=tics;
+}
+
+//////////////////////////////
+// *****  Functions   *****	//
+//////////////////////////////
+
+
+
+
+
+/*
+// Textures for the intro of the levels
+// Unused now , but kept in here for reference
+
+function str TitleCardsTexture (int LevelIndex, int TitleCard)
+{
+	if(TitleCard==0)
+	{
+		switch(LevelIndex)
+		{
+		case 1:	return "LTZP_STR";
+		case 2:	return "LTEU_STR";
+		case 3:	return "LTTF_STR";
+		case 4:	return "LTCM_STR";
+		case 5:	return "LTWK_STR";
+		case 6:	return "LTPF_STR";
+		case 7:	return "LTTC_STR";
+		case 8:	return "LTTT_STR";
+		case 9:	return "LTTX_STR";
+		case 10:return "LTNA_STR";
+		case 11:return "LTWB_STR";
+		case 12:return "LTMC_STR";
+			//The rest of the levels
+		case 801: return "LTDT_STR";
+		Default: ChangeLevel("END_CPNG",0,CHANGELEVEL_NOINTERMISSION|CHANGELEVEL_PRERAISEWEAPON,SKILL_HARD);	return "";
+		}
+	}
+	if(TitleCard==1)
+	{ 
+		switch(LevelIndex)
+		{
+		case 1:	return "LTZP_FIN";	 
+		case 2:	return "LTEU_FIN";	 
+		case 3:	return "LTTF_FIN";	 
+		case 4:	return "LTCM_FIN";	 
+		case 5:	return "LTWK_FIN";	 
+		case 6:	return "LTPF_FIN";	 
+		case 7:	return "LTTC_FIN";	 
+		case 8:	return "LTTT_FIN";	 
+		case 9:	return "LTTX_FIN";	 
+		case 10:return "LTNA_FIN";	 
+		case 11:return "LTWB_FIN";	 
+		case 12:return "LTMC_FIN";
+			//The rest of the levels
+		case 801: return "LTDT_FIN";
+		Default: ChangeLevel("END_CPNG",0,CHANGELEVEL_NOINTERMISSION|CHANGELEVEL_PRERAISEWEAPON,SKILL_HARD);	return "";
+		}
+	}
+return "";
+}*/
+
+
+// Call for next map
+Script "LevelSelect" (int Bonus)
+{
+	if(Bonus == 1)
+	Exit_Secret(0);
+	else
+	Exit_Normal(0);
+}
+
+
+
+

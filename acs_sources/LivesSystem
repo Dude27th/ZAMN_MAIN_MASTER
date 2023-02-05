@@ -1,0 +1,523 @@
+#library "LivesSystem" 
+#include "zcommon.acs"
+#include "CUValues.acs"
+         
+bool ScoreNotDone=true;
+bool NoSpectatorAtAll=false;
+
+Script "ScoreDone"(void)
+{	ScoreNotDone=false;}
+ 
+ 
+bool TestPlayerChanges2= false;
+Script "TestInvulnerable2" (void)
+{TestPlayerChanges2= true;}
+
+
+// If player health is lower than 10 , then he/she/they is dead , 
+// the "DeathCheck" State launches this script , which does the checking for lives.
+
+
+Script "LifeCheckScript" (void)
+{	
+	if(CheckInventory("IsDead") == 1)
+	{
+		//if(TestPlayerChanges2)	Log(s: "RETRIGGERED: LIFECHECK. IGNORING");		//Clutter
+	}
+	else
+	{
+	//Prevent Death While Health Fix
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);
+	SetPlayerProperty(FALSE, ON, PROP_TOTALLYFROZEN);		// Unlock the player
+	Delay(1);
+
+		if(GetActorProperty (0, APROP_Health) == 1)
+		{
+			GiveInventory("IsDead",1);
+			if(CheckInventory("LifeToken")==1||CheckInventory("LifeToken")>1)
+			{
+				ACS_NamedExecuteAlways("ReviveSequence",0,0,0,0);
+			} 
+			else 
+			{	 
+				//You dead.
+				int PlayerTag = 2000+PlayerNumber();
+				if(ACS_NamedExecuteWithResult("CheckScore",0,0,0,0) == 2)
+				{
+					if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeGPToken")==1))
+						{TakeInventory("ZekeToken",1);	TakeInventory("ZekeGPToken",1);	GiveInventory("ZekeTicket",1);	}
+					if((CheckInventory("JulieToken")==1)||(CheckInventory("JulieGPToken")==1))
+						{TakeInventory("JulieToken",1);	TakeInventory("JulieGPToken",1);	GiveInventory("JulieTicket",1);	}
+					
+					GiveInventory("ScoreNoCheck",1);
+					TakeInventory("ScoreActive",1);
+					TakeInventory("ScoreShow",1);
+					//Delay(350);
+	
+					while(ScoreNotDone)
+					{Delay(1);}
+	
+					ScoreNotDone = true;				
+					Delay(1);
+	
+					//SinglePlayer : No more checks needed
+					if(PlayerCount() == 1)
+						{	
+							//GameOver Animation
+							if(GetCVAR("ostoggle")==0)
+								{	ACS_NamedExecuteAlways("GameOverFast",0,0,0,0);	}
+							else
+								{	ACS_NamedExecuteAlways("GameOverSlow",0,0,0,0);	}
+						}
+
+					//Multiplayer : Spectator Checks & Coordination needed
+					else
+						{
+							//Launch Spectator Mode
+							if(!NoSpectatorAtAll)
+							{	ACS_NamedExecuteAlways("SpectatorMode",0,0,0,0);
+								Delay(1);	}
+							
+							//Wait to prevent the GameOver animation while in spectator mode
+							while(CheckActorInventory(PlayerTag,"SpectatorMode")==1)
+							{	Delay(2);	}
+	
+							NoSpectatorAtAll = true;
+	
+							//GameOver Animation
+							if(GetCVAR("ostoggle")==0)
+								{	ACS_NamedExecuteAlways("GameOverFast",0,0,0,0);	}
+							else
+								{	ACS_NamedExecuteAlways("GameOverSlow",0,0,0,0);	}
+	
+						}	
+				}
+				else
+				{
+					ACS_NamedExecuteAlways("FirstPerson",0,0,0,0);
+					if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeGPToken")==1))
+						{TakeInventory("ZekeToken",1);	TakeInventory("ZekeGPToken",1);	GiveInventory("ZekeTicket",1);	}
+					if((CheckInventory("JulieToken")==1)||(CheckInventory("JulieGPToken")==1))
+						{TakeInventory("JulieToken",1);	TakeInventory("JulieGPToken",1);	GiveInventory("JulieTicket",1);	}
+					
+					GiveInventory("ScoreNoCheck",1);
+					TakeInventory("ScoreActive",1);
+					TakeInventory("ScoreShow",1);
+					
+					
+					while(ScoreNotDone)
+					{Delay(1);}
+					
+					ScoreNotDone=true;
+					Delay(1);
+	
+						if(PlayerCount() == 1)
+						{
+	
+							if(GetCVAR("ostoggle")==0)
+								{	ACS_NamedExecuteAlways("GameOverFast",0,0,0,0);	}
+							else
+								{	ACS_NamedExecuteAlways("GameOverSlow",0,0,0,0);	}
+						}
+						else
+						{
+							if(!NoSpectatorAtAll)
+							{
+								ACS_NamedExecuteAlways("SpectatorMode",0,0,0,0);
+								Delay(1);
+							}
+							
+							while(CheckActorInventory(PlayerTag,"SpectatorMode")==1)
+							{	Delay(2);	}
+	
+							NoSpectatorAtAll=true;
+	
+							if(GetCVAR("ostoggle")==0)
+								{	ACS_NamedExecuteAlways("GameOverFast",0,0,0,0);	}
+							else
+								{	ACS_NamedExecuteAlways("GameOverSlow",0,0,0,0);	}
+						}	
+				}	
+			
+			
+			}
+		}
+	}	
+}
+
+
+/*	//Simplified version : Doesn't work yet
+Script "LifeCheckScript" (void)
+{	
+	if(CheckInventory("IsDead") != 1)
+	{
+	//Prevent Death While Health Fix
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);
+	SetPlayerProperty(FALSE, ON, PROP_TOTALLYFROZEN);		// Unlock the player
+	Delay(1);
+
+		if(GetActorProperty (0, APROP_Health) == 1)
+		{
+			GiveInventory("IsDead",1);
+			if(CheckInventory("LifeToken")==1||CheckInventory("LifeToken")>1)
+			{
+				ACS_NamedExecuteAlways("ReviveSequence",0,0,0,0);
+			} 
+			else 
+			{	 
+				//You dead.
+				int PlayerTag = 2000+PlayerNumber();
+
+				
+				ACS_NamedExecuteAlways("FirstPerson",0,0,0,0);
+				if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeGPToken")==1))
+					{TakeInventory("ZekeToken",1);	TakeInventory("ZekeGPToken",1);	GiveInventory("ZekeTicket",1);	}
+				if((CheckInventory("JulieToken")==1)||(CheckInventory("JulieGPToken")==1))
+					{TakeInventory("JulieToken",1);	TakeInventory("JulieGPToken",1);	GiveInventory("JulieTicket",1);	}
+				
+				GiveInventory("ScoreNoCheck",1);
+				TakeInventory("ScoreActive",1);
+				TakeInventory("ScoreShow",1);
+				//Delay(350);
+	
+				while(ScoreNotDone)
+				{Delay(1);}
+	
+				ScoreNotDone = true;				
+				Delay(1);
+	
+				//SinglePlayer : No more checks needed
+				if(PlayerCount() == 1)
+				{	
+					//GameOver Animation
+					if(GetCVAR("ostoggle")==0)
+						{	ACS_NamedExecuteAlways("GameOverFast",0,0,0,0);	}
+					else
+						{	ACS_NamedExecuteAlways("GameOverSlow",0,0,0,0);	}
+				}
+
+				//Multiplayer : Spectator Checks & Coordination needed
+				else
+				{
+					//Launch Spectator Mode
+					if(!NoSpectatorAtAll)
+					{	ACS_NamedExecuteAlways("SpectatorMode",0,0,0,0);
+						Delay(1);	}
+							
+					//Wait to prevent the GameOver animation while in spectator mode
+					while(CheckActorInventory(PlayerTag,"SpectatorMode")==1)
+					{	Delay(2);	}
+	
+					NoSpectatorAtAll = true;
+	
+					//GameOver Animation
+					if(GetCVAR("ostoggle")==0)
+					{	ACS_NamedExecuteAlways("GameOverFast",0,0,0,0);	}
+					else
+					{	ACS_NamedExecuteAlways("GameOverSlow",0,0,0,0);	}
+				}	
+			}
+		}
+
+	}	
+
+}*/
+
+Script "ReviveSequence" (void)	//THIS SHOULD BE HANDED TROUGH DECORATE
+{			
+		
+		//Print(s: "Check for lives ??"); //[Activate this if something screw up for debug]
+		Delay(70);
+		GiveInventory("FullHealth",1); 
+		
+		if(TestPlayerChanges2)
+			Log(s: "\nReviveSequence_1: Invulnerable On | Translucent On");
+		SetActorProperty(0,APROP_INVULNERABLE,TRUE);
+		SetActorProperty(0,APROP_RENDERSTYLE,STYLE_TRANSLUCENT);  //Renders the player translucent
+		
+		UseInventory("FullHealth");
+		GiveInventory("ToReviveS",1);
+		Delay(20);
+
+		if(TestPlayerChanges2)
+			Log(s: "ReviveSequence_2: Frozen On");
+		SetPlayerProperty(FALSE, OFF, PROP_TOTALLYFROZEN);	// Unlock the player
+		SetActorProperty(0,APROP_MASS,400); 				// Set the player to his normal mass
+		
+		GiveInventory("AliveToken",1);
+		TakeInventory("IsDead",1);
+		ACS_NamedExecuteAlways("FirstPerson",0,0,0,0);
+		
+		Delay(140);
+		SetActorProperty(0,APROP_RENDERSTYLE,STYLE_NORMAL);		// Renders the player normal again
+		
+		if(CheckInventory("IsMonsterTransforming")!= 1)
+		{
+			if(TestPlayerChanges2)
+				Log(s: "ReviveSequence_3: Invulnerable Off | Translucent Off");
+			SetActorProperty(0,APROP_INVULNERABLE,FALSE);
+			SetActorProperty(0,APROP_FRIGHTENED,FALSE);
+		
+			ACS_NamedExecuteAlways("FirstPerson",0,0,0,0);
+		}
+		
+		TakeInventory("IsStomped",1);
+		TakeInventory("DeathChecking",1);
+}
+
+
+
+/*------------------------------------------*/
+//         Game Over Falling Effect         //
+/*------------------------------------------*/
+
+//Player_0
+str gamgraph_P0[2];			//Textures for Play_0 Screen
+int OffsetLay1_P0=0010;		//Bottom Texture
+int OffsetLay2_P0=0010;		//Top Texture
+
+//Player_1
+str gamgraph_P1[2];			//Textures for Play_1 Screen
+int OffsetLay1_P1=0010;		//Bottom Texture
+int OffsetLay2_P1=0010;		//Top Texture
+
+#define rm 	0.1
+#define HUDLAYER_GAMEOVERXOFS	160.0
+Script "GameOverSimple" (void)
+{
+			if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeGPToken")==1))
+				{TakeInventory("ZekeToken",1);	TakeInventory("ZekeGPToken",1);	TakeInventory("ZekeTicket",1);	}
+			if((CheckInventory("JulieToken")==1)||(CheckInventory("JulieGPToken")==1))
+				{TakeInventory("JulieToken",1);	TakeInventory("JulieGPToken",1);	TakeInventory("JulieTicket",1);	}
+					
+			TakeInventory("ScoreNoCheck",1);
+			TakeInventory("ScoreActive",1);
+			TakeInventory("ScoreShow",1);	
+
+
+			//GameOver Animation
+			if(GetCVAR("ostoggle")==0)
+				{	ACS_NamedExecuteAlways("GameOverFast",0,1,0,0);	}
+			else
+				{	ACS_NamedExecuteAlways("GameOverSlow",0,1,0,0);	}
+}
+
+
+//::FAST:://
+/*------------------------------------------------------------------------------------*/
+int color = 0;
+Script "GameOverFast" (int Caller)	//First layer of the GameOver dropping blood effect.
+{
+	//Zamn Game Over Colors
+	color=GetCvar("ZGO_Color");
+	
+	//if "Random Color" change the CVAR as well so you can see which one you are getting
+	if(GetCVAR("rctoggle")==1)
+		{	color=random(0,10);
+			SetCvar("ZGO_Color",color);	}
+
+	//Zamn Game Over
+	ACS_NamedExecuteAlways("SetGameOver_Zamn",0, color, 0, 0);
+	
+	//Ghoul Patrol Game Over
+	if(CheckInventory("Ghoul_Mod")==1)
+	{	if(PlayerNumber()==0){	gamgraph_P0[0]= "GOGPB320";	gamgraph_P0[1]= "GOGPT320";	}	else{	gamgraph_P1[0]= "GOGPB320";	gamgraph_P1[1]= "GOGPT320";	}	}
+
+
+	SetHudSize(320,200,FALSE);
+	ACS_NamedExecuteAlways("GameOverFast2",0,Caller,0,0);	//Call to overlay 2 to start sync with this overlay
+				
+		// Fast Blood/Goo Falling animation
+		switch(PlayerNumber())
+		{
+			//For Player_0
+			case 0:	while(OffsetLay1_P0<4800)
+					{
+						SetFont(gamgraph_P0[0]);
+						HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY1, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay1_P0 * rm,   HUDTIME_ONETIC);
+						Delay(1);
+						OffsetLay1_P0 = OffsetLay1_P0+20;
+					}
+					Break;
+
+			//For Player_1
+			case 1: while(OffsetLay1_P1<4800)
+					{
+						SetFont(gamgraph_P1[0]);
+						HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY1, 0, HUDLAYER_GAMEOVERXOFS , OffsetLay1_P1 * rm,   HUDTIME_ONETIC);
+						Delay(1);
+						OffsetLay1_P1 = OffsetLay1_P1+20;
+					}
+					Break;
+		}
+						
+}
+
+Script "GameOverFast2" (int Caller)	//Second layer of the GameOver dropping blood effect.
+	{
+	SetHudSize(320,200,FALSE);
+	switch(Caller)
+	{
+		case 0:	Delay(68);	Break;
+		case 1:	Delay(138);	Break;		
+	}
+				 
+				switch(PlayerNumber())
+				{
+					case 0:	while(true)
+							{
+								SetFont(gamgraph_P0[1]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P0 * rm,   HUDTIME_ONETIC);
+								delay(1);
+								if(OffsetLay2_P0<3000)
+									OffsetLay2_P0 = OffsetLay2_P0+20;
+							}	
+							Break;
+					case 1: while(true)
+							{
+								SetFont(gamgraph_P1[1]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P1 * rm,   HUDTIME_ONETIC);
+								delay(1);
+								if(OffsetLay2_P1<3000)
+									OffsetLay2_P1 = OffsetLay2_P1+20;
+							}	
+							Break;
+				}
+					
+	}
+
+//::SLOW:://
+/*------------------------------------------------------------------------------------*/
+	
+Script "GameOverSlow" (int Caller)	//First layer of the GameOver dropping blood effect.
+	{
+	//Zamn Game Over Colors
+	color=GetCvar("ZGO_Color");
+	
+	//if "Random Color" change the CVAR as well so you can see which one you are getting
+	if(GetCVAR("rctoggle")==1)
+		{	color=random(0,10);
+			SetCvar("ZGO_Color",color);	}
+
+	ACS_NamedExecuteAlways("SetGameOver_Zamn",0, color, 0, 0);
+	
+	//Ghoul Patrol Game Over
+	if(CheckInventory("Ghoul_Mod")==1)
+	{	if(PlayerNumber()==0){	gamgraph_P0[0]= "GOGPB320";	gamgraph_P0[1]= "GOGPT320";	}	else{	gamgraph_P1[0]= "GOGPB320";	gamgraph_P1[1]= "GOGPT320";	}	}
+
+
+	SetHudSize(320,200,FALSE);
+	
+				ACS_NamedExecuteAlways("GameOverSlow2",0,Caller,0,0);	//Call to overlay 2 to start sync with this overlay
+				
+				// Slow Blood/Goo Falling animation
+				switch(PlayerNumber())
+				{
+					case 0:	while(OffsetLay1_P0<4800)
+							{
+								SetFont(gamgraph_P0[0]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY1, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay1_P0 * rm,   HUDTIME_ONETIC);
+								Delay(1);
+								OffsetLay1_P0 = OffsetLay1_P0+10;
+							}
+							Break;
+					case 1: while(OffsetLay1_P1<4800)
+							{
+								SetFont(gamgraph_P1[0]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY1, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay1_P1 * rm,   HUDTIME_ONETIC);
+								Delay(1);
+								OffsetLay1_P1 = OffsetLay1_P1+10;
+							}
+							Break;
+				}	
+	}
+	
+Script "GameOverSlow2" (int Caller)	//Second layer of the GameOver dropping blood effect.
+	{
+	SetHudSize(320,200,FALSE);
+	switch(Caller)
+	{
+		case 0:	Delay(138);	Break;
+		case 1:	Delay(279);	Break;
+	}
+				switch(PlayerNumber())
+				{
+					case 0:	while(true)
+							{
+								SetFont(gamgraph_P0[1]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P0 * rm,   HUDTIME_ONETIC);
+								Delay(1);
+								if(OffsetLay2_P0<3000)
+									OffsetLay2_P0 = OffsetLay2_P0+10;
+							}	
+							Break;
+					case 1: while(true)
+							{
+								SetFont(gamgraph_P1[1]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P1 * rm,   HUDTIME_ONETIC);
+								Delay(1);
+								if(OffsetLay2_P1<3000)
+									OffsetLay2_P1 = OffsetLay2_P1+10;
+							}	
+							Break;
+				}	
+	}
+
+
+Script "GameOverHold" (void)	//Permanent Layer of Game Over
+	{
+	SetHudSize(320,200,FALSE);
+	Delay(279);
+				switch(PlayerNumber())
+				{
+					case 0:	while(true)
+							{
+								SetFont(gamgraph_P0[1]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P0 * rm,   HUDTIME_ONETIC);
+								Delay(1);
+								if(OffsetLay2_P0<3000)
+									OffsetLay2_P0 = OffsetLay2_P0+10;
+							}
+							Break;
+
+					case 1:	while(true)
+							{
+								SetFont(gamgraph_P1[1]);
+								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P1 * rm,   HUDTIME_ONETIC);
+								Delay(1);
+								if(OffsetLay2_P1<3000)
+									OffsetLay2_P1 = OffsetLay2_P1+10;
+							}
+							Break;
+				}
+	}
+
+
+Script "SetGameOver_Zamn" (int ReceivedColor)
+{
+	str BotLayer = "";
+	str TopLayer = "";
+
+	switch(ReceivedColor)
+	{
+		case 0:		BotLayer =  "GOR320B";		TopLayer = "GOR320T";	Break;
+		case 1:		BotLayer =  "GOG320B";		TopLayer = "GOG320T";	Break;
+		case 2:		BotLayer =  "GOP320B";		TopLayer = "GOP320T";	Break;
+		case 3:		BotLayer =  "GO4320B";		TopLayer = "GO4320T";	Break;
+		case 4:		BotLayer =  "GO5320B";		TopLayer = "GO5320T";	Break;
+		case 5:		BotLayer =  "GO6320B";		TopLayer = "GO6320T";	Break;
+		case 6:		BotLayer =  "GO7320B";		TopLayer = "GO7320T";	Break;
+		case 7:		BotLayer =  "GO8320B";		TopLayer = "GO8320T";	Break;
+		case 8:		BotLayer =  "GO9320B";		TopLayer = "GO9320T";	Break;
+		case 9:		BotLayer =  "GO10320B";		TopLayer = "GO10320T";	Break;
+		case 10:	BotLayer =  "GO11320B";		TopLayer = "GO11320T";	Break;
+	}
+
+	if(PlayerNumber()==0)
+	{	gamgraph_P0[0]= BotLayer;	
+		gamgraph_P0[1]= TopLayer;	}
+	else
+	{	gamgraph_P1[0]= BotLayer;	
+		gamgraph_P1[1]= TopLayer;	}
+
+}

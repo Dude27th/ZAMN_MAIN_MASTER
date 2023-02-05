@@ -1,0 +1,15 @@
+Thing Arguments:
+
+"-----[For Decoration Types:]-----" {Tree, Treetop}	
+
+
+[0]: Palette 				{(0)Day/Normal; (1)Night/Cold; (2)Fall/Toxic; (3)Winter; (4)Spring}
+[1]: Thing Specific Special	{(0)False; (1)True}
+
+	--{Flower_Color_(Pallete)}--
+
+[0]: Color 					{(0)Yellow; (1)Red; (2)Purple; (3)Blue;}	[Respective to their pallete]
+[1]: Thing Specific Special	{(0)NoFlip; (1)Flip}
+
+TO DO: 	Regulate the actors who have several palletes to be set either one way or another, but having
+		to diffent ways to do the same thing is kind of messy.

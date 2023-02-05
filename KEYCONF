@@ -1,0 +1,19 @@
+clearplayerclasses
+
+addplayerclass ZEKE_PLAYER
+addplayerclass JULIE_PLAYER
+//addplayerclass ZEKE_MONSTER      //Inherited from ZEKE
+//addplayerclass JULIE_MONSTER     //Inherited from JULIE
+//addplayerclass ZEKE_WOLF nomenu  //Has to inherit from player
+//addplayerclass JULIE_WOLF nomenu //Has to inherit from player
+//addplayerclass ZEKE_EVIL nomenu  //Has to inherit from player
+//addplayerclass JULIE_EVIL nomenu //Has to inherit from player
+
+//addplayerclass ZEKEGP_PLAYER     //Joined with "ZEKE"
+//addplayerclass JULIEGP_PLAYER    //Joined with "JULIE"
+//addplayerclass ZEKEGP_MONSTER //nomenu
+//addplayerclass JULIEGP_MONSTER //nomenu
+
+//addplayerclass SMASH_PLAYER  //nomenu
+//addplayerclass BIGSKY_PLAYER //nomenu
+//addplayerclass ELFWOR_PLAYER //nomenu

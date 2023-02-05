@@ -1,0 +1,1852 @@
+Actor UFO : MonsterClass_ZAMN 12306		//WIP
+{	
+ Health 200
+ Height 72
+ Radius 128
+ XScale 2.25
+ YScale 1.7
+ Speed 16
+ Mass 4000
+ PainChance 256
+ MeleeRange 0
+ MaxStepHeight 12
+ //$Category "Zombies Ate My Neighbors/Monsters/Bosses"
+ //$Color 4
+ DamageFactor "MonsterFist", 	 0
+ DamageFactor "WeedWacker", 	 0
+ DamageFactor "Tomatoes", 		 0
+ DamageFactor "Soda", 			 0	//Soda Damage is registered by projectile proximity
+ DamageFactor "Water", 			 0
+ DamageFactor "Bazooka", 		 0
+ DamageFactor "FireExtinguisher",0
+ DamageFactor "Popsicle", 		 0
+ DamageFactor "Crucifix", 		 0
+ DamageFactor "Silverware", 	 0
+ DamageFactor "Plates", 		 0
+ DamageFactor "FootBall", 		 0
+ DamageFactor "MartianGun",		 0
+ DamageFactor "FlameThrower", 	 0
+ DamageFactor "Banana", 		 0
+ 
+ Monster
+ +NOGRAVITY
+ +CEILINGHUGGER
+ +NOPAIN
+ +INVULNERABLE
+ -STANDSTILL
+ -PUSHABLE
+ States
+	{
+	Spawn:
+		UFO4 AA 0		
+		TNT1 A 1 
+		TNT1 A 0 A_SetAngle(0,0,0)
+		TNT1 A 1 //ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+		TNT1 A 0 //ACS_NamedExecuteAlways("UFOHitCheck",0,0,0,0)	<-- Voxels + Pallete Translations is messy, disabled atm
+		UFO4 AB 4 A_LookEX(0,0,0,0,360,"Idle")
+	
+	Idle:
+		TNT1 AA 0
+		TNT1 A 0 A_Stop
+		/*
+		UFO4 AAAABBBB 1 {
+			A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}*/
+		TNT1 A 0 ACS_NamedExecuteAlways("OffsetUFO",0,1,0,0)
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_JumpIfCloser(160,"UfoRay",true)
+		UFO4 AAAABBBB 1 {
+			A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		TNT1 A 0 ACS_NamedExecuteAlways("OffsetUFO",0,2,0,0)
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_JumpIfCloser(160,"UfoRay",true)
+		UFO4 AAAABBBB 1 {
+			A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		TNT1 A 0 ACS_NamedExecuteAlways("OffsetUFO",0,3,0,0)
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_JumpIfCloser(160,1,true)
+		TNT1 A 0 A_LookEX(0,128,256,0,360,"Chase")
+		UFO4 AAAABBBB 1 {
+			A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		TNT1 A 0 ACS_NamedExecuteAlways("OffsetUFO",0,4,0,0)
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_JumpIfCloser(160,1,true)
+		TNT1 A 0 A_LookEX(0,128,256,0,360,"Chase")
+		UFO4 AAAABBBB 1 {
+			A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		Loop
+
+	Chase:
+		TNT1 A 0 
+		{	A_FaceTarget;
+			A_Recoil(-15);
+			A_SetAngle(0,0,0);	}
+		UFO4 AAAABBBB 1 
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_JumpIfCloser(160,"UfoRay",true))
+				{	return state ("UfoRay");}
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		TNT1 A 0 
+		{	A_FaceTarget;
+			A_Recoil(-15);
+			A_SetAngle(0,0,0);	}
+		UFO4 AAAABBBB 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_JumpIfCloser(160,"UfoRay",true))
+				{	return state ("UfoRay");}
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		TNT1 A 0 A_LookEX(0,128,256,0,360,"Chase")
+		Goto Idle
+
+	UfoRay:
+		TNT1 A 0 //A_Log("UfoRay")
+		UFO4 A 1 A_Stop
+		
+		//Take a step back if the player is too close to Hitting point
+		UFO4 A 1
+		{
+			if(A_JumpIfCloser(80,"Relocate",true))
+				{	return state ("Relocate");}
+			return state(0);
+		}
+		
+		TNT1 A 0 A_CheckProximity("","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)
+		//Prepare Ray				//NoVulnerable
+		UFO4 AAAABBBBCCCCDDDD 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			//if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+			//	{	return state ("Pain"); 	}
+			return state (0);
+		}
+		//Prepare Ray				//IsVulnerable
+		UFO4 EEEEFFFFGGGGHHHH 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		//sPAWN RAY FOR 2 SECONDS	//IsVulnerable
+		TNT1 A 0 A_SpawnItemEx("UfoRayCaster",0,0,-2,0,0,0,0,SXF_TRANSFERPOINTERS|SXF_SETMASTER,0,0)
+		UFO4 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}	
+		//deactivate				//IsVulnerable
+		UFO4 HHGGFFEEDDCCBBAA 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		//deactivate				//NoVulnerable
+		UFO4 AA 1	
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_JumpIfCloser(160,"UfoRay",true))
+				{	return state ("UfoRay"); 	}
+			return state (0);
+		}
+		TNT1 A 0 A_JumpIfCloser(160,"UfoRay",true)
+		//Not In Range
+		TNT1 A 0 A_Jump(170,"FleeNormal")
+		TNT1 A 0 A_Jump(170,"MoveSilly")
+		Goto Idle
+	
+	Relocate:
+		TNT1 A 0 A_SetAngle( CallACS("GetCardinalAngle",0,random(0,7),0,0) ,0,0)
+		TNT1 A 0 A_Recoil(-17)
+		TNT1 A 0 A_SetAngle(0,0,0)
+		UFO4 A 7
+		UFO4 A 1 A_Stop
+		Goto UfoRay
+	
+	Pain:
+		TNT1 A 0 A_DamageSelf(10,"None",DMSS_FOILINVUL,"UFO","None",AAPTR_NULL,AAPTR_DEFAULT)
+		TNT1 A 0 A_RemoveChildren(true,RMVF_EVERYTHING,"UfoRayCaster","None")
+		TNT1 A 0 A_CheckProximity("StaticPain","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)	//Clown Decoy Stunlock!
+		TNT1 A 0 A_Jump(170,"FleePain")
+	StaticPain:
+		UFOH HHHH 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 GGGG 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH FFFF 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 EEEE 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH DDDD 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 CCCC 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH BBBB 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_CheckProximity("UfoRay","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)	//Clown Decoy Stunlock!
+		Goto Idle
+
+	FleePain:
+		TNT1 A 0 A_SetAngle( CallACS("GetCardinalAngle",0,random(0,7),0,0) ,0,0)
+		TNT1 A 0 A_Recoil(-30)
+		TNT1 A 0 A_SetAngle(0,0,0)
+		UFO4 HHHH 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH GGGG 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 FFFF 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH EEEE 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 DDDD 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH CCCC 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 BBBB 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFOH AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_CheckProximity("UfoRay","ClownToy",512,1,CPXF_ANCESTOR|CPXF_NOZ|CPXF_SETTARGET|CPXF_CLOSEST)	//Clown Decoy Stunlock!
+		Goto Idle
+
+	FleeNormal:
+		TNT1 A 0 A_SetAngle( CallACS("GetCardinalAngle",0,random(0,7),0,0) ,0,0)
+		TNT1 A 0 A_Recoil(-30)
+		TNT1 A 0 A_SetAngle(0,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		UFO4 AAAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		Goto Idle
+
+	MoveSilly:
+		TNT1 A 0 A_SetAngle( CallACS("GetCardinalAngle",0,random(0,7),0,0) ,0,0)
+		TNT1 A 0 A_Recoil(-10)
+		TNT1 A 0 A_SetAngle(0,0,0)
+		//Prepare Ray (Fake)			//IsVulnerable
+		UFO4 EEEEFFFFGGGGHHHH 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		//Deactivate				//IsVulnerable
+		UFO4 GGGGFFFFEEEEDDDD 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		TNT1 A 0 A_SetAngle( CallACS("GetCardinalAngle",0,random(0,7),0,0) ,0,0)
+		TNT1 A 0 A_Recoil(-10)
+		TNT1 A 0 A_SetAngle(0,0,0)
+		//Prepare Ray (Fake)			//IsVulnerable
+		UFO4 EEEEFFFFGGGGHHHH 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		//Deactivate				//IsVulnerable
+		UFO4 GGGGFFFFEEEEDDDD 1
+		{	A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0);
+			if(A_CheckProximity("Pain","Soda_ExplodeRadius",64+24,1,0,0))
+				{	return state ("Pain"); 	}
+			return state (0);
+		}
+		Goto Idle
+
+
+
+	Death:
+		TNT1 A 0 A_RemoveChildren(true,RMVF_EVERYTHING,"UfoRayCaster","None")
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_A", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UfoRayCaster
+{
+	Health 1000
+	Height 1
+	Radius 16
+	Scale 2.0//1.25
+	DamageFactor "Soda", 100
+	+NOCLIP
+	+NOGRAVITY
+	+FLATSPRITE
+	States
+	{
+		Spawn:
+		//UFRE AAAAAAAAAAAAAAAAAAAAAAA 3 //
+		UFRE AAAAAAAAAAA 6 //
+		{	A_FaceTarget(360,270,0,0,0,0);
+			A_SpawnItemEx("UfoRayLine",      0,0,-16,     64,0,-64);
+			A_SpawnItemEx("UfoRayHitbox",      0,0,-16,     64,0,-64);
+
+			if(A_CheckProximity("Death","Soda_ExplodeRadius",64+24,1,0,0))
+			{return state ("Death");}	else	{	return state (0);		}
+			if(A_JumpIfMasterCloser(16.0,"IsTrue",true))
+			{/*A_Log("IsCloseUFO");*/return state (0); 		}	else	{/*A_Log("FarUFO");*/return state ("Death"); }
+			
+			return state (0);
+		}
+		Stop
+
+		Death:
+		Stop
+
+		IsTrue:	//Placeholder
+		Stop
+	}
+}
+
+Actor UfoRayLine : FastProjectile
+{
+	Radius 8
+	Height 16
+	Speed  32
+	Scale 1.70
+	-SOLID
+	+THRUACTORS
+	+NOCLIP
+	States
+	{
+		Spawn:
+			//TNT1 A 0 A_SetScale(ScaleX,1.5)
+			TNT1 A 1 
+			Loop
+		Death:
+			UFRP ABC 2
+			Stop
+	}
+}
+
+Actor UfoRayHitbox : FastProjectile
+{
+	Scale 1.5
+	Damage (10)
+	DamageType "UfoRay"
+	RenderStyle "None"
+	+SOLID
+	-NOCLIP
+	States
+	{
+		Spawn:
+			ALRT B 4	A_Explode((10),32,0,false,32,0,0,"BulletPuff","UfoRay")
+		Death:
+			ALRT B 1	A_Explode((10),32,0,false,32,0,0,"BulletPuff","UfoRay")
+			Stop
+	}
+}
+
+
+Actor UFO_Death_A
+{
+ XScale 2.40
+ YScale 1.85
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD AAA 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_B", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_B
+{
+ XScale 2.55
+ YScale 2.00
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD BBB 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_C", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_C
+{
+ XScale 2.70
+ YScale 2.15
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD CCC 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_D", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_D
+{
+ XScale 2.85
+ YScale 2.30
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD DD 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_E", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_E
+{
+ XScale 3.00
+ YScale 2.45
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD EE 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_F", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_F
+{
+ XScale 3.15
+ YScale 2.60
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD FF 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_G", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_G
+{
+ XScale 3.30
+ YScale 2.75
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD GG 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_H", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_H
+{
+ XScale 3.45
+ YScale 2.90
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD HH 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_I", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_I
+{
+ XScale 3.60
+ YScale 3.05
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD II 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_J", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_J
+{
+ XScale 3.75
+ YScale 3.20
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD JJ 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_K", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_K
+{
+ XScale 3.90
+ YScale 3.35
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD KK 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_L", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_L
+{
+ XScale 4.05
+ YScale 3.50
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD LL 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_M", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_M
+{
+ XScale 4.20
+ YScale 3.65
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD MM 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("UFO_Death_N", 0,0,0, 0,0,0, 0,SXF_NOCHECKPOSITION,0,0)
+		Stop
+	}
+}
+
+Actor UFO_Death_N
+{
+ XScale 4.35
+ YScale 3.80
+ Height 72
+ Radius 128
+ Speed 16
+ Mass 4000
+ +NOGRAVITY
+ +NOCLIP
+	States
+	{
+		Spawn:
+		UFOD NN 1 A_SpawnItemEx("Ufo_Shadow",0,0,CallACS("GetUFOShadowZ"),0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 
+		Stop
+	}
+}
+
+
+
+
+
+Actor Ufo_Shadow
+{
+ Height 1
+ Radius 2//2
+ Scale 2.25
+ RenderStyle "Translucent"
+ Alpha 0.6
+ //+FLOORHUGGER
+ +NOCLIP
+ +NOBLOCKMAP
+ -SOLID
+ +NOGRAVITY
+ +FLATSPRITE
+ +MASKROTATION
+ +ABSMASKPITCH
+ VisibleAngles -360, 360
+ VisiblePitch 0,-90
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	TNT1 A 0 A_SetAngle(90,0,0)
+	TNT1 A 0 A_JumpIf(GetCvar("reducedetail"), "ShadowLow")
+
+ ShadowHigh:
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_Z", 108,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_G", 108, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_F", 108, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_E", 108, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", 108,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_C", 108,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_B", 108,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_A", 108,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_Z", 108, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_K",  81,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_J",  81, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  81, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  81, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  81,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  81,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  81,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_I",  81,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_H",  81, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_M",  54,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  54,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_L",  54, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",  27,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_N",  27, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",   0, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -27,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_O", -27, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_Q", -54,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -54,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_P", -54, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_U", -81,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_T", -81, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -81, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -81, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -81,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -81,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D", -81,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_S", -81,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_R", -81, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+  //TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_Z",-108,-108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_Y",-108, -81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_X",-108, -54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",-108, -27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",-108,   0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_D",-108,  27,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_W",-108,  54,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_V",-108,  81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+  //TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceHigh_Z",-108, 108,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 1 
+	Stop
+
+ ShadowLow:
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceF", 101.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceE", 101.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceD", 101.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceC", 101.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceB", 101.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceA", 101.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceH",  60.75, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceG",  60.75,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceJ",  20.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceI",  20.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceL", -20.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceK", -20.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceN", -60.75, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceM", -60.75,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceT",-101.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceS",-101.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceR",-101.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceQ",-101.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceP",-101.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceO",-101.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 1 
+	Stop
+ }
+}
+
+
+
+/*----------------------*/
+/* High Accuracy Shadows */
+/*----------------------*/
+
+Actor Ufo_ShadowPieceHigh_A : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 A 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 A 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_B : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 B 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 B 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_C : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 C 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 C 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_D : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 D 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 D 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_E : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 E 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 E 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_F : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 F 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 F 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_G : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 G 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 G 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_H : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 H 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 H 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_I : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 I 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 I 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_J : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 J 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 J 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_K : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 K 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 K 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_L : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 L 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 L 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_M : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 M 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 M 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_N : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 N 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 N 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_O : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 O 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 O 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_P : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 P 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 P 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_Q : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 Q 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 Q 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_R : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 R 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 R 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_S : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 S 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 S 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_T : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 T 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 T 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_U : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 U 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 U 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_V : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 V 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 V 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_W : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 W 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 W 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_X : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 X 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 X 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_Y : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 Y 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 Y 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceHigh_Z : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFS2 Z 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFS2 Z 1 
+	Stop
+ }
+}
+
+
+
+
+
+
+
+/*----------------------*/
+/* Low Accuracy Shadows */
+/*----------------------*/
+
+Actor Ufo_ShadowPieceA : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP A 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP A 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceB : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP B 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP B 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceC : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP C 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP C 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceD : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP D 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP D 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceE : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP E 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP E 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceF : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP F 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP F 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceG : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP G 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP G 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceH : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP H 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP H 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceI : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP I 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP I 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceJ : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP J 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP J 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceK : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP K 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP K 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceL : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP L 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP L 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceM : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP M 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP M 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceN : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP N 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP N 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceO : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP O 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP O 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceP : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP P 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP P 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceQ : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP Q 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP Q 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceR : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP R 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP R 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceS : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP S 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP S 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceT : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP T 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP T 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceU : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP U 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP U 1 
+	Stop
+ }
+}
+
+
+
+
+
+
+
+
+/*
+//BACKUP : THIS WORKS GOOD!
+Actor Ufo_Shadow
+{
+ Height 1
+ Radius 2//2
+ Scale 2.25
+ //+FLOORHUGGER
+ +NOCLIP
+ +NOBLOCKMAP
+ -SOLID
+ +NOGRAVITY
+ +FLATSPRITE
+ +MASKROTATION
+ +ABSMASKPITCH
+ VisibleAngles -360, 360
+ VisiblePitch 0,-90
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	TNT1 A 0 A_SetAngle(90,0,0)
+	//TNT1 A 0 ACS_NamedExecuteAlways("SetShadowPieceZ",0,0,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceA", 81,-90  ,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceB", 81,-60  ,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceC", 81,-30  ,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceD", 81, 30,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceE", 81, 60,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceF", 81, 90,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceF", 101.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceE", 101.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceD", 101.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceC", 101.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceB", 101.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceA", 101.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceH",  60.75, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  60.75,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceG",  60.75,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceJ",  20.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU",  20.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceI",  20.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceL", -20.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -20.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceK", -20.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceN", -60.75, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceU", -60.75,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceM", -60.75,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceT",-101.25, -101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceS",-101.25,  -60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceR",-101.25,  -20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceQ",-101.25,   20.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceP",-101.25,   60.75,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceO",-101.25,  101.25,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceI",-81,-81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceH",-81,  0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("Ufo_ShadowPieceG",-81, 81,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+	TNT1 A 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceA : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP A 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP A 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceB : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP B 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP B 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceC : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP C 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP C 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceD : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP D 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP D 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceE : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP E 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP E 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceF : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP F 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP F 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceG : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP G 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP G 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceH : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP H 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP H 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceI : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP I 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP I 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceJ : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP J 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP J 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceK : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP K 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP K 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceL : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP L 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP L 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceM : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP M 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP M 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceN : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP N 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP N 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceO : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP O 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP O 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceP : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP P 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP P 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceQ : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP Q 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP Q 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceR : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP R 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP R 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceS : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP S 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP S 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceT : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP T 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP T 1 
+	Stop
+ }
+}
+
+Actor Ufo_ShadowPieceU : Ufo_Shadow
+{
+ +NOINTERACTION
+ States
+ {
+ Spawn:
+	TNT1 AA 0
+	UFSP U 1 A_JumpIf(CallACS("SetShadowPieceZ") == 1, 1)
+	Stop
+	UFSP U 1 
+	Stop
+ }
+}
+
+*/
+

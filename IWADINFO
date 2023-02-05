@@ -1,0 +1,11 @@
+IWad
+{
+	Name = "Zombies Ate My Neighbors TC"
+	AutoName = "ZAMN TC"
+	Game = "Doom"
+	Config = "Doom"
+	Mapinfo = "mapinfo/doom2.txt"
+	BannerColors = "00FF21","0F0F0F"
+	StartupType = "doom2"
+	
+}

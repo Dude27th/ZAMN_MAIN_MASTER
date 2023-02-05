@@ -1,0 +1,44 @@
+Actor WeaponToken_ZAMN : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+Actor WeaponClass_ZAMN : Weapon //Base Weapon Class
+{
+	Weapon.SelectionOrder 600
+	Weapon.SlotPriority 1.0
+	Weapon.BobRangeY 1.50
+	Weapon.BobRangeX 1.50
+	Weapon.BobSpeed 1.75
+	+WEAPON.NOAUTOAIM
+	Inventory.PickupMessage ""
+	Obituary ""
+	Tag "$TAG_CHAINGUN"	//?
+	States
+	{
+		Spawn:		//Unused State::
+			TOTT A -1
+			Stop
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		IsTrue:		//Fake State::
+			TOTT A -1
+			Stop
+		Deselect:	//Generic State::
+			TNT1 A 0 A_TakeInventory("WeaponToken_ZAMN",1)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait
+		Select:		//Generic State::
+			TNT1 A 0 A_PlaySound("Player/Select",0,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+		GameOver:
+			TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}

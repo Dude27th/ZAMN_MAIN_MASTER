@@ -1,0 +1,14 @@
+ ** Numbers By Category **
+ 
+ 10xxx : Items
+ 11xxx : ???
+ 12xxx : Monsters Stuff
+ 13xxx : Decorations
+ 14xxx - 14499 : Weapons
+ 14500 - 14899 : Destructive Triggers
+ 14900 - 149xx : Doors
+ 15000 - 15059 : Survivors Stuff
+ 
+ 
+ (Special Cases)
+ 15060 : Teleport for Stanley	[I think this is unused now, might have to check in the next revision]

@@ -1,0 +1,376 @@
+Voxel Names:						//TODO: ADD THEIR ACTOR NAMES AND THEIR DECORATE DIRECTORIES
+------------
+ 
+/* ----- DECORATIONS ----- */
+ 
+"FOODA0" - "FOODQ0"	
+	FRAMES FOR THE GRILL MEAT ANIMATION.			Actor "" in 
+	"FOOD"= FOOD
+	(A-Q) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"COM0A0" - "COM0Y0" || "COM1A0" - "COM1Y0" || "COM2A0" - "COM2Y0" || "COM3A0" - "COM3Y0" 
+	FRAMES FOR THE COMET ANIMATION. 				Actor "" in 
+	"COM" = COMET
+	(0-3) = PALLETE
+	(A-Y) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"TOCHA0" - "TOCHJ0"		(Need to add more palletes)
+	FRAMES FOR THE TORCH ANIMATION.					Actor "" in
+	"TOCH"= TORCH
+	(A-J) = FRAMES
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"ESTOA0" 	||	 "ESTOB0"		(Need to add more palletes)		(Need to generalize naming)
+	FRAMES FOR THE GRILL OF THE CHEF.				Actor "" in
+	"ESTO"= GRILL 		('Estofado' in spanish, which is more a dish rather than grilling food)
+	(A)   = FRAME DAY
+	'0'   = REGULAR DOOM ANGLE SET
+
+	"ESTO"= GRILL 		('Estofado' in spanish, which is more a dish rather than grilling food)
+	(B)   = FRAME NIGHT
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"TOXAA0"	||	"TXA1A0"			(Need to add more palletes) (Need to generalize naming)
+	FRAME FOR THE TOXIC BARREL WITH A SKULL.		Actor "" in
+	"TOXA"= TOXIC BARREL A
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+	"TXA" = TOXIC BARREL A
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TOXBA0" - "TOXBB0"	||	"TXB1A0" - "TXB1B0"		(Need to add more palletes) (Need to generalize naming)
+	FRAMES FOR THE TOXIC BARREL ON THE GROUND.		Actor "" in
+	"TOXB"= TOXIC BARREL B
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+	"TXB" = TOXIC BARREL B
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TXC0A0" 			(Need to add more palletes)
+	FRAME FOR THE TOXIC BARREL IN MALL WITHOUT WARNING.		Actor "" in
+	"TXC" = TOXIC BARREL C
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TXD0A0" 			(Need to add more palletes)
+	FRAME FOR THE TOXIC BARREL IN MALL WITH WARNING.		Actor "" in
+	"TXD" = TOXIC BARREL D
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TUB0A0"					(Need to add more palletes)
+	FRAME FOR THE MALL CEILING TUBE DECORATION
+	"TUB" = TUBE
+	(0-3) = PALLETE
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"MCRTA0"					(Need to add more palletes)
+	FRAME FOR THE MALL SHOPPING CART HANDLE A
+	"MCRT"= MALL CART
+	(0-3) = PALLETE
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"MCRTB0"					(Need to add more palletes)
+	FRAME FOR THE MALL SHOPPING CART HANDLE B
+	"MCRT"= MALL CART
+	(0-3) = PALLETE
+	(B)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"MCRTC0"					(Need to add more palletes)
+	FRAME FOR THE MALL SHOPPING CART HANDLE C
+	"MCRT"= MALL CART
+	(0-3) = PALLETE
+	(C)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"MCRTD0"					(Need to add more palletes)
+	FRAME FOR THE MALL SHOPPING CART HANDLE D
+	"MCRT"= MALL CART
+	(0-3) = PALLETE
+	(D)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"SLA0A0"	||	"SLA1A0"	||	"SLA2A0"	||	"SLA3A0"
+	FRAME FOR THE SMALL HOUSE COUCH
+	"SLA" = COUCH A (Sillon A in spanish)
+	(0-3) = PALLETE
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CLAMA0"					(Need to add more palletes)
+	FRAME FOR THE LAB LAMP A
+	"CLAM"= CASTLE LAB LAMP
+	(0-3) = PALLETE
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CLAMB0"					(Need to add more palletes)
+	FRAME FOR THE LAB LAMP B
+	"CLAM"= CASTLE LAB LAMP 
+	(0-3) = PALLETE
+	(B)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CPOTA0"					(Need to add more palletes)
+	FRAME FOR THE CASTLE POTION A
+	"CPOT"= CASTLE LAB LAMP 
+	(0-3) = PALLETE
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"LRTWA0"					(Need to add more palletes)
+	FRAME FOR THE LABORATORY SUPPORT TOWER
+	"LRTW"= LABORATORY TOWER 
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CFRYA0"					(Need to add more palletes)
+	FRAME FOR THE LABORATORY FRANKESTEIN TOWER
+	"CFRY"= CASTLE FRANKESTEIN RAY (?) 
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CMRYA0"					(Need to add more palletes)
+	FRAME FOR THE LABORATORY MINI TOWER
+	"CMRY"= CASTLE MINI RAY (?) 
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+/* ----- INTERACTIVES ----- */
+
+"DRN0A0" - "DRN0B0"	||	"DRN1A0" - "DRN1B0"	||	"DRN2A0" - "DRN2B0" 			(Need to add more palletes)
+	FRAMES FOR THE NORMAL HOUSE DOOR.						Actor "" in
+	"DRN" = DOOR NORMAL
+	(0-3) = PALLETE
+	(A-B)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"DRG0A0" - "DRG0B0"	||	"DRG1A0" - "DRG1B0"	||	"DRG2A0" - "DRG2B0" 			(Need to add more palletes)
+	FRAMES FOR THE NORMAL HOUSE DOOR WITH GLASS.			Actor "" in
+	"DRG" = DOOR GLASS
+	(0-3) = PALLETE
+	(A-B)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"DRS0A0" - "DRS0B0"	||	"DRS1A0" - "DRS1B0"	||	"DRS2A0" - "DRS2B0"	||	"DRS3A0" - "DRS3B0"
+	FRAMES FOR THE SKULLKEY DOOR IN THE GRASS LEVELS		Actor "" in
+	"DRS" = DOOR SPECIAL
+	(0-3) = PALLETE
+	(A-B)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"GDL0A0" - "GDO0A0"	&&	"GDR0A0" - "GDO0A0"		(Need to add more palletes)	(Need to simplify naming)
+	FRAMES FOR THE MALL GLASS DOOR 							Actor "" in
+	"GDL"|"GDR"|"GDO" = GLASS DOOR LEFT | GLASS DOOR RIGHT | GLASS DOOR OPEN
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"DCA0A0" - "DCA0B0"	&&	"DCA0A0" - "DCA0B0"		(Need to add more palletes)
+	FRAMES FOR THE CASTLE DOOR EXTERIOR (WITHOUT BARS)		Actor "" in
+	"DCA" = DOOR CASTLE A
+	(0-3) = PALLETE
+	(A|C-B)=FRAME	(A|C SETS THE MIRRORING)
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"DCB0A0" - "DCB0B0"		(Need to add more palletes)
+	FRAMES FOR THE CASTLE DOOR INTERIOR (WITH BARS)			Actor "" in
+	"DCB" = DOOR CASTLE B
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+ 
+
+"ETA0A0" - "ETA0B0"	||	"ETA1A0" - "ETA1B0"	||	"ETA2A0" - "ETA2B0" 			(Need to add more palletes)
+	FRAMES FOR THE SMALL STANDING DRAWER.						Actor "" in
+	"ETA" = DRAWER A ("Estante A" in spanish)
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"ETB0A0" - "ETB0B0"	||	"ETB1A0" - "ETB1B0"	||	"ETB2A0" - "ETB2B0" 			(Need to add more palletes)
+	FRAMES FOR THE BIG STANDING DRAWER.							Actor "" in
+	"ETB" = DRAWER B ("Estante B" in spanish)
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"ETC0A0" - "ETC0B0"	||	"ETC1A0" - "ETC1B0"	||	"ETC2A0" - "ETC2B0" 			(Need to add more palletes)
+	FRAMES FOR THE SMALL KITCHEN DRAWER.						Actor "" in
+	"ETC" = DRAWER C ("Estante C" in spanish)
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TSC0A0"		
+	FRAME FOR THE TRASHCAN CLOSED.								Actor "" in
+	"TSC" = TRASHCAN CLOSED
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TSO0A0"		
+	FRAME FOR THE TRASHCAN OPEN.								Actor "" in
+	"TSO" = TRASHCAN OPEN
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"TSF0A0"		
+	FRAME FOR THE TRASHCAN FULL.								Actor "" in
+	"TSF" = TRASHCAN FULL
+	(0-3) = PALLETE
+	(A)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"SAN0A0" - "SAN0B0"			(Need to add more palletes)
+	FRAMES FOR THE SAND DUNE.							Actor "" in
+	"SAN" = SAND DUNE
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"CCP0A0" - "CCP0B0"			(Need to add more palletes)
+	FRAMES FOR THE CASTLE CURTAINS.						Actor "" in
+	"CCP" = CASTLE CURTAIN PALLETE
+	(0-3) = PALLETE
+	(A-B) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"FTZKA0" & "FTJLA0"			
+	FRAMES FOR ZEKE & JULIE PLAYERS WHEN FLATTENED BY TITANIC TODDLER.			Actor "" in
+	"FTZK"|"FTJL" = FLAT ZEKE | FLAT JULIE
+	(A) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"VSA0A0" - "VSA0B0"			(Need to add more palletes??)
+	FRAMES FOR THE PYRAMID VASE						Actor "" in
+	"VSA" = VASE A
+	(0-3) = PALLETE
+	(A-B) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"SNK0A0" - "SNK0B0"	||	"SNK1A0" - "SNK1B0"	||	"SNK2A0" - "SNK2B0"	||	"SNK3A0" - "SNK3B0"
+	FRAMES FOR THE BATHROOM SINK
+	"SNK" = SINK
+	(0-3) = PALLETE
+	(A-B) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"BTB0A0" - "BTB0B0"	||	"BTB1A0" - "BTB1B0"	||	"BTB2A0" - "BTB2B0"	||	"BTB3A0" - "BTB3B0"
+	FRAMES FOR THE BATHROOM BATHTUB
+	"BTB" = BATH TUB
+	(0-3) = PALLETE
+	(A-B) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CHS0A0" - "CHS0A0"			(Need to add more palletes)
+	FRAMES FOR THE CASTLE CHEST
+	"CHS" = CASTLE CHEST
+	(0-3) = PALLETE
+	(A-B) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"CSRYA0"					(Need to add more palletes??)
+	FRAMES FOR THE CASTLE RAY HAZARD A
+	"CSRY"= CASTLE RAY
+	(A)   = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"RAY0A0" - "RAY0B0"					(Need to add more palletes??)
+	FRAMES FOR THE RAY HAZARD
+	"RAY" = RAY
+	(0-3) = PALLETE
+	(A-B) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET
+
+
+"FRAYA0" - "FRAYB0"			
+	FRAMES FOR THE FRANKESTEIN RAY PROJECTILES
+	"FRAY" = FRANKESTEIN RAY
+	(A-B) = FRAME
+	'0'   = REGULAR DOOM ANGLE SET	
+
+
+"DRF0A0" - "DRF0B0"
+	FRAMES FOR THE NORMAL FACTORY DOOR.						Actor "" in
+	"DRF" = DOOR FACTORY
+	(0-3) = PALLETE
+	(A-B)   = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+/* ----- ENEMY SPAWN POINTS ----- */
+
+"BSPVA0" - "BSPVC0"		
+	FRAMES FOR THE AXE BABYDOLL SPAWN POINT.					Actor "" in
+	"BSPV"= BABY SPAWN VOXEL
+	(A-C) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+"SARCA0" - "SARCE0"			(Need to add more palletes)
+	FRAMES FOR THE MUMMY SPAWN POINT.							Actor "" in
+	"SARC"= SARCOFAGUS
+	(A-E) = FRAME
+    '0'   = REGULAR DOOM ANGLE SET
+
+
+
+
+
+
+
+

@@ -1,0 +1,364 @@
+#library "Showcase"
+#include "zcommon.acs"
+#include "CUValues.acs"
+    
+int GotoBonus = 0;
+int GotoEasterEgg = 0;
+
+ 
+
+
+int SurvivorsCollected = 0;
+str SurvivorsLoaded		[21] = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+str SurvivorsStoredStr 	[21] = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+
+
+//Called on Spawn from Survivor
+Script "AddSurvivorLoaded" (int Priority)
+{
+	if(Priority != 0)	
+	{
+		//Log(s: StrParam(s: "Class: ", s:GetActorClass(0), s:" Priority: ", i: Priority));
+		SurvivorsLoaded[Priority] = GetActorClass(0);
+	}
+}
+
+int survivornum = 0;
+Script "SurvivorStorage" (int Priority)
+{
+	survivornum++;
+	SurvivorsCollected ++;
+
+	//Log(s: StrParam(s: "Position:", i:survivornum, s:"StoredIndex: ",i: Priority,s:" Survivor: ", s:SurvivorsLoaded[Priority]));
+	SurvivorsStoredStr[survivornum] = SurvivorsLoaded[Priority];
+} 
+
+
+//Showcase Point TIDs assigners
+Script "SetPoint1" (void)	{ Thing_ChangeTID(0, TAG_POINT1SHOWCASE); }		//TID =	51
+Script "SetPoint2" (void)	{ Thing_ChangeTID(0, TAG_POINT2SHOWCASE); }		//TID =	52
+Script "SetPoint3" (void)	{ Thing_ChangeTID(0, TAG_POINT3SHOWCASE); }		//TID =	53
+Script "SetPoint4" (void)	{ Thing_ChangeTID(0, TAG_POINT4SHOWCASE); }		//TID =	54
+Script "SetPoint5" (void)	{ Thing_ChangeTID(0, TAG_POINT5SHOWCASE); }		//TID =	55
+	
+
+Script "ShowTime" (void)
+	{
+			Delay(35);
+			//Log(s: StrParam(s: "|",s:SurvivorsStoredStr[1],s: "|",s:SurvivorsStoredStr[2],s: "|",s:SurvivorsStoredStr[3],s: "|",s:SurvivorsStoredStr[4],s: "|",s:SurvivorsStoredStr[5],s: "|",s:SurvivorsStoredStr[6],s: "|",s:SurvivorsStoredStr[7],s: "|",s:SurvivorsStoredStr[8],s: "|",s:SurvivorsStoredStr[9],s: "|",s:SurvivorsStoredStr[10],s:"|"));
+			TranslucentLine(23, 256, 0);	Delay(1);
+			TranslucentLine(23, 216, 0);	Delay(1);
+			TranslucentLine(23, 180, 0);	Delay(1);
+			TranslucentLine(23, 144, 0);	Delay(1);
+			TranslucentLine(23, 108, 0);	Delay(1);
+			TranslucentLine(23, 72, 0);	Delay(1);
+			TranslucentLine(23, 36, 0);	Delay(1);
+			TranslucentLine(23, 0, 0);	Delay(1);
+			//ACS_NamedExecuteAlways("IndependentScoreHud",0,0,0,0);
+			GiveInventory("ScoreShow",1);
+			Delay(35);
+			Delay(5);
+			/*-------------------- SHOW --------------------*/
+			for(int i=1; i<=5; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("PointXSurvivor",0,i,0,0);
+						for (int n = 0; n < PlayerCount(); n++)
+						{	GiveActorInventory(2000 + n, "OpenSound", 1);	}
+						Delay(10);
+					}
+			}
+				//Delay(35);
+			if( SurvivorsCollected >= 1)
+				Delay(35);
+			/*------------------- REMOVE -------------------*/
+			for(i=1; i<=5; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("RemovePointX",0,i,0,0);
+						Delay(5);
+					}
+			}
+			/*-------------------- SHOW --------------------*/
+			for(i=6; i<=10; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("PointXSurvivor",0,i,0,0);
+						for (n = 0; n < PlayerCount(); n++)
+						{	GiveActorInventory(2000 + n, "OpenSound", 1);	}
+						Delay(10);
+					}
+			}
+			//Delay(35);
+			if( SurvivorsCollected >= 6)
+				Delay(35);
+			/*------------------- REMOVE -------------------*/
+			for(i=6; i<=10; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("RemovePointX",0,i,0,0);
+						Delay(5);
+					}
+			}
+			/*-------------------- SHOW --------------------*/
+			for(i=11; i<=15; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("PointXSurvivor",0,i,0,0);
+						for (n = 0; n < PlayerCount(); n++)
+						{	GiveActorInventory(2000 + n, "OpenSound", 1);	}
+						Delay(10);
+					}
+			}
+			//Delay(35);
+			if( SurvivorsCollected >= 11)
+				Delay(35);
+			/*------------------- REMOVE -------------------*/
+			for(i=11; i<=15; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("RemovePointX",0,i,0,0);
+						Delay(5);
+					}
+			}
+			/*-------------------- SHOW --------------------*/
+			for(i=16; i<=20; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("PointXSurvivor",0,i,0,0);
+						for (n = 0; n < PlayerCount(); n++)
+						{	GiveActorInventory(2000 + n, "OpenSound", 1);	}
+						Delay(10);
+					}
+			}
+			//Delay(35);
+			if( SurvivorsCollected >= 16)
+				Delay(35);
+			/*------------------- REMOVE -------------------*/
+			for(i=16; i<=20; i++){
+				if( SurvivorsCollected >=i)
+					{	
+						ACS_NamedExecuteAlways("RemovePointX",0,i,0,0);
+						Delay(5);
+					}
+			}
+			/*----------------------------------------------*/
+			
+			
+			// BONUS CHECKING
+			
+			//BonusToken
+			if(GotoBonus==1)		
+			{
+				ACS_NamedExecuteAlways("BonusTextAnimation",0,0);
+				Delay(70);
+			}
+			
+			//EasterEggToken
+			if(GotoEasterEgg==1)	
+			{
+				ACS_NamedExecuteAlways("BonusTextAnimation",0,1);
+				Delay(70);
+			}
+			
+			//AllSurvivorsRescued
+			if(SurvivorsCollected==ACS_NamedExecuteWithResult("GetSurvivorsMaximum"))	
+			{
+				ACS_NamedExecuteAlways("BonusTextAnimation",0,2);
+				Delay(70);
+			}
+			
+			//TenCheerleaders
+			if(ACS_NamedExecuteWithResult("IsTenCheerleaderBonus")==1)					
+			{	if(ACS_NamedExecuteWithResult("GetCheerleaderGoal") <= ACS_NamedExecuteWithResult("GetCheerleaderCount"))
+				{	
+						//ACS_NamedExecuteAlways("BonusCheerleaderText",0,GetCheerleaderGoal);
+						Log(s: "Some Cheerleader Bonus!");
+						Delay(70);
+					
+				}
+			}
+			
+			//Lycantrophy Prevented
+			if(ACS_NamedExecuteWithResult("IsNoLycantrophyBonus") == 1)	
+			{
+				if(ACS_NamedExecuteWithResult("IsNoLycantrophyAchieved") == 1)	
+				{
+					//ACS_NamedExecuteAlways("BonusTextAnimation",0,3);
+					Log(s: "Lycantrophy Prevented!");
+					Delay(70);
+				}
+			}
+
+			//No Bazooka Fired!
+			if(ACS_NamedExecuteWithResult("IsNoBazookaFireBonus") == 1)	
+			{
+				if(ACS_NamedExecuteWithResult("IsNoBazookaFireAchieved") == 1)	
+				{
+					//ACS_NamedExecuteAlways("BonusTextAnimation",0,4);
+					Log(s: "No Bazooka Fired!");
+					Delay(70);
+				}
+			}
+			
+			///////////////////////////
+			
+			SetMusic("*",0);
+			Delay(99);
+			SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_CT");	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,"LEVEL_CT");
+			
+			TakeInventory("ScoreShow",1);
+			ACS_NamedExecuteAlways("CleanInventory",0,0,0,0);
+			Delay(35);//(35);
+			TranslucentLine(23, 0, 0);	Delay(1);
+			TranslucentLine(23, 36, 0);	Delay(1);
+			TranslucentLine(23, 72, 0);	Delay(1);
+			TranslucentLine(23, 108, 0);	Delay(1);
+			TranslucentLine(23, 144, 0);	Delay(1);
+			TranslucentLine(23, 180, 0);	Delay(1);
+			TranslucentLine(23, 216, 0);	Delay(1);
+			TranslucentLine(23, 256, 0);	Delay(1);
+			Delay(70);
+			SetPlayerProperty(FALSE,OFF,PROP_TOTALLYFROZEN);
+			
+			SurvivorsCollected = 0;
+			ACS_NamedExecuteAlways("Youcanwarpnow",0,0,0,0);
+	}
+
+Script "BonusTextAnimation" (int BonusType)
+{
+	str graphic = "";
+	switch(BonusType)
+		{
+			case 0: graphic= "LEVEL_B";	Break;
+			case 1:	graphic= "LEVEL_E";	Break;
+			case 2: graphic= "LEVEL_S";	Break;
+			//case 3: graphic= "LEVEL_L"; Break;	//No Licantrophy
+			//case 4: graphic= "LEVEL_Z"; Break;	//No Bazooka Fired
+		}
+	SetMusic("BOUNCEM",0);
+	//SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_E0");	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,"LEVEL_E0");		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(6);
+	SetMusic("*",0);
+}
+
+Script "BonusCheerleaderText" (int CheerleaderNumber)
+{
+	str graphic = "";
+	graphic = "CHEER";
+	SetMusic("BOUNCEM",0);
+	//SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,"LEVEL_E0");	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,"LEVEL_E0");		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "0"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(3);
+	SetLineTexture(24,SIDE_FRONT,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));	SetLineTexture(24,SIDE_BACK,TEXTURE_MIDDLE,StrParam(s: graphic, s: "1"));		Delay(6);
+	SetMusic("*",0);
+}
+
+int id = 0;
+str SurvivorCurrentShow = "";
+Script "PointXSurvivor" (int i)
+{
+		id=i;
+	if(i>5&&i<11)
+		id=id-5;
+	else if(i>10&&i<16)
+		id=id-10;
+	else if(i>15&&i<21)
+		id=id-15;
+	
+	SurvivorCurrentShow = SurvivorsStoredStr[i];
+	GiveActorInventory(50+id,"CustomSurvToken",1);
+}	 
+
+
+Script "ShowCurrentSurvivor" (int SpawnedTID)
+{
+	int OwnX =	GetActorX(0);
+	int OwnY =	GetActorY(0);
+	int OwnZ =	GetActorZ(0);
+
+	SpawnForced(SurvivorCurrentShow, OwnX, OwnY, OwnZ + 1, SpawnedTID, 0);
+	SetActorProperty(SpawnedTID,APROP_ScaleX,1.0);
+	SetActorProperty(SpawnedTID,APROP_ScaleY,1.0);
+}
+
+
+
+
+Script "RemovePointX" (int i){
+		id=i;
+	if(i>5&&i<11)
+		id=id-5;
+	else if(i>10&&i<16)
+		id=id-10;
+	else if(i>15&&i<21)
+		id=id-15;
+	GiveActorInventory(50+id,"RemoveToken",1);
+	if((id<5)&&(CheckActorInventory(51+id,"10Points")>= 1))
+		GiveInventory("SvPointsR", 1);
+	else
+		GiveInventory("10PointsR", 1);
+}
+
+Script "RemoveCurrentSurvivor" (int SpawnedTID)
+{
+	Thing_Remove(SpawnedTID);
+}
+
+Script "Sonidito10Puntos" (void)
+{ 
+	for (int n = 0; n < PlayerCount(); n++)
+	{	GiveActorInventory(2000 + n, "10PointsR", 1);	}
+	GiveActorInventory(2000,"ScorePoints",50);
+}
+		
+Script "SoniditoVariosPuntos" (void)
+{ 
+	//print(s: "Player access");
+	for (int n = 0; n < PlayerCount(); n++)
+	{	GiveActorInventory(2000 + n, "SvPointsR", 1);	}
+	for(int p = 0; p < 6; p++)
+	{	for ( n = 0; n < PlayerCount(); n++)
+		{	GiveActorInventory(2000 + n, "ScorePoints",10);	} 	
+	}
+}
+
+Script "SetBonus" (void)
+{
+		do{
+			GotoBonus = 1;
+			Delay(1);
+		}while(GotoBonus == 0);
+}
+
+Script "SetEasterEgg" (void)
+{
+		do{
+			GotoEasterEgg = 1;
+			Delay(1);
+		}while(GotoEasterEgg == 0);
+}
+
+
+Script "BonusCheck" (void)				//Called by "Level End" script in "LevelScripts.acs" to warp to Bonus Level
+{	SetResultValue(GotoBonus);	}
+
+Script "EasterEggCheck" (void)			//Called by "Level End" script in "LevelScripts.acs" to unlock Easter Egg
+{	SetResultValue(GotoEasterEgg);	}
+
+
+Script "CleanInventory" (void)
+{
+	TakeInventory("SurvivorsSaved",20);
+	TakeInventory("LevelFinished",1);
+}

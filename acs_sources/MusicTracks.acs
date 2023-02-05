@@ -1,0 +1,109 @@
+//[Don't compile this, is just for reference]
+
+[Tracklist( Sensible to Soundtrack Selection )]
+-----------------------------------------------
+ 
+Track 0:	[Music Info Script]
+Track 1:	"Zombie Panic"
+Track 2:	"Evening Of The Undead"
+Track 3:	"No Assembly Required"
+Track 4:	"Boss Battle"
+Track 5:	"Weird Kids On The Block"
+Track 6:	"Pyramid Of Fear"
+Track 7:	"Dr Tongue's Curse"
+Track 8:	"Titanic Toddler"
+Track 9:	"Mars Needs Cheerleaders"
+
+
+(Office Of The Doomed)
+Track 10:	"No Assembly Required" 	  (SNES)|	"Office Of The Doomed" (GENESIS/MEGADRIVE)
+
+(Zombie House Party)
+Track 11:	"Zombie Panic"			  (SNES)|	"Office Of The Doomed" (GENESIS/MEGADRIVE)
+
+(Curse Of The Tongue)
+Track 12:	"Unused Song"*			  (SNES)|	"Carnival"*			   (GENESIS/MEGADRIVE)
+
+(Mushroom Men)
+Track 13:	"Weird Kids On The Block" (SNES)|	"Office Of The Doomed" (GENESIS/MEGADRIVE)
+
+(Cheerleaders Vs Monsters)	
+Track 14:	"Evening Of The Undead"	  (SNES)|	"Office Of The Doomed" (GENESIS/MEGADRIVE)
+
+
+
+
+
+[Tracklist( Ignore Soundtrack Selection )]
+------------------------------------------
+
+Snes Tracks::
+Track 80:	"Zombie Panic"
+Track 81:	"Evening Of The Undead"
+Track 82:	"No Assembly Required"
+Track 83:	"Boss Battle"
+Track 84:	"Weird Kids On The Block"
+Track 85:	"Pyramid Of Fear"
+Track 86:	"Dr Tongue's Curse"
+Track 87:	"Titanic Toddler"
+Track 88:	"Mars Needs Cheerleaders"
+Track 89:	"Office Of The Doomed*" 	[Not available]
+Track 90:	"Carnival*"	 		[Not available]
+Track 91:	"Unused Snes Song*"
+
+Genesis/Megadrive::
+Track 92:	"Zombie Panic"
+Track 93:	"Evening Of The Undead"
+Track 94:	"No Assembly Required"
+Track 95:	"Boss Battle"
+Track 96:	"Weird Kids On The Block"
+Track 97:	"Pyramid Of Fear"
+Track 98:	"Dr Tongue's Curse"
+Track 99:	"Titanic Toddler"
+Track 100:	"Mars Needs Cheerleaders"
+Track 101:	"Office Of The Doomed*"
+Track 102:	"Carnival*"
+Track 103:	"Unused Snes Song*" 		[Not available]
+
+Lame Genie Covers::
+Track 104:	"Zombie Panic"
+Track 105:	"Evening Of The Undead"
+Track 106:	"No Assembly Required"
+Track 107:	"Boss Battle"
+Track 108:	"Weird Kids On The Block"
+Track 109:	"Pyramid Of Fear"
+Track 110:	"Dr Tongue's Curse"
+Track 111:	"Titanic Toddler"
+Track 112:	"Mars Needs Cheerleaders"
+Track 113:	"Office Of The Doomed*" 	[Not available]
+Track 114:	"Carnival*" 			[Not available]
+Track 115:	"Unused Snes Song*" 		[Not available]
+
+Nihbru Covers::
+Track 116:	"Zombie Panic"			[Not available]
+Track 117:	"Evening Of The Undead"		[Not available]
+Track 118:	"No Assembly Required"		[Not available]
+Track 119:	"Boss Battle"			[Not available]
+Track 120:	"Weird Kids On The Block"	[Not available]
+Track 121:	"Pyramid Of Fear"		[Not available]
+Track 122:	"Dr Tongue's Curse"		[Not available]
+Track 123:	"Titanic Toddler"		[Not available]
+Track 124:	"Mars Needs Cheerleaders"	[Not available]
+Track 125:	"Office Of The Doomed*"		[Not available]
+Track 126:	"Carnival*"			[Not available]
+Track 127:	"Unused Snes Song*"		[Not available]
+
+
+
+//Ghoul Patrol Tracks
+Track 150:	"Ghoul Patrol: Intro Track_A*"
+Track 151:	"Ghoul Patrol: Intro Track_B*"
+Track 152:	"Ghoul Patrol: Metropolis 1*"
+			
+
+
+
+Track 999:	Not a track but it deactivates the DynamicMusic script	
+				
+* = Track names marqued with a '*' are tracks without an official name as far as I know.
+	So those are just regular names.

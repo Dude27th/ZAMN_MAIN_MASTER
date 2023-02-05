@@ -1,0 +1,131 @@
+#library "EasterEggs"
+#include "zcommon.acs"
+#include "CUValues.acs"
+
+
+/*-------------------------------------------------------------*/
+/*                      GAME TYPE SETTERS                      */
+/*-------------------------------------------------------------*/
+
+//Zombies Ate My Neighbors
+Script "SetGame_ZAMN" (void)
+{
+	//PlaceHolder
+} 
+
+
+//Ghoul Patrol	
+Script "SetGame_Ghoul" (void)
+{
+	//Set Game Modifier
+	GiveInventory("Ghoul_Mod",1);
+
+	//Clean Class Tokens(Optional)
+	if(CheckInventory("ZekeToken")==1)
+		{TakeInventory("ZekeToken",1);
+		 GiveInventory("ZekeGpToken",1);}
+
+	if(CheckInventory("JulieToken")==1)
+		{TakeInventory("JulieToken",1);
+		 GiveInventory("JulieGpToken",1);}
+
+	//Clean Initial Inventory
+	TakeInventory("WATERRIFLE_ZEKE",1);
+	TakeInventory("WATERRIFLE_JULIE",1);
+	TakeInventory("WaterRocket",9999);
+	TakeInventory("WRToken",1);
+	
+	
+	if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeGPToken")==1)||(CheckInventory("ZekeTicket")==1))
+		{	GiveInventory("CROSSBOW_ZEKE",1); SetWeapon("CROSSBOW_ZEKE");	}
+	else
+		{	GiveInventory("CROSSBOW_JULIE",1); SetWeapon("CROSSBOW_JULIE");	}
+
+	//GP Player Properties
+	SetActorProperty(0,APROP_Speed,SPEED_GPWALK);
+	SetActorProperty(0, APROP_JumpZ, ZJUMP_GHOUL);
+}
+
+//Input Detection 
+//[Animations don't jump properly between states while doing different actions. That's why this manual input detection works better]
+
+Script "IsMoving" (void)
+{
+	int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	int OldButtons = GetPlayerInput(-1, INPUT_OLDBUTTONS);
+	if( (Buttons & (BT_FORWARD)) || (OldButtons & (BT_FORWARD)) || (Buttons & (BT_BACK)) || (OldButtons & (BT_BACK)) || (Buttons & (BT_MOVELEFT)) || (OldButtons & (BT_MOVELEFT)) || (Buttons & (BT_MOVERIGHT)) || (OldButtons & (BT_MOVERIGHT)) )
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "IsRunning" (void)
+{
+	int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	int OldButtons = GetPlayerInput(-1, INPUT_OLDBUTTONS);
+	if((Buttons & (BT_SPEED))||(OldButtons & (BT_SPEED)))
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "IsFiring" (void)
+{
+	int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	int OldButtons = GetPlayerInput(-1, INPUT_OLDBUTTONS);
+	if((Buttons & (BT_ATTACK))||(OldButtons & (BT_ATTACK)))
+		if(CheckInventory("GPRunning")<1)
+			SetResultValue(1);
+		else
+			SetResultValue(0);
+	else
+		SetResultValue(0);
+}
+
+Script "IsJumping" (void)	//alias for "CheckJumping"
+{
+	SetResultValue(ACS_NamedExecuteWithResult("CheckJumping",0,0,0,0));
+}
+
+Script "IsCrouching" (void)	
+{
+	int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	int OldButtons = GetPlayerInput(-1, INPUT_OLDBUTTONS);
+	if((Buttons & (BT_CROUCH))||(OldButtons & (BT_CROUCH)))
+		{ 
+			if((MapUnit_ToInt(GetActorZ(0)) - MapUnit_ToInt(GetActorFloorZ(0))) < 4)
+				SetResultValue(1);
+			else
+				SetResultValue(0);
+		}
+	else
+		{ SetResultValue(0);}
+}
+
+Script "SetCameraSlidingOn" (void)		{	SetActorProperty(0, APROP_ViewHeight, ZCAM_GPSLIDE);	}
+Script "SetCameraSlidingOff" (void)		{	SetActorProperty(0, APROP_ViewHeight, ZCAM_ZAMN);	}
+
+
+Script "SetSlideForce" (void)
+{
+	int anglefrontal = GetActorAngle(0) >> 8;
+	int anglelateral = GetByteAngle(0);
+	int force = 15 + (15 * ACS_NamedExecuteWithResult("IsRunning",0,0,0,0));
+
+	int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	int OldButtons = GetPlayerInput(-1, INPUT_OLDBUTTONS);
+
+	if((Buttons & (BT_FORWARD))||(OldButtons & (BT_FORWARD)))
+		ThrustThing(anglefrontal 	  , force, 0, 0);
+	if((Buttons & (BT_MOVERIGHT))||(OldButtons & (BT_MOVERIGHT)))
+		ThrustThing(anglelateral + 64 , force, 0, 0);
+	if((Buttons & (BT_BACK))||(OldButtons & (BT_BACK)))
+		ThrustThing(anglefrontal + 128, force, 0, 0);
+	if((Buttons & (BT_MOVELEFT))||(OldButtons & (BT_MOVELEFT)))
+		ThrustThing(anglelateral +192 , force, 0, 0);
+	
+	//Just standing there... menacingly
+	if(!((Buttons & (BT_FORWARD))||(OldButtons & (BT_FORWARD))||(Buttons & (BT_MOVERIGHT))||(OldButtons & (BT_MOVERIGHT))||(Buttons & (BT_BACK))||(OldButtons & (BT_BACK))||(Buttons & (BT_MOVELEFT))||(OldButtons & (BT_MOVELEFT))))
+		ThrustThing(anglefrontal , force, 0, 0);
+	
+}

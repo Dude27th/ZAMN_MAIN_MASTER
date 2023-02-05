@@ -1,0 +1,153 @@
+// Player Sounds
+Player/Ouch			OUCH
+Player/Death		DEATH
+Player/Pickup		ITEMPICK //Re-Record needed!
+Player/ItemUse		ITEMUSE
+Player/Select		SELECT
+Player/Radar		RADAR
+Player/WaterIn		PWATERIN
+Player/WaterOu		PWATEROU
+
+// Player Sounds [Ghoul Patrol]
+Player/GPSlide		SLIDEGP
+
+// Survivors
+Survivor/Dog		SURVIDOG
+Survivor/Death		SURVIVDT //Re-Record needed!
+Survivor/Pick		SURVPICK
+Survivor/ExitDoor	EXITDOOR
+
+//Miscellaneous
+Something/Open		OPENSOME
+Something/Negative  NEGADOOR
+Something/Bam1		EXPLODE1
+Something/Bam2		EXPLODE2
+Something/Bounce	BOUNCE
+Clown/Laugh			CLOWNLAF
+Showcase/10Points	10POINTS
+Showcase/SvPoints 	SVPOINTS
+
+
+/*------------------------------*/
+
+// WaterRifle
+WaterRifle/Fire		SQUIRT   
+
+// Bazooka (WIP)
+Bazooka/fire	    BAZOOFI  //Re-Record needed!
+
+// Soda
+Soda/Throw			THROW
+Soda/Boom			SODABOOM //Re-Record optional
+
+//Tomatoes
+Tomatoes/Throw		THROW
+
+//WeedWacker
+WeedWacker/Wack		WEEDWACK
+WeedWacker/Load		WEEDLOAD
+WeedWacker/Hit		WEEDHIT
+
+//FireExtinguisher
+FireExting/Puff		FIREEXTN
+
+//Crucifix
+Crucifix/Shine		CRUCIFIX
+
+//MartianRay
+MartianRay/Bubble 	MARTIANB
+
+//MonsterGrowl
+Monster/Punch		THROW
+Monster/Growl		MONSGRWL
+
+/*------------------------------*/
+
+// Zombie (WIP)
+Zombie/Pain			ZOMBPAIN	
+Zombie/melee		ZOMBATTA	
+Zombie/Death		EXPLODE2	
+
+// BabyDoll
+BabyDoll/Attack		SQUIRT
+BabyDoll/Laugh		DOLLLAFF
+
+// Stanley: The Chainsaw Maniac
+Stanley/Sight		CHAINREV
+Stanley/Attack		CHAINATT
+Stanley/Wall		CHAINWLL
+
+// DoppelGangers
+Doppelganger/Spawn	DOPSPAWN
+
+// Werewolf
+Werewolf/See		WOLFSEE
+Werewolf/Death		WOLFDETH
+
+// TitanicToddler
+Titanic/Stomp		TITNSTEP
+
+//Frankestein
+Frankestein/Attack	FRANKRAY
+
+/*------------------------------*/
+
+
+
+// Music
+//[Super Nintendo]
+music/Snes/WeirdKidsOnTheBlock 		WEIRDKDS
+music/Snes/ZombiePanic				ZOMBIEPC
+music/Snes/EveningOfTheUndead		EVENING
+music/Snes/NoAssemblyRequired		NOASSEMB
+music/Snes/PyramidOfFear			PYRAMID
+music/Snes/MarsNeedsCheerleaders	MARSCHER
+music/Snes/CurseOfTheTongue			CURSE
+music/Snes/BossBattle				BOSSBATL
+music/Snes/TitanicToddler			TITANIC
+//music/Snes/OfficeOfTheDoomed		OFFICE		// <-- I NEED SOMEONE TO DO THIS TRACK WITH THE SNES MIDI SOUNDFOUNT , BECAUSE IT DIDN'T EXIST IN THAT VERSION , IT WAS MADE LATER IN DEVELOPMENT AND INCLUDED FOR THE GENESIS/MEGADRIVE VERSION
+//music/Snes/UnusedGenesisTrack		CARNIVAL	// <-- I NEED SOMEONE TO DO THIS TRACK WITH THE SNES MIDI SOUNDFONT .-.	|	[Spooky Carnival Music <3]	
+music/Snes/UnusedBonusSong			UNUSEDSN	// Probably could work as the Last Level ?
+music/Snes/FinishLevelSong			FINISH
+
+//[Genesis/Megadrive]
+music/Genesis/WeirdKidsOnTheBlock 		WEIRDKD2
+music/Genesis/ZombiePanic				ZOMBIEP2
+music/Genesis/EveningOfTheUndead		EVENIN2
+music/Genesis/NoAssemblyRequired		NOASSEM2
+music/Genesis/PyramidOfFear				PYRAMI2
+music/Genesis/MarsNeedsCheerleaders		MARSCHE2
+music/Genesis/CurseOfTheTongue			CURS2
+music/Genesis/BossBattle				BOSSBAT2	
+music/Genesis/TitanicToddler			TITANI2
+music/Genesis/OfficeOfTheDoomed			OFFIC2 
+music/Genesis/UnusedGenesisTrack		CARNIVA2// <-- [Spooky Carnival Music <3]	
+//music/Genesis/UnusedBonusSong			UNUSEDS2// <-- I NEED SOMEONE TO DO THIS TRACK WITH THE GENESIS MIDI SOUNDFONT .-.
+music/Genesis/FinishLevelSong			FINISH2
+
+
+//Menus
+menu/activate		ZOMBPAIN	// Activate a new menu
+menu/prompt			OPENSOME	// Activate a prompt "menu"
+menu/choose			OPENSOME	// Choose a menu item
+menu/backup			10POINTS	// Backup to previous menu
+menu/cursor			SELECT		// Move cursor up/down
+menu/change			10POINTS	// Select new value for option
+menu/invalid		NEGADOOR	// Menu not available
+
+
+$random menu/quit1 { Zombie/Pain BabyDoll/Laugh Stanley/Sight Player/ItemUse Doppelganger/Spawn Monster/Growl Survivor/Dog Player/Death }
+$random menu/quit2 { Zombie/Pain BabyDoll/Laugh Stanley/Sight Player/ItemUse Doppelganger/Spawn Monster/Growl Survivor/Dog Player/Death }
+
+//Patches
+$playersound	player	male	*usefail	DSOOF
+$playersound	player	female	*usefail	DSOOF
+$playersound	player	other	*usefail	DSOOF
+
+// Sound Patches (To silence some geometry in the background)
+sounds/DSPSTART				DSPSTART
+sounds/DSPSTOP				DSPSTOP
+sounds/DSOOF				DSOOF
+sounds/DSSTNMOV				DSSTNMOV
+sounds/DSVILATK				DSVILATK
+sounds/DSTELEPT				DSTELEPT

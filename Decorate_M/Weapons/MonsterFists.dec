@@ -1,0 +1,92 @@
+ACTOR MonsterFists : Weapon//WeaponClass_ZAMN	//Don't inherit from ZAmn Class, different Raising animation.
+{
+  Weapon.SelectionOrder 1500
+  Weapon.SlotNumber 2
+  Weapon.BobRangeY 1.50//1.25
+  Weapon.BobRangeX 1.50//1.25
+  Weapon.BobSpeed 1.75//1.50
+  DamageType "MonsterFist"
+  SpawnId 4000
+  +WEAPON.MELEEWEAPON
+  +WEAPON.CHEATNOTWEAPON
+  States
+  {
+  Ready:
+	TNT1 A 0 
+	TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+    MONS A 1 A_WeaponReady
+    Goto Ready
+  Deselect:
+    MONS A 1 A_Lower
+    Loop
+  Select:
+    MONS A 1 A_Raise
+    Loop
+  Fire: 
+	TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+	TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+	TNT1 A 0 A_JumpIfInventory("RapidFire",1,4)
+    MONS BC 1
+    MONS DE 2
+	TNT1 A 0 A_GiveInventory("RapidFire",1)
+	TNT1 A 0 A_Jump(35,"Growl")
+	MONS GGIL 1
+	MONS N 2 A_FireCustomMissile("MonsterPunchHitbox") 
+	MONS OPQ 2
+    TNT1 A 0 A_ReFire
+	MONS EDCB 2
+	TNT1 A 0 A_TakeInventory("RapidFire",1)
+    Goto Ready
+  GameOver:
+	 TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+	 Goto Ready
+  Growl:
+	TNT1 A 0 A_PlaySound("Monster/Growl",7,1.5)
+	Goto Fire+6
+	
+  }
+}
+
+
+actor MonsterPunchHitbox : Ammo
+{
+Radius 12//10
+Height 10
+Scale 2.0
+Speed  25//30
+Damage (10)
+Inventory.Amount 1
+Inventory.MaxAmount 999
+Ammo.BackpackAmount 1
+Ammo.BackpackMaxAmount 999
+Inventory.Icon "TNT1A0"
+Inventory.PickupMessage ""
+Projectile
++NOBLOCKMAP
+-SOLID
+DamageType "MonsterFist"
+SeeSound ""
+DeathSound ""
+Obituary "" // ""
+ States
+{
+ Spawn:
+ TNT1 A 3 //ALRT
+ Goto Missed
+ Missed:
+ TNT1 A 0 A_PlaySound("Soda/Throw",0,100)
+ TNT1 A 0 A_ChangeFlag("INVULNERABLE",True)
+ TNT1 A 1
+ Stop
+ Death:
+ TNT1 A 1 A_PlaySound("player/male/fist")
+ TNT1 A 1
+ Stop
+ }
+}
+
+Actor MonsterFists_Ammo : Inventory
+{	Inventory.MaxAmount 999	}
+
+Actor RapidFire : Inventory
+{	Inventory.MaxAmount 1	}

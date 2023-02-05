@@ -1,0 +1,995 @@
++ "ZAMN_MAIN" (??th February, 2023)
+-------------------------------------------------------------
+[Zamn TC]
+- Added map "Ants"
+- Added Custom Survivor "S_DOG2"
+
+[LZDoom Exclusive]
+- Added file "GameLoader.ipk3" which is a stripped down version of Nash s "MyStandAloneGame.ipk3".
+	With this you won t need to download freedom neither, as you can run ZAMNTC now with "GameLoader" as a base.
+- Added missing instructions for "DimColor" and "Help"/"Credits" flats.
+
+[Easter Eggs]
+- Offseted Julie's Ghoul Patrol sprites correctly (* missing jump animation offsets)
+
+
+
++ "ZAMN_MAIN" (03rd November, 2022) [HOTFIX_1]
+-------------------------------------------------------------
+[Zamn Core]
+- Fixed Monster_Spawners not working after some time, and then working again for no apparent reason. 
+		[Fixed by adding random delays before spawning, to avoid syncronicity]
+
+[Zamn TC]
+- Minor tweaks to "Camp Terror"
+
+
++ "ZAMN_MAIN" (32nd October, 2022) [HALLOWEEN 2022 DEMO !!!]
+-------------------------------------------------------------
+[Zamn TC]
+- Added Custom Map "Camp Terror"
+- Made (no joking) part of an actual new pallete for the original ZAMN, to standarize 
+	the colours from the "Beach/Pyramid" tileset into the "Grass tileset"
+- ^ With this, now made a new color pallete [wip] called "Beach_Night"
+- Added several textures for Beach_Night, for the Custom Map
+- Edited several textures for Beach_Night, for the Custom Map
+- Added some custom decorations
+- vvv Added "Spawn_Condition" Arg to the "ZZ_MonsterSpawn", to spawn monsters from decorations or considering x or y
+- Added a "-- Custom Levels --" title on the "Start!" options, pressing it works but it takes you back to the title screen.
+- Bugfix for the Invulnerability Frames breaking at times, now the "HealthCheckHelper" script will check as well to fix it.
+- Improved Chainsaw Maniacs constantly making their active sound if the target was out of reach.
+- Fixed Doppelgangers falling down into water
+
+
+[Zamn Standalone/Zamn Core]
+- Standarized Doppelganger Enemies
+- Fixed RedBlob enemies aiming at nothing if their target dissapeared
+- Fixed Gillman enemies not despawning while on ground
+- Improved Gillman getting stuck on ground after failed to submerge
+- Fixed Doppelganger broken animation when player died
+- Standarized Spawnable Enemies [Zombie, Mummy, EvilDoll, Doppelgangers, etc.], Bosses and Hazards doesn't need standarization
+
+[Addons]
+- Updated "RedAxeBaby.pk3" add-on, added new frame to match the updated Decorate file.
+
+[Modding]
+- (UDB Only:) Added Custom "ZZ_MonsterSpawn" actor, which spawns any actor/class wrote in their first argument.
+	This is recommended to use with Spawnable Monsters, as to not have issues with overlapping id_numbers.
+	There is a list which mentions which monsters should be spawnable without issues, 
+		monster Bosses and NonSpawnables are excluded at the moment.
+
+
+
+
+
+
++ "ZAMN_MAIN" (12th October, 2022) [August Big Freaking Refactoring Demo + September Dinner On Monster Island Demo]
+-------------------------------------------------------------
+[Zamn Standalone/Zamn Core]
+- Rewrote HUD display, now integrates a ZScript counterpart.
+- Wrote a ZSCript Hud counterpart which handles weapon and item information and sends it to screen display.
+- ACS HUD is still being used but mostly to drawn the HUD on screen and keep count of some variables,
+	the ZSCript HUD retrieves the weapon/item information and passes it to the ACS part.
+- ZSCript Hud can read "Selected Inventory" and "Selected Inventory Icon" directly from inventory.
+- SBARINFO is deprecated.
+- Updated/Reworked all weapons to work trough inheritance, for easier manteinance. 
+- Weapons Codebase Improvements:
+	- Now they dont need that "8 characters restriction" on their class name, thanks to ZSCript HUD.
+	- Can now point their Hud Icon Graphic directly by using their "Inventory.Icon" property
+	- Can now point their Ammo Type directly by using their "Weapon.AmmoType" property
+	[Note: AmmoType of each weapons are not being changed, but they dont need to be "weaponname_Ammo" anymore]
+- Survivors Codebase Improvements:
+	- Rewrote Survivor Identification, Scripts that took number IDs now they work 
+		instead with "Class Name" of the survivor Saved.
+	- Rewrote Survivor Initialization, now they use a couple of auxiliar actors to set up necessary information,
+		this allows for Custom Survivors to appear in any map without any special task needed.
+- Monsters Codebase Improvements:
+	- Started work on standarization, they share common values but common states should be considered as well.
+
+- Standarized Weapons, they inherit from a master class called "WeaponClass_ZAMN" which contains general weapon properties.
+- Standarized Monsters, they inherit from a master class called "MonsterClass_ZAMN" which contains general monster properties.
+- Standarized Survivors, they inherit from a master class called "SurvivorBase_ZAMN" which contains general survivor properties.
+- Added placeholder base code for missing weapons with their corresponding "DamageTypes".
+
+- Ducktape fix for GameOver Screen not appearing correctly if all survivors died.
+- Reworked "MonsterPlayer" classes, removed script for fixing missing inventory weapons,
+	changed some flags about the MonsterPlayer classes which fixes the missing inventory issues.
+- ^This previous fix also works for custom weapons, so any weapon base or add-on will not be lost from inventory.
+- Moved Co-Op s "Spectator Mode" script to their own "SpectatorMode" ACS Library.
+- Removed VOXELDEF entry, as it doesn't serve any purpose for voxel actors at the moment.
+- Replaced a couple of unused graphics that still used FreeDoom's font.
+- Updated "Credits.txt" (12/10/22)
+
+[Modding]
+- Custom weapons now dont need that "8 characters restriction" on their class name, thanks to ZSCript HUD.
+- All current refactoring of weapons apply as well for custom weapons.
+- Refactored half of the entire Survivor System Classes and Arguments setup.
+- Custom Survivors are now added! You can define your own survivors and load them onto your maps! ^^
+	Thanks to the recent refactoring adding a survivor is very straightforward and the heavy coding stuff is handled internally.
+	[You can check "CustomSurvivors.dec" or "SurvivorsGP.dec" to see some examples!]
+
+- (UDB Only:) Added Custom "ZZ_WeaponPickup" actor, which spawns any actor/class wrote in their first argument.
+	This is recommended to use with Custom Weapon Pickups for Add-On weapons, as to not have issues with overlapping id_numbers.
+
+- (UDB Only:) Added Custom "ZZ_SurvivorSpawn" actor, which spawns any actor/class wrote in their first argument.
+	This is recommended to use with Custom Survivors, as to not have issues with overlapping id_numbers.
+
+
+[Zamn TC]
+- Added level 15 "Dinner On Monster Island"
+- Added Gillman enemies and Gillmen spawner.
+- Reworked Water Gravity, it's not sector based anymore but based on the player itself.
+	This way gravity doesnt affect projectiles or enemies. Updated maps accordingly.
+- Fixed weapons not being switchable underwater.
+- Added "Water In/Out Splash Effect", for Players.
+- Added "Water In/Out Splash Effect", for Monsters.
+- Added "Select Sound" while changing inventory items, now both weapon and item selections have the sound! ^^
+- Fixed Slow GameOver screen textures not syncing properly.
+- Fixed FootBallPlayer Tackle dealing damage.
+- Fixed Mushroom enemies using the Toxic pallete as default.
+- Added palleted variations for the Giant Pod's Mushroom Enemies.
+- Added palleted variations for the Giant Pod's Spike Enemies
+- Fixed "LifeSystem" bug re-healing the player even after being already revived.
+- Added 8 GameOver Color Variations:
+	- From Zombie101 Romhacks 	: 	"101Zamn"/"Unused Zamn"/"Zamn: The Lost Levels"/"Elite Zamn"/"Elite Zamn 2"/"Doomsday 2"
+	- From Board_Avenger Romhack:	"Bloody Disgusting Edition"
+	- From DackR Romhack		:	"Bloody Ooze Hack"
+- Added a couple of flat graphics from ZAMN for the BorderScreen Background Flat.
+
+
+[Addons]
+- Updated "RedAxeBaby.pk3" add-on, removed Decorate file and replaced it for a Voxeldef for easier maintenance.
+- Updated/Reworked "SlapWeapon.pk3" to work trough inheritance, for easier manteinance.
+
+[Easter Eggs]
+- Added some textures for "Metropolis 1" for "Ghoul Patrol"
+- Updated basic level geometry for "Ghoul Patrol"s "Metropolis1"
+- Expanded Highscore Font Array 50 -> 60. Now it can store 10 extra special characters for use as the score numbers.
+- Wrote a "LoadFonts()" function to help with the HighScore scripts.
+- Added "Smash T.V." Highscore Font
+
+
+
+
++ "ZAMN_MAIN" (30th Jun-July?!, 2022) [I got sick, I'm sorry Demo]
+-------------------------------------------------------------
+[ZAMN Standalone]
+- Reorganized Textures folders to be more easily navigeable and easier to find each texture as well.
+- Renamed some folder textures to be more descriptive of what they contain.
+- Added more descriptive enum lists, for map editors, for several Decorations, Enemy spawners 
+  and Survivor Spawners that use arguments to be set up.
+
+[Modding]
+- Fixed an oversight with the "SurvivorScripts" confusing the ExitDoor TID as an Script to be executed.
+
+[Zamn TC]
+- Added map "Seven Meals for Seven Zombies"
+- Drawn new textures from scratch for the Castle Tileset
+- Drawn some more textures for the Castle Tileset based on existing textures
+- Palleted several textures for the Catacombs variation of Castle Tileset.
+- Tweaked Several Castle Textures:
+	- CASTLD_A/A2 tweaked to have a better dittering
+	- Joined textures CAS_SFL 1/2/3/4 into CAS_SFLF and updated maps accordingly
+	- Joined textures CAS_STE 1/2/3/4 into CAS_STEF and updated maps accordingly
+	- Joined textures LABBOXFR/LABBOXFL/LABBOXTP into LABBOXTF and updated maps accordingly
+	- Joined textures PILLBAS1/PILLBAS2/PILLBRDL into PILLBRTX and updated maps accordingly
+	- Tweaked CASLBLFC, adding part of the tile to the texture as a reminder of what it's used for
+	- Tweaked CASTLD_F and CASTLD_H
+- Made voxel animations from scratch for Spike_Metal(Tiny/Big) Hazards for the Catacombs levels!
+- Added Spike_Metal_Tiny Hazards for the Catacombs levels!
+- Added Spike_Metal_Big Hazards for the Catacombs levels!
+- Added a sky texture variant for winter levels
+- Fixed issue with "LifeScript" Script triggering early, without waiting for "HealthCheckHelper" Script
+- Fixed issue with loosing several lives at a time, due to the "LifeScript" retriggering.
+- Fixed issue with pain sound retriggering, due to pain state retriggering as well.
+- Fixed RedGloo Damage completely deactivating  invulnerability frames.
+- Added missing Werewolf sound for Werewolfs Spawned by "Spawn_Werewolf"s in maps.
+- Added DamageResistance of type "RedGloo" for Werewolfs, TitanicToddlers, Frankesteins and Martians to prevent infighting.
+
+//[ZAMN Co-Op]	//[Reverted: Was causing issues with camera transitions.]
+//- Reworked spawn delay onto playable areas, to minimize noticeable teleporting in Co-Op (wip)
+
+
+
+
++ "ZAMN_MAIN" (15th May, 2022) [April's UFO Demo + Addon Support Demo!]
+-------------------------------------------------------------
+ [ZAMN Core]
+- Reworked the "HighScore" and "NewScore" screens! Now they take the characters from an array.
+	This gives them more flexibility and adds the posibility to use different fonts for the screens.
+	Also these fonts where located in "CUValues.acs" so they are easily mantainable and modifiable.
+- Removed "LevelStuff.dec" as it wasn't being used after all.
+- Started using "Anonymous Functions" to simplify and implement some complicated actors (thanks @idiotbitz ^^)
+- Moved some Hud Functions to the "CUValues" library to have less clutter in the HUD library itself.
+- "CUValues" now imports "acsutils" as well, scripts and functions renamed to merge them without issues.
+- Radar related code moved from "HUD" library to his own "RadarStuff.acs" library.
+- "HUD" reworked to support external weapons, by reading the name alone of the weapon.
+ (There's a couple of limitations with this but allows to add weapons without having to change code in "HUD")
+- Fixed a Crash with the Mushroom/Spikes attacking a player who was already with RedGoo.
+
+[Addons]
+- Added "addons" folder into the "ZamnTC directory", to store addons that can be added into the game.
+	To replace sprites, voxels, enemies, music, or just add new stuff.
+	Just drag and drop the files that you wanna try into the "ZAMNTC.exe" and it's ready to go!
+- Added "RedAxeBaby.pk3" file, replaces the AxeBabyDoll sprites/voxels.
+- Added "Lumberjack_Maniac.pk3" file, replaces the Chainsaw Maniac with a LumberJack Maniac (inspired by @Zombie101 ^^)
+- Rewrote how weapons are handled and displayed from the HUD.
+- ADDED SUPPORT FOR EXTERNAL WEAPONS !
+- Added "SlapWeapon.pk3" file, adds a new melee weapon! 
+
+  
+[ZAMN TC]
+- Added "UFO" boss enemy.
+- Added/Updated 35 voxel frames for the "UFO" voxel enemy.
+- Added "Hurt" variations of the UFO voxel enemy.
+- Added shadows for the "UFO" enemy, the shadows adapt to the height of the terrain in which they spawn.
+- Moved UFO decorate code to his own "UFO.dec" entry
+
+- Added "FootballPlayer" enemies.
+- Rewrote how the Football player decides where to move next.
+- Added "FootballPlayer Tackle" and wrote a script called "RotateAngleTo", which rotates 
+  the player camera smoothly to his set angle.
+- All weapons lower when the player is tackled by a "FootBallPlayer".
+
+- Tweaked "Martian" speed, despawning and fire rate. (wip)
+- Added Screen Effect for the "Martian Bubble".
+- All weapons lower when the player is in "Martian Bubble".
+
+- Wrote a script to detect "Water Type" textures, useful for path navigation for enemies.
+- Added "Water" type duplicate of some textures, to be checked by some projectiles and see if they are avobe water.
+	Updated all maps accordingly.
+
+- Added missing hurt frame for the "Chainsaw Maniac" and tweaked his hurt animation.
+- Improved "Render Radius" for Door actors, which should fix them not rendering from certain angles.
+- Added a check for "StompedPain" in Bazooka fire for Zeke/Julie to prevent invulnerability error.
+- Raised SODA ammo maximum from 50 to 100
+- Tweaked SODA projectile's mass and speed while throwing them vertically
+
+[Easter Eggs]
+- Added "Ghoul Patrol" font for "HighScore" and "NewScore" screens
+- Amplified volume on "Track_01" for the "Smash T.V." title
+- Added "Track_01" music for "Elf Wor"
+- Fixed typo in title for "Elf Wor"
+- Added "Ghoul Patrol" Tree Sprite for Metropolis 1
+
+
+
+
++ "ZAMN_MAIN" (31th March, 2022) [March's BIG Manteinance Demo ^^]
+-------------------------------------------------------------
+[ZAMN Standalone]
+- Added "CUValues.acs" library, to contain common use values and functions, to be referenced by several libraries.
+  This should standarize some values that where being redefined and may cause bugs or inconsistencies in the long run.
+- Removed innecesary calculations every time the player or an item changed the PlayerSpeed.
+- Fixed GameOver screen retriggering causing it to glitch out.
+- Reorganized PlayerClasses, made a "ZAMN_PLAYER" base class, which inherits to "Zeke_Player" and "Julie_Player" player class. 
+  This cuts some redundant code and standarizes some player values, should be ready for merging now.
+- Added more dummy items to fix some errors detected by the map editor in the mod file.
+- Tweaked the "ZamnCoop.bat" script to point to "ZAMNTC.exe" instead of "gzdoom.exe" ... hopefully that wasn't an issue before 
+- Expanded "SetPlayer" script, now level number and bonus number cvars don't need to be set in each map scripts.
+	Just have to pass them as 2nd and 3rd argument to the "SetPlayer" script (Updated all maps accordingly too)
+- Updated documentation for "GeneralCountdown" and added documentation for "StopCountdown", "SetGoalCount", "AddOneToGoal",
+	"TakeOneToGoal", and "StopGoalCount" scripts in "[Guide]MapperScripts" ^^
+- Updated documentation in "[Guide]SurvivorScripts" to mention case 3 of calling a script which it would be a SurvivorScript called by the map.
+- Updated "[Guide]MusicTracklist" and "MusicInfo" script to mention the Ghoul Patrol tracks.
+- Added documentation for "SetGame_Ghoul" script in "[Guide]MapperScripts" for future use and reference.
+
+[Modding]
+- Rewritten "CalculateSurvivorsNumber", fixed an oversight with the logic while comparing the new and previous
+  survivors limit, simplified and cleaned it to be more readable.
+- Updated "GeneralCountdown" script to take into consideration Ghoul Patrol variations of the players.
+
+[Co-Op]
+- Fixed an oversight with the GiantPod enemy not checking for multiple targets.
+- Fixed an oversight with the Mushroom/Spike enemies not checking for multiple targets.
+- Added multiplayer support for "ChangeMusic" script, it can be changed at anytime by any player now.
+- Added multiplayer support for "TrashCan", "Curtains", "Chest" actors.
+- Added "Spectator Mode" ^^, a mode which allows to a player who died, to see what the other player is doing.
+- Reworked "GameOver" screens to work independently for each player.
+- Activated "SV_CHEATS" flag by default,this means that cheatcodes now can be used in multiplayer too.Have fun! ^^
+
+[ZAMN TC]
+- Removed "FORCEPAIN" flag from "AxeBabyDoll", "FireBabyDoll", "Frankestein", and "Martians" 
+  which was causing a bug that bypassed invulnerability frames.
+- Fixed an oversight with using a "MonsterPotion" while being revived wich caused the camera/invulnerability to break.
+- Wrote a "HealthCheckHelper" script, to detect cummulative damage and fix the players health.
+  This and the previous changes ^ should fix finally the issues with player invulnerability.
+  //
+- Reworked "Monster Spawners" and "MonsterAllow" script, to prevent them from giving a false positive about if monster limit wasn't reached.
+  "Monster Spawners" could call the checking script at the exact same time, allowing more monsters to spawn that they where supossed to.
+- Fixed bug in which the monster could decide is not necessary to vanish even when the spawner explicitely said so.
+- Improved monsters despawning and tweaked "Monster Spawners" to doublecheck in the sequences that have delays.
+	(The mummy spawns might need some rework, but they are working by the monster limit number now.)
+- Restored the MonsterLimit of 6 monsters, as the original ZAMN. 
+  This and the previous fixes ^ should make the game spawns work more closely to zamn! ^^
+  //
+- Added "NOTELEFRAG" flag to breakable walls, to prevent them to activate if a enemy spawns too close to them.
+- Fixed an oversight with doors objects "DOOR_CEP0" and "DOOR_FP0" which where causing lagging 
+  on Level 7 "Dr Tongue's Castle Of Terror" and Level 11 "No Assembly Required".
+- Moved a wall in Level 7 to prevent the door at the right secret passage to cause the player to get stuck.
+- Improved TitanicStomp retriggering issue (It should stop the player, and damage won't stack)
+- Added an error warning for "SurvivorSpawns" if their priority number is 0.
+- Fixed an oversight in maps "Zombie Panic" and "Honey, I Enlarged The Kids" in which a survivor spawn
+  didn't have his priority number set correctly.
+- Fixed WeedWacker icon appearing instead of MonsterPunch icon even if the MonsterPotion was active.
+- Added missing player firing sprites for the Crucifix.
+- Added water icons for when the player is submerged in water.
+- Separated normal attack from wall attack sounds for "Chainsaw Maniac", so the sounds are easily replaceable.
+- Improved Doors reaction to MonsterFists punch.	//[ Bug Introduced by 31-01-22 demo, which reworked doors to block damage from TitanicStomp ]
+	// I know that this is just a patch onto a possible bigger problem, but let's agree that actors loosing 
+	// their colission after receiving damage should not be a common issue to fix neither.
+- Tweaked some incorrectly offseted textures in "Zombie Panic".
+- Reworked (several times) the Spikes/Mushroom enemies, they are now both not too performance heavy
+  and Co-Op ready. //( They use CheckProximity to aquire target of one of the two players. They also have
+					// a distance check and a relaxed routine in case that it's far enough to any target)
+- Removed "-FORCEPAIN" flag from Titanic Toddler's projectile
+
+[Easter Eggs]
+- Started scripts to change the player into the Ghoul Patrol setting.
+- Added "Ghoul Patrol: Zeke" player sprites!
+- Added "Ghoul Patrol" slide movement!
+- Added several animations for "Ghoul Patrol: Zeke" !
+- Added placeholder kick sprites for the 1st person sliding sprite.
+- Added "Ghoul Patrol Game Over" screen.
+
+
+
+
++ "ZAMN_MAIN" (06th March, 2022) [February's Demo]
+-------------------------------------------------------------
+[ZAMN Standalone]
+- Added the missing files from the previous workbench to the workbench of the latest build.
+
+[ZAMN TC]
+- Added map 13 "Chopping Mall"
+- Added ChainsawManiac detection for Mall breakable walls
+- Changed "Hit Effect" for the TitanicToddler , to use "Stencil" Render Style instead of a translation of the pallete.
+  Considering that the efect was a solid color.
+- Tweaked and fixed an oversight with the Doppelgangers.
+- Tweaked "Zombie" actor to improve despawning. 
+- Tweaked "MonsterLess" script to not go under 0 possible spawns.
+	In case that the spawn counter brokes by going over the limit, after despawning it could remediate itself.
+- Fixed a wrong calculation of height, being used by the "RedBlobs". Now they shoot different projectiles 
+  depending on the space that they have available. (As it was intended from the start)
+- Tweaked RedBlob's low projectile to traverse easily on tight spaces and guide himself by the ceiling.
+- Fixed an oversight on the GooScreen effect, appearing in front of the Hud, 
+  because of the tweaks of the Hud layers from last month's demo.
+- Fixed GooScreen effect appearing in the death animation.
+- Fixed an oversight with last month fixes to Invulnerability/Camera scripts.
+- Fixed a missing "NoPain" unset for the pain invulnerability script.
+
+
+[Easter Eggs]
+- Started work on Ghoul Patrol's: HUD / Weapons / Gameplay Mechanics.
+- Reworked some textures for "Metropolis_1" of Ghoul Patrol.
+- Fixed Crossbow weapon sprites for Ghoul Patrol.
+  
+
+
+
++ "ZAMN_MAIN" (31st January, 2022) [Catching Up Update!]
+-------------------------------------------------------------
+[ZAMN Standalone]
+- Cleaned several libraries, added comments and organized them to be more readable.
+- Reorganized HUD library and sprites folder.
+- Fixed hud layers not rendering properly on screen due to "SetFont()" bleeding onto erroneus Hud Messages.
+- Added a script named "TestHelp", can be called by typing "pukename TestHelp"  in console.
+
+[Modding]
+- Added TitanicToddler variant "TT_FastSpawn" with the fast spawn animation as default, 
+  can't be placed by a map editor but can be summoned by Survivor Scripts ^^
+- Added a MapperScript called "SetCardTime", which in conjuntion with "CustomTitleCards" it can be used to set the time 
+  for each card staying static on screen. More info in "[Guide]MapperScripts" ^^.
+- Added a Start Script called "GeneralCountdown" which sets a timer on the screen , wich it will launch a script specified by the mapper at the end.
+- Added Mapper Script "StopCountdown" which will stop any timer at the given time.
+- Added a Start Script called "SetGoalCount" which it will launch sets a counter on screen and will launch a script specified by the mapper 
+  if reached the goal.
+- Added Mapper Scripts "AddOneToGoal"/"TakeOneToGoal"/"StopGoalCount" to control the Goal Count set previously.
+- Added a "ZZ_Custom" group for custom actors.
+- Expanded "SurvivorScripts" by adding a call case number 3. Which will indicate that 
+  the survivor triggered their SurvivorScript, due to damage from a map script and not a monster.
+
+
+[ZAMN TC]
+- Added the Custom Level map: "Honey, I Enlarged The Kids" 
+- Fixed doors opening with attacks of enemies, normal projectiles, or any other means available now or in the future
+  by inverting their logic to only react by special damage from "Bazooka" or "MonsterFists" instead of telling them to not to react
+  to normal type of damages.
+- Added Werewolf spawn points.	//TO DO: Find a way to have them set "MonterMore" only once, while active only.
+- Fixed "MonsterPotion" transformation activating when the player is already dead.
+- Fixed TitanicToddler oversights with the spawn animation. It works as it's supossed to now.
+- Expanded Spawn argument for Titanic Toddler, now it can be pointed in the map to spawn fast.
+- Tweaked TitanicToddler spawn animation, now it will wait for the TitleCards to be done before starting.
+- Tweaked Hud layers to draw the main hud behind the inventory icons.
+- Tweaked several static decorations to use -1 tics instead of loops
+- Tweaked several static decorations with mirrored versions, to use sprite mirroring trough Decorate, instead of having a mirrored alternative version of the sprite.
+- Removed an unnecesary call to "MonsterMore" and "MonsterLess" from Tentacle enemies.
+- Somewhat fixed "Camera Change Breaking" / "Death Animation Breaking":
+	There are several animations that where on conflict, like "Death Animation", "Player Invulnerability", "Stomped Invulnerability",
+	"Bazooka Fire Invulnerabiity", "Crucifix Invulnerability", "MonsterPotion Invulnerability", etc.
+	+ Now "StompedPain" script and "DeathCheck" script, will give the player a token
+	  while this animations are playing, monster potion transformation will to.
+	+ Bazooka Fire will play normally, but the "Bazooka Invulnerability" script
+	  will not activate if "Stomp" or "DeathCheck" is running,
+	  as this was overriding player attributes and nullyfying the changes supossed to occurr.
+	+ Crucifix Fire will play normally, but the "Crucifix Invulnerability" script
+	  will behave by the same rules as the Bazooka script.
+	+ Most of the animation scripts would check if other animations are playing in an effort to avoid overwriting variables
+	being used for the animations.
+	
+	There are still some cases that could break this animations, for example pressing "Fire" + "Jump" + "Movement" can cause
+	some animations to break. But in a worst case scenario the script can continue and fix the player in a couple of seconds.
+- Fixed several issues with player states not jumping to "DeathCheck"
+- Fixed an oversight with Julie's Bazooka sprites displaying the wrong sprites.
+- Fixed "MonsterPotion" not working while the player was hurt.
+- Fixed Doors and Fences reacting to the "TitanicToddler"'s stomp
+
+
+
+
++ "ZAMN_MAIN" (31st December, 2021)	[New Year's Update!]
+-------------------------------------------------------------
+[ZAMN Standalone]
+- Renamed "Decorate" folder as "Decorate_M" (Decorate_Main), to prevent directory issues with 
+  possible future integration to GitHub or such.
+
+[ZAMN TC]
+- Reduced Doppelganger's "MaxStepHeight" to 24
+- Made the trampolines in Level 5 to block monsters, so they can't walk into it
+- Added more colission to the rooftops of nearby trampolines on Level 5 to prevent getting into them by jumping.
+- Added a 1 tic Delay with chances to ocurr before attacking in the "Zombies", "Mummies", "MushroomMen", "Werewolves",
+  "Doppelgangers", "AxeBabyDolls" and "Martians".
+  This was added to prevent perfectly synchronized attacks wich where bypassing the invincibility frames
+- Added a missing check for the Chainsaw Maniacs which made them ignore Clown Decoys, if they just destroyed a wall.
+- Fixed the WeedWacker stopping the speed boost of the SpeedShoes, now they are combinable.
+- Fixed "MonsterFists" weapon not being selected if the player had "Autoswitch Weapons" turned off.
+- Fixed weapons not being picked up while the player was in the morphed "MonsterPlayer" version.
+- Reduced "Martians_Chase" movement and projectile speed
+- Fixed Tentacle enemies failing to attack their target while in range for an attack
+- Tweaked Tentacle enemies, tweaked hitbox and movement speed
+- Fixed akward colission in map "Day Of The Tentacle", after coming out of the broken wall , after collecting the Skeleton Key.
+- "Hit Pallete" changes for TitanicToddler/GiantPod enemies will not trigger if their health is 0. 
+  (Unless the animation started before they died)
+- Added a "Growing" sequence for the Titanic Toddler spawn.
+  Adds 2 second before starts attacking, probably unnoticeable in "Titanic Toddler" if the LevelCards are not skipped.
+- Tweaked the brightness in "No Assembly Required" to be a little brighter (plus a missing texture was added.)
+
+
+
+
++ "ZAMN_MAIN" (31st October, 2021) [Hotfix 1!]
+-------------------------------------------------------------
+
+[ZAMN TC]
+- Fixed a bug in which the SpeedyShoes wouldn't deactivate if the MonsterPotion was used 
+  while the SpeedyShoes where active
+
+
++ "ZAMN_MAIN" (29th October, 2021) [HALLOWEEN 2021 DEMO!!!]
+-------------------------------------------------------------
+
+[ZAMN Core]
+- Added the "Title Screen" Intro Animation in widescreen completely, including the Mode7 animation
+  which was cropped in the previous demos. It took some time and work to have it cleaned but here it is! ^^
+- Improved the "Scoreboard Selection Screen" movement to work smoother.
+
+[ZAMN Standalone]
+- Included ACS Library "ACSUtils.acs" by Alexander Korshun and several contributors.
+- Added a couple of dummy actors for pickups and items, so GZDoom Builder doesn't mark them as a missing parent actor.
+
+[ZAMN Co-Op]
+- Moved the player boxes closer to the player starting positions in each map, to reduce the displacement time and
+  prevent any incorrect interaction with other actors, due that the teleportation is not instant like in singleplayer.
+
+[ZAMN TC]
+- Map "Mars Needs Cheerleaders" added.						
+- Added Martians Chase/North enemies and spawn.
+- Added a "culling script" which makes dissapear every 3D floor with the model sector tag of '404'.
+  Triggered by running the game in Software mode on the specified sectors. 
+  To be used with caution as it can conflict with triggers, but it helps to improve performance a little.
+- Simplified and revised maps to improve perfomance and fix glitches in Software mode, revised maps:
+  "Zombie Panic", "Evening Of The Undead", "Day Of The Tentacle", "Terror In Aisle Five", "Chainsaw Hedgemaze", 				
+  "Weird Kids On The Block", "Pyramid Of Fear", "Dr Tongues Castle Of Terror", "Titanic Toddler", "Toxic Terrors", 				
+  "Mushroom Men", "No Assembly Required" and "Weeds Gone Bad".
+- Added level select preview animations for "Zombie Panic", "Day Of The Tentacle", "Evening Of The Undead",
+  "Terror In Aisle Five", "Chainsaw Hedgemaze Mayhem", "Weird Kids On The Block", "Pyramid Of Fear",
+  "Dr Tongue's Castle Of Terror", "Titanic Toddler", "Toxic Terrors", "Mushroom Men", "No Assembly Required",
+  "Weeds Gone Bad", and "Mars Needs Cheerleaders".
+- Added a blue translation pallete to the Giant Pod (when hit).
+  The timing is slowed down to prevent eye strain.
+- Fixed player's hurt sound overlapping causing a high volume sound.
+- Fixed (hopefully) player failing to change from 1st to 3rd camera and viceversa.
+  Due to an oversight with changing flags not properly defined as strings.//[Not fixed completely, revised again in "Catching Up Update"]
+- Tweaked Chainsaw Maniacs to break walls more frequently.
+- Fixed Titanic Toddlers receiving damage from the Fire Extinguisher.
+- Fixed SkullKey counter wrongly offseted on the HUD.
+- Tweaked SodaCans pitch to be easier to hit the UFO boss.
+- Fixed a bug in which the WaterRifle projectiles didn't hit the Doppelgangers at melee distance.
+- Added a "SpeedShoes" Icon for when the item is active.
+- Reworked the sound in the TitleCards animations to prevent 
+  a recurrent bug with the sound not working between versions.
+
+
+
+
++ "ZAMN_MAIN" (18th September, 2021) [Hotfix Demo!!]
+-------------------------------------------------------------
+
+[ZAMN Standalone]
+- Custom Pallete added, with some empty spaces for future use, his principal use is for base colors of the monsters
+  that are going to use pallete translation, and a balanced set of colors have been included as well to add more texture
+  support in software mode.	
+  Still wip, there's room for 40 more colors depending on the future necessity of the future map tiles/palletes.
+
+[ZAMN TC]
+- Fixed a broken trigger and removed a duplicated player start in Level 5 "Weird Kids On The Block"
+- Titanic Toddler:
+	+ Fixed incorrect spawn of survivor/life due to an oversight on the consulting script
+	+ Added a yellow translation pallete when hit, as in the original ZAMN and as it was requested!
+
+
+
++ "ZAMN_MAIN" (17th September, 2021) [August Demo / Early September Demo]
+-------------------------------------------------------------
+							
+[Modding]
+- Added and updated "[Guide] TitleCards" and "[Guide] Mapinfo" from the custom campaign files, to the main ZAMN TC file.
+- Added Start Script "SkipTitleCard", which runs the level skipping the TitleCards, info in "[Guide]MapperScripts".
+- Added Start Script "CustomTitleCard", which lets you have a Title Card sequence with up to 10 cards.
+  More info on how to use it in "[Guide]MapperScripts" and info about how the Title Cards work in "[Guide] TitleCards".
+  (Also used artwork from Andrew "Bones" Jones as an example of an hd image 
+	"https://artbybones.com/gallery%2001")
+- Added Bonus Script "NoLicantrophy" which will be similar to "TenCheerleaders" but for tourists prevented to become werewolfs.
+
+[ZAMN Core]
+- Found and fixed the "Bad Hex Number" errors. This fixed issues with corrupted memory.
+- Renamed the "LevelContinuity" ACS library to "TitleCards", as the level continuity is handled now by mapinfo.
+- Added documentation for "NoBazookaFired", "NoLicantrophy" and "TenCheerleaders" bonus scripts.
+  These bonus scripts don't give points at the moment but the activation and checks should be working.
+- Organized all the 55 Level Title Cards by Level Number 					[110 Title Cards now are in the correct order] 
+
+[ZAMN TC]
+- Added map "No Assembly Required"
+- Added several:
+	+ Textures
+	+ Animated textures
+	+ Triggers 
+	+ And decorations 
+  For the "Factory" theme.
+- Added argument "IgnoreSight" to BabyDoll enemy spawns.
+- Fixed AxeBabyDoll bug regarding spawning without a target, and improved despawning method
+- Tweaked AxeBabyDoll  check range for survivors
+- Reworked laughing sound of the AxeBabyDolls, hopefully this makes them override less when several of them are active
+- Increased check radius for the "Soldier Survivor" to enter in his scared state by the AxeBabydolls
+- Added map "Weeds Gone Bad"
+- Decorations "Flower Grass 1/2" now they are +NOGRAVITY as well
+- Added "TenCheerleaders" Bonus Script, not fully functional yet, but it will once the map 12 is reached.
+
+
+
+
++ "ZAMN_MAIN" (11th August, 2021) [July Demo]
+-------------------------------			
+[Modding]
+- Added a few Level Bonus Scripts that can be set as Startup Scripts
+
+[ZAMN Core]
+- Simplified Showcase's Bonus Checking and added support for multiple Bonus Checks in sucession
+- Moved "Werewolf Timer" scripts to "LevelScripts.acs"
+
+[ZAMN TC]
+- Added new frontal/backward attack sprites for the "Werewolfs" made by "The Pixel Pigeon" ^^
+	[ twitter.com/ThePixelPigeon ]
+- Fixed lateral attack sprite animation of the "Werewolfs" thanks to the input of "The Pixel Pigeon" once again ^^ 
+- Fixed "Chainsaw Maniacs" spinning faster than they should when attacked by certain weapons
+- Added missing hedgemaze walls, to the wall breaking behaviour of "Chainsaw Maniacs"
+- Added Lab: 
+		+Ray Hazard with voxels
+		+Lamp Decorations with Voxels 
+		+Potion Bottle Decoration Voxel
+		+Frankestein Electric Tower Voxel
+		+Mini Tower Voxel
+		+Ceiing Support Voxel
+- Added Ray Hazard Patterns for the lab section on level 7
+- QOL Improvement: 
+		+ Reworked Hedgemaze textures and replaced previous textures in maps, to make
+		  hedgemazes breakable walls more easily noticeable. Also replaced textures for Breakable fences.
+- Fixed typo in "Midnight Shopping" level TitleCards.
+- Fixed non-interactive curtains opening when dead.
+- Added "Super Zombie" variation of the Zombie, slightly faster and with a slight larger MeeleRange
+- Replaced a "Zombie" spawn for a "Super Zombie" spawn in Level 7 which was supossed to be harder. 
+- Added "Frankenstein" enemy
+- Added decoration "Fake Dr.Tongue"
+
+
+
+
++ "ZAMN_MAIN" (07th July, 2021) [June's Demo, BIG BUGFIX AND MODDING DEMO]
+-------------------------------------------------------------
+
+[Modding]
+- Added some simple scripts that can be easily called from any SurvivorScript which are as well friendly
+  with the general scripts of the game, more info in the new guide "[GUIDE] MapperScripts"
+- Reorganized every map specific scripts library, so it is more readable
+- Added scripts "ReservedTags" and "MusicInfo" which gives info about each one, more info in "[GUIDE] MapperScripts"
+- Expanded the "DynamicMusic" Tracklist to include every track singularly as a track option regardless of the version selected.
+  Updated the "MusicInfo" script accordingly.
+- Completely rework the Survivor System, and added startup script "SurvivorLimit", which let you set the maximum limit 
+  of survivors that they could spawn from this level and onward. It supports from 0 to 20 survivors, as long as they have their survivorspawners too.
+- Added startup script "IgnoreSurvivorGameOver", which will deactivate the GameOver triggering in this level if all the survivors Died.
+
+[ZAMN Co-Op]
+- Fixed a bug with the werewolf timer which caused the countdown to run twice as fast
+
+[ZAMN Core]
+- Added and cleaned some error logs for the "Bathroom Wall Triggers", the "Wall Triggers", 
+  "Mini Wall Triggers" and "Trampoline Master" triggers.
+- Simplified scripts for the "Leafs Spawner" and "Wood Spawner"
+- Fixed a bug with the "HUD Script Library" which prevented other HUDs to appear
+- Moved some scripts to different libraries to better match their library purposes, and found and moved 
+  a Werewolf script for "SectorCheckHeight" which was located wrongly in "PlayerScripts"
+- Expanded guide "[GUIDE] SurvivorScripts" with some examples
+- Wrote a guide about "[GUIDE] MapperScripts", added some functions that can be called by "SurvivorScripts",
+  and wrote about "StartupScripts" that can be called at the start of the level.
+  They will be expanded with more function/scripts when more function/scripts where added.
+- Reorganized the Options Menu to reinclude the GZDoom options menu. To help with other mods compatibility.
+- Added the CVAR option "nozamnmusic" to turn off ZAMN's music in all the levels.
+  This should help compatibility with other mods which change the music.
+- Documented every voxel added to the mod in "[GUIDE] Voxel Names"
+
+[ZAMN Standalone]
+- Added "Startan2", and "Startan3" textures from the "Freedoom Project" 
+  to prevent missing textures error appearing on console.
+- Copied "Sky1" as "F_SKY1" to prevent texture errors appearing on console
+- Cleaned some missing textures in several maps, once again to prevent errors appearing on console
+
+[ZAMN TC]
+- Finished adding GooAnimations for all survivors
+- Fixed some doors/triggers activating with RedBlob projectiles or the Titanic Stomp of the Titanic Toddler
+- Fixed a typo with the "Titanic Toddler" map name in mapinfo
+- Replaced trigger in "Zombie Panic" map which wasn't spawning leafs properly
+- Added "Fence_Pieces" actors and fence Broken Textures to Fence Triggers for missing palletes
+- Fixed a bug with the "Destructive Triggers" doing the "Leafs_Day" reaction in some cases, caused by inheritance
+- Added "Hedgemaze Broken Textures" and "Stanley Hedgemaze Animations" to missing palletes
+- Fixed an audio issue with the "Growl" sound of the MonsterPlayer, which caused overlaping
+- Fixed an audio issue with the showcasing of the survivors, it was due of the showcase point playing a sound 
+  when a survivor appears, but also giving an item to each player which also played the same sound and it was causing overlaping. 	
+//(TO DO: Compare in Co-Op if the same issue occurs)
+- Cleaned a script writing on a screen a test text for the werewolf jumping animation
+- Added "Chest Voxels" for the Castle Levels.
+- Fixed a bug with the TitleCards making no sound in the "Weird Kids On The Block" map
+- Fixed a bug with a trigger in "Toxic Terrors" which was using the wrong pallete
+- Fixed RedBlob's GooScreen still hurting the player after the level being finished.
+
+[Extras]
+- Work started on the "Ghoul Patrol" easter egg level, including a wip alternative hud, some basic layout and some texturing work
+  graphics yet no included in the main file but they will once is finished.
+  Weapons haven't been made for it, but the spritework of two weapons is already done.
+
+
+
+
++ "ZAMN_MAIN" (02nd June, 2021)	[May's Demo]
+------------------------------------
+
+[ZAMN Core]
+- Added special cases in the "Dynamic Music Script" for levels with different tracks between versions.
+- Wrote a guide about the "Tracklist of the Dynamic Music"
+- Cleaned, organized and reworked the "Hud Script Library", 
+  it should be more readable now in case that someone wants to check or work with it.
+- Also added some commented while statements in the hud script 
+  for future hud variations for easy implementation of "alternative huds" for easter egg levels.
+- Cleaned, organized and reworked the SBARINFO entry, AspectRatio 21:9 was partially dropped,
+  as it is now handled as a 17:10 aspect ratio in regard to hud elements positioning on screen.
+- Wrote a guide about the composition of the "SurvivorActors" 
+  and another guide about how to use the "SurvivorScripts"
+
+[ZAMN TC]
+- Added map "Mushroom Men"
+- Added map "Toxic Terrors"
+- Tweaked Floor Hazard slowdown to fix a bug which bypassed applying the slowdown
+- Added "EasterEgg Bonus" Pickup, it will show a message on the level finished screen
+  mentioning that an easter egg bonus was found, but mechanically they work as regular
+  Secret Bonus pickups so a level can't have both a SecretBonus and a EasterEggBonus
+  destination at the same time.
+- Added "Goo Effect" on Screen, along with decreased speed movement and recurrent health loss
+  while having the effects of the Red Goo on the player. 
+  Also the GooIcons and a timer appears on the HUD similar as the monster potion.
+- Added partial support for GooAnimation on survivors
+- Fixed a bug with the survivors not being ever in danger due to calculation error.
+  This was introduced in the latest demo but due to the Boss Enemy "Titanic Toddler" not
+  taking them into account it wasn't noticed until now.
+- Fixed a bug with the Destructive Trigger with the Soda Machines, due to an incorrect bleeding
+  between states due to inheritance
+- Added "Fence_Pieces" actor to Fence Trigger (Only pallete 0 for now)
+
+
+
+
++ "ZAMN_MAIN" (30th April, 2021)
+------------------------------------
+
+[ZAMN Core]
+- Fixed Aspect Ratio issue, now using "Force Aspect Ratio" is not neccesary as the Hud ACS should be capable of try to guess a Aspect Ratio.
+  Results may vary and using "Force Aspect Ratio" is still recommended but now the Hud will work based on that guess if not specified an Aspect Ratio.
+- Rewrote the SBARINFO part of the Hud to work based in the HUD calculation instead of AspectRatio 
+- Cleaned some discrepancies between both player classes
+
+[ZAMN TC]
+- Added map "Titanic Toddler"
+- Added TitanicToddler boss enemy
+- Completely new sprites for the TitanicToddler thanks to "ThePixelPigeon" ^^
+	[ twitter.com/ThePixelPigeon ]
+- Added flat players voxels
+- Added special case actor for BabySurvivor spawned from a Titanic Toddler
+- Added green couch voxels
+- Added yellow vase voxels
+- Added Sink/Tub Voxels and "BathroomWall" triggers that destroy their decoration upon destroyed wall
+- Map "Toxic Terrors" started
+- Fixed ScorePoints not giving score points
+- Fixed "fake pickups" while picking up survivors
+
+[Extras]
+- Started sprite ripping process for 1st Easter Egg Level, based on "Elf Wur"
+
+
+
+
++ "ZAMN_MAIN" (28th March, 2021)
+------------------------------------
+
+[Modding]
+- Added a "Pick/Death Script" (aka "SurvivorScript") argument to the SurvivorSpawns, 
+  which lets the mapper to execute scripts upon picking up a survivor or the death of a survivor.
+  Meant to be used for map specific mechanics and maybe even different types of level progression,
+  it will depend of the intentions of the mapper, this scripts have to be numbered and written in the GZDoomBuilder or
+  map specific ACS.
+
+[ZAMN Core]
+- Written a grid display system to show graphics based on an array, somewhat easy to organize on screen but desigend for...
+- ...written a highscore system and his interface to add and display the personal highscores of every user.
+  The information is stored in CVARs as to not be lost when starting a new game or closing the game.
+- Added a "WerewolfTimer" for levels in which you have to save survivors before they turn into werewolf
+
+[ZAMN TC]
+- Lame Genie covers are now part of the main file
+- Added map partially done "Dr Tongues Castle Of Terror"
+- Added several textures and voxels for "Dr Tongues Castle Of Terror" [this took a while, pretty much all of them made from scratch]
+- Added Werewolf enemy (w.i.p.)
+- Fixed SodaCans sliding on the floor!
+- Tweaked Crucifix weapons to slowdown the player 						[I can't make the player receive damage as the original ZAMN while using the crucifix,
+  while being close to a FloorHazard that should stop him				 so this should be an equivalent trade-off to prevent players abusing Crucifixes	  ]
+- Chainsaw Maniacs attacks now make less damage (From 20 to 15)			[P.S: Info about damage data of this enemy is necessary still]
+- Fixed Mummys not despawning! 											[This should make the spawn spots on Level 6 work properly]
+- Added Wait argument to MummySpawns
+- Tweaked brightness levels on "Pyramid Of Fear", it should be less dark now	(Sorry my monitor has a automatic brightness setting and it screws with stuff like this without myself noticing sometimes)
+- Increased GiantPods fire distance!
+- Added Spike spawns to GiantPods
+- "Zombie Panic" map tweaks and some texture cleaning and added details, this map is considered completely finished! ^^
+- Fixed GiantPod projectiles destroying fences/hedgemazes 
+- Fixed "SpeedShoes" not deactivating upon exiting the level
+- Fixed "HazardPain" bypassing "SpeedShoes" deactivation by having incorrect speed values
+- Fixed survivors alerting enemies even when the player was unable to reach them due to height variations
+
+[Co-Op]
+- Fixed spawning players who already died in the map regardless
+- Fixed (hopefully) level music triggering constantly even after the level is finished
+- Fixed players doing their pain animations while being shoot from other players
+
+
+
+
++ "ZAMN_MAIN" (30th October, 2020)
+------------------------------------
+
+[Co-Op]
+- Fixed crashes at the start of the levels
+- Fixed Drawers, Doors, Enemy Spawns, Enemies only targeting one player
+- Expanded Showcase of survivors to suit both players at the same time
+- Expanded Doppelgangers spawn so now they'll recreate the closest player that they have targeted
+- Added a "ZAMNCoop" and "ZamnJoin" .bat files to create and join a Coop game
+- Added instructions about how to setup a Coop game
+
+[Standalone ZAMN]
+- ZAMN TC now is a Standalone game! It doesn't need Doom to run now
+- Added menu sounds according to ZAMN
+- Added "Quit Messages" themed by ZAMN
+- Added a w.i.p. cursor for the menus
+
+[ZAMN TC]
+- Tweaked AxeBabyDolls again
+- Fixed some sound issues in the showcase
+- Added Sand voxel to the "Pyramid Of Fear"
+- Added Torch voxel to the "Pyramid Of Fear"
+- New Trigger that raises the walls for the "Pyramid Of Fear"
+- The dust raises when the trigger does as well
+- Added Mini Drawer voxel
+- Tweaked player speed
+- Added the Meteorites voxels , fully animated! (100 voxels)
+- Completely Expanded TitleScreen to be WideScreen! (Something like 500 frames manually edited one by one)
+- Added Top of Carts voxels for "Terror in Aisle Five"
+- Added destructable walls to "Terror in Aisle Five"
+- Cleaned/Added Detail to "Terror in Aisle Five", "Weird Kids On The Block", "Chainsaw Hedgemaze Mayhem"
+- Cleaned some Crucifix sprites for Julie
+- Reworked a little the menus, and updated the help panels
+- Added a music option to play with the covers by the band "Lame Genie"
+
+(HAPPY HALLOWEEN!!! ^^)
+
+
+
+
+
++ "ZAMN_MAIN" (??th September, 2020)
+------------------------------------
+
+- Testing of the Co-Op , not Demo delivered this month
+
+
+
++ "ZAMN_MAIN" (31st August, 2020)
+---------------------------------
+
+[Modding]
+- Title Cards now can be setted in the map scripts by writing any name of a graphic and it will display it as a TitleCard, 
+  so instead of having a finite list of posible TitleCards, now every texture in the mod 
+  or in a CustomCampaign can be loaded as a TitleCard.
+- Map progression was reworked, now it uses MAPINFO, the same as Doom but with some flags to behave like ZAMN.
+- Added a map "Midnight Shopping" to test this.
+- Added three "Howto...txt" files inside ZAMN_CAMPAIGN detailing how to work with some things for CustomCampaigns
+
+[ZAMN TC]
+- Tweaked AxeBabyDoll's: Water Pain, Sounds Cue shortened
+- Tweaked FireBabyDoll, it will no longer stays until it dies, it will extinguish after a while
+- AxeBabyDoll's spawning point added a "slow" spawning called "DelayBeforeSpawn".
+  Which instead of spawning and then counting the delay, it counts the delay first and then spawn.
+- Zombie's Despawn while frozen 
+- Every implemented Drawer now can be positioned in every 45 angle
+- Added a Trigger for FenceNigth
+- Reduced GiantPod spawning circle of mushrooms
+- Some tweaks in the Level Geometry of Zombie Panic, Evening Of The Undead, Day Of The Tentacle, etc.
+- Added pallete variations for the SkullkeyDoor voxels
+- Added pallete variations for the TrashcanOpen/Full/Closed voxels
+- Added a "Sound Options" shorcut in the Options Menu
+- Fixed [hopefully] Speed Shoes not deactivating if the Level Exits without the timer running out
+- Fixed ExitDoor not appearing if it fails to spawn, now if it won't it will try again until it can
+
+
+
++ "ZAMN_MAIN" (7th July, 2020)
+------------------------------
+
+- A w.i.p. "Pyramid Of Fear" (All the level is done in terms of level geometry but it lacks some objects like the sand covering the secret passages, the wall traps, and some torchs and decorations)
+- The Mummy Enemies!
+- Mummy Spawns are fully voxelized! 
+- "Weird Kids On The Block" with all level geometry but it lacks details, and more decorations
+- Improved Doppelgangers Navigation!
+- Doppelgangers missing sprites added
+
+
+
++ "ZAMN_MAIN" (4th June, 2020)
+-------------------------------
+
+- A w.i.p. "Weird Kids On The Block"
+- A w.i.p. Doppelganger enemy
+- Added a Player Speed variation to the WeedWacker weapon while firing
+- Reduced the ammo capacity to the WeedWacker , at the same time it consumes ammo more slowly but with the Speed variation it should work more closely to the original
+- Fixes to "HouseWalls" destructive triggers
+
+
+
++ "ZAMN_MAIN" (2nd May, 2020)
+-------------------------------
+
+- Giant Pod enemy added (Functional but I'll expand it later)
+- Mushroom Hazards added (same as the GiantPod)
+- "Day Of The Tentacle" can be accessed from "Zombie Panic" by picking the Bonus Item.
+- "Day Of The Tentacle" map more finished, roofs added, more palleted textures/voxels added (Still needs some clean-up and some details tho)
+- SkullKey Indicator in the Hud
+- Some tweaks and expanded use for the Soda and Bazooka weapons. (For the future implementation of the Martian UFO)
+
+
+
++ "ZAMN_MAIN" (??th April, 2020)
+-------------------------------
+
+- Added a w.i.p. "Day Of The Tentacle"
+
+
+
++ "ZamnTCb08_04" (24th March, 2020)
+-----------------------------------
+
+- Target GZDoom version changed from 1.9.1 to 3.7.2 to use extended functions
+- Camera View Bobbing decreased to prevent motion sickness
+- Weapons Sprites Bobbing speed and range increased to give the ilussion that Camera Bobbing wasn't decreased
+- Player speed slightly decreased (From 0.610 to 0.590)
+- Player running speed and walking speed are equivalent now so "running" isn't necessary.
+(Matching the original behaviour and to help people who want to play the mod but aren't familiar with Doom)
+- Options Menu reorganized and descarted several unnecesary options
+
+- "Chainsaw Hedgemaze Mayhem" map added at almost completion
+- Rewritted weapon damage to have accurate damage values and damage resistances , per enemy , per weapon
+(Aka every enemy has different weaknesses and special behaviours depending on the damaging weapon)
+- Chainsaw Maniac tweaks to behave similarly to his original version
+- BabyDoll tweaks and rebalancing
+- Spawning point tweaks
+- Destructible Walls tweaks
+- ClownDecoy improved efficiency
+- RandomSpawners added
+- Survivors can be detected by enemies if the player is in direct line of sight from the survivor and in close proximity to the survivor
+- Couple of game-breaking bugs regarding pain reactions without states fixed
+- Advances made in "Terror in Aisle Five" map
+- Advances made in "Zombie Panic" map
+- Advances made in "Evening Of The Undead" map
+- Some weapons tweaked to have faster animations
+- This Changelog was written.
+- The Credits were written.
+
+
+
++ "ZamnTcb07_03" (15th July, 2019)
+----------------------------------
+
+- "Evening of the Undead" map added at almost completion
+- "Terror In Aisle Five" map added at half it's completion
+- Rewritted destructible walls to have a easier general use
+- BabyDolls added but needs rebalancing
+- Improved destructible walls
+- Weapons Tweaked to behave more accurately
+- Cabinets , but not totally functional
+
++ [Hotfix]
+---------------------------------
+
+- Rewritted "Game Over Screen" so it doesn't depends on screen resolutions (which caused broken graphics)
+- Simplified "Trampoline Jump" actor as it was causing problems with versions 3.x and onwards of GZDoom
+
+
+
+
+
++ "Backup 03 01 19" (3rd January 2019)
+--------------------------------------
+
+- Several Bugfixes
+- Reworked Level Transitions so the Title Screens use only one map instead of one for every level
+
+
+
+
+
+
++ "ZAMN TC - 1 Level Demo" (31st October, 2018)
+-----------------------------------------------
+
+- "Zombie Panic" map added at half it's completion
+- Survivors Mechanic as a level goal implemented	(Buggy)
+- Doors							(Buggy)
+- Zombie Spawns						(Buggy)
+- Destructable Walls					(W.I.P)
+- Level Transition Animations , Title Screen Animations
+- Game Over Screen					(Buggy)
+- Hit Points Invulnerability
+- Dynamic Music
+- Etc.
+
+
+
+
+Changelog (Beta Reboot [2017 - 2018]):
+--------------------------------------
+
+- Project renamed "Zombies Ate My Neighbors TC" as a total conversion mod for Doom II as a fanmade tribute of the original "Zombies Ate My Neighbors" 
+- Project rebooted to increase the overall quality of the mod , remaking all of the weapons, implementing some core mechanics of the game and aiming to have a more "Zombies Ate My Neighbors" gameplay loop rather than a Doom gameplay loop.
+
+
+
+
+Changelog (Alpha Phase [2016 - 2017]):
+--------------------------------------
+
+- Project named "Zombies Doomed My Neighbors" presented with conceptual levels and enemies aswell
+- General prototyping of weapons and mechanics
+

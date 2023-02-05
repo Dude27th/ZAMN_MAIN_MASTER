@@ -1,0 +1,333 @@
+
+LISTMENU "MainMenu"
+{
+	IfGame(Doom)
+	{
+		StaticPatch 94, 2, "TITLEZAM"
+		Position 97, 97
+		IfOption(ReadThis)
+		{
+			Position 97, 89
+		}
+	}
+	IfGame(Doom)
+	{
+		PatchItem "M_START", "n", "PlayerclassMenu"
+		PatchItem "M_RDTHIS","r", "ReadThisMenu"
+		ifOption(SwapMenu)
+		{
+			PatchItem "M_LOADG", "l", "LoadGameMenu"
+			PatchItem "M_OPTION","o", "OptionsCustomMenu"
+		}
+		else
+		{
+			PatchItem "M_OPTION","o", "OptionsCustomMenu"
+			PatchItem "M_LOADG", "l", "LoadGameMenu"
+		}
+		PatchItem "M_QUITG", "q", "QuitMenu"
+	}
+	
+}
+
+ListMenu "PlayerclassMenu"
+{
+	IfGame(Doom)
+	{
+		NetgameMessage "$NEWGAME"
+	}
+	IfGame(Doom)
+	{
+		StaticPatch 66, 25, "M_PLAYER"	//Select Player Class Patch
+		Position 48, 63					//Index Menu Start Position
+		PlayerDisplay 220, 63, "20 00 00", "80 00 40"
+		MouseWindow 0, 220
+		//
+		StaticPatch 50, 60, "PLAYER_Z"
+		StaticPatch 50, 75, "PLAYER_J"
+	}
+}
+
+
+/* ******** CUSTOM OPTIONS ******** */
+
+
+OptionValue GameOverScreenColor		//<-- CVAR: "ZGO_Color"
+{
+	0.0, "1. Red  (Genesis/Megadrive)"
+	1.0, "2. Green  (Snes [Europe])"
+	2.0, "3. Purple  (Snes  [USA])"
+	3.0, "4. [Zombie101]  101 ZAMN"
+	4.0, "5. [Zombie101]  Unused Zamn"
+	5.0, "6. [Zombie101]  Zamn: The Lost Levels"
+	6.0, "7. [Zombie101]  Elite Zamn"
+	7.0, "8. [Zombie101]  Elite Zamn 2"
+	8.0, "9. [Zombie101]  Doomsday 2"
+	9.0, "10. [Board_Avenger] Bloody Disgusting Edition "
+	10.0, "11. [DackR] Bloody Ooze Hack"
+}
+
+OptionValue RandomGameOverColor
+{
+	0.0, "Nope"
+	1.0, "Yeah, sure"
+}
+
+OptionValue GameOverSpeed
+{
+	0.0, "Fast"
+	1.0, "Slow"
+}
+
+OptionValue DeactivateZAMNMusic
+{
+	0, "Nope"
+	1, "Ok"
+}
+
+OptionValue MusicVersion 
+{
+	0.0, "1. SNES Version"
+	1.0, "2. Genesis/Megadrive Version"
+	2.0, "3. Lame Genie Covers"
+}
+
+OptionValue MusicFix
+{
+	0.0, "1. Original + missing songs"
+	1.0, "2. Original order no fixes"
+}
+
+OptionValue RadarToggle
+{
+	0, "Off"
+	1, "On"
+}
+
+OptionValue ScoreToggle
+{
+	0, "Off"
+	1, "On"
+}
+
+OptionValue SkipTitleCards
+{
+	0, "Nope"
+	1, "Yeah"
+}
+
+OptionValue Voxels
+{
+	0, " ALWAYS "
+	//1, " IF THEY ARE CLOSE ENOUGH "
+	2, " SPRITES FROM VOXEL"
+	//3, " SPRITES CLASSIC"
+}
+
+OptionValue DynamicMusic
+{
+	0, " Constantly Checking "
+	1, " Check when level starts "
+}
+
+
+OptionValue ReduceDetail
+{
+	0, " No "
+	1, " Yes "
+}
+
+//Not Used Yet
+OptionValue ExtraDetail
+{
+	0, " Yes "
+	1, " No "
+}
+
+
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+
+OptionMenu "OptionsCustomMenu"
+{
+	Title "OPTIONS"
+	
+	Submenu "ZAMN TC Options",			"ZamnOptions" 	  		//1)
+	Submenu "Player Controls",			"CustomControls"		//2
+	Submenu "Mouse options",			"MouseOptions"
+	Submenu "$OPTMNU_JOYSTICK",			"JoystickOptions"
+	
+	StaticText ""
+	Submenu "$GLMNU_TEXOPT", 			"GLTextureGLOptions"	//4) Shortcut
+	Submenu "$OPTMNU_VIDEO", 			"VideoModeMenu"			//3) Shortcut
+	Submenu "$OPTMNU_DISPLAY",			"VideoOptions"			  
+	Submenu "HUD Options",				"HUDOptions"
+	StaticText ""
+	Submenu "Sound Options",			"SoundOptions"			//5) Shortcut
+	StaticText ""
+	//Submenu "More GZDoom Options", "OptionsMiniMenu"			//6)
+	Submenu "GZDoom Options", "OptionsMenu"						//6)
+}
+
+//1)
+OptionMenu "ZamnOptions"
+{
+Title "Zombies Ate My Neighbors Options"
+
+StaticText " "
+StaticText " "
+StaticText "***** Player Preferences *****",1
+StaticText "------------------------------------",1
+StaticText " "
+option "Game Over ScreenColor","ZGO_Color","GameOverScreenColor"
+option "Random Game Over Color","rctoggle","RandomGameOverColor"
+option "Game Over Speed","ostoggle","GameOverSpeed"
+StaticText " "
+option "Deactivate ZAMN's Music","nozamnmusic","DeactivateZAMNMusic"	////////////////////////////////
+option "Music Version","mutoggle","MusicVersion"
+option "Music Fixes","mftoggle","MusicFix"
+StaticText " "
+option "Radar","rdtoggle","RadarToggle"
+option "Score","sctoggle","ScoreToggle"
+StaticText " "
+option "Skip Title Cards","skipttl","SkipTitleCards"
+StaticText " "
+StaticText " "
+StaticText "***** Performance Options *****",1
+StaticText "-------------------------------------",1
+StaticText ""
+option "Dynamic Music Check","dmtoggle","DynamicMusic"
+option "Voxels","vxtoggle","Voxels"
+option "Reduce Detail","reducedetail","ReduceDetail"
+}
+
+
+//2)
+OptionMenu "CustomControls"
+{
+	Title "CUSTOMIZE CONTROLS"
+	ScrollTop 2
+	StaticTextSwitchable 	"ENTER to change, BACKSPACE to clear", "Press new key for control, ESC to cancel", "ControlMessage"
+	StaticText 	""
+	StaticText 	"Actions", 1
+	Control 	"Fire",					"+attack"
+	Control 	"Activate item",		"invuse"
+	StaticText 	""
+	Control 	"Next weapon",			"weapnext"
+	Control 	"Previous weapon",		"weapprev"
+	Control 	"Next item",			"invnext"
+	Control 	"Previous item",		"invprev"
+    StaticText 	""
+	Control 	"Doom's automap",		"togglemap"
+	StaticText 	""
+	StaticText 	"Movement", 1
+	Control 	"Move forward",			"+forward"
+	Control 	"Move backward",		"+back"
+	Control 	"Strafe left",			"+moveleft"
+	Control 	"Strafe right",			"+moveright"
+	StaticText 	""
+	Control 	"Jump",					"+jump"
+	Control 	"Crouch",				"+crouch"
+	Control		"Run",					"+speed"
+	StaticText 	""
+	Control 	"Look up",				"+lookup"
+	Control 	"Look down",			"+lookdown"
+	Control 	"Turn left",			"+left"
+	Control 	"Turn right",			"+right"
+	Control		"Quick Turn",			"turn180"
+	StaticText 	""
+	StaticText 	"Chat", 1
+	Control 	"Say",					"messagemode"
+	Control 	"Team say",				"messagemode2"
+	StaticText 	""
+	StaticText 	"Weapons", 1
+	Control		"Weed Wacker",			"slot 1"
+	Control		"Tomatoes",				"slot 2"
+	Control		"Soda Cans",			"slot 3"
+	Control		"Water Rifles",			"slot 4"
+	Control		"Bazooka",				"slot 5"
+	Control		"Fire Extinguisher",	"slot 6"
+	Control		"Crucifix",				"slot 7"
+	Control		"Silverware",			"slot 8"
+	Control		"Dishes",				"slot 9"
+	Control		"Rugby Ball",			"slot 0"
+
+	StaticText 	"Other", 1
+	Control 	"Chasecam",				"chase"
+	Control 	"Coop spy",				"spynext"
+	Control 	"Screenshot",			"screenshot"
+	Control  	"Open console",			"toggleconsole"
+}
+
+/*
+//5)
+OptionMenu "OptionsMiniMenu"
+{
+	Title "$OPTMNU_TITLE"
+	Submenu "$OPTMNU_CONTROLS",			"CustomizeControls"
+	Submenu "$OPTMNU_MOUSE",			"MouseOptions"
+	Submenu "$OPTMNU_JOYSTICK",			"JoystickOptions"
+	StaticText " "
+	//Submenu "$OPTMNU_PLAYER",			"NewPlayerMenu"
+	//Submenu "$OPTMNU_GAMEPLAY",			"GameplayOptions"
+	//Submenu "$OPTMNU_COMPATIBILITY",	"CompatibilityOptions"
+	Submenu "$OPTMNU_AUTOMAP",			"AutomapOptions"
+	Submenu "$OPTMNU_HUD",				"HUDOptions"
+	Submenu "$OPTMNU_MISCELLANEOUS",	"MiscOptions"
+	Submenu "$OPTMNU_NETWORK",			"NetworkOptions"
+	Submenu "$OPTMNU_SOUND",			"SoundOptions"
+	Submenu "$OPTMNU_DISPLAY",			"VideoOptions"
+	Submenu "$OPTMNU_VIDEO",			"VideoModeMenu"
+	StaticText " "
+	Submenu "$OS_TITLE", "os_Menu"
+	StaticText " "
+	SafeCommand "$OPTMNU_DEFAULTS",	"reset2defaults"
+	SafeCommand	"$OPTMNU_RESETTOSAVED",	"reset2saved"
+	Command "$OPTMNU_CONSOLE",			"menuconsole"
+	StaticText " "
+}
+*/
+
+ListMenu "PlayerMenu"
+{
+	StaticTextCentered 160, 6, "$MNU_PLAYERSETUP"
+	Font "SmallFont"
+	Linespacing 14
+	Position 48, 36
+	
+	IfGame (Doom, Strife, Chex)
+	{
+		PlayerNameBox "$PLYRMNU_NAME", 0, "Playerbox"
+		Selector "-", -16, -1
+	}
+	IfGame(Heretic, Hexen)
+	{
+		PlayerNameBox "$PLYRMNU_NAME", 5, "Playerbox"
+		Selector "-", -16, 1
+	}
+	
+	IfGame(Doom, Heretic, Strife, Chex)
+	{
+		MouseWindow 0, 220
+		PlayerDisplay 220, 0/*48*/, "20 00 00", "80 00 40", 1, "PlayerDisplay"
+	}
+	IfGame(Hexen)
+	{
+		MouseWindow 0, 220
+		PlayerDisplay 220, 0/*48*/, "00 07 00", "40 53 40", 1, "PlayerDisplay"
+	}
+
+	ValueText "$PLYRMNU_TEAM", "Team"
+	ValueText "$PLYRMNU_PLAYERCOLOR", "Color"
+	Linespacing 10
+	Slider "$PLYRMNU_RED", "Red", 0, 255, 16
+	Slider "$PLYRMNU_GREEN", "Green", 0, 255, 16
+	Linespacing 14
+	Slider "$PLYRMNU_BLUE", "Blue", 0, 255, 16
+	ValueText "$PLYRMNU_PLAYERCLASS", "Class"
+	ValueText "$PLYRMNU_PLAYERSKIN", "Skin"
+	ValueText "$PLYRMNU_PLAYERGENDER", "Gender", "Gender"
+	Slider "$PLYRMNU_AUTOAIM", "Autoaim", 0, 35, 1
+	ValueText "$PLYRMNU_SWITCHONPICKUP", "Switch", "OffOn"
+	ValueText "$PLYRMNU_ALWAYSRUN", "AlwaysRun", "OnOff"
+	Class "PlayerMenu"
+}

@@ -1,0 +1,209 @@
+
+//Toggles
+user int ZGO_Color = 0; 	//  GameOver Color
+user int rctoggle = 0; 		//  Random GameOver Color
+user int ostoggle = 0; 		//  GameOver Speed
+
+user bool rdtoggle = true; 	//  	Radar
+user bool sctoggle = true; 	//  	Score
+
+//Music
+server int mutoggle = 0; 			// Music Version 
+server int mftoggle = 0; 			// Music Fix Toggle [Unused for now]
+
+server bool nozamnmusic = false;	// Deactivate ZAMN Music, for modding compatibility with music mods
+user int musicoff = 0; 				// [Used by Level Scripts]**?
+
+
+//Performance/Miscellaneous
+server int vxtoggle = 0; 			// 	Voxels 
+server int dmtoggle = 0; 			// 	Constant Dynamic Music
+server bool reducedetail = false;	//	Reduce Detail
+
+
+server int skipttl = 0;				//	Skip Title Cards
+
+
+
+//Testing
+server int SetAngle = 0;
+server int Tics = 0;
+
+//Debug Tools
+user bool gameover = false;
+user bool iframes = false; 
+user bool monsterlimit = false;
+user int music = 0;
+
+//Hud Info
+user string hud_wepicon = "";
+user int hud_wepammo1 = 0;
+user int hud_wepammo2 = 0;
+user string	hud_invname = "";
+user string hud_invicon = "";
+user int hud_invamount = 0;
+user int hud_score	= 0;
+
+//Survivor Scripts Help
+server string surv_currentname = "";
+
+
+
+//-----Level Progression-----//
+
+//General Progression
+server int lptoggle = 0; // 	Level Progress Check (For the level selection map)	
+server int lctoggle = 0; // 	Level Counter (aka the level you are actually in)
+
+
+//Unlocked Bonuses	(Bonus Selection Map)
+server int b1toggle = 0; // 	Bonus1: "Day Of The Tentacle"
+server int b2toggle = 0; // 	Bonus2: "Mushroom Men"
+server int b3toggle = 0; // 	Bonus3: "Cheerleaders Vs Monsters"
+server int b4toggle = 0; // 	Bonus4: "Someplace Very Warm"
+server int b5toggle = 0; // 	Bonus5: "The Son Of Dr Tongue"
+server int b6toggle = 0; // 	Bonus6: "Curse Of The Pharaos"
+server int b7toggle = 0; // 	Bonus7: "Monsters Among Us"
+
+
+//Unlocked Easter Eggs	(Easter Egg Selection Map)
+server int e1toggle = 0; // 	EasterEgg1: "Ghoul Patrol: Metropolis_1"
+server int e2toggle = 0; // 	EasterEgg2: "S.M.A.S.H. TV: Level_01"
+server int e3toggle = 0; // 	EasterEgg3: "Big Sky Trooper: [Custom]"
+server int e4toggle = 0; // 	EasterEgg4: "Elf Wor: Level_01"
+
+
+//Custom Campaing Stuff
+server int customlevelnumber = 0;	// 	Level Counter for a custom campaing [Example]
+									//  [If you are making a custom campaing feel free to add ]
+									//	[your own CVARs and "Level Selection" maps if you wish]
+
+//--------------------------//
+
+
+
+//Honestly I don't remember what was this used for...
+server bool debug = false;
+server int number = 0;
+
+
+
+
+
+
+
+
+
+
+// This is borderline illegal cvar abuse,  but it works!
+// [P.S.: Every already defined score is the original scores that appear in ZAMN's High Scores]
+
+
+//----------------------------------------------- Score Board ----------------------------------------------------------//
+// Names and score storage (Every character of a name is stored as a number as it can't be stored as a character itself)//
+//----------------------------------------------------------------------------------------------------------------------//
+
+//Score Points Containers
+server int cvarpoints0 = 23456;
+server int cvarpoints1 = 22455;
+server int cvarpoints2 = 21454;
+server int cvarpoints3 = 20453;
+server int cvarpoints4 = 19452;
+server int cvarpoints5 = 18451;
+server int cvarpoints6 = 17450;
+server int cvarpoints7 = 16449;
+server int cvarpoints8 = 15448;
+server int cvarpoints9 = 14447;
+
+//Characters Containers
+server int cvpos0char0 = 36;
+server int cvpos0char1 = 14;
+server int cvpos0char2 = 11;
+server int cvpos0char3 = 14;
+server int cvpos0char4 = 27;
+server int cvpos0char5 = 29;
+server int cvpos0char6 = 39;
+server int cvpos0char7 = 39;
+
+server int cvpos1char0 = 36;
+server int cvpos1char1 = 28;
+server int cvpos1char2 = 17;
+server int cvpos1char3 = 10;
+server int cvpos1char4 = 27;
+server int cvpos1char5 = 25;
+server int cvpos1char6 = 14;
+server int cvpos1char7 = 39;
+
+server int cvpos2char0 = 36;
+server int cvpos2char1 = 17;
+server int cvpos2char2 = 28;
+server int cvpos2char3 = 18;
+server int cvpos2char4 = 14;
+server int cvpos2char5 = 17;
+server int cvpos2char6 = 39;
+server int cvpos2char7 = 39;
+
+server int cvpos3char0 = 12;
+server int cvpos3char1 = 24;
+server int cvpos3char2 = 21;
+server int cvpos3char3 = 21;
+server int cvpos3char4 = 14;
+server int cvpos3char5 = 29;
+server int cvpos3char6 = 29;
+server int cvpos3char7 = 14;
+
+server int cvpos4char0 = 36;
+server int cvpos4char1 = 27;
+server int cvpos4char2 = 24;
+server int cvpos4char3 = 11;
+server int cvpos4char4 = 14;
+server int cvpos4char5 = 21;
+server int cvpos4char6 = 39;
+server int cvpos4char7 = 39;
+
+server int cvpos5char0 = 19;
+server int cvpos5char1 = 14;
+server int cvpos5char2 = 10;
+server int cvpos5char3 = 23;
+server int cvpos5char4 = 39;
+server int cvpos5char5 = 29;
+server int cvpos5char6 = 39;
+server int cvpos5char7 = 39;
+
+server int cvpos6char0 = 20;
+server int cvpos6char1 = 10;
+server int cvpos6char2 = 21;
+server int cvpos6char3 = 10;
+server int cvpos6char4 = 23;
+server int cvpos6char5 = 18;
+server int cvpos6char6 = 39;
+server int cvpos6char7 = 39;
+
+server int cvpos7char0 = 36;
+server int cvpos7char1 = 15;
+server int cvpos7char2 = 24;
+server int cvpos7char3 = 23;
+server int cvpos7char4 = 16;
+server int cvpos7char5 = 38;
+server int cvpos7char6 = 39;
+server int cvpos7char7 = 39;
+
+server int cvpos8char0 = 25;
+server int cvpos8char1 = 39;
+server int cvpos8char2 = 22;
+server int cvpos8char3 = 18;
+server int cvpos8char4 = 12;
+server int cvpos8char5 = 10;
+server int cvpos8char6 = 39;
+server int cvpos8char7 = 39;
+
+server int cvpos9char0 = 36;
+server int cvpos9char1 = 21;
+server int cvpos9char2 = 30;
+server int cvpos9char3 = 12;
+server int cvpos9char4 = 10;
+server int cvpos9char5 = 28;
+server int cvpos9char6 = 39;
+server int cvpos9char7 = 39;
+
+//---------------------------------------------------//

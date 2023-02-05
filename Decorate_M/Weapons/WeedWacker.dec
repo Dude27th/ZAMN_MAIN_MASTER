@@ -1,0 +1,452 @@
+Actor WWGeneralToken : Inventory
+{ Inventory.MaxAmount 1 }
+ 
+//Some Checks
+Actor WackingSound : WWGeneralToken		{ Inventory.MaxAmount 2 }
+Actor WeedWackerPain : WWGeneralToken	{}
+
+Actor WeedWackerToken : WeaponToken_ZAMN	{}
+Actor FalseFlag : 		WeaponToken_ZAMN	{}
+
+//Sequence Control
+Actor WW4 : WWGeneralToken 	{}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+Actor WeedWacker_ZAMN : WeaponClass_ZAMN //Base Class
+{
+	Weapon.AmmoUse 1
+	Weapon.SlotNumber 1
+	Weapon.AmmoGive 50
+	//Arg0 "Step" 1			//Animation Sequence
+	DamageType "WeedWacker"
+	States
+	{
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Deselect:
+			TNT1 A 0 ACS_NamedExecuteAlways("LiftWeapon",0,0,0,0)
+			TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
+			TNT1 A 0 A_SetArg(0, 1)
+			TNT1 A 0 A_TakeInventory("FalseFlag",1)
+			TNT1 A 0 A_TakeInventory("WeedWackerPain",1)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait
+		Select:
+			TNT1 A 0 A_PlaySound("Player/Select",1,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}
+
+
+ACTOR WDWKER_Z : WeedWacker_ZAMN
+{
+	Weapon.AmmoType "WDWKER_Z_Ammo"
+	Inventory.RestrictedTo "ZEKE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 A_GiveInventory("WeedWackerPain",1)
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		WWZS A 1 
+		{	A_WeaponReady; 
+			if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+			{return state ("NotReady");}		return state(0);} 
+		Goto Ready
+	NotReady:
+		WWZS A 1 A_WeaponOffset(0,40)
+		WWZS A 1 A_WeaponOffset(0,60)  
+		TNT1 A 0 A_TakeInventory("WW4",1)	//<-- Necessary for 3rd Person Fire
+		TNT1 A 0 A_SetArg(0, 1)
+		TNT1 A 0 ACS_NamedExecuteAlways("LiftWeapon",0,0,0,0)
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		WWZS A 1 A_WeaponOffset(0,60)
+		WWZS A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_JumpIf(Args[0] == 4, "Fire4")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 A_SetArg(0, 2)
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS ABC 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_JumpIf(Args[0] == 2, "Fire2")
+		Goto Ready
+	Fire2:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 A_SetArg(0, 3)
+		WWZS DEF 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_JumpIf(Args[0] == 3, "Fire3")
+		Goto Fire+4
+	Fire3:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 A_GiveInventory("WW4",1)	//<-- Necessary for 3rd Person Fire
+		TNT1 A 0 A_SetArg(0, 4)
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS HIJKLMN 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_JumpIf(Args[0] == 4, "Fire4")
+		Goto Fire2+3
+	Fire4:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 ACS_NamedExecuteAlways("HeavyWeapon",0,0,0,0)
+		TNT1 A 0 A_GiveInventory("WeedWackerToken",1)
+		TNT1 A 0 A_TakeInventory("FalseFlag",1)
+		TNT1 A 0 A_PlaySound("WeedWacker/Wack",1,85)
+		WWZS O 2 A_FireCustomMissile("WeedWackerHitbox")
+		WWZS PQR 2
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS O 2 A_FireCustomMissile("WeedWackerHitbox")
+		WWZS PQR 2
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_Refire
+		TNT1 A 0 ACS_NamedExecuteAlways("LiftWeapon",0,0,0,0)
+		TNT1 A 0 A_TakeInventory("WW4",1)	//<-- Necessary for 3rd Person Fire
+		TNT1 A 0 A_SetArg(0, 1)
+		TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		Goto Fire3Unwind
+	Fire3Unwind:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS NMLKJIH 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		Goto Fire2Unwind
+	Fire2Unwind:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		WWZS FED 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		Goto Slowdown
+	Slowdown:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS CBA 1
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS U 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS T 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS S 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS U 3
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS U 2
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS T 3
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS T 2
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS S 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS S 2 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS U 3
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS U 4
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS T 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS T 4 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWZS S 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWZS S 4 A_WeaponReady
+		Goto Ready
+	}
+}
+
+
+
+ACTOR WDWKER_J : WeedWacker_ZAMN
+{
+	Weapon.AmmoType "WDWKER_J_Ammo"
+	Inventory.RestrictedTo "JULIE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 A_GiveInventory("WeedWackerPain",1)
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		WWJS A 1 
+				{	A_WeaponReady; 
+					if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);} 
+		Goto Ready
+	NotReady:
+		WWJS A 1 A_WeaponOffset(0,40)
+		WWJS A 1 A_WeaponOffset(0,60)
+		TNT1 A 0 A_TakeInventory("WW4",1)	//<-- Necessary for 3rd Person Fire
+		TNT1 A 0 A_SetArg(0, 1)
+		TNT1 A 0 ACS_NamedExecuteAlways("LiftWeapon",0,0,0,0)
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		WWJS A 1 A_WeaponOffset(0,60)
+		WWJS A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_JumpIf(Args[0] == 4, "Fire4")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 A_SetArg(0, 2)
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",0,85)
+		WWJS ABC 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_JumpIf(Args[0] == 2, "Fire2")
+		Goto Ready
+	Fire2:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 A_SetArg(0, 3)
+		WWJS DEF 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_JumpIf(Args[0] == 3, "Fire3")
+		Goto Fire+4
+	Fire3:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0 A_GiveInventory("WW4",1)	//<-- Necessary for 3rd Person Fire
+		TNT1 A 0 A_SetArg(0, 4)
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",0,85)
+		WWJS HIJKLMN 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_JumpIf(Args[0] == 4, "Fire4")
+		Goto Fire2+3
+	Fire4:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 ACS_NamedExecuteAlways("HeavyWeapon",0,0,0,0)
+		TNT1 A 0 A_GiveInventory("WeedWackerToken",1)
+		TNT1 A 0 A_TakeInventory("FalseFlag",1)
+		TNT1 A 0 A_PlaySound("WeedWacker/Wack",1,85)
+		WWJS O 2 A_FireCustomMissile("WeedWackerHitbox")
+		WWJS PQR 2
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		WWJS O 2 A_FireCustomMissile("WeedWackerHitbox")
+		WWJS PQR 2
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_Refire
+		TNT1 A 0 ACS_NamedExecuteAlways("LiftWeapon",0,0,0,0)
+		TNT1 A 0 A_TakeInventory("WW4",1)	//<-- Necessary for 3rd Person Fire
+		TNT1 A 0 A_SetArg(0, 1)
+		TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		Goto Fire3Unwind
+	Fire3Unwind:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWJS NMLKJIH 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		Goto Fire2Unwind
+	Fire2Unwind:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		WWJS FED 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		Goto Slowdown
+	Slowdown:
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 A_GiveInventory("FalseFlag",1)
+		TNT1 A 0
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWJS CBA 1
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);}
+		WWJS U 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS T 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS S 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWJS U 3 
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS U 2 
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS T 3
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS T 2
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS S 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS S 2 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWJS U 3
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS U 4
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS T 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS T 4 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		TNT1 A 0 A_PlaySound("WeedWacker/Load",1,85)
+		WWJS S 3 A_WeaponReady
+		TNT1 A 0 
+			{	 if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))||(A_JumpIfInventory("IsTackled",1,"IsTrue")) || (A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+				{return state ("NotReady");}		return state(0);}
+		WWJS S 4 A_WeaponReady
+		Goto Ready
+	}
+} 
+
+
+actor WeedWackerAmmo : Ammo
+{
+Radius 10
+Height 6
+Speed  20
+Damage (10)
+Inventory.Amount 5
+Inventory.MaxAmount 300
+Ammo.BackpackAmount 0
+Ammo.BackpackMaxAmount 300
+Inventory.Icon "WWIAA0"
+Inventory.PickupMessage ""
+DamageType "WeedWacker"
+ States
+{
+ Spawn:
+ TNT1 A 0
+ stop
+ }
+}
+
+Actor WDWKER_Z_Ammo : Ammo {Inventory.MaxAmount 300}//WeedWackerAmmo {}
+Actor WDWKER_J_Ammo : Ammo {Inventory.MaxAmount 300}//WeedWackerAmmo {}
+
+
+
+
+
+
+actor WeedWackerHitbox : Ammo
+{
+Radius 7
+Height 1//10
+Scale 2.0
+Speed  30
+Damage (10)
+Inventory.Amount 1
+Inventory.MaxAmount 300
+Ammo.BackpackAmount 1
+Ammo.BackpackMaxAmount 300
+Inventory.Icon "TNT1A0"
+Inventory.PickupMessage ""
+Projectile
++SOLID
+DamageType "WeedWacker"
+SeeSound ""
+DeathSound ""
+Obituary "" // ""
+ States
+{
+ Spawn:
+ TNT1 A 3	//ALRT
+ Stop
+ Death:
+ TNT1 A 1 A_PlaySound("WeedWacker/Hit",0,65)
+ Stop
+ }
+}

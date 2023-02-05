@@ -1,0 +1,865 @@
+Actor GiantPod : StaticMonsterClass_ZAMN 12210
+{
+Health 260
+Radius 20
+Height 40
+Mass 50000
+PainChance 256
+Scale 1.40
+//$Category "Zombies Ate My Neighbors/Monsters/"
+//$Arg0 "SpreadPattern"
+//$Arg0Type 11
+//$Arg0Enum {0 = "Circular (wip)"; 1 = "Star (wip)";}
+//$Arg1 "HazardType"
+//$Arg1Type 11
+//$Arg1Enum {0 = "Spikes"; 1 = "Mushroom";}
+//$Arg2 "KeyDrop" 
+//$Arg2Type 11
+//$Arg2Enum {0 = "None"; 1 = "Regular Key"; 2 = "Skull Key";}
+//$Arg3 "Pallete"
+//$Arg3Type 11
+//$Arg3Enum {0 = "Day    (Mush)&(Spik)"; 1 = "Night  (Mush)&(Spik)"; 2 = "Toxic  (Mush) | Dark (Spik)"; 3 = "Winter (Mush)| Bright (Spik)"; 4 = "Spring (Mush) [wip]";}
+//$Color 4
+
+//	Weapons Damage Resistances	
+	DamageFactor "MonsterFist", 		4
+	DamageFactor "WeedWacker", 			1.75 //2 Accurately but WeedWacker damage is faster in this mod
+	DamageFactor "Tomatoes", 			2
+	DamageFactor "Soda", 				5.2
+	DamageFactor "Water", 				0
+	DamageFactor "Bazooka", 			26
+	DamageFactor "FireExtinguisher", 	0
+	DamageFactor "Crucifix", 			13
+
+	DamageType "GiantPod"
+	Monster
+
+	+STANDSTILL
+	+NOPAIN
+	+FORCEXYBILLBOARD
+States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+		TNT1 A 0 A_SetAngle(0)
+		TNT1 A 0 ACS_NamedExecuteAlways("GiantPodHitCheck",0,0,0,0)
+		TNT1 A 1 A_JumpIf(Args[0] == 0, "SpreadCircular")
+		TNT1 A 1 A_JumpIf(Args[0] == 1, "SpreadStar")
+		Goto SpreadCircular
+	
+	SpreadCircular:
+		TNT1 A 0 A_JumpIf(Args[1] == 1, 3)
+		TNT1 A 0 A_SpawnItemEx("PathCircleSpike",-15,35,0,0,0,0,0,SXF_NOCHECKPOSITION,0,900+Args[3])
+		GPOD A 1
+		Goto Spawn2
+		TNT1 A 0 A_SpawnItemEx("PathCircleMushroom",-15,35,0,0,0,0,0,SXF_NOCHECKPOSITION,0,900+Args[3])	
+		GPOD A 1
+		Goto Spawn2
+	
+	SpreadStar:
+		Goto SpreadCircular // SpreadStar not implemented yet 
+		/*
+		TNT1 A 0 A_JumpIf(Args[1] == 1, 2)
+		TNT1 A 0 // Star Spikes 
+		Goto Spawn2
+		TNT1 A 0 // Star Mushroom
+		Goto Spawn2*/
+		
+	Spawn2:
+		GPOD A 1 A_LookEX(0,0,0,0,360,"Idle")
+		Loop
+    Idle:
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		GPOD A 1 A_JumpIfCloser(190, "Missile")
+		Loop
+	Missile:
+		GPOD A 1 
+		TNT1 A 0 A_CheckSight("Idle")
+		TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
+		GPOD BABA 4
+		
+		GPOD C 1 A_FaceTarget
+		TNT1 A 0 A_JumpIfCloser(130, "FireNormalA")
+		TNT1 A 0 A_JumpIfCloser(160, "FireMediumA")
+	FireLongA:
+		TNT1 A 0 A_CustomMissile("GiangProjectileLight",40,-5,310+angle,CMF_ABSOLUTEPITCH,60,0) //LongShot
+		Goto ContinueB
+	FireMediumA:
+		TNT1 A 0 A_CustomMissile("GiangProjectileMedium",40,-5,310+angle,CMF_ABSOLUTEPITCH,60,0) //MediumShot
+		Goto ContinueB
+	FireNormalA:
+		TNT1 A 0 A_CustomMissile("GiangPodProjectile",40,-5,310+angle,CMF_ABSOLUTEPITCH,75,0)
+	ContinueB:
+		GPOD C 2
+		GPOD D 1 A_FaceTarget
+		TNT1 A 0 A_JumpIfCloser(130, "FireNormalB")
+		TNT1 A 0 A_JumpIfCloser(160, "FireMediumB")
+	FireLongB:
+		TNT1 A 0 A_CustomMissile("GiangProjectileLight",40,-5,50+angle,CMF_ABSOLUTEPITCH,60,0) //LongShot
+		Goto ContinueC
+	FireMediumB:
+		TNT1 A 0 A_CustomMissile("GiangProjectileMedium",40,-5,50+angle,CMF_ABSOLUTEPITCH,60,0) //MediumShot
+		Goto ContinueC
+	FireNormalB:
+		TNT1 A 0 A_CustomMissile("GiangPodProjectile",40,-5,50+angle,CMF_ABSOLUTEPITCH,75,0)
+	ContinueC:
+		GPOD D 2
+		GPOD E 1 A_FaceTarget
+		TNT1 A 0 A_JumpIfCloser(130, "FireNormalC")
+		TNT1 A 0 A_JumpIfCloser(160, "FireMediumC")
+	FireLongC:
+		TNT1 A 0 A_CustomMissile("GiangProjectileLight",40,-5,angle,CMF_ABSOLUTEPITCH,60,0) //LongShot
+		Goto ContinueD
+	FireMediumC:
+		TNT1 A 0 A_CustomMissile("GiangProjectileMedium",40,-5,angle,CMF_ABSOLUTEPITCH,60,0) //MediumShot
+		Goto ContinueD
+	FireNormalC:
+		TNT1 A 0 A_CustomMissile("GiangPodProjectile",40,-5,angle,CMF_ABSOLUTEPITCH,75,0)
+	ContinueD:
+		TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		GPOD E 2
+		GPOD A 35
+		Goto Idle
+	Pain.Popsicle:
+	Pain.Water:
+	Pain:
+		Goto Idle
+	Pain.Soda:
+	Pain.Bazooka:
+	Pain.Tomatoes:
+		Goto Idle
+	Pain.WeedWacker:
+		Goto Missile
+	Death:
+		GPOD F 5
+		GPOD G 3
+		TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
+		GPOD G 1 A_JumpIf(Args[2] == 1,"SpawnKey")
+		GPOD G 1 A_JumpIf(Args[2] == 2,"SpawnSkullKey")
+		Stop
+	SpawnKey:
+		TNT1 A 0 A_SpawnItemEx("ZamnKey",0,0,0,0,0,0,0,0)
+		Stop
+	SpawnSkullKey:
+		TNT1 A 0 A_SpawnItemEx("ZamnSkullKey",0,0,0,0,0,0,0,0)
+		Stop
+
+	}
+}
+
+Actor GiangPodProjectile
+{
+Radius 8
+Height 15
+Speed  11
+Mass 900
+Damage (0)
+Scale 1.15
+Projectile
+DamageType "GiantPod"
+SeeSound ""
+DeathSound ""
+-LOWGRAVITY
+-NOGRAVITY
++NOICEDEATH
++NOEXTREMEDEATH
++FORCEXYBILLBOARD
+Obituary ""
+States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+		GPOP A 1 BRIGHT
+		Goto Spawn+2
+	Death:
+		TNT1 A 0 A_Explode(10,48,0,0,32,0,0,"BulletPuff","GiantPod")
+		GPOP BCD 4 
+		Stop
+	}
+}
+
+Actor GiangProjectileMedium : GiangPodProjectile
+{ 
+Mass 600
+//Speed 13
+}
+
+Actor GiangProjectileLight : GiangPodProjectile
+{ 
+Mass 450
+}
+
+Actor PathCircleSpike
+{
+  Height 1
+  Radius 6
+  Speed 1
+  //Arg0 "Unused?"
+  //Arg1 "Pallete"
+  +NOCLIP
+  +FLOORHUGGER
+  -STANDSTILL
+  Projectile
+  States
+  {
+  Spawn:
+		TNT1 A 0 //A_SetArg(0, 35)
+		TNT1 A 0 A_SetArg(1, TID)	//<-- This should store the Pallete, not the TID.
+		ALRT A 2
+		TNT1 A 0 A_JumpIf(Args[1]==901,"Function_Night")
+		TNT1 A 0 A_JumpIf(Args[1]==902,"Function_Dark")
+		TNT1 A 0 A_JumpIf(Args[1]==903,"Function_Bright")
+		TNT1 A 0 A_JumpIf(Args[1]==904,"Function_Day")//Shouldn't but in case of
+  Function_Day:
+		TNT1 A 0 A_SetAngle(0)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(45)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(90)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(135)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(180)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(225)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		Goto Death
+  Function_Night:
+		TNT1 A 0 A_SetAngle(0)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(45)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(90)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(135)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(180)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(225)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		Goto Death
+  Function_Dark:
+		TNT1 A 0 A_SetAngle(0)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(45)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(90)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(135)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(180)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(225)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Dark",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		Goto Death
+  Function_Bright:
+		TNT1 A 0 A_SetAngle(0)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(45)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(90)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(135)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(180)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		TNT1 A 0 A_SetAngle(225)
+		ALRT A 1 ThrustThing(angle,10,0,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_CustomMissile("SpikeSeed_Bright",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+		ALRT A 1 A_Stop
+		Goto Death
+  Death:
+		TNT1 A 0
+		Stop
+  }
+}
+
+
+Actor PathCircleMushroom
+{
+  Height 1
+  Radius 6
+  Speed 1
+  //Arg0 "Unused?"
+  //Arg1 "Pallete"
+  +NOCLIP
+  +FLOORHUGGER
+  -STANDSTILL
+  Projectile
+  States
+  {
+  Spawn:
+	TNT1 A 0 //A_SetArg(0, 35)	//?
+	TNT1 A 0 A_SetArg(1, TID)	//<-- This should store the Pallete, not the TID.
+	ALRT A 2
+	TNT1 A 0 A_JumpIf(Args[1]==901,"Function_Night")
+	TNT1 A 0 A_JumpIf(Args[1]==902,"Function_Toxic")
+	TNT1 A 0 A_JumpIf(Args[1]==903,"Function_Winter")
+	TNT1 A 0 A_JumpIf(Args[1]==904,"Function_Day")//"Function_Spring")
+  Function_Day:
+    TNT1 A 0 A_SetAngle(0)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(45)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(90)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(135)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+    TNT1 A 0 A_SetAngle(180)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(225)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	Goto Death
+  Function_Night:
+    TNT1 A 0 A_SetAngle(0)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(45)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(90)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(135)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+    TNT1 A 0 A_SetAngle(180)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(225)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Night",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	Goto Death
+  Function_Toxic:
+    TNT1 A 0 A_SetAngle(0)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(45)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(90)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(135)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+    TNT1 A 0 A_SetAngle(180)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(225)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Toxic",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	Goto Death
+  Function_Winter:
+    TNT1 A 0 A_SetAngle(0)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(45)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(90)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(135)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+    TNT1 A 0 A_SetAngle(180)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(225)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Winter",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	Goto Death
+  /*
+  Function_Spring:
+    TNT1 A 0 A_SetAngle(0)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(45)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(90)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(135)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+    TNT1 A 0 A_SetAngle(180)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	TNT1 A 0 A_SetAngle(225)
+	ALRT A 1 ThrustThing(angle,10,0,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_CustomMissile("MushroomSeed_Day",5,0,0,CMF_ABSOLUTEPITCH,90,0)
+	ALRT A 1 A_Stop
+	Goto Death
+  */
+  Death:
+  TNT1 A 0
+    Stop
+  }
+}
+
+Actor MushroomSeed : StaticMonsterClass_ZAMN		//And general floor Hazards AI
+{
+Health 10
+Height 5
+Radius 6
+Speed 0
+//Radius 10
+Mass 5000
+Damage (0)
+//RenderStyle "Stencil"
+//StencilColor A028B0
++FORCEXYBILLBOARD
++STANDSTILL
++FLOORHUGGER
+-SOLID
+-FRIENDLY
+
+//No Monster Combo
+-SHOOTABLE
+-COUNTKILL
+-CANPUSHWALLS
+-CANUSEWALLS
+-ACTIVATEMCROSS
+-CANPASS
+-ISMONSTER
+//$Category "Zombies Ate My Neighbors/Monsters/"
+//Arg0 "Pallete" //[Deprecated]
+//Arg1 "Delay"
+//Arg2 "AttackMode"
+//$Color 4
+DamageFactor "MonsterFist", 		0
+DamageFactor "WeedWacker", 			1
+DamageFactor "Tomatoes", 			0
+DamageFactor "Soda", 				0
+DamageFactor "Water", 				0
+DamageFactor "Bazooka", 			0
+DamageFactor "FireExtinguisher",	0
+DamageFactor "Popsicle", 			0
+DamageFactor "Crucifix", 			0
+DamageFactor "Silverware", 			0
+DamageFactor "Plates", 				0
+DamageFactor "FootBall", 			0
+DamageFactor "FlameThrower", 		0
+DamageFactor "Banana", 				0
+  
+DamageType   "FloorHazard"
+//Monster
+States
+	{
+		Spawn:
+		TNT1 A 0 
+		MUSH A 0 
+		Goto Check_Loop
+
+		Check_Loop:
+		"----" A 1 A_JumpIfCloser(512, "Idle")
+		"----" A 1 A_LookEX(0,0,512,0,360,"Idle")	//<- CheckProximity would be too performance heavy to use here.
+		// This will keep unactive spikes/mushroom without a performance drop
+		Goto Check_Loop
+		
+		Idle:
+		"----" A 1
+		"----" A 0 A_JumpIfInTargetInventory("GooTimer",1,"Check_Loop")
+		"----" A 0 A_JumpIfInTargetInventory("BubbleTime",1,"Check_Loop")
+		"----" A 0 A_JumpIfInTargetInventory("AlreadyDead",1,"IgnoreClosest")
+		"----" A 0 A_JumpIfInTargetInventory("SpeedyToken",1,"IdleAggresive")
+		"----" A 0 A_SetArg(2,0)	//UnSet Aggresive
+		"----" A 1 A_JumpIfCloser(32, "Missile")
+		"----" A 1 A_JumpIfCloser(32, "Missile")
+		"----" A 1 A_JumpIfCloser(32, "Missile")
+		"----" A 1 A_JumpIfCloser(32, "Missile")
+		"----" A 1 A_JumpIfCloser(32, "Missile")
+		Goto Recheck
+
+		IdleAggresive:
+		"----" A 0 A_SetArg(2,1)	//Set Aggresive
+		"----" A 1 A_JumpIfCloser(64, "Missile")
+		"----" A 1 A_JumpIfCloser(64, "Missile")
+		"----" A 1 A_JumpIfCloser(64, "Missile")
+		"----" A 1 A_JumpIfCloser(64, "Missile")
+		"----" A 1 A_JumpIfCloser(64, "Missile")
+		"----" A 0 A_SetArg(2,0)	//UnSet Aggresive
+		Goto Recheck
+		
+		//Necessary for Co-Op
+		Recheck:
+		"----" A 0 
+		"----" A 0 A_JumpIfInTargetInventory("AlreadyDead",1,"IgnoreClosest")
+
+		"----" A 1 A_CheckProximity("Idle","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"----" A random(0,45)
+	  //"----" A 0 A_Log("Relax")
+		"----" A 0 A_ClearTarget
+		Goto Check_Loop
+
+		IgnoreClosest:
+		//If the target is a dead player, then look for another target
+		"----" A random(25,45) A_CheckProximity("Idle","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_FARTHEST)
+		Goto Idle
+
+		Missile:
+		//Bugfix Weedwacker
+		"----" A 0 A_JumpIfInTargetInventory("WeedWackerToken",1,"DeathMaybe")
+		"----" A 0 A_JumpIfInTargetInventory("GooTimer",1,"Check_Loop")
+
+		DelayBugFix:
+		"----" A random(1,5)
+		"----" A 0 A_JumpIf(Args[2] == 1, "AttackAggresive")
+		Goto Attack
+		
+		Attack:
+		"----" A 1 A_CustomMissile("FloorHazardProjectile",0,0,0,CMF_ABSOLUTEPITCH,90,0)
+		"----" A random(1,5) A_JumpIfInTargetInventory("WeedWackerToken",1,"DeathMaybe")
+		"----" A 70 A_JumpIfInTargetInventory("WeedWackerToken",1,"DeathMaybe")
+		Goto Idle
+
+		AttackAggresive:
+		"----" A 1 A_CustomMissile("FloorHazardProjectileBig",0,0,0,CMF_ABSOLUTEPITCH,90,0)
+		"----" A 70 A_JumpIfInTargetInventory("WeedWackerToken",1,"DeathMaybe")
+		Goto Idle
+		
+		DeathMaybe:
+		"----" A 1 A_JumpIfCloser(18,"Death")
+		Goto Idle
+
+		Death:
+		TNT1 A 0
+		Stop
+	}
+}
+
+
+Actor MushroomSeed_Day : MushroomSeed 12212
+{
+//$Title "GP_MushroomDay"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH A 0 	//<-- Sets sprite
+		Goto Check_Loop
+ }
+}
+
+Actor MushroomSeed_Night : MushroomSeed 12215
+{
+//$Title "GP_MushroomNight"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH B 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor MushroomSeed_Toxic : MushroomSeed 12216
+{
+//$Title "GP_MushroomToxic"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH C 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor MushroomSeed_Winter : MushroomSeed 12217
+{
+//$Title "GP_MushroomWinter"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH D 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor SpikeSeed_Day : MushroomSeed 12213
+{
+//$Category "Zombies Ate My Neighbors/Monsters/"
+//$Title "GP_SpikeDay"
+States
+ {
+	Spawn:
+		TNT1 A 0 
+		SPIK A 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor SpikeSeed_Night : MushroomSeed 12218
+{
+//$Category "Zombies Ate My Neighbors/Monsters/"
+//$Title "GP_SpikeNight"
+States
+ {
+	Spawn:
+		TNT1 A 0 
+		SPIK B 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor SpikeSeed_Dark : MushroomSeed 12219
+{
+//$Category "Zombies Ate My Neighbors/Monsters/"
+//$Title "GP_SpikeDark"
+States
+ {
+	Spawn:
+		TNT1 A 0 
+		SPIK C 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor SpikeSeed_Bright : MushroomSeed 12220
+{
+//$Category "Zombies Ate My Neighbors/Monsters/"
+//$Title "GP_SpikeBright"
+States
+ {
+	Spawn:
+		TNT1 A 0 
+		SPIK D 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor FloorHazardProjectile
+{
+Radius 8
+Height 15
+Speed  20//11
+Mass 450//900//450
+Damage (0)
+Scale 1.15
+RenderStyle "None"//"Normal"
+Projectile
+DamageType "FloorHazard"
+SeeSound ""
+DeathSound ""
+-LOWGRAVITY
+-NOGRAVITY
++NOICEDEATH
++NOEXTREMEDEATH
++FORCEXYBILLBOARD
+Obituary ""
+States
+	{
+	Spawn:
+	GPOP A 25//35//4
+	Death:
+	TNT1 A 0 A_Explode(10,16,0,0,16,0,0,"BulletPuff","FloorHazard") 
+
+	Stop
+	}
+}
+
+Actor FloorHazardProjectileBig : FloorHazardProjectile
+{
+	Radius 16
+	Scale 2.30
+	States
+	{
+		Death:
+		TNT1 A 0 A_Explode(10,32,0,0,32,0,0,"BulletPuff","FloorHazard") 
+		Stop
+	}
+}

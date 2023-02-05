@@ -1,0 +1,190 @@
+// They aren't placed in the map directly
+//$GZDB_SKIP
+ACTOR ZAMN_ZOMBIE : SpawnableMonster_ZAMN
+{
+  Health 10
+  Speed 10
+  Radius 13
+  Height 40
+  Scale 1.10
+  MeleeRange 20
+  DamageType "Zombie"
+  Monster
+  +NOPAIN
+  -STANDSTILL
+  States
+  {
+  Spawn_Set:
+	ZOMB G 1 A_LookEX(0,0,0,0,360,"Spawn2")
+  Spawn2:
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+    TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	ZOMB GHIJ 6
+    ZOMB K 1 A_ChangeFlag("NOPAIN",FALSE)
+	TNT1 A 0 A_FaceTarget
+	ZOMB K 1 A_LookEX(0,0,0,0,360,"Idle")
+	Goto Idle
+  Idle:
+	ZOMB A 1 A_LookEX(0,0,500,400,360,"See")
+	ZOMB A 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+    ZOMB AA 2 A_Wander
+	ZOMB B 1 A_LookEX(0,0,500,400,360,"See")
+	ZOMB B 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+    ZOMB BB 2 A_Wander
+	ZOMB C 1 A_LookEX(0,0,500,400,360,"See")
+	ZOMB C 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+    ZOMB CC 2 A_Wander
+	ZOMB D 1 A_LookEX(0,0,500,400,360,"See")
+	ZOMB D 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")     
+    ZOMB DD 2 A_Wander
+	ZOMB E 1 A_LookEX(0,0,500,400,360,"See")
+	ZOMB E 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+    ZOMB EE 2 A_Wander
+	ZOMB F 1 A_LookEX(0,0,500,400,360,"See")
+	ZOMB F 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+    ZOMB FF 2 A_Wander
+	ZOMB F 1 A_LookEX(0,0,500,400,360,"See")
+    TNT1 A 0 A_Jump(256, "Vanish_Zombie") //Virtual Jump			//Goto Vanish
+	Stop
+   See:
+	ZOMB AA 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB BB 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB CC 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB DD 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB EE 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB FF 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB AA 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB BB 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB CC 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB DD 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB EE 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ZOMB FF 3 A_Chase
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	TNT1 A 0 A_Jump(256, "Vanish_Zombie")	//Virtual Jump			//Goto Vanish
+	Stop
+  NoChase:
+	ZOMB AA 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ZOMB BB 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ZOMB CC 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ZOMB DD 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ZOMB EE 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ZOMB FF 3 A_Wander
+	Goto Idle
+
+  Melee:
+	ZOMB A 0 
+	ZOMB A 0 A_Jump(256, "Melee_Check")
+	Stop
+
+  MeleeReal:
+	TNT1 A 0 A_JumpIfInTargetinventory("IsDead",1,"Death")
+    ZOMB A 1 A_FaceTarget
+    ZOMB A 1 A_CustomMeleeAttack((10),"","","Zombie")
+	ZOMB A 1
+	ZOMB ABB 3
+    Goto Idle
+  Pain.Reduce:
+	TNT1 A 0 A_Jump(256, "Vanish")	//Vanish No Checks
+	Stop
+  Pain:
+	ZOMB A 1 A_JumpIfInventory("FreezeTime",1,2)
+    Goto See
+	TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+    Goto FreezeTime
+  Pain.Popsicle:
+  Pain.FireExtinguisher:
+	FZOM A 1 ACS_NamedExecuteAlways("GiveFreeze",0,17,0,0)
+	FZOM A 0 A_Jump(256, "FreezeTime_Zombie")
+	Stop
+
+  ChangeTarget:
+	ZOMB A 1 A_ClearTarget
+	Goto Idle
+  Death:
+	TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+	TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+	TNT1 A 0 A_PlaySound("Something/Bam2",0,0.5,false,ATTN_NORM)
+    ZOMB L 1 A_NoBlocking
+    ZOMB LMNOPQRSSSSSSSTTUU 4 
+    TNT1 A 1
+    Stop
+  Vanish_Animation:
+	ZOMB K 2
+	ZOMB JIHG 6
+	Stop
+  }
+}
+
+ACTOR ZAMN_ZOMBIESUPER : ZAMN_ZOMBIE
+{
+ Speed 11
+ MeleeRange 22 
+ States
+ {
+  Spawn2:
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+    TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	ZOMB GHIJ 4
+    ZOMB K 1 A_ChangeFlag("NOPAIN",FALSE)
+	TNT1 A 0 A_FaceTarget
+	ZOMB K 1 A_LookEX(0,0,0,0,360,"Idle")
+	Goto Idle	
+   Melee:
+	TNT1 A 0 A_Jump(127,"MeleeDel3")
+	Goto MeleeReal
+  MeleeDel3:
+	ZOMB A 1 A_FaceTarget
+  MeleeReal:
+	TNT1 A 0 A_JumpIfInTargetinventory("IsDead",1,"Death")
+    ZOMB A 1 A_FaceTarget
+    ZOMB A 1 A_CustomMeleeAttack((10),"","","Zombie")
+	ZOMB A 1
+	ZOMB ABB 3
+    Goto Idle
+ }
+}

@@ -1,0 +1,35 @@
+
+// Font for the Score
+STATUSFONT
+   {
+       0 SCRFNT_0
+       1 SCRFNT_1
+       2 SCRFNT_2
+       3 SCRFNT_3
+       4 SCRFNT_4
+       5 SCRFNT_5
+       6 SCRFNT_6
+       7 SCRFNT_7
+       8 SCRFNT_8
+       9 SCRFNT_9
+       % SCRFNT_0
+       / SCRFNT_0
+       - SCRFNT_0    
+       NOTRANSLATION 109	// don't touch the shadow color!
+   }
+
+// Used by SBARINFO for Inventory Quantity of the selected item 
+INDEXFONT
+   {
+       0 STYSNUM0
+       1 STYSNUM1
+       2 STYSNUM2
+       3 STYSNUM3
+       4 STYSNUM4
+       5 STYSNUM5
+       6 STYSNUM6
+       7 STYSNUM7
+       8 STYSNUM8
+       9 STYSNUM9
+       NOTRANSLATION 160
+   }

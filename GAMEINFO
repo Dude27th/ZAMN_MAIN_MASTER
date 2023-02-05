@@ -1,0 +1,4 @@
+Startuptitle = "Zombies Ate My Neighbors TC"
+Startupcolors = "00FF21","0F0F0F"
+//Iwad = "standalone.iwad"//"DOOM2.WAD"
+StartupType = "doom2"

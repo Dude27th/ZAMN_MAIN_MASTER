@@ -1,0 +1,123 @@
+#library "SpectatorMode"
+#include "zcommon.acs"  
+#include "CUValues.acs"
+
+
+
+int Spectators = 0;
+Script "SpectatorMode" (void)
+{
+	ACS_NamedExecuteAlways("FirstPerson",0,0,0,0);
+	GiveActorInventory(2000+PlayerNumber(),"SpectatorMode",1);
+	Delay(1);
+
+	switch(PlayerNumber())
+	{
+		case 0: Teleport(TAG_P1FINISHSPOT, 0, 0);
+				Break;
+		case 1:	Teleport(TAG_P2FINISHSPOT, 0, 0);
+				Break;
+	}
+
+	switch(PlayerNumber())
+	{
+		case 0: ChangeCamera(2001,0,0);
+				Break;
+		case 1: ChangeCamera(2000,0,0);
+				Break;
+	}
+	
+
+	Spectators++;
+
+	while(CheckInventory("SpectatorMode")==1)
+		{
+			ACS_NamedExecuteAlways("SpectatorModeText",0,0,0,0);
+			Delay(1);
+		}
+	Spectators= 0;
+}
+ 
+Script "GetSpectators" (void)
+{
+	SetResultValue(Spectators);
+}
+
+
+
+
+
+//This makes the grids of both scripts work
+#define base  1.0
+int xypos [18] 	= {0,16,32,48,64,80,96,112,128,144,160,176,192,208,224,240,256,272};
+str charpos [288] ;
+int f = 0;
+
+/* SPECTATOR MODE!!*/
+
+Script "SpectatorModeText" (void)
+{
+	//LoadFonts
+	if(CheckInventory("Ghoul_Mod")==1)		{	LoadFonts(1);	}	//Ghoul Patrol Font
+	else if(CheckInventory("Smash_Mod")==1)	{	LoadFonts(2);	}	//Smash TV Font
+	else									{	LoadFonts(0);	}	//Zamn Font
+
+
+	SetHudSize(288, 256, FALSE);
+	for(int i=0; i < 288; i++){
+		charpos[i] = CHAR_FONT[39];		//CHAR_FONT[39] IS BLANK
+	}
+
+	charpos[20] = CHAR_FONT[28]; charpos[21] = CHAR_FONT[25]; charpos[22] = CHAR_FONT[14]; charpos[23] = CHAR_FONT[12]; charpos[24] = CHAR_FONT[29]; charpos[25] = CHAR_FONT[10]; charpos[26] = CHAR_FONT[29]; charpos[27] = CHAR_FONT[24]; charpos[28] = CHAR_FONT[27]; 
+	charpos[30] = CHAR_FONT[22]; charpos[31] = CHAR_FONT[24]; charpos[32] = CHAR_FONT[13]; charpos[33] = CHAR_FONT[14];
+
+	for(int num=0; num< 50; num++)
+	{
+		SetFont(charpos[num]);
+		Hudmessage(s:"A";HUDMSG_PLAIN, 400+num, 0, base * xypos[(num - (num/18)*18)], base * xypos[(num/18)], 1873*1);
+	}
+
+	int OtherPlayer = 0;
+
+	if(PlayerNumber() == 1)
+		OtherPlayer = 2000;
+	else
+		OtherPlayer = 2001;
+
+	//Goo Effect!
+	if(CheckActorInventory(OtherPlayer,"GooTimer")>=1)
+	{
+		//int realgoo = CheckActorInventory(OtherPlayer,"GooTimer");
+		SetHudSize(320,200,FALSE);
+
+		SetFont( GetGooEffectGraphic(CheckActorInventory(OtherPlayer,"GooTimer")) );
+		HudMessage(s:"A";HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, 11005, 0, 160.0, 80.0, 1873);
+		//Log(s: "Layer 11005: Goo Screen Effect");	//Test
+	}
+
+	//Martian Bubble Effect
+	if(CheckActorInventory(OtherPlayer,"BubbleTime")>=1)
+		{
+			//int bubblenow = CheckActorInventory(OtherPlayer,"BubbleTime");
+			SetHudSize(320,200,FALSE);
+							
+			SetFont( GetBubbleEffectGraphic(CheckActorInventory(OtherPlayer,"BubbleTime")) );				
+			HudMessage(s:"A";HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, 11005, 0, 160.0, 100.0, 1873);
+			//Log(s: "Layer 11005: Martian Bubble Screen Effect");	//Test
+		}
+
+}
+
+Script "NoSpectator" (int PlayerNum) DISCONNECT
+{
+	TakeActorInventory(2000,"SpectatorMode",1);
+	TakeActorInventory(2001,"SpectatorMode",1);
+}
+
+Script "NoSpectator2" (void)
+{
+	TakeActorInventory(2000,"SpectatorMode",1);
+	TakeActorInventory(2001,"SpectatorMode",1);
+}
+
+

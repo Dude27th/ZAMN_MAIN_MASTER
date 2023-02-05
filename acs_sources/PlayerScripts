@@ -1,0 +1,576 @@
+#library "PlayerScripts"
+#include "zcommon.acs"
+#include "CUValues.acs"
+       
+  
+
+
+//This script prevents cummulative damage, by checking the players health
+//and if they receive damage more than 10 at the same time, it will calculate
+//how much more health they should have and give them back that health.
+Script "HealthCheckHelper" ENTER
+{
+	int HealthLast = GetActorProperty(0,APROP_HEALTH);
+	int HealthGive = 0;
+	//Log(s: StrParam(s: "Health Normal : ", i: HealthLast));
+	while(true)
+	{
+	if((CheckInventory("MonsterToken") < 1) && (CheckInventory("MonsterUnmorphing") < 1) && (CheckInventory("NoHelper") < 1))
+		{
+				if(HealthLast != GetActorProperty(0,APROP_HEALTH))
+					{
+						int HealthNow = GetActorProperty(0,APROP_HEALTH);
+						if((HealthLast - HealthNow) <= 10)
+							{
+								//Log(s: StrParam(s: "Correct Damage!  \nHealth Actual: ", i: GetActorProperty(0,APROP_HEALTH)));
+								HealthLast = HealthNow;
+							}
+						else
+							{
+								//Log(s: StrParam(s: "ERROR ERROR ERROR ERROR!  \nHealth Actual: ", i: HealthNow));
+								
+								HealthGive = (HealthLast - 10) - GetActorProperty(0,APROP_HEALTH);
+								GiveInventory("HealthBonus",(HealthGive));
+								HealthGive = 0;
+	
+								//Log(s: StrParam(s: "ERROR FIXED!  \nHealth Actual: ", i: GetActorProperty(0,APROP_HEALTH)));
+								HealthLast = HealthNow;	
+							}
+
+
+						//Bugfix for the Invulnerability frames breaking!
+						if( !(GetActorProperty(0,APROP_Invulnerable)) )
+						{
+							//Log(s: "Invulnerability Error!");
+							//Log(s: "Set Manual Invulnerability!");
+
+							if(CheckInventory("GoodHealthToken") != 1)
+								ACS_NamedExecuteAlways("PainInvulnerability",0,0,0,0);
+						}
+					}
+				HealthGive = 0;
+		}
+
+	HealthLast = GetActorProperty(0,APROP_HEALTH);
+	Delay(1);
+	}
+}
+
+bool TestPlayerChanges= false;
+Script "TestInvulnerable" (void)
+{
+	TestPlayerChanges= true;
+	ACS_NamedExecuteAlways("TestInvulnerable2",0,0,0,0);
+}
+
+/*	//Some properties cannot get retrieved
+Script "TestProperties" (void)
+{
+	while(true)
+	{
+	str IsInvul= "";
+	str IsFroze= "";
+	if(CheckFlag(0,"INVULNERABLE"))		IsInvul= "True";
+	else								IsInvul= "False";
+	if(CheckFlag(0,""))		IsInvul= "True";
+	else											IsInvul= "False";
+
+	Delay(1);
+	}
+}*/
+
+
+//Several Control Scripts
+Script "SetInvulnerableOn" (void)				{	SetActorProperty(0,APROP_INVULNERABLE,TRUE);	if(TestPlayerChanges)Log(s: "Control: InvulnerableOn");}
+Script "SetInvulnerableOff" (void)				{	SetActorProperty(0,APROP_INVULNERABLE,FALSE);	if(TestPlayerChanges)Log(s: "Control: InvulnerableOff");}
+Script "SetNoPain" (void)						{	SetActorFlag(0, "NOPAIN", TRUE);				if(TestPlayerChanges)Log(s: "Control: NoPain On");}
+Script "SetYesPain" (void)						{	SetActorFlag(0, "NOPAIN", FALSE);				if(TestPlayerChanges)Log(s: "Control: NoPain Off");}
+Script "SetFrozenOn" (void)						{	SetPlayerProperty(FALSE, ON, PROP_TOTALLYFROZEN);	if(TestPlayerChanges)Log(s: "Control: FrozenOn");}
+Script "SetFrozenOff" (void)					{	SetPlayerProperty(FALSE, OFF, PROP_TOTALLYFROZEN);	if(TestPlayerChanges)Log(s: "Control: FrozenOff");}
+Script "StopMomentum" (void)					{ Thing_Stop(0); }
+Script "MiniJump" (void)						{ACS_NamedExecuteAlways("JumpActor",0,24,0,0);}//{ThrustThingZ(0,24,0,0);}	//"JumpActor" should be used instead, needs revision
+Script "Jump24" (void)							{ACS_NamedExecuteAlways("JumpActor",0,24,0,0);}//{ ThrustThingZ(0,24,0,0); }	//"JumpActor" should be used instead, needs revision
+Script "JumpAnti24" (void)						{ACS_NamedExecuteAlways("JumpActor",0,24,1,0);}//{ ThrustThingZ(0,24,1,0); }	//"JumpActor" should be used instead, needs revision
+Script "JumpActor" (int force, int downwards)	{ThrustThingZ(0,force,downwards,0);}
+Script "NormalSpeed" (void)						{SetActorProperty(0,APROP_Speed,SPEED_NORMAL);}		
+Script "AirControl" ENTER						{ SetAirControl(0.7); }		//Air Movement
+
+
+Script "CheckJumping" (void)
+{
+ int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+ int OldButtons = GetPlayerInput(-1, INPUT_OLDBUTTONS);
+ if((Buttons & (BT_JUMP))||(OldButtons & (BT_JUMP)))
+	SetResultValue(1);
+ else
+	SetResultValue(0);
+}
+
+Script "ShowPitch" (int pitchreceived)		//Test SodaCans	//Test Bazooka
+{	print(s: StrParam(s: "Pitch: ", i: pitchreceived));	}
+
+Script "DamageTaken" (int damage)
+{	DamageThing(damage);	Delay(1);}
+
+Script "TestPitch" (void)
+{
+	print(s: StrParam(s: "Pitch: ", i: GetActorPitch(0)));
+}
+
+
+
+//----------------------------------------////----------------------------------------//	
+
+//----------------------------------------////----------------------------------------// 
+	
+
+Script "SetInvulnerableCrucifixOn" (void)				
+{	
+	if((CheckInventory("DeathChecking") != 1) &&(CheckInventory("IsStomped") != 1))
+	{
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);	
+	if(TestPlayerChanges)
+		Log(s: "CrucifixScript_1: InvulnerableOn");
+	}
+	else
+	{
+		if(TestPlayerChanges)
+			Log(s: "CrucifixScript 1: Interrumpted !!!");
+	}
+}
+Script "SetInvulnerableCrucifixOff" (void)
+{	
+	if((CheckInventory("DeathChecking") != 1) &&(CheckInventory("IsStomped") != 1))
+	{
+	SetActorProperty(0,APROP_INVULNERABLE,FALSE);	
+	if(TestPlayerChanges)
+		Log(s: "CrucifixScript_2: InvulnerableOff");
+	}
+	else
+	{
+		if(TestPlayerChanges)
+			Log(s: "CrucifixScript 2: Interrumpted !!!");
+	}
+}
+
+
+Script "BazookaInvulnerability" (void)
+{
+	ACS_NamedExecuteAlways("StopMomentum",0,0,0,0);
+	if((CheckInventory("DeathChecking") != 1) &&(CheckInventory("IsStomped") != 1))
+	{
+	if(TestPlayerChanges)
+		Log(s: "\nBazookaScript_1: Frozen On | Invulnerable On");
+	SetPlayerProperty(FALSE, ON, PROP_TOTALLYFROZEN);
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);
+	GiveInventory("BazookaInvul",1);
+	}
+	else
+	{
+		if(TestPlayerChanges)
+			Log(s: "\nBazooka 1 : Interrumpted!!!!!!!!!");
+	}
+	Delay(12);
+	if((CheckInventory("DeathChecking") != 1) &&(CheckInventory("IsStomped") != 1))
+	{
+	if(TestPlayerChanges)
+		Log(s: "BazookaScript_2: Frozen Off | Invulnerable Off");
+	SetPlayerProperty(FALSE, OFF, PROP_TOTALLYFROZEN);
+	SetActorProperty(0,APROP_INVULNERABLE,FALSE);
+	TakeInventory("BazookaInvul",1);
+	}
+	else
+	{
+		if(TestPlayerChanges)
+			Log(s: "\nBazooka 2 : Interrumpted!!!!!!!!!");
+	}
+}
+	
+Script "CheaterScript" (void)
+{
+	TakeInventory("CheaterToken",1);
+	TakeInventory("Armor",200);		//It activated Doom's Blue Armor, which changed player received damage
+
+	//Give Items
+	GiveInventory("MedikitPickup",10);
+	GiveInventory("ZamnKey",10);
+	GiveInventory("MonsterPotion",20);
+	GiveInventory("SpeedyShoes",10);
+	GiveInventory("Clowns",20);
+
+	//Give Ammo	//[Unnecesary, all actors inherited from "Ammo" are given by cheats as IDFA or IDKFA]
+	/*
+	GiveInventory("WDWKER_Z_Ammo",999);
+	GiveInventory("WDWKER_J_Ammo",999);
+	GiveInventory("TOMATO_Z_Ammo",999);
+	GiveInventory("TOMATO_J_Ammo",999);
+	GiveInventory("SODA_Z_Ammo",999);
+	GiveInventory("SODA_J_Ammo",999);
+	GiveInventory("WTRGUN_Z_Ammo",999);
+	GiveInventory("WTRGUN_J_Ammo",999);
+	GiveInventory("BAZOKA_Z_Ammo",999);
+	GiveInventory("BAZOKA_J_Ammo",999);
+	GiveInventory("FIREXT_Z_Ammo",999);
+	GiveInventory("FIREXT_J_Ammo",999);
+	GiveInventory("CRUCFX_Z_Ammo",999);
+	GiveInventory("CRUCFX_J_Ammo",999);*/
+
+	//Take Easter Eggs Weapons	(To be reworked)
+	TakeInventory("CROSSBOW_ZEKE",1);
+	TakeInventory("CROSSBOW_JULIE",1);
+
+}
+
+//Debug Console Commands
+#define MUS_NOTRACK	999	
+Script "ConsoleCommands" ENTER
+{
+	while(true)
+	{
+	//GameOver
+	if(GetCVAR("gameover"))
+		{
+			SetCVAR("gameover",false);
+			TakeInventory("LifeToken",10);
+			GiveInventory("NoHelper",1);
+			SetActorProperty(0,APROP_HEALTH,1);
+		}
+
+	//Invulnerability Changes
+	if(GetCVAR("iframes"))
+		{
+			SetCVAR("iframes",false);
+			TestPlayerChanges= true;
+			ACS_NamedExecuteAlways("TestInvulnerable2",0,0,0,0);
+		}
+	//Change Music
+	if(GetCVAR("music") != 0)
+		{
+			int mustr = 0;
+			if(GetCVAR("music"))
+				{
+					mustr = GetCVAR("music");
+					SetCVAR("music",0);
+					ACS_NamedExecuteAlways("ChangeMusic",0,mustr,0,0);
+				}
+			else
+				print(s: "waaaaaaa");
+		}
+	//Quick MonsterLimit Check
+	if(GetCVAR("monsterlimit"))
+		{
+			SetCVAR("monsterlimit",false);
+			ACS_NamedExecuteAlways("TestMonsterLimit",0,0,0,0);
+		}
+
+	Delay(1);
+	}
+}
+
+
+
+//--------------------------------//	//------------------------------------------//
+//	  INVULNERABILITY SCRIPTS     //	// They are esentially invincibility frames //
+//--------------------------------//	//------------------------------------------//
+
+Script "DyingInvulnerability" (void)
+{	if(TestPlayerChanges)
+		Log(s: "\nDyingScript: Invulnerable On | Translucent On");
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);		//Make the player dead	
+	SetPlayerProperty(FALSE, ON, PROP_TOTALLYFROZEN);	// Lock the player while checking
+	SetActorProperty(0,APROP_MASS,400000); 				/*Set the player with a heavy mass*/	}
+
+Script "ReviveBugfixInvulnerability" (void)
+{
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);//´´´´´´´´´´´´´´´´´This makes the player invulnerable 
+	SetActorProperty(0,APROP_RENDERSTYLE,STYLE_TRANSLUCENT);//´´´´´This renders the player translucent
+	SetActorFlag(0, "NOPAIN", TRUE);
+	Delay(105);
+	SetActorProperty(0,APROP_INVULNERABLE,FALSE);//´´´´´´´´´´´´´´´´´This makes the player invulnerable 
+	SetActorProperty(0,APROP_RENDERSTYLE,STYLE_NORMAL);//´´´´´This renders the player translucent
+	SetActorFlag(0, "NOPAIN", FALSE);
+}
+
+Script "PainInvulnerability" (void)
+{
+	if((CheckInventory("DeathChecking") != 1) && (CheckInventory("IsStomped") != 1) && (CheckInventory("IsMonsterTransforming") != 1))     
+	//if((CheckInventory("DeathChecking") != 1) || (CheckInventory("IsStomped") != 1) || (CheckInventory("IsMonsterTransforming") != 1))     
+	{
+		//GiveInventory("CantUseToken",1); //´´´´´´´´´´´´´´´´´´´´´´´´´´´´Don't try to morph while being invulnerable
+		if(TestPlayerChanges)
+			Log(s: "\nPainScript_1: Invulnerable On | Translucent On");
+		SetActorProperty(0,APROP_INVULNERABLE,TRUE);//´´´´´´´´´´´´´´´´´This makes the player invulnerable 
+		SetActorProperty(0,APROP_RENDERSTYLE,STYLE_TRANSLUCENT);//´´´´´This renders the player translucent
+	}
+	else
+		{
+			if(TestPlayerChanges)
+				Log(s: "\nPainScript 1: Interrumpted!!!!!!!!!");
+		}
+	Delay(50);
+	if((CheckInventory("DeathChecking") != 1) && (CheckInventory("IsStomped") != 1) && (CheckInventory("IsMonsterTransforming") != 1) && (CheckInventory("BazookaInvul") != 1))     
+	//if((CheckInventory("DeathChecking") != 1) || (CheckInventory("IsStomped") != 1) || (CheckInventory("IsMonsterTransforming") != 1))     
+	{ 
+		if(TestPlayerChanges)
+			Log(s: "PainScript_2: Invulnerable Off | Translucent Off | NoPain Off");
+		SetActorProperty(0,APROP_RENDERSTYLE,STYLE_NORMAL);//´´´´´´´´´´This renders the player normal again
+		SetActorProperty(0,APROP_INVULNERABLE,FALSE);//´´´´´´´´´´´´´´´´Makes the player vulnerable
+		SetActorFlag(0, "NOPAIN", FALSE);
+		//TakeInventory("CantUseToken",1);
+	}
+	else
+		{
+			if(TestPlayerChanges)
+				Log(s: "\nPainScript 2: Interrumpted!!!!!!!!!");
+			if(CheckInventory("BazookaInvul") == 1)
+				SetActorProperty(0,APROP_RENDERSTYLE,STYLE_NORMAL);
+		}
+}
+
+Script "StompedPain" (void)
+{
+	if(CheckInventory("IsStomped")== 1)
+	{
+		if(TestPlayerChanges)
+			{
+			Log(s: "RETRIGGERED: STOMPED_PAIN. IGNORING");
+			Log(s: StrParam(s: "IsStomped: ", i: CheckInventory("IsStomped"), s: " DeathChecking: ", i: CheckInventory("DeathChecking")));
+			}
+	}
+	else
+	{
+			GiveInventory("CantUseToken",1); //´´´´´´´´´´´´´´´´´´´´´´´´´´´´Don't try to morph while being stomped
+			GiveInventory("IsStomped",1);
+			GiveInventory("JustStomped",1);
+			if((CheckInventory("DeathChecking") != 1)||(CheckInventory("IsMonsterTransforming") != 1))
+			{
+				if(TestPlayerChanges)
+					Log(s: "\nStompedScript_1: Invulnerable On | Frozen On");
+				SetActorProperty(0,APROP_INVULNERABLE,TRUE);//´´´´´´´´´´´´´´´´´This makes the player invulnerable 
+				SetPlayerProperty(FALSE, ON, PROP_TOTALLYFROZEN);
+			}
+			else
+			{
+				if(TestPlayerChanges)
+				{
+					Log(s: "\nStompedScript 1: Interrumpted!!!!!!!!!");
+					Log(s: StrParam(s: "IsStomped: ", i: CheckInventory("IsStomped"), s: "DeathChecking: ", i: CheckInventory("DeathChecking")));
+				}
+			}
+			Delay(34);
+			
+			if((CheckInventory("DeathChecking") != 1)&&(CheckInventory("IsMonsterTransforming") != 1))
+			//if((CheckInventory("DeathChecking") != 1)||(CheckInventory("IsMonsterTransforming") != 1))
+			{
+				if(TestPlayerChanges)
+					Log(s: "StompedScript_2: Translucent On");
+				SetActorProperty(0,APROP_RENDERSTYLE,STYLE_TRANSLUCENT);//´´´´´This renders the player translucent
+			}
+			else
+			{
+				if(TestPlayerChanges)
+				{
+					Log(s: "\nStompedScript 2: Interrumpted!!!!!!!!!");
+					Log(s: StrParam(s: "IsStomped: ", i: CheckInventory("IsStomped"), s: "DeathChecking: ", i: CheckInventory("DeathChecking")));
+				}
+			}
+			Delay(1);
+			
+			if((CheckInventory("DeathChecking") != 1)&&(CheckInventory("IsMonsterTransforming") != 1))
+			//if((CheckInventory("DeathChecking") != 1)||(CheckInventory("IsMonsterTransforming") != 1))
+			{
+				if(TestPlayerChanges)
+					Log(s: "StompedScript_3: Frozen Off");
+				SetPlayerProperty(FALSE, OFF, PROP_TOTALLYFROZEN);
+				TakeInventory("CantUseToken",1);
+			}
+			else
+			{
+				if(TestPlayerChanges)
+				{
+					Log(s: "\nStompedScript 3: Interrumpted!!!!!!!!!");
+					Log(s: StrParam(s: "IsStomped: ", i: CheckInventory("IsStomped"), s: "DeathChecking: ", i: CheckInventory("DeathChecking")));
+				}
+			}
+			//TakeInventory("CantUseToken",1);
+			//Delay(15);
+			Delay(34);
+			GiveInventory("JustStomped",1);
+			Delay(1);
+		
+			if((CheckInventory("DeathChecking") != 1)&&(CheckInventory("IsMonsterTransforming") != 1))
+			//if((CheckInventory("DeathChecking") != 1)||(CheckInventory("IsMonsterTransforming") != 1))
+			{
+				if(TestPlayerChanges)
+					Log(s: "StompedScript_4: Invulnerable Off | Translucent Off | NoPain Off");
+				SetActorFlag(0, "NOPAIN", FALSE);
+				SetActorProperty(0,APROP_RENDERSTYLE,STYLE_NORMAL);//´´´´´´´´´´This renders the player normal again
+				SetActorProperty(0,APROP_INVULNERABLE,FALSE);//´´´´´´´´´´´´´´´´Makes the player vulnerable
+			}
+			else
+			{
+				if(TestPlayerChanges)
+				{
+					Log(s: "\nStompedScript 4: Interrumpted!!!!!!!!!");
+					Log(s: StrParam(s: "IsStomped: ", i: CheckInventory("IsStomped"), s: "DeathChecking: ", i: CheckInventory("DeathChecking")));
+				}
+			}
+			TakeInventory("IsStomped",1);	//Bugfix
+	}
+	
+}
+
+Script "CheckGoo" (void)
+{
+	if(CheckInventory("GooTimer") >= 1)
+	{	SetResultValue(1);	}
+	else
+	{	SetResultValue(0);	}
+}
+
+Script "GooDamage" (void)
+{
+	Delay(71);
+	if(CheckInventory("GooTimer") > 2)
+	{
+		if(ACS_NamedExecuteWithResult("IsLevelFinished") == 0)
+		{	
+			if(GetActorProperty(0,APROP_INVULNERABLE))
+			{
+				SetActorProperty(0,APROP_INVULNERABLE,FALSE);
+				Delay(1);
+				DamageThing(10);	
+				SetActorProperty(0,APROP_INVULNERABLE,TRUE);
+			}
+			else
+			{	DamageThing(10);	}
+				
+			Restart;	
+		}
+		else
+			Terminate;
+	}
+}
+
+//--------------------------------//	//------------------------------------------//
+//	    SPEED EFFECT SCRIPTS      //	// For damage and stuff that stops players  //
+//--------------------------------//	//------------------------------------------//
+
+//[Speed Values in "CUValues.acs"]
+
+Script "HazardPain" (void)		//Pain/Slowdown triggered by floor hazards
+{
+	SetActorProperty(0,APROP_Speed,SPEED_HALF);
+	Thing_Stop(0);	
+	//GiveInventory("CantUseToken",1);
+	if(TestPlayerChanges)
+			Log(s: "HazardScript_1: Invulnerable On | Translucent On");
+	SetActorProperty(0,APROP_INVULNERABLE,TRUE);
+	SetActorProperty(0,APROP_RENDERSTYLE,STYLE_TRANSLUCENT);
+	Delay(50);
+	if(TestPlayerChanges)
+			Log(s: "HazardScript_2: Invulnerable Off | Translucent Off");
+	SetActorProperty(0,APROP_RENDERSTYLE,STYLE_NORMAL);
+	SetActorProperty(0,APROP_INVULNERABLE,FALSE);
+	//TakeInventory("CantUseToken",1);
+	while(CheckProximity(0,"MushroomSeed",32.0,1,CPXF_ANCESTOR))
+	{Delay(1);}
+	while(GetActorProperty(0,APROP_Speed) == SPEED_HALF)
+	{
+		if(CheckInventory("SpeedyToken") == 1)
+			{SetActorProperty(0,APROP_Speed,SPEED_SHOES);}
+		else
+			{SetActorProperty(0,APROP_Speed,SPEED_NORMAL);}
+		Delay(1);
+	}
+	//	
+}
+
+Script "HazardSlowdown" (void)	//"HazardPain" without the pain
+{
+	SetActorProperty(0,APROP_Speed,SPEED_HALF);
+	Thing_Stop(0);	
+	Delay(50);
+	while(GetActorProperty(0,APROP_Speed) == SPEED_HALF)
+		{
+			if(CheckInventory("SpeedyToken") == 1)
+				{SetActorProperty(0,APROP_Speed,SPEED_SHOES);}
+			else
+				{SetActorProperty(0,APROP_Speed,SPEED_NORMAL);}
+			Delay(1);
+		}
+}
+
+Script "ForceNotSpeedy" (void)	//Removes SpeedShoes Effect
+{
+	while(GetActorProperty(0,APROP_Speed) != SPEED_NORMAL)
+		{
+			SetActorProperty(0,APROP_Speed,SPEED_NORMAL);
+			Delay(1);
+		}
+	TakeInventory("SpeedTimer",1050);
+	TakeInventory("SpeedyToken",1);
+}
+
+Script "HeavyWeapon" (void)		//Weapons like the WeedWacker slowdown player movement
+{	
+	if(CheckInventory("SpeedyToken") == 1)
+		SetActorProperty(0,APROP_Speed,SPEED_SHOESWACK);
+	else
+		SetActorProperty(0,APROP_Speed,SPEED_WACK);
+}
+ 
+Script "LiftWeapon" (void)		//Undo the slowdown of a weapon
+{
+		if(CheckInventory("SpeedyToken") == 1)
+			while(GetActorProperty(0,APROP_Speed) != SPEED_SHOES)
+			{	SetActorProperty(0,APROP_Speed,SPEED_SHOES);
+				Delay(1);	}
+		else
+			while(GetActorProperty(0,APROP_Speed) != SPEED_NORMAL)
+			{	SetActorProperty(0,APROP_Speed,SPEED_NORMAL);
+				Delay(1);	}
+}
+
+#libdefine 		TokensNum 18
+str weapontokens [TokensNum] = {
+								/*--  ZAMN TC  --*/
+								"FalseFlag",	"WeedWackerToken",				
+								"TomatoToken",
+								"SodaToken",
+								"WRToken",
+								"BToken",
+								"FEToken", 		"PopsicToken",
+								"CrucifixToken",
+								"SilverToken", 	"PlatesToken",
+								"FootBallToken", "MartianGunToken",
+								"FlameTrToken", "BananWepToken",
+								/*--  ADD-ONS  --*/
+								"SlapToken",
+								//
+								//
+								//
+								//
+								"SnowBallToken",
+								//
+								//
+								//
+								//
+								/*- GHOUL PATROL -*/
+								//
+								//
+								//
+								"CrossbowToken"
+								//
+								//
+								//
+								//
+								//
+								//
+								};
+Script "CleanWeaponTokens" (void)
+{
+	for(int i=0; i<TokensNum; i++)
+	{	TakeInventory(weapontokens[i],1);}
+}
+

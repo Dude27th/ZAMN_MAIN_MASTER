@@ -1,0 +1,13 @@
+Actor ChaseCam
+{
+  Height 16
+  Radius 8
+  +NOGRAVITY
+  +NOBLOCKMAP
+  States
+  {
+  Spawn:
+    TNT1 A -1
+    Stop
+  }
+}

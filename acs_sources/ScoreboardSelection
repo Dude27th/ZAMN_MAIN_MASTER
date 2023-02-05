@@ -1,0 +1,734 @@
+#library "ScoreboardSelection"
+#include "zcommon.acs"
+#include "CUValues.acs"
+   
+int DiscountTime=0;       
+Script "CheckScore" (void)			//HIGHSCORE CHECK
+{
+	int PlayerPoints=0;
+	PlayerPoints=CheckInventory("ScorePoints");
+	int LastPoints=0;
+	LastPoints=GetCvar("cvarpoints9");
+	ACS_NamedExecuteAlways("NoSpectator2",0,0,0,0);
+	Delay(1);
+	if(PlayerPoints>LastPoints)
+		{	ACS_NamedExecuteAlways("NewScore",0,0,0,0);	SetResultValue(1);}
+	else 
+		{	DiscountTime=4;
+			ACS_NamedExecuteAlways("TopScore",0,0,0,0);	SetResultValue(2);}
+}
+   
+  
+
+
+
+//---------------------------------//
+//            FUNCTIONS            //
+//---------------------------------//
+
+/*	Unused: This function served me well, it's unused now because now the characters are being taken directly from an array.
+			This lets me have more than one font too.
+
+//This translates numbers cvar to their string graphics
+function str CharacterOf (int cvar)		
+{	str result="";
+	if (cvar < 10)
+		result=StrParam(s: "CHAR_0", i: cvar);
+	else
+		result=StrParam(s: "CHAR_", i: cvar);
+	return result;	}
+*/
+
+
+//The position of the grid, to the number of the character in the alphabet on screen. 
+function int NumberOf (int select)
+{
+	int equivalent = 0;
+	switch(select)
+	{
+		case 75: 	equivalent = 0;		break;
+		case 77: 	equivalent = 1;		break;
+		case 79: 	equivalent = 2;		break;
+		case 81: 	equivalent = 3;		break;
+		case 83: 	equivalent = 4;		break;
+		case 85: 	equivalent = 5;		break;
+		case 87: 	equivalent = 6;		break;
+		case 93: 	equivalent = 7;		break;
+		case 95: 	equivalent = 8;		break;
+		case 97: 	equivalent = 9;		break;
+		case 99: 	equivalent = 10;	break;
+		case 101: 	equivalent = 11;	break;
+		case 103: 	equivalent = 12;	break;
+		case 105: 	equivalent = 13;	break;
+		case 111:	equivalent = 14;	break;
+		case 113:	equivalent = 15;	break;
+		case 115:	equivalent = 16;	break;
+		case 117:	equivalent = 17;	break;
+		case 119:	equivalent = 18;	break;
+		case 121:	equivalent = 19;	break;
+		case 123:	equivalent = 20;	break;
+		case 129:	equivalent = 21;	break;
+		case 131:	equivalent = 22;	break;
+		case 133:	equivalent = 23;	break;
+		case 135:	equivalent = 24;	break;
+		case 137:	equivalent = 25;	break;
+		case 139:	equivalent = 26;	break;
+		case 141:	equivalent = 27;	break;
+		case 147:	equivalent = 28;	break;
+		case 149:	equivalent = 29;	break;
+		case 151:	equivalent = 30;	break;
+		case 153:	equivalent = 31;	break;
+		case 155:	equivalent = 32;	break;
+		case 157:	equivalent = 33;	break;
+		case 159:	equivalent = 34;	break;
+		case 165:	equivalent = 35;	break;
+		case 167:	equivalent = 36;	break;
+		case 169:	equivalent = 37;	break;
+		case 171:	equivalent = 38;	break;
+		case 173:	equivalent = 39;	break;
+		case 175:	equivalent = 39;	break;	//This is not a typo
+	}
+	return equivalent;
+}
+
+//This helps with the script that deconstructs the scores into units
+function int ScoreVacios (int score)	
+{	int vacios=0;
+	if (score >= 1){vacios = 5;}
+	if (score >= 10){vacios = 4;}
+	if (score >= 100){vacios = 3;}
+	if (score >= 1000){vacios = 2;}
+	if (score >= 10000){vacios = 1;}
+	if (score >= 100000){vacios = 0;}
+	return vacios;	}
+
+	
+
+
+//---------------------------------//
+//          MAIN SCRIPTS           //
+//---------------------------------//
+
+
+//This makes the grids of both scripts work
+#define base  1.0
+
+int xypos [18] 	= {0,16,32,48,64,80,96,112,128,144,160,176,192,208,224,240,256,272};
+str charpos [288] ;
+
+int namepos [8] = {39, 39, 39, 39, 39, 39, 39, 39};	//The name being constructed, 39 is the default blank
+int playerscore = 0;
+
+//str CHAR_FONT [61];	//Array for loading the current font characters + 10 score characters
+int f=0;				//Index for loading the current font
+
+/* 
+function int LoadFonts (int game)
+{
+	switch(game)
+	{
+		case 0:	//Zamn Font
+				for(f=0; f<51; f++)	{CHAR_FONT[f] = CHAR_ZAMN[f];}
+				for(f=51; f<61; f++){CHAR_FONT[f] = CHAR_ZAMN[f-51];}
+				break;
+		case 1:	//Ghoul Patrol Font
+				for(f=0; f<51; f++)	{CHAR_FONT[f] = CHAR_GHOUL[f];}
+				for(f=51; f<61; f++){CHAR_FONT[f] = CHAR_GHOUL[f-51];}
+				break;
+		case 2:	//Smash T.V. Font(s)
+				for(f=0; f<51; f++)	{CHAR_FONT[f] = CHAR_SMASH[f];}
+				for(f=51; f<61; f++){CHAR_FONT[f] = SCOR_SMASH[f-51];}
+				break;
+	}
+return 1;
+}
+*/
+
+
+
+
+
+//NEW PLAYER SCORE INTERFACE
+Script "NewScore" (void)		
+{
+	int i = 0;
+	int namei= 0;
+	playerscore = CheckInventory("ScorePoints");
+	
+	//LoadFonts
+	if(CheckInventory("Ghoul_Mod")==1)		{	LoadFonts(1);	}	//Ghoul Patrol Font
+	else if(CheckInventory("Smash_Mod")==1)	{	LoadFonts(2);	}	//Smash TV Font
+	else									{	LoadFonts(0);	}	//Zamn Font
+	
+
+	SetHudSize(288, 256, FALSE);
+	for(i=0; i < 288; i++){
+		charpos[i] = CHAR_FONT[39];		//CHAR_FONT[39] IS BLANK
+	}
+	
+	//Carga de Caracteres : ENTER YOUR NAME //
+	charpos[20] = CHAR_FONT[14]; charpos[21] = CHAR_FONT[23]; charpos[22] = CHAR_FONT[29]; charpos[23] = CHAR_FONT[14]; charpos[24] = CHAR_FONT[27];
+	charpos[26] = CHAR_FONT[34]; charpos[27] = CHAR_FONT[24]; charpos[28] = CHAR_FONT[30]; charpos[29] = CHAR_FONT[27];
+	charpos[31] = CHAR_FONT[23]; charpos[32] = CHAR_FONT[10]; charpos[33] = CHAR_FONT[22]; charpos[34] = CHAR_FONT[14];
+	
+	charpos[75] = CHAR_FONT[00];  charpos[77] = CHAR_FONT[01];  charpos[79] = CHAR_FONT[02];  charpos[81] = CHAR_FONT[03];  charpos[83] = CHAR_FONT[04];  charpos[85] = CHAR_FONT[05];  charpos[87] = CHAR_FONT[06];
+	charpos[93] = CHAR_FONT[07];  charpos[95] = CHAR_FONT[08];  charpos[97] = CHAR_FONT[09];  charpos[99] = CHAR_FONT[10];  charpos[101] = CHAR_FONT[11]; charpos[103] = CHAR_FONT[12]; charpos[105] = CHAR_FONT[13];
+	charpos[111] = CHAR_FONT[14]; charpos[113] = CHAR_FONT[15]; charpos[115] = CHAR_FONT[16]; charpos[117] = CHAR_FONT[17]; charpos[119] = CHAR_FONT[18]; charpos[121] = CHAR_FONT[19]; charpos[123] = CHAR_FONT[20];
+	charpos[129] = CHAR_FONT[21]; charpos[131] = CHAR_FONT[22]; charpos[133] = CHAR_FONT[23]; charpos[135] = CHAR_FONT[24]; charpos[137] = CHAR_FONT[25]; charpos[139] = CHAR_FONT[26]; charpos[141] = CHAR_FONT[27];
+	charpos[147] = CHAR_FONT[28]; charpos[149] = CHAR_FONT[29]; charpos[151] = CHAR_FONT[30]; charpos[153] = CHAR_FONT[31]; charpos[155] = CHAR_FONT[32]; charpos[157] = CHAR_FONT[33]; charpos[159] = CHAR_FONT[34];
+	charpos[165] = CHAR_FONT[35]; charpos[167] = CHAR_FONT[36]; charpos[169] = CHAR_FONT[37]; charpos[171] = CHAR_FONT[38]; charpos[173] = CHAR_FONT[39]; charpos[175] = CHAR_FONT[40]; charpos[177] = CHAR_FONT[41];
+	
+	charpos[203] = CHAR_FONT[42]; charpos[204] = CHAR_FONT[43]; charpos[205] = CHAR_FONT[43]; charpos[206] = CHAR_FONT[43]; charpos[207] = CHAR_FONT[43]; charpos[208] = CHAR_FONT[43]; charpos[209] = CHAR_FONT[43]; charpos[210] = CHAR_FONT[43]; charpos[211] = CHAR_FONT[43]; charpos[212] = CHAR_FONT[44];
+	charpos[221] = CHAR_FONT[45]; charpos[230] = CHAR_FONT[46];
+	charpos[239] = CHAR_FONT[47]; charpos[240] = CHAR_FONT[48]; charpos[241] = CHAR_FONT[48]; charpos[242] = CHAR_FONT[48]; charpos[243] = CHAR_FONT[48]; charpos[244] = CHAR_FONT[48]; charpos[245] = CHAR_FONT[48]; charpos[246] = CHAR_FONT[48]; charpos[247] = CHAR_FONT[48]; charpos[248] = CHAR_FONT[49];
+	////////////////////////
+
+	
+	//Displays on screen [Tested] 
+	int select	= 75;
+	int TicCounter= 10;
+	int TicCoolDown=0;
+	while(true){
+ 
+		if(TicCounter % 10 == 0)			//[Optimization:] Static Characters will load only each 10 tics ...
+		{
+			for(int num=0; num< 288; num++){
+			SetFont(charpos[num]);
+			
+			if(num < 200)
+			{	Hudmessage(s:"A";HUDMSG_PLAIN, 400+num, 0, base * xypos[(num - (num/18)*18)]		, base * xypos[(num/18)], HUDTIME_TENTICS);	}
+			else
+			//if character num 200 or more is displayed on screen it is moved -8.0 on x to center the bar
+				Hudmessage(s:"A";HUDMSG_PLAIN, 400+num, 0, base * xypos[(num - (num/18)*18)] - 8.0	, base * xypos[(num/18)], HUDTIME_TENTICS);
+			
+			}
+		}
+		else								//... non static Characters like the name being introduced will load each tic.
+		{
+			for(num=200; num< 288; num++){
+			SetFont(charpos[num]);
+			Hudmessage(s:"A";HUDMSG_PLAIN, 400+num, 0, base * xypos[(num - (num/18)*18)] - 8.0, base * xypos[(num/18)], HUDTIME_ONETIC);
+			}
+		}
+		
+		
+		SetFont(CHAR_FONT[50]);	//<-- SELECTION BOX
+		Hudmessage(s:"A";HUDMSG_PLAIN, 390, 0, base * xypos[(select - (select/18)*18)], base * xypos[(select/18)], HUDTIME_ONETIC);	
+
+			
+		//BOX INPUT CONTROL
+		if(!(TicCoolDown > 0))
+		{
+			int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+	
+			// Move right
+			if(Buttons & (BT_RIGHT)||Buttons & (BT_MOVERIGHT))
+				{
+					switch(select)
+					{
+						case 87: 	select = 93;			break;
+						case 105:	select = 111;			break;
+						case 123:	select = 129;			break;
+						case 141:	select = 147;			break;
+						case 159:	select = 165;			break;
+						case 177:	select = 75;			break;
+						default: 	select = select + 2;	break;
+					}
+					TicCoolDown = 6;
+				}
+			// Move Left
+			if(Buttons & (BT_LEFT)||Buttons & (BT_MOVELEFT))
+				{
+					switch(select)
+					{
+						case 75:	select = 177;			break;
+						case 165:	select = 159;			break;
+						case 147:	select = 141;			break;
+						case 129:	select = 123;			break;
+						case 111:	select = 105;			break;
+						case 93:	select = 87;			break;
+						default:	select = select - 2;	break;
+					}
+					TicCoolDown = 6;
+				}
+			// Move Up
+			if((Buttons & (BT_LOOKUP))||(Buttons & (BT_FORWARD)))
+				{
+					switch(select)
+					{
+						case 75:	select = 165;			break;
+						case 77:	select = 167;			break;
+						case 79:	select = 169;			break;
+						case 81:	select = 171;			break;
+						case 83:	select = 173;			break;
+						case 85:	select = 175;			break;
+						case 87:	select = 177;			break;
+						default:	select = select - 18;	break;
+					}
+					TicCoolDown = 6;
+				}
+			// Move Down
+			if((Buttons & (BT_LOOKDOWN))||(Buttons & (BT_BACK)))
+				{
+					switch(select)
+					{
+						case 165:	select = 75;			break;
+						case 167:	select = 77;			break;
+						case 169:	select = 79;			break;
+						case 171:	select = 81;			break;
+						case 173:	select = 83;			break;
+						case 175:	select = 85;			break;
+						case 177:	select = 87;			break;
+						default:	select = select + 18;	break;
+					}
+					TicCoolDown = 6;
+				}
+			//
+		}
+		
+			//Selected a Character
+		if((Buttons & (BT_ATTACK))||(Buttons & (BT_JUMP)))
+			{
+				if(!(TicCoolDown > 0))
+				{
+					if(select < 175)		//Add a Character
+					{	
+						if(namei < 8)	{	namepos[namei] = NumberOf(select);	namei++;	}
+						TicCoolDown = 10;
+					}
+					else if(select == 175)	//Erase a Character
+					{	
+						if(namei > 0)	{	namei--;	namepos[namei] = NumberOf(select);	}	
+						TicCoolDown = 10;
+					}
+					else if (select == 177)	//Finish 
+					{
+						if(namei < 8)	//<- If not all characters where added, fill the blank spaces
+						{	for(int aux= namei; aux<8; aux++)	{	namepos[aux]= 39;	}	}
+					
+						ACS_NamedExecuteAlways("StoreScore",0,playerscore,0,0);
+						//Delay(2);
+						Delay(10);
+						ACS_NamedExecuteAlways("TopScore",0,0,0,0);
+						Terminate;
+						TicCoolDown = 10;
+					}
+				}
+				
+			}
+		
+		
+		for(i=0; i<8; i++)
+		{	charpos[222+i] = CHAR_FONT[namepos[i]];	}
+		Delay(1);
+		TicCounter++;
+		TicCoolDown--;
+	}
+	
+}
+	
+
+//TOP 10 HIGHSCORES INTERFACE 	
+Script "TopScore" (void)
+{
+	int i = 0;
+	int scorearray[6];
+	int score=0;
+	int vacios=0;
+	int time= 10;
+	time= time-DiscountTime;
+	
+	//LoadFonts
+	if(CheckInventory("Ghoul_Mod")==1)		{	LoadFonts(1);	}	//Ghoul Patrol Font
+	else if(CheckInventory("Smash_Mod")==1)	{	LoadFonts(2);	}	//Smash TV Font
+	else									{	LoadFonts(0);	}	//Zamn Font
+
+	
+	SetHudSize(288, 256, FALSE);
+	for(i=0; i < 288; i++){
+		charpos[i] = CHAR_FONT[39];		//CHAR_FONT[39] IS BLANK
+	}
+	
+	//Carga de Caracteres : TOP SCORES //
+	charpos[22]= CHAR_FONT[29]; charpos[23]= CHAR_FONT[24]; charpos[24]= CHAR_FONT[25]; 
+	charpos[26]= CHAR_FONT[28]; charpos[27]= CHAR_FONT[12]; charpos[28]= CHAR_FONT[24]; charpos[29]= CHAR_FONT[27]; charpos[30]= CHAR_FONT[14]; charpos[31]= CHAR_FONT[28];			
+	
+	//Name 1°
+	for(i = 55; i<63; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos0char", i: (i - 55) )) ];	} 
+	
+	//
+	score = GetCvar("cvarpoints0");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}		}
+		
+	for(i = 65; i<71; i++)
+	{	if(scorearray[i - 65] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 65]) ];	}
+	
+	
+	//.Name 2°
+	for(i = 73; i<81; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos1char", i: (i - 73) )) ];	}
+	//
+	score = GetCvar("cvarpoints1");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 83; i<89; i++)
+	{	if(scorearray[i - 83] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 83]) ];	}
+	
+	//Name 3°
+	for(i = 91; i<99; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos2char", i: (i - 91) )) ];	 }
+	//
+	score = GetCvar("cvarpoints2");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 101; i<107; i++)
+	{	if(scorearray[i - 101] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 101]) ];	}
+	
+	//Name 4°
+	for(i = 109; i<117; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos3char", i: (i - 109) )) ]; }
+	//
+	score = GetCvar("cvarpoints3");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 119; i<125; i++)
+	{	if(scorearray[i - 119] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 119]) ];	}
+	
+	//Name 5°
+	for(i = 127; i<135; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos4char", i: (i - 127) )) ]; }
+	//
+	score = GetCvar("cvarpoints4");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 137; i<143; i++)
+	{	if(scorearray[i - 137] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 137]) ];	}
+	
+	//Name 6°
+	for(i = 145; i<153; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos5char", i: (i - 145) )) ]; }
+	//
+	score = GetCvar("cvarpoints5");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 155; i<161; i++)
+	{	if(scorearray[i - 155] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 155]) ];	}
+	
+	//Name 7°
+	for(i = 163; i<171; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos6char", i: (i - 163) )) ]; }
+	//
+	score = GetCvar("cvarpoints6");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 173; i<179; i++)
+	{	if(scorearray[i - 173] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 173]) ];	}
+	
+	//Name 8°
+	for(i = 181; i<189; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos7char", i: (i - 181) )) ]; }
+	//
+	score = GetCvar("cvarpoints7");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 191; i<197; i++)
+	{	if(scorearray[i - 191] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 191]) ];	}
+	
+	//Name 9°
+	for(i = 199; i<207; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos8char", i: (i - 199) )) ]; }
+	//
+	score = GetCvar("cvarpoints8");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	}	}
+			
+	for(i = 209; i<215; i++)
+	{	if(scorearray[i - 209] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 209]) ];	}
+	
+	//Name 10°
+	for(i = 217; i<225; i++)
+	{ 	charpos[i] = CHAR_FONT[ GetCvar(StrParam(s: "cvpos9char", i: (i - 217) )) ]; }
+	//
+	score = GetCvar("cvarpoints9");
+	vacios = ScoreVacios(score);
+	for (i = 5; i >= 0; i--) 
+		{	if(i > (vacios - 1))	{	scorearray[i] = score % 10;	score /= 10;	}
+			else					{	scorearray[i] = 39;	} }	
+			
+	for(i = 227; i<233; i++)
+	{	if(scorearray[i - 227] == 39)	charpos[i]= CHAR_FONT[39];
+		else							charpos[i]= CHAR_FONT[ 51+(scorearray[i - 227]) ];	}
+	
+	//Displays on screen [Tested]
+	int num=0;
+	while(true)
+	{
+	
+		for(num=0; num< 288; num++){
+			SetFont(charpos[num]);
+			
+			Hudmessage(s:"A";HUDMSG_PLAIN, 400+num, 0, base * xypos[(num - (num/18)*18)], base * xypos[(num/18)], HUDTIME_ONESECOND);
+		}
+		time= time-1;
+		Delay(35);
+	
+
+		//Calls "ScoreDone" so "LivesSystem.acs" can start
+		if(time==0) 	
+		{
+			//Clean Layers
+			for(num=0; num< 288; num++)
+			{	Hudmessage(s:"";HUDMSG_PLAIN, 400+num, 0, base * xypos[(num - (num/18)*18)], base * xypos[(num/18)], HUDTIME_ONETIC);	}
+			Delay(2);
+
+			ACS_NamedExecuteAlways("ScoreDone",0,0,0,0);	
+			Delay(1);	
+			Terminate;
+		}
+
+	}
+
+	
+}	
+
+
+
+// THIS CODE REARANGES THE SCORES
+// It rearanges everyword, character by character and yes, keep in mind
+// that every word is stored as an array of numbers 
+// And yes, it was a pain, but hey! That's a permanent HighScores board
+// you don't see that everyday in Doom modding
+
+
+int ScoreList[10];		//0-9
+Script "StoreScore" (int ScoreObtained)			//SAVE HIGHSCORE
+{
+	int GetScore= 0;		//To fill the array
+	int index=0;
+	int index2=0;
+	str CvarName="";
+	
+	//Load the array with the existing scores
+	for (index = 0; index < 10; index++)
+		{
+			CvarName= StrParam(s: "cvarpoints", i: index);
+			GetScore= GetCvar(CvarName);
+			//Delay(1);
+			ScoreList[index]= GetScore;
+			//Delay(1);
+		}
+	
+	// Search the position for the new score
+	for(index2 = 10; index2 > 0; index2--)
+		{ 	if(ScoreList[index2-1] > ScoreObtained) //It should get the last valid position
+			Break;
+					}
+				
+	 
+	//Move Scores
+	if(!(index2==9))
+		{	
+			str cvarvar=  "";
+			int num= 0;
+			for(index = 9; index >= index2; index--)		// For every score     ...	
+				{	
+					ScoreList[index] = ScoreList[index-1];	
+					for(int i = 0; i<8; i++)				// For every character ...
+					{
+						//... I take the character...
+						cvarvar= StrParam(s: "cvpos", i: index-1, s: "char", i: i);
+						num= GetCvar(cvarvar);
+
+						//... and set it as the caracter of his superior position...
+						cvarvar= StrParam(s: "cvpos", i: index/*-1*/, s: "char", i: i);
+						SetCvar(cvarvar,num);
+						
+						//... and thus this should move every character one by one
+						//    finally moving entire words of the highscore player
+						//	  actualizing the board succesfully.
+					}
+				}
+			for(i=0; i<10; i++)
+			{
+				SetCvar(StrParam(s: "cvarpoints", i: i),ScoreList[i]);
+			}
+		}
+	else
+		{
+			print(s: "");
+				// Just store the score in the last position as it barely entered the highscores
+				// no need for more black magic than that
+		}
+		
+		
+	// Now you save the score number and the temporary characters in the neccesary "score position"/"characters" cvars
+	SetCvar(StrParam(s: "cvarpoints", i: index2),ScoreObtained);
+	for(i=0; i<8; i++)
+	{
+		SetCvar(StrParam(s: "cvpos", i: index2, s: "char", i: i),namepos[i]);
+	}
+
+//And boom! All Done! Somehow possible	
+}
+
+
+
+
+
+
+// In case that you had an old version with the Database of HighScores empty, 
+// this sets up the default values
+Script "CVarsDBFix" (void)
+{
+	int checklast = 0;
+	checklast = GetCvar("cvarpoints9");
+	Delay(1);
+	if(checklast < 1)
+	{
+		print(s: "Database Updated!");
+		
+		//Score Points Containers
+		SetCvar("cvarpoints0",23456);
+		SetCvar("cvarpoints1",22455);
+		SetCvar("cvarpoints2",21454);
+		SetCvar("cvarpoints3",20453);
+		SetCvar("cvarpoints4",19452);
+		SetCvar("cvarpoints5",18451);
+		SetCvar("cvarpoints6",17450);
+		SetCvar("cvarpoints7",16449);
+		SetCvar("cvarpoints8",15448);
+		SetCvar("cvarpoints9",14447);
+		
+		//Characters Containers
+		SetCvar("cvpos0char0",36);
+		SetCvar("cvpos0char1",14);
+		SetCvar("cvpos0char2",11);
+		SetCvar("cvpos0char3",14);
+		SetCvar("cvpos0char4",27);
+		SetCvar("cvpos0char5",29);
+		SetCvar("cvpos0char6",39);
+		SetCvar("cvpos0char7",39);
+		
+		SetCvar("cvpos1char0",36);
+		SetCvar("cvpos1char1",28);
+		SetCvar("cvpos1char2",17);
+		SetCvar("cvpos1char3",10);
+		SetCvar("cvpos1char4",27);
+		SetCvar("cvpos1char5",25);
+		SetCvar("cvpos1char6",14);
+		SetCvar("cvpos1char7",39);
+		
+		SetCvar("cvpos2char0",36);
+		SetCvar("cvpos2char1",17);
+		SetCvar("cvpos2char2",28);
+		SetCvar("cvpos2char3",18);
+		SetCvar("cvpos2char4",14);
+		SetCvar("cvpos2char5",17);
+		SetCvar("cvpos2char6",39);
+		SetCvar("cvpos2char7",39);
+		
+		SetCvar("cvpos3char0",12);
+		SetCvar("cvpos3char1",24);
+		SetCvar("cvpos3char2",21);
+		SetCvar("cvpos3char3",21);
+		SetCvar("cvpos3char4",14);
+		SetCvar("cvpos3char5",29);
+		SetCvar("cvpos3char6",29);
+		SetCvar("cvpos3char7",14);
+		
+		SetCvar("cvpos4char0",36);
+		SetCvar("cvpos4char1",27);
+		SetCvar("cvpos4char2",24);
+		SetCvar("cvpos4char3",11);
+		SetCvar("cvpos4char4",14);
+		SetCvar("cvpos4char5",21);
+		SetCvar("cvpos4char6",39);
+		SetCvar("cvpos4char7",39);
+		
+		SetCvar("cvpos5char0",19);
+		SetCvar("cvpos5char1",14);
+		SetCvar("cvpos5char2",10);
+		SetCvar("cvpos5char3",23);
+		SetCvar("cvpos5char4",39);
+		SetCvar("cvpos5char5",29);
+		SetCvar("cvpos5char6",39);
+		SetCvar("cvpos5char7",39);
+		
+		SetCvar("cvpos6char0",20);
+		SetCvar("cvpos6char1",10);
+		SetCvar("cvpos6char2",21);
+		SetCvar("cvpos6char3",10);
+		SetCvar("cvpos6char4",23);
+		SetCvar("cvpos6char5",18);
+		SetCvar("cvpos6char6",39);
+		SetCvar("cvpos6char7",39);
+		
+		SetCvar("cvpos7char0",36);
+		SetCvar("cvpos7char1",15);
+		SetCvar("cvpos7char2",24);
+		SetCvar("cvpos7char3",23);
+		SetCvar("cvpos7char4",16);
+		SetCvar("cvpos7char5",38);
+		SetCvar("cvpos7char6",39);
+		SetCvar("cvpos7char7",39);
+		
+		SetCvar("cvpos8char0",25);
+		SetCvar("cvpos8char1",39);
+		SetCvar("cvpos8char2",22);
+		SetCvar("cvpos8char3",18);
+		SetCvar("cvpos8char4",12);
+		SetCvar("cvpos8char5",10);
+		SetCvar("cvpos8char6",39);
+		SetCvar("cvpos8char7",39);
+		
+		SetCvar("cvpos9char0",36);
+		SetCvar("cvpos9char1",21);
+		SetCvar("cvpos9char2",30);
+		SetCvar("cvpos9char3",12);
+		SetCvar("cvpos9char4",10);
+		SetCvar("cvpos9char5",28);
+		SetCvar("cvpos9char6",39);
+		SetCvar("cvpos9char7",39);
+		
+		Delay(1);
+	}
+	
+}
+
+

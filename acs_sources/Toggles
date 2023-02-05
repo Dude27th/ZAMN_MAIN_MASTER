@@ -1,0 +1,13 @@
+#library "Toggles"
+#include "zcommon.acs"
+/*
+Script "RandomColor" (void)
+{
+	SetCVar("gotoggle",(random (0,2)));
+}*/
+
+Script "Voxels" (void)
+{
+	SetResultValue(GetCVar("vxtoggle"));
+}
+

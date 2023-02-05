@@ -1,0 +1,55 @@
+#library "ErrorLogs"
+#include "zcommon.acs"
+  
+// Trampoline Errors 
+
+Script "TrampolineZeroError"(void)
+{	Log(s: "There is no sector tag asigned for this trampoline!\n---------------------------------------------------\n( Argument 1 )\n.");	}
+
+// DestructiveTrigger Errors 
+
+Script "EmptyTriggerError" (void)
+{	Log(s: "Empty Trigger Error: Trigger Tag and Argument 1 can't be both zero . \n(Trigger Tag (or Optionally Argument 1) should be the same as the Sector Tag of the sector target.)\n.");	}
+
+Script "TagZeroError" (void)
+{	Log(s: "Reference Error: Trigger Tag can't be zero. \n(Trigger Tag should be the same as the Sector Tag of the sector target.)\n.");	}
+
+Script "TagNegativeError" (void)
+{	Log(s: "Sidetag Error: Trigger Tag must be 201 at minumum. \n(Sidetag is equal to [TriggerTag - 200] if not specified, in this case it resulted as a negative number or a '0')\n.");	}
+
+Script "TagReservedError" (void)
+{	Log(s: "Reserved Tag Error: The tag 2000 and onward are reserved for Player Tags and Player Scripts\n.You can consult the reserved tags by typing 'pukename ReservedTags' without the ' ' in console.\n.");	}
+
+
+// Bathroom Trigger Errors
+
+Script "SectorZero" (void)
+{	Log(s: "Reference Error: Sector Tag can't be zero. \n(Sector Tag should be the same as the sector target.)\n.");	}
+
+
+// Dynamic Music Errors
+
+Script "InvalidTrack" (void)
+{
+	Log(s: "\nInvalid Track Error: [The setted track for this level can't be zero or less] \n--------------------\n\nYou can choose track '999' to deactivate the Dynamic Music Script and handle the music yourself.\nOr you can consult the Music Tracklist by typing 'pukename MusicInfo' without the ' ' in console.\nOr you can set the music at any moment by typing 'pukename ChangeMusic Any_track_number'.\n.");
+}
+
+
+//[Information Scripts]
+
+Script "ReservedTags" (void)
+{
+	Log(s: "\nTags Used Internally:\n---------------------\n\n51  -  55 :\nShowcase Survivor spots after Level Finish\n\n555:\nBriefly used by Destructive Walls as a to tag themselves as a tag point for the props spawner\n\n800 :\nBriefly used by Stanley to set himself attacking a destructive wall , to set the spawner point while he waits for the animation\n\n840:\nBriefly used by Stanley to set himself attacking a destructive wall\n\n994 & 995 :\nRespectively Player One & Player Two teleport point tags for when the level is finished\n\n998 :\nMagic Door Spawn Point (Activated by a Survivor at Pickup or Death)\n\n2000 & 2001 :\nPlayer One and Two Tags\n.");
+}
+
+Script "MusicInfo" (void)
+{
+	Log(s: "\nTracklist\n---------\n\nTrack 1: 'Zombie Panic'\nTrack 2: 'Evening Of The Undead'\nTrack 3: 'No Assembly Required'\nTrack 4: 'Boss Battle'\nTrack 5: 'Weird Kids On The Block'\nTrack 6: 'Pyramid Of Fear'\nTrack 7: 'Dr Tongue's Curse'\nTrack 8: 'Titanic Toddler'\nTrack 9: 'Mars Needs Cheerleaders'\n\n[Special Cases]\n\n(Office Of The Doomed)\nTrack 10: 'No Assembly Required' (SNES) | 'Office Of The Doomed' (GENESIS/MEGADRIVE)\n\n(Zombie House Party)\nTrack 11: 'Zombie Panic' (SNES) | 'Office Of The Doomed' (GENESIS/MEGADRIVE)\n\n(Curse Of The Tongue)\nTrack 12: 'Unused Song' (SNES) | 'Carnival' (GENESIS/MEGADRIVE)\n\n(Mushroom Men)\nTrack 13: 'Weird Kids On The Block' (SNES) | 'Office Of The Doomed' (GENESIS/MEGADRIVE)\n\n(Cheerleaders Vs Monsters)	\nTrack 14: 'Evening Of The Undead' (SNES) | 'Office Of The Doomed' (GENESIS/MEGADRIVE)\n\n\n[Singular Tracks]\n\nTrack 80: 'Zombie Panic (SNES)'\nTrack 81: 'Evening Of The Undead (SNES)'\nTrack 82: 'No Assembly Required (SNES)'\nTrack 83: 'Boss Battle (SNES)'\nTrack 84: 'Weird Kids On The Block (SNES)'\nTrack 85: 'Pyramid Of Fear (SNES)'\nTrack 86: 'Dr Tongue's Curse (SNES)'\nTrack 87: 'Titanic Toddler (SNES)'\nTrack 88: 'Mars Needs Cheerleaders (SNES)'\nTrack 89: 'Office Of The Doomed (SNES) [Not available]'\nTrack 90: 'Carnival (SNES) [Not available]'\nTrack 91: 'Unused Song (SNES)'\n\nTrack 92: 'Zombie Panic (Genesis/Megadrive)'\nTrack 93: 'Evening Of The Undead (Genesis/Megadrive)'\nTrack 94: 'No Assembly Required (Genesis/Megadrive)'\nTrack 95: 'Boss Battle (Genesis/Megadrive)'\nTrack 96: 'Weird Kids On The Block (Genesis/Megadrive)'\nTrack 97: 'Pyramid Of Fear (Genesis/Megadrive)'\nTrack 98: 'Dr Tongue's Curse (Genesis/Megadrive)'\nTrack 99: 'Titanic Toddler (Genesis/Megadrive)'\nTrack 100: 'Mars Needs Cheerleaders (Genesis/Megadrive)'\nTrack 101: 'Office Of The Doomed (Genesis/Megadrive)'\nTrack 102: 'Carnival (Genesis/Megadrive)'\nTrack 103: 'Unused Song (Genesis/Megadrive) [Not available]'\n\nTrack 104: 'Zombie Panic (Lame Genie Cover)'\nTrack 105: 'Evening Of The Undead (Lame Genie Cover)'\nTrack 106: 'No Assembly Required (Lame Genie Cover)'\nTrack 107: 'Boss Battle (Lame Genie Cover)'\nTrack 108: 'Weird Kids On The Block (Lame Genie Cover)'\nTrack 109: 'Pyramid Of Fear (Lame Genie Cover)'\nTrack 110: 'Dr Tongues Curse (Lame Genie Cover)'\nTrack 111: 'Titanic Toddler (Lame Genie Cover)'\nTrack 112: 'Mars Needs Cheerleaders (Lame Genie Cover)'\nTrack 113: 'Office Of The Doomed (Lame Genie Cover) [Not available]'\nTrack 114: 'Carnival (Lame Genie Cover) [Not available]'\nTrack 115: 'Unused Song (Lame Genie Cover) [Not available]'\n\nTrack 116: 'Zombie Panic (Nihbru Cover) [Not available]'\nTrack 117: 'Evening Of The Undead (Nihbru Cover) [Not available]'\nTrack 118: 'No Assembly Required (Nihbru Cover) [Not available]'\nTrack 119: 'Boss Battle (Nihbru Cover) [Not available]'\nTrack 120: 'Weird Kids On The Block (Nihbru Cover) [Not available]'\nTrack 121: 'Pyramid Of Fear (Nihbru Cover) [Not available]'\nTrack 122: 'Dr Tongue's Curse (Nihbru Cover) [Not available]'\nTrack 123: 'Titanic Toddler (Nihbru Cover) [Not available]'\nTrack 124: 'Mars Needs Cheerleaders (Nihbru Cover) [Not available]'\nTrack 125: 'Office Of The Doomed (Nihbru Cover) [Not available]'\nTrack 126: 'Carnival (Nihbru Cover) [Not available]'\nTrack 127: 'Unused Song (Nihbru Cover) [Not available]'\n\nTrack 150: 'Ghoul Patrol: Intro Track_A'\nTrack 151: 'Ghoul Patrol: Intro Track_B'\nTrack 152: 'Ghoul Patrol: Metropolis 1'\n\nTrack 999: This will deactivate the Dynamic Music completely until the next level.\n[Don't use it unless you really need it !!]\n\n\n[MusicInfo printed ^^!]\n[You can change the music trough console by using 'pukename ChangeMusic Track']\n.");
+	// When you update the info don't forget this at the end:
+	//"\n\n\n[MusicInfo printed ^^!]\n[You can change the music trough console by using 'pukename ChangeMusic Track']\n."
+}
+
+Script "TestHelp" (void)
+{
+	Log(s: StrParam(s: "Pukename:", s: "\n--------------------", s: "\n+ TestMonsterLimit", s: "\n+ TestPitch", s: "\n+ TestCamera", s: "\n+ TestSpeed", s: "\n+ TestInvulnerable", s: "\n\n+ ReservedTags", s: "\n+ MusicInfo"));
+}

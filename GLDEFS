@@ -1,0 +1,194 @@
+//object "name" == actor "name"
+//$GZDB_SKIP
+
+//////////////////////////
+//        Lights        //
+//////////////////////////
+
+pointlight HIGH_LAMP
+  {
+  	color 0.5 0.5 0.0
+    size 50
+    offset 0 0 0
+}
+
+pointlight LOW_LAMP
+  {
+  	color 0.5 0.5 0.0
+    size 20
+    offset 0 10 0
+}
+
+pointlight AXE_BABYFIRE
+  {
+  	color 0.9 0.0 0.0
+    size 30
+    offset 0 15 0
+}
+
+pointlight AXE_BABYFIRE2
+  {
+  	color 0.9 0.0 0.0
+    size 20
+    offset 0 15 0
+}
+
+pointlight BABYFIRE_FIRE
+  {
+  	color 0.9 0.0 0.0
+    size 10
+    offset 0 15 0
+}
+
+pointlight ZTVM
+  {
+  	color 1.0 1.0 1.0
+    size 20
+    offset 15 -15 0
+}
+
+pointlight DEATHGLOW
+  {
+  	color 0.0 1.0 1.0
+    size 20
+    offset 0 15 0 
+}
+
+pointlight ZOMBIE_DEATH
+  {
+  	color 1.0 0.007 0.0
+    size 15
+    offset 0 15 0
+}
+
+pointlight TorchLight
+  {
+  	color 1.0 1.0 0.5
+    size 64
+    offset 0 10 0
+}
+
+pointlight ScoreItem
+  {
+  	color 0.5 0.5 0.0
+    size 20
+    offset 0 10 0
+}
+
+//////////////////////////
+//       Objects        //
+//////////////////////////
+
+object TORCH_0
+{
+	frame TOCHA { light TorchLight }
+	frame TOCHB { light TorchLight }
+	frame TOCHC { light TorchLight }
+	frame TOCHD { light TorchLight }
+	frame TOCHE { light TorchLight }
+	frame TOCHF { light TorchLight }
+	frame TOCHG { light TorchLight }
+	frame TOCHH { light TorchLight }
+	frame TOCHI { light TorchLight }
+	frame TOCHJ { light TorchLight }
+}
+
+object DeathSurvivor 
+{
+    frame SRVDA { light DEATHGLOW }
+	frame SRVDB { light DEATHGLOW }
+	frame SRVDC { light DEATHGLOW }
+	frame SRVDD { light DEATHGLOW }
+	frame SRVDE { light DEATHGLOW }
+	frame SRVDF { light DEATHGLOW }
+	frame SRVDG { light DEATHGLOW }
+	frame SRVDH { light DEATHGLOW }
+	frame SRVDI { light DEATHGLOW }
+	frame SRVDJ { light DEATHGLOW }
+	frame SRVDK { light DEATHGLOW }
+	frame SRVDL { light DEATHGLOW }
+	frame SRVDM { light DEATHGLOW }
+	frame SRVDN { light DEATHGLOW }
+}
+
+
+object HIGH_LAMP
+{
+	frame LAM2A { light HIGH_LAMP }
+    frame LAMPB { light HIGH_LAMP }
+	frame LAM2C { light HIGH_LAMP }
+	frame LAMPD { light HIGH_LAMP }
+	frame LAM2E { light HIGH_LAMP }		//to be confirmed, need to check "zamn:the sequel" to confirm it
+}
+
+object LOWLAMP
+{
+    frame HGLPA { light LOW_LAMP }
+}
+
+object BFIRE
+{
+ 	frame AXEFA { light AXE_BABYFIRE }
+ 	frame AXEFB { light AXE_BABYFIRE }
+    frame AXEFC { light AXE_BABYFIRE }
+	frame AXEFD { light AXE_BABYFIRE }
+}
+
+object BABYDOLL
+{
+	frame AXEDA { light AXE_BABYFIRE }
+	frame AXEDB { light AXE_BABYFIRE }
+	frame AXEDC { light AXE_BABYFIRE2 }
+	frame AXEDD { light AXE_BABYFIRE2 }
+	frame AXEDE { light AXE_BABYFIRE2 }
+	frame AXEDF { light AXE_BABYFIRE2 }
+	frame AXEDG { light AXE_BABYFIRE2 }
+	frame AXEDH { light AXE_BABYFIRE2 }
+	frame AXEDI { light AXE_BABYFIRE2 }
+}
+
+object BFIRE_FIRE
+{
+	frame AXEDG { light BABYFIRE_FIRE }
+	frame AXEDH { light BABYFIRE_FIRE }
+	frame AXEDI { light BABYFIRE_FIRE }
+}
+
+object TVZM
+{
+    frame TVZMA { light ZTVM }
+}
+
+object ZAMN_ZOMBIE
+{
+	frame ZOMBL { light ZOMBIE_DEATH }
+	frame ZOMBM { light ZOMBIE_DEATH }
+	frame ZOMBN { light ZOMBIE_DEATH }
+	frame ZOMBO { light ZOMBIE_DEATH }
+}
+
+object ZAMN_Mummy
+{
+	frame ZOMBL { light ZOMBIE_DEATH }
+	frame ZOMBM { light ZOMBIE_DEATH }
+	frame ZOMBN { light ZOMBIE_DEATH }
+	frame ZOMBO { light ZOMBIE_DEATH }
+}
+
+object ScoreA
+{
+	frame SCORA { light ScoreItem }
+}
+
+object ScoreB
+{
+	frame SCORB { light ScoreItem }
+}
+
+object FireSeed
+{
+	frame FIEMA { light ZOMBIE_DEATH }
+	frame FIEMB { light ZOMBIE_DEATH }
+	frame FIEMC { light ZOMBIE_DEATH }
+	frame FIEMD { light ZOMBIE_DEATH }
+}

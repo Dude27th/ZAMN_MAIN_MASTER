@@ -1,0 +1,40 @@
+#library "DestructibleProps"
+#include "zcommon.acs"  
+   
+Script "SpawnLeafs_X" (int pal){
+	str pallete;
+	switch(pal){
+		case 0:	pallete="Day";	break;
+		case 1:	pallete="Night";break;
+		case 2:	pallete="Toxic";break;
+		case 3: pallete="Winter";break;
+		//case4:pallete="Spring";break;
+	}
+	Thing_ChangeTID(0,555);
+	int PositionX = GetActorX(555);
+	int PositionY = GetActorY(555);
+	int PositionZ = GetActorZ(555);
+	Delay(1);
+	SpawnForced(StrParam(s: "LeafySpawner_", s: pallete),PositionX,PositionY,PositionZ,0,0); 
+	Delay(1);
+	Thing_ChangeTID(555,0);
+}
+ 
+Script "SpawnWood_X" (int pal){
+	str pallete;
+	switch(pal){
+		case 0:	pallete="Day";	break;
+		case 1:	pallete="Night";break;
+		case 2:	pallete="Toxic";break;
+		case 3: pallete="Winter";break;
+		//case4:pallete="Spring";break;
+	}
+	Thing_ChangeTID(0,555);
+	int PositionX = GetActorX(555);
+	int PositionY = GetActorY(555);
+	int PositionZ = GetActorZ(555);
+	Delay(1);
+	SpawnForced(StrParam(s: "WoodSpawner_", s: pallete),PositionX,PositionY,PositionZ,0,0);
+	Delay(1);
+	Thing_ChangeTID(555,0);
+}

@@ -1,0 +1,122 @@
+//$GZDB_SKIP
+
+//---------------------- Water SFX ----------------------
+
+//Base Class
+Actor SFX_Water
+{
+	Height 1
+	Radius 8
+	Scale 1.5
+	Alpha 0.75
+	RenderStyle "Translucent"
+	+NOCLIP
+	+NOGRAVITY
+	+NOBLOCKMAP
+	+THRUSPECIES
+}
+
+// Generic Use::
+
+//In Water Spawn
+//.........................................................//
+Actor SFX_InWater : SFX_Water
+{	States
+	{	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("Player/WaterIn")
+		TNT1 A 0 A_SpawnItemEx("WAnim_InZ", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION,0)
+		TNT1 A 0 A_SpawnItemEx("WAnim_InV", 0,0,1, 0,0,0, 0, SXF_NOCHECKPOSITION,0)
+		Stop
+	}
+}
+
+Actor WAnim_InV : SFX_Water
+{	States
+	{	Spawn:
+		WFXV AC 8
+		Stop	
+	}
+}
+
+Actor WAnim_InZ : SFX_Water
+{	
+	+FLATSPRITE
+	States
+	{	Spawn:
+		WFXZ ACDEF 8
+		Stop	}
+}
+//.........................................................//
+
+// Specific Use::
+
+//Out Water Spawn [Player]
+//.........................................................//
+Actor SFX_OuwaterP : SFX_Water
+{	States
+	{	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("Player/WaterOu")
+		TNT1 A 0 A_SpawnItemEx("WAnim_OuZP", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION,0)
+		TNT1 A 0 A_SpawnItemEx("WAnim_OuVP", 0,0,1, 0,0,0, 0, SXF_NOCHECKPOSITION,0)
+		Stop
+	}
+}
+
+Actor WAnim_OuVP : SFX_Water
+{
+	Alpha 0.65
+	States
+	{	Spawn:
+		WFXV P 8
+		Stop	}
+}
+
+Actor WAnim_OuZP : SFX_Water
+{	
+	+FLATSPRITE
+	States
+	{	Spawn:
+		WFXZ PCQ 8
+		Stop	}
+}
+//.........................................................//
+
+
+
+//Out Water Spawn [Monster]
+//.........................................................//
+Actor SFX_Ouwater : SFX_Water
+{	States
+	{	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("Player/WaterOu")
+		TNT1 A 0 A_SpawnItemEx("WAnim_OuZ", 0,0,0, 0,0,0, 0, SXF_NOCHECKPOSITION,0)
+		TNT1 A 0 A_SpawnItemEx("WAnim_OuV", 0,0,1, 0,0,0, 0, SXF_NOCHECKPOSITION,0)
+		Stop
+	}
+}
+
+Actor WAnim_OuV : SFX_Water
+{	Scale 1.35
+	Alpha 0.65
+	States
+	{	Spawn:
+		WFXV BC 8
+		Stop	}
+}
+
+Actor WAnim_OuZ : SFX_Water
+{	
+	+FLATSPRITE
+	States
+	{	Spawn:
+		WFXZ BCDEF 8
+		Stop	}
+}
+//.........................................................//
+//----------------------------------------------------------
+
+
+

@@ -1,0 +1,133 @@
+					 _____________________________
+					|                             |
+					|  "What are the survivors?"  |
+					|_____________________________|
+					
+
+The survivors even if they appear as a single entithy they are actually 5 actors working at 
+the same point for each survivor on the map. Those actors are:
+
+1. Survivor Spawn 	[Generic]
+2. Survivor Actor
+3. Alerter Point	[3.b. Spawns "InChase" Actor]
+4. Pointer 			[Generic]
+5. Survivor Storing
+
+
+
+Survivor Spawn:
+---------------
+
+The survivor poits are the actor which are directly placed in the map, they have an argument
+which takes their priority number [1 - 10*], at the start of every map they check if the
+numbers of survivors left in the game is equal or more than his priority number.
+
+If that's true it spawns his corresponding Survivor Actor and then it despawns itself.
+If that's false then it doesnt spawn his Survivor Actor and it just despawns itself.
+
+Also added recently as a second argument is the "Survivor Scripts" in which you can put 
+a number of a script to launch in case of save/death of the survivor. For more info you can
+read the "[GUIDE] SurvivorScripts" file.
+
+
+*: 	The priority ranging from 1 - 10 is just based on the original ZAMN design, it is meant 
+	at some point to be expanded to 20, for use with bigger or experimental maps.
+	[Update:	The range now extends to 20! You need to use before hand "SurvivorLimit" in the
+	Startup Scripts from the map, to set the new limit]
+
+
+
+Survivor Actor:
+---------------
+
+This is the actor which plays the animations mostly of each survivor, in some cases it also checks
+for enemies nearby to play special animations like the "Dog Survivor" or the "Soldier Survivor",  
+and it also stores his health but it is invulnerable to all** types of direct damage.
+
+It spawns two other actors, the "Alerter Point" and the "Pointer" refered in Decorate as
+"Survivor Pointer"
+
+
+**:	All the damage is supposed to be only dealt trough the "Alerter Point" actor, but at this
+	current date (27/05/2021) they are suceptible to some forms of splash damage.
+	Even tho this is considered a bug, the bug is still being studied.
+
+
+
+Alerter Point:
+--------------
+
+This actor works as the AI of each survivor, it mainly search for players nearby and when it detects
+any player it will spawn a temporal actor (to exist only when there is still players nearby),
+this spawned actor is named "InChase" which the enemies chase for actively.
+
+If an enemy attacks and sucesfully hits the "InChase" actor, the damage is passed to the "Alerter Point"
+and then the "Alerter Point" will pass the damage to his "Survivor Actor", effectively killing him,
+damaging him, or by doing nothing, based on the type of damage and type of survivor.
+
+
+
+Pointer (Survivor Pointer):
+---------------------------
+
+This actor only exist to do one thing only, to be an invisible item at the survivor exact position.
+This is because that, based on the behaviour of the survivors, they are considered to be a sort
+of hybrid between a monster and an item.
+
+And to the Radar Scripts it detects them as a monster, so this survivor pointer is placed at their
+spots to appear in the radar as items, which detects the Radar showcasing them with the yellow 
+circle, reminiscent to the original ZAMN.
+
+
+
+Survivor Storing:
+-----------------
+
+So, initially this was done with several actors which worked as tokens, and with a script 
+wich was triggered upon pickup/death of a survivor it was calculated 
+how many survivors: / where in the map / where left / the limit of survivors to spawn/ game over / 
+
+This was reworked at some point, thanks to a simplification of the level progression which allowed
+the script to solve this with arrays instead of with tokens, regardless the tokens haven't been 
+removed completely at this point.
+
+Everytime a survivor is saved and stored in the array, it sets an id wich represents the type of the survivor saved,
+and the index in that array sets the order in which the survivors where saved.
+
+Those IDs are:
+--------------
+
+[ZAMN Survivors]
+1: Soldier Survivor
+2: Baby Survivor
+3: Pool Dude Survivor
+4: Teacher Survivor
+5: Dog Survivor
+6: Cheerleader Survivor
+7: Tourists Survivor
+8: Explorer Survivor
+9: Chef Survivor
+10: Jumping Kid Survivor
+11: Son Of Dr Tongue Survivor
+
+/*
+[Ghoul Patrol Survivors]
+12:
+13:
+14:
+15:
+16:
+17:
+18:
+19:
+20:
+*/
+
+
+
+
+
+And that's it ^^!
+Thanks for reading, this is not much as a guide but more of an insight about how do they work.
+In case that I can't continue working on it I want to have pretty much every mechanic documented
+as to not lost any of the work that has been done here.

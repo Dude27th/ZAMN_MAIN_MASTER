@@ -1,0 +1,325 @@
+Actor DoppelGanger_Base : SpawnableMonster_ZAMN//MonsterClass_ZAMN
+{
+	Health 10
+	Speed 17
+	Radius 10
+	Height 40
+	Scale 1.50
+	MeleeRange 40
+	MaxDropOffHeight 24
+	MaxStepHeight 24
+	//Arg0 "StuckX"
+	//Arg1 "StuckY"
+	DamageType "Zombie"
+	Monster
+	+CANPASS
+	+THRUSPECIES
+	+NOPAIN
+	+NODROPOFF
+	+INVULNERABLE
+	+SLIDESONWALLS
+	States
+	{
+	Spawn_Set:
+		DPSP A 1 A_LookEX(0,0,0,0,360,"Spawn2")
+		TNT1 A 0 A_Jump(256,"Spawn2")
+		Stop
+	Spawn2:
+		TNT1 A 0 A_PlaySound("Doppelganger/Spawn",0,4.0,false,ATTN_NONE)
+		DGSP BCDEFGH 5//4
+		TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+		TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+		TNT1 A 0 A_Jump(256,"Spawn_Specific")
+		Stop
+
+	/*-------------------- Doppelganger 1 (Direct) --------------------*/
+	See_ChaseDop1:
+		"####" A 0 A_FaceTarget
+		"####" A 1 A_Recoil(-2)
+		"####" A 2 A_JumpIfCloser(40, "Melee")
+	
+		/*
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		*/
+	
+		"####" A 0 A_FaceTarget
+		"####" A 1  A_Recoil(-2)
+		"####" A 2 A_JumpIfCloser(40, "Melee")
+		"####" A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"####" A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"####" A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	
+		/*
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		*/
+	
+		"####" A 0 A_JumpIf((Args[0] + 64 >  CallACS("GiveOwnX",0,0,0,0) & Args[0] - 20 <  CallACS("GiveOwnX",0,0,0,0)) & (Args[1] + 20 >  CallACS("GiveOwnY",0,0,0,0) & Args[1] - 20 <  CallACS("GiveOwnY",0,0,0,0)), "ChaseFix")
+		"####" A 0 A_SetArg(0, CallACS("GiveOwnX",0,0,0,0))
+		"####" A 0 A_SetArg(1, CallACS("GiveOwnY",0,0,0,0))
+		"####" A 0 A_FaceTarget
+		"####" B 1 A_Recoil(-2)
+		"####" B 2 A_JumpIfCloser(40, "Melee")
+	
+		/*
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		*/
+	
+		"####" A 0 A_FaceTarget
+		"####" B 1  A_Recoil(-2)
+		"####" B 2 A_JumpIfCloser(40, "Melee")
+		"####" A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"####" A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"####" A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		
+		/*
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		*/
+	
+		"####" A 0 A_JumpIf((Args[0] + 64 >  CallACS("GiveOwnX",0,0,0,0) & Args[0] - 20 <  CallACS("GiveOwnX",0,0,0,0)) & (Args[1] + 20 >  CallACS("GiveOwnY",0,0,0,0) & Args[1] - 20 <  CallACS("GiveOwnY",0,0,0,0)), "ChaseFix")
+		"####" A 0 A_SetArg(0, CallACS("GiveOwnX",0,0,0,0))
+		"####" A 0 A_SetArg(1, CallACS("GiveOwnY",0,0,0,0))
+		"####" A 0 A_FaceTarget
+		"####" C 1 A_Recoil(-2)
+		"####" C 2 A_JumpIfCloser(40, "Melee")
+		
+		/*
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		*/
+	
+		"####" A 0 A_FaceTarget
+		"####" C 1 A_Recoil(-2)
+		"####" C 2 A_JumpIfCloser(40, "Melee")
+		"####" A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"####" A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		"####" A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		
+		/*
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		*/
+
+		"####" A 0 A_JumpIf((Args[0] + 64 >  CallACS("GiveOwnX",0,0,0,0) & Args[0] - 20 <  CallACS("GiveOwnX",0,0,0,0)) & (Args[1] + 20 >  CallACS("GiveOwnY",0,0,0,0) & Args[1] - 20 <  CallACS("GiveOwnY",0,0,0,0)), "ChaseFix")
+		"####" A 0 A_SetArg(0, CallACS("GiveOwnX",0,0,0,0))
+		"####" A 0 A_SetArg(1, CallACS("GiveOwnY",0,0,0,0))
+		"####" A 0 A_FaceTarget
+		"####" D 1 A_Recoil(-2)
+		"####" D 2 A_JumpIfCloser(40, "Melee")	
+		
+		"####" A 0 A_JumpIfTargetInLOS(2,100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS(1,120.0,0,800.0,0)//A_CheckSight("CheckVanish")
+		"####" A 0 A_Jump(256,"CheckVanish") 
+		
+		"####" A 0 A_FaceTarget
+		"####" D 1  A_Recoil(-2)
+		"####" D 2 A_JumpIfCloser(40, "Melee")
+		"####" A 0 A_JumpIf((Args[0] + 64 >  CallACS("GiveOwnX",0,0,0,0) & Args[0] - 20 <  CallACS("GiveOwnX",0,0,0,0)) & (Args[1] + 20 >  CallACS("GiveOwnY",0,0,0,0) & Args[1] - 20 <  CallACS("GiveOwnY",0,0,0,0)), "ChaseFix")
+		"####" A 0 A_Jump(256,"Idle")
+		Stop
+	/*-----------------------------------------------------------------*/
+	
+	MeleeReal:
+		"----" A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+		"----" A 0 A_JumpIfInTargetinventory("IsDead",1,"Death")
+		"----" A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+		"----" A 0 A_SetSize(16, -1, false)//(14,-1,false)
+		"----" A 1 A_FaceTarget
+		"----" A 1 A_CustomMeleeAttack((10),"","","Zombie")
+		"----" A 4
+		"----" A 0 A_SetSize(10,-1,false)
+		"----" A 0 A_Jump(256,"Idle")
+		Stop
+	ChaseFix_Do:
+		"####" A 1 A_FaceTarget
+		"####" A 1 A_SetAngle(angle + random(-25,25))
+		"####" A 1 A_Recoil(-2)
+		"####" A 3 A_Chase
+		"####" BB 3 a_Chase
+		"####" CC 3 a_Chase
+		"####" DD 3 a_Chase
+		"####" A 0 A_Jump(256,"Idle")
+		Stop
+	NoChase_Do:
+		"####" AA 3 A_Wander
+		//"####" A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		//"####" A 0 A_Jump(256,"Idle") 
+		"####" BB 3 A_Wander
+		//"####" A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		//"####" A 0 A_Jump(256,"Idle")
+		"####" CC 3 A_Wander
+		//"####" A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		//"####" A 0 A_Jump(256,"Idle")
+		"####" DD 3 A_Wander
+		"####" A 0 A_JumpIfInTargetInventory("IsDead",1,"Vanish")
+		"####" A 0 A_Jump(256,"Idle")
+		Stop
+	CheckVanish_Do:
+		"####" A 0 A_JumpIfTargetInLOS("See",100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS("See",100.0,0,800.0,0)
+		"####" AA 4 A_Chase
+		"####" A 0 A_JumpIfTargetInLOS("See",100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS("See",100.0,0,800.0,0)
+		"####" BB 4 A_Chase
+		"####" A 0 A_JumpIfTargetInLOS("See",100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS("See",100.0,0,800.0,0)
+		"####" CC 4 A_Chase
+		"####" A 0 A_JumpIfTargetInLOS("See",100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS("See",100.0,0,800.0,0)
+		"####" DD 4 A_Chase
+		"####" A 0 A_JumpIfTargetInLOS("See",100.0,0,800.0,0)
+		"####" A 0 A_JumpIfInTargetLOS("See",100.0,0,800.0,0)
+		"####" A 0 A_Jump(256,"Vanish")
+		Stop
+
+	Vanish_Animation:
+		TNT1 A 0 A_Jump(256,"Vanish_Specific")
+		Stop
+	Death:
+		TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+		TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+		TNT1 A 0 A_PlaySound("Something/Bam2",0,1.5,false,ATTN_NORM)
+		DGSP I 1 A_NoBlocking
+		DGSP IJKLMN 4 
+		TNT1 A 1
+		Stop
+	}
+}
+
+
+Actor DopZeke1 : DoppelGanger_Base
+{
+  States
+  {
+  Spawn_Specific:
+	DGSZ ABCD 4
+	TNT1 A 0 A_LookEX(0,0,0,0,360,"See")
+	Goto Idle
+  Idle:
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_LookEX(0,0,0,0,360,"See")
+    DPGZ AA 3 A_JumpIfInTargetLOS("See",100.0,0,600.0,600.0)
+    Goto CheckVanish
+
+  See:
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_SetArg(0, CallACS("GiveOwnX",0,0,0,0))
+	TNT1 A 0 A_SetArg(1, CallACS("GiveOwnY",0,0,0,0))
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	DZCH A 0 //<-- Sprite Set
+	DZCH A 0 A_Jump(256,"See_ChaseDop1")
+	Stop
+	
+  ChaseFix:
+    DZCH A 0 //<-- Sprite Set
+	DZCH A 0 A_Jump(256,"ChaseFix_Do")
+    Stop
+  
+  NoChase:
+	DZCH A 0 //<-- Sprite Set
+	DZCH A 0 A_Jump(256,"NoChase_Do")
+    Stop
+
+  Melee:
+	DPGZ A 0	//Attacking frame
+	Goto Melee_Check
+	
+  Pain:
+	DPGZ A 1 A_JumpIfInventory("FreezeTime",1,2)
+    Goto See
+	TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+    Goto FreezeTime
+  Pain.Popsicle:
+  Pain.FireExtinguisher:
+	DPFZ A 1 ACS_NamedExecuteAlways("GiveFreeze",0,17,0,0)
+  FreezeTime:
+	DPFZ A 1 A_TakeInventory("FreezeTime",1)
+	TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+	Goto See
+
+  CheckVanish:
+    DZCH A 0 //<-- Sprite Set
+	DZCH A 0 A_Jump(256,"CheckVanish_Do")
+    Stop
+  Pain.Reduce:
+	Goto Vanish
+  Vanish_Specific:
+	DGSZ DCBA 3
+	Stop
+  }
+}
+
+Actor DopJulie1 : DoppelGanger_Base
+{
+  States
+  {
+  Spawn_Specific:
+	DGSJ ABCD 4
+	TNT1 A 0 A_LookEX(0,0,0,0,360,"See")
+	Goto Idle
+  Idle:
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_LookEX(0,0,0,0,360,"See")
+    DPGJ AA 3 A_JumpIfInTargetLOS("See",100.0,0,600.0,600.0)
+    Goto CheckVanish
+  See:
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_SetArg(0, CallACS("GiveOwnX",0,0,0,0))
+	TNT1 A 0 A_SetArg(1, CallACS("GiveOwnY",0,0,0,0))
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	DJCH A 0 //<-- Sprite Set
+	DJCH A 0 A_Jump(256,"See_ChaseDop1")
+	Stop
+
+  ChaseFix:
+    DJCH A 0 //<-- Sprite Set
+	DJCH A 0 A_Jump(256,"ChaseFix_Do")
+    Stop
+
+  NoChase:
+	DJCH A 0 //<-- Sprite Set
+	DJCH A 0 A_Jump(256,"NoChase_Do")
+    Stop
+
+  Melee:
+	DJCH A 0	//Attacking frame
+	Goto Melee_Check
+
+  Pain:
+	DPGJ A 1 A_JumpIfInventory("FreezeTime",1,2)
+    Goto See
+	TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+    Goto FreezeTime
+  Pain.Popsicle:
+  Pain.FireExtinguisher:
+	DPFJ A 1 ACS_NamedExecuteAlways("GiveFreeze",0,17,0,0)
+  FreezeTime:
+	DPFJ A 1 A_TakeInventory("FreezeTime",1)
+	TNT1 A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+	Goto See
+
+  CheckVanish:
+	DJCH A 0 //<-- Sprite Set
+	DJCH A 0 A_Jump(256,"CheckVanish_Do")
+    Stop
+  Pain.Reduce:
+	Goto Vanish
+  Vanish_Specific:
+	DGSJ DCBA 3
+	Stop
+  }
+}

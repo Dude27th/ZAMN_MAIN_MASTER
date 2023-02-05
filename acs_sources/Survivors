@@ -1,0 +1,375 @@
+#library "Survivors"
+#include "zcommon.acs"
+#include "CUValues.acs"
+  
+global int 3:SurvivorMaximum;	// = 10;		//Total for the level and next levels
+global int 4:SurvivorPrevMax;	// = 10;		//Total for the previous level for comparison
+global int 5:SurvivorDead;		// = 0;			//Survivors who Died in relation to the SurvivorMaximum,
+	 		 									//resulting in a percentage based which translates to an int at the start.
+/*  
+Survivor Spawn System :
+
+So, there should be at least 1 Survivor points (10 in normal ZAMN levels )in every level map.
+
+"GetSurvivorsNumber" checks how many survivors are going to be spawned in total 
+at the start of the level and that value gets reduced for every survivor who didn't got saved.
+
+- If all the survivors die it is a GAME OVER.
+- If the amount of "SurvivorsToSpawn" == "SurvivorsSaved" + "SurvivorWhoDied" 
+  then the door to the next level should appear , once all the players go into the door 
+  the music changes to the "Level Finished" jingle and then stops. That should work c:
+							
+*/
+
+int SurvivorsToSpawn = 0;	//[Local Variable]
+int SurvivorSaved =0;		//[Local Variable]
+int SurvivorWhoDied=0;		//[Local Variable] Different to "SurvivorDead" this is for the ones who died on this level only
+
+
+//How many survivors should be spawned? [Called by Level]
+Script "CalculateSurvivorsNumber" OPEN	
+{	 
+	Delay(1);
+	if(SurvivorMaximum == 0)
+	{	SurvivorMaximum = 10;	
+		SurvivorPrevMax = SurvivorMaximum;	
+		//Log(s:"Default Limit");
+									}
+		
+	if((SurvivorMaximum > 20)||(SurvivorMaximum < 0))
+	{	/*Log(s: "Sorry! Only numbers between '0' and '20' can be set for the SurvivorLimit.\nDefaulting to limit of 10 survivors...");*/}
+
+	if(SurvivorMaximum != SurvivorPrevMax)
+	{
+		//Log(s: StrParam(s: "Limits Are Different \nMaximum: ", i: SurvivorMaximum, s: " PrevMax: ", i: SurvivorPrevMax, s: " SurvivorsDead: ", i: SurvivorDead));
+			
+		//Calculate if different
+		if(!(SurvivorDead == 0))
+		{
+			int Target  = 0;
+			Target = SurvivorPrevMax/SurvivorDead;
+
+
+			SurvivorMaximum *= 10;	//<- { Truncation } 	////////////////
+
+			int TruncateDead = SurvivorMaximum/Target;
+			int DivisorTruncate = TruncateDead % 10;
+			//Log(s:StrParam(s: "TruncateDead: ", i: (TruncateDead / 10), s: ",", i: (TruncateDead % 10)));
+			//Log(s:StrParam(s: "DivisorTruncate: 0,", i: DivisorTruncate));
+			
+			SurvivorMaximum /= 10;	//<- { Truncation } 	////////////////
+			
+			
+			SurvivorDead = SurvivorMaximum/Target;
+			if(DivisorTruncate > 5)
+			{	SurvivorDead++;	}	//More Accurate Truncation
+
+			SurvivorsToSpawn = SurvivorMaximum - SurvivorDead;
+
+				
+
+			//Failsafe in case the limit is too low.
+			if((SurvivorsToSpawn == 0)||(SurvivorDead == SurvivorMaximum))
+			{	SurvivorsToSpawn++;
+				SurvivorDead--;		}	
+			//Log(s:StrParam(s: "SurvivorToSpawn: ", i: SurvivorsToSpawn));
+			//Log(s:StrParam(s: "SurvivorDead: ", i: SurvivorDead));
+		}
+		else
+		{
+			//Log(s:"No need to calculate");
+			SurvivorsToSpawn = SurvivorMaximum;
+			SurvivorDead = SurvivorMaximum - SurvivorsToSpawn;
+		}
+
+
+	SurvivorPrevMax = SurvivorMaximum;
+	}
+	else
+	{
+		//Log(s:"Limits are the same");
+		SurvivorsToSpawn = SurvivorMaximum - SurvivorDead;
+	}
+}
+
+
+
+
+
+
+
+//[Called by SurvivorSpawns]
+Script "GetSurvivorsNumber" (void)
+{
+	SetResultValue(SurvivorsToSpawn);
+}
+
+
+//[Called by TitanicToddler]
+Script "AlreadyAllSurvivors" (void)
+{
+	if((SurvivorDead + SurvivorWhoDied)== 0)
+	{	SetResultValue(1);}
+	else
+	{	SetResultValue(0);}
+}
+
+//[Called by Hud: Radar]
+Script "GetSurvivorLeft" (void)
+{
+	SetResultValue(SurvivorsToSpawn - (SurvivorSaved + SurvivorWhoDied));
+}
+
+//[Called by Hud: Radar]
+Script "GetSurvivorSaved" (void)
+{
+	SetResultValue(SurvivorSaved);
+}
+
+//[Called by Hud: Radar]
+Script "SurvivorGameOver" (void)
+{
+	if((SurvivorsToSpawn == (SurvivorSaved + SurvivorWhoDied)) && (SurvivorsToSpawn == SurvivorWhoDied))
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+//[Called by Survivors]
+Script "SurvivorSomething" (int what)
+//If a survivor dies or get saved this script will update the counter token and check if it needs to spawn the exit door
+{
+	int n = 0;
+	switch(what)				
+		{						
+			//Survivor Died
+			Case 0 :	SurvivorWhoDied++;
+						Break;
+
+			//Survivor Saved
+			Case 1 :	HudMessage(s: "Survivor Rescued!";HUDMSG_FADEOUT,2004,CR_GOLD,0.5,0.5,0.4);
+						SurvivorSaved++;
+						Delay(1);
+						Break;
+
+			//Survivor Saved (Titanic Baby)
+			Case 2 :	
+						SurvivorDead--;
+						SurvivorsToSpawn++;
+						SurvivorSaved++;
+						Break;
+		}
+	
+	if((SurvivorsToSpawn == (SurvivorSaved + SurvivorWhoDied)) && (SurvivorsToSpawn > SurvivorWhoDied))
+			{
+					SurvivorDead = SurvivorDead + SurvivorWhoDied;
+					//Print(s: "Magic Door!");
+					Thing_ChangeTID(0,998);		//Sets the survivor who called this as the spawn coordinates
+
+					int XPoint = GetActorX(998);
+					int YPoint = GetActorY(998);
+					int ZPoint = GetActorZ(998);
+						if(Zpoint == 64 || Zpoint > 64)	{ ZPoint = 64; }
+						else							{ ZPoint = 0; }
+					Delay(35);
+					
+					// If the SpawnForced fails to spawn it will try again every tic until it manages to spawn it, to prevent the exit door not appearing.
+					while(SpawnForced("ExitDoor",XPoint,YPoint,ZPoint)>1)
+					{ Delay(1);}
+			}
+}
+
+//[Called by Survivors]
+Script "CheckZSurvivor" (void)
+{	int difference = 0;
+	int monsterZ = MapUnit_ToInt(GetActorZ(0));
+	SetActivator (0, AAPTR_TARGET);
+	int targetZ = MapUnit_ToInt(GetActorZ(0));
+
+	if(monsterZ > targetZ)
+		difference = monsterZ - targetZ;
+	if(targetZ > monsterZ)
+		difference = targetZ - monsterZ;
+	
+	if(difference <= 32)
+	{	SetResultValue(1);
+		/*Log(s: "RangeAccepted");*/}
+		
+		else
+			SetResultValue(0);	
+}
+
+ 
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/*-----------------------------------------
+Check the "SurvivorScripts" guide, for more info which has also 
+examples of how to use Survivor Scripts.
+-----------------------------------------*/
+
+Script "SurvivorScript" (int scriptnumber, int cause)
+{	
+	ACS_ExecuteAlways(scriptnumber,0,cause,0,0);	
+}
+
+/*-----------------------------------------
+The "InitializeScript" is called before spawning the SurvivorAI, and they will have the same TID
+so if you change the Survivor TID , it will also spawn the SurvivorAI with the new TID.
+You can bypass this by adding a Delay(2); and changing the TID of the Survivor then
+so the Survivor only gets the new TID and the SurvivorAI mantains the TID of the SurvivorScript.
+-----------------------------------------*/
+
+Script "InitializeScript" (int scriptnumber)
+{	
+	//Calls The Script 
+	if(scriptnumber != 0)
+		Log(s: "Under construction! InitializeScript is not yet fully implemented!!");
+		//ACS_ExecuteAlways(scriptnumber,0,0,0,0);	
+	
+
+	
+	/*-----------------------------------------
+	Notes:
+		- Inventory items can't be hold by the Survivors, as they are considered items as well.
+		  And by default functions like "GiveInventory" or "TakeInventory" interact with the
+		  activator of the Script wich would be considered the Survivor.
+		- You can change the activator by using:
+				SetActivator(0,AAPTR_TARGET);
+		  
+		  As the "Target" of the Survivor (at the exact moment this script is launched) 
+		  should be his own SurvivorAI.
+		  [Alternatively you can just give them different TIDs 
+		   and interact refering to their SurvivorAI TID instead.]
+	-----------------------------------------*/
+}
+
+
+
+Script "SurvivorLimit" (int Limit)
+{
+	SurvivorMaximum = Limit;
+}
+
+
+Script "SpawnSurvivorInfo" (int Priority, int SurvivorScript, int InitializeScript)
+{
+	int OwnX = GetActorX(0);
+	int OwnY = GetActorY(0);
+	int OwnZ = GetActorZ(0);
+
+	int infotid = UniqueTID();
+
+	SpawnForced("SurvivorInfo",OwnX,OwnY,OwnZ,infotid,0);
+	GiveActorInventory(infotid,"PrioryCarry",Priority);
+	GiveActorInventory(infotid,"NumberCarry",SurvivorScript);
+	GiveActorInventory(infotid,"Number2Carry",InitializeScript);
+	Thing_ChangeTID(infotid,0);
+}
+
+Script "SelfPriory" (void)
+{
+	//Log(s: StrParam(s: "SelfPriory: ", i: CheckInventory("PrioryCarry")));
+	SetResultValue(CheckInventory("PrioryCarry"));
+}
+
+Script "SelfCarry" (void)
+{
+	//Log(s: StrParam(s: "SelfCarry: ", i: CheckInventory("NumberCarry")));
+	SetResultValue(CheckInventory("NumberCarry"));
+}
+
+Script "GiveMeATID" (int SurvivorScript)
+{
+	if(SurvivorScript != 0)
+		Thing_ChangeTID(0,SurvivorScript);
+}
+
+//Bugfix for the 
+Script "LevelMaster" (void)
+{
+	int OwnZ = GetActorZ(0);
+	
+	SetActivator(0, AAPTR_MASTER);
+	int OwnX = GetActorX(0);
+	int OwnY = GetActorY(0);
+	SetActorPosition(0, OwnX, OwnY, OwnZ, false); 
+}
+
+Script "RetrievePrioryInfo" (void)
+{
+	SetActivator(0,AAPTR_TARGET);
+	int Prioryint = CheckInventory("PrioryCarry");
+	//Log(s: StrParam(s: "Priority Got: ", i: Prioryint));
+	SetResultValue(Prioryint);
+}
+
+Script "RetrieveScriptInfo" (void)
+{
+	SetActivator(0,AAPTR_TARGET);
+	int NumberInt = CheckInventory("NumberCarry");
+	SetResultValue(NumberInt);
+}
+
+Script "RetrieveInitializeInfo" (void)
+{
+	SetActivator(0,AAPTR_TARGET);
+	int Number2Int = CheckInventory("Number2Carry");
+	SetResultValue(Number2Int);
+}
+
+int StopExecution = 0;
+/*
+//When you Pickup this survivor will trigger several times the Survivor Pickup, something is not getting reset properly
+Script "RestartWithArguments" (int PriorityNumber, int SurvivorScript, int InitializeScript)
+{
+	//Gather Coordinates + Name
+	int survmoid = UniqueTID(0);
+	str survivorname = GetActorClass(0);
+	int OwnX = GetActorX(0);
+	int OwnY = GetActorY(0);
+	int OwnZ = GetActorZ(0);
+	
+	//Target SurvivorAI / Remove SurvivorAI
+	CheckProximity(0, "SurvivorAI", 8.0, 1, CPXF_CLOSEST|CPXF_ANCESTOR|CPXF_SETTARGET);
+	SetActivator(0,AAPTR_TARGET);	
+	Thing_Remove(0);
+
+	//Target SurvivorInfo / Remove SurvivorInfo
+	CheckProximity(0, "SurvivorInfo", 8.0, 1, CPXF_CLOSEST|CPXF_ANCESTOR|CPXF_SETTARGET);
+	SetActivator(0,AAPTR_TARGET);	
+	Thing_Remove(0);
+
+	//Target SurvivorPointer / Remove SurvivorPointer
+	CheckProximity(0, "SurvivorPointer", 8.0, 1, CPXF_CLOSEST|CPXF_ANCESTOR|CPXF_SETTARGET);
+	SetActivator(0,AAPTR_TARGET);	
+	Thing_Remove(0);
+
+	//Return Activator to Survivor
+	CheckProximity(0, "SurvivorBase_ZAMN", 8.0, 1, CPXF_CLOSEST|CPXF_ANCESTOR|CPXF_SETTARGET);
+	SetActivator(0,AAPTR_TARGET);	
+	Thing_Remove(0);
+
+	Delay(1);	//<-- To prevent crashes
+	SpawnForced(survivorname, OwnX, OwnY, OwnZ, 0, 0);
+
+	int infotid = UniqueTID();
+	SpawnForced("SurvivorInfo",OwnX,OwnY,OwnZ,infotid,0); 
+	GiveActorInventory(infotid,"PrioryCarry",PriorityNumber);
+	GiveActorInventory(infotid,"NumberCarry",SurvivorScript);
+	GiveActorInventory(infotid,"Number2Carry",InitializeScript);
+	Thing_ChangeTID(infotid,0);
+}*/
+
+/*____________________________________BONUS SCRIPTS_________________________________________*/
+
+// ALL SURVIVORS BONUS
+
+Script "GetSurvivorsMaximum" (void)
+{
+	SetResultValue(SurvivorMaximum);
+}

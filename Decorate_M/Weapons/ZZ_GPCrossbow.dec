@@ -1,0 +1,283 @@
+Actor CrossbowToken : Inventory
+{	Inventory.MaxAmount 1	}
+
+//TO DO: Standarize Ghoul Patrol Weapons.
+
+/*
+Actor Crossbow_Ghoul: Weapon	//Base Class
+{
+	Weapon.SelectionOrder 700
+	Weapon.AmmoUse 0
+	Weapon.SlotNumber 4
+	Weapon.AmmoGive 999
+	Weapon.AmmoType "GP_Arrow"
+	Inventory.Icon CRBIZ0
+	Weapon.BobRangeY 1.50
+	Weapon.BobRangeX 1.50
+	Weapon.BobSpeed 1.75
+	+WEAPON.NOAUTOAIM
+	+FORCEPAIN
+	DamageType "Crossbow"
+	States
+	{
+		Spawn:		//Unused State::
+			CRBI A -1
+			Stop
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		IsTrue:		//Fake State::
+			TOTT A -1
+			Stop
+		Deselect:	//Generic State::
+			TNT1 A 0 A_TakeInventory("CrossbowToken",1)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait	//<-- Breaks weapon cycling[!]
+		Select:		//Generic State::
+			TNT1 A 0 A_PlaySound("Player/Select",0,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+		GameOver:
+			TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}*/
+ACTOR CROSSBOW_ZEKE : Weapon //Starting Weapon
+{
+   Weapon.SelectionOrder 700
+   Weapon.AmmoUse 0
+   Weapon.SlotNumber 4
+   Weapon.AmmoGive 999
+   Weapon.AmmoType "GP_Arrow"
+	Inventory.RestrictedTo "ZEKE_PLAYER"
+	Inventory.Icon CRBIZ0
+   Weapon.BobRangeY 1.50//1.25
+   Weapon.BobRangeX 1.50//1.25
+   Weapon.BobSpeed 1.75//1.50
+   +WEAPON.NOAUTOAIM
+   +FORCEPAIN
+   DamageType "Crossbow"
+   Inventory.PickupMessage ""
+   Obituary ""
+   Tag "$TAG_CHAINGUN"
+   States
+   {
+   Ready:
+	 TNT1 A 0 A_GiveInventory("CrossbowToken",1)
+	 TNT1 A 0 A_TakeInventory("WRToken",1)
+	 TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
+	 TNT1 A 0 A_TakeInventory("FalseFlag",1)
+	 TNT1 A 0 A_TakeInventory("TomatoToken",1)
+	 TNT1 A 0 A_TakeInventory("SodaToken",1)
+	 TNT1 A 0 A_TakeInventory("BToken",1)
+	 TNT1 A 0 A_TakeInventory("FEToken",1)
+	 TNT1 A 0 A_TakeInventory("CrucifixToken",1)
+	 TNT1 A 0 A_JumpIfInventory("InWater",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GPRunning",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GPSliding",1,"Sliding")
+	 TNT1 A 0 A_JumpIfInventory("GooTimer",1,"NotReady")
+     CSBZ A 1 A_WeaponReady
+     Goto Ready+1
+   
+   NotReady:
+	 CSBZ A 1 A_WeaponOffset(0,40)
+	 CSBZ A 1 A_WeaponOffset(0,60)  
+   InWater:
+	TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+	TNT1 A 0 A_JumpIfInventory("GPSliding",1,"Sliding")
+	TNT1 A 0 A_JumpIfInventory("InWater",1,"InWater")
+	TNT1 A 0 A_JumpIfInventory("GPRunning",1,"InWater")
+	TNT1 A 0 A_JumpIfInventory("GooTimer",1,"InWater")
+	Goto OutWater
+
+    Running:
+	TNT1 A 1 A_WeaponOffset(0,80)
+	TNT1 A 0 A_JumpIfInventory("GPSliding",1,"Sliding")
+	TNT1 A 0 A_JumpIfInventory("InWater",1,"InWater")
+	TNT1 A 0 A_JumpIfInventory("GooTimer",1,"InWater")
+	TNT1 A 0 A_JumpIfInventory("GPRunning",1,"Running")
+	Goto OutWater
+	
+	OutWater:
+     CSBZ A 1 A_WeaponOffset(0,60)
+	 CSBZ A 1 A_WeaponOffset(0,40)
+	Goto Ready+1
+	
+	Sliding:
+	P1GK A 1 A_WeaponOffset(0,20)
+	TNT1 A 0 A_JumpIfInventory("GPSliding",1,"Sliding")
+	Goto Ready+1
+	
+   Deselect:
+	 CSBZ A 0 A_TakeInventory("CrossbowToken",1)
+	TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower		//		<--- This line comes from Project Brutality 3.0 , it is to cancel the deselect animation
+	Wait
+   Select:
+	 TNT1 A 0 A_PlaySound("Player/Select",0,100)
+	Goto Ready
+   Fire:
+	 TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+	 TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+	 TNT1 A 0 A_JumpIfInventory("InWater",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GPRunning",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GooTimer",1,"NotReady")
+     CSBZ A 1
+	 CSBZ B 4 A_FireCustomMissile("GP_Arrow",2,0,14,2,0,2)//A_FireCustomMissile("WaterRocket",2,0,14,2,0,2)
+	 CSBZ C 1  
+	 //TNT1 A 0 A_TakeInventory ("WaterRocket",1,0,0)
+	 TNT1 A 0 A_JumpIfInventory("InWater",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GooTimer",1,"NotReady")
+	 CSBZ DEEA 1 
+	 CSBZ A 1 A_ReFire
+     Goto Ready
+   GameOver:
+	TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+	Goto Ready
+   Flash:
+     CSBZ A 5 Bright A_Light1
+     Goto LightDone
+     CSBZ A 5 Bright A_Light1
+     Goto LightDone
+   Spawn:
+     CRBI A -1
+     Stop
+   }
+}
+
+	
+ACTOR CROSSBOW_JULIE : Weapon //Starting Weapon
+{
+   Weapon.SelectionOrder 700
+   Weapon.AmmoUse 0
+   Weapon.SlotNumber 4
+   Weapon.AmmoGive 999
+   Weapon.AmmoType "GP_Arrow"
+	Inventory.RestrictedTo "JULIE_PLAYER"
+	Inventory.Icon CRBIZ0
+   Weapon.BobRangeY 1.50//1.25
+   Weapon.BobRangeX 1.50//1.25
+   Weapon.BobSpeed 1.75//1.50
+   +WEAPON.NOAUTOAIM
+   +FORCEPAIN
+   DamageType "Crossbow"
+   Inventory.PickupMessage ""
+   Obituary ""
+   Tag "$TAG_CHAINGUN"
+   States
+   {
+   Ready:
+	 TNT1 A 0 A_GiveInventory("CrossbowToken",1)
+	 TNT1 A 0 A_TakeInventory("WRToken",1)
+	 TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
+	 TNT1 A 0 A_TakeInventory("FalseFlag",1)
+	 TNT1 A 0 A_TakeInventory("TomatoToken",1)
+	 TNT1 A 0 A_TakeInventory("SodaToken",1)
+	 TNT1 A 0 A_TakeInventory("BToken",1)
+	 TNT1 A 0 A_TakeInventory("FEToken",1)
+	 TNT1 A 0 A_TakeInventory("CrucifixToken",1)
+	 TNT1 A 0 A_JumpIfInventory("InWater",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GPRunning",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GooTimer",1,"NotReady")
+     CSBJ A 1 A_WeaponReady
+     Goto Ready+1
+   
+   NotReady:
+	 CSBJ A 1 A_WeaponOffset(0,40)
+	 CSBJ A 1 A_WeaponOffset(0,60)  
+   InWater:
+	TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+	TNT1 A 0 A_JumpIfInventory("InWater",1,"InWater")
+	TNT1 A 0 A_JumpIfInventory("GPRunning",1,"InWater")
+	TNT1 A 0 A_JumpIfInventory("GooTimer",1,"InWater")
+
+	OutWater:
+     CSBJ A 1 A_WeaponOffset(0,60)
+	 CSBJ A 1 A_WeaponOffset(0,40)
+	Goto Ready+1
+	
+   Deselect:
+	 CSBJ A 0 A_TakeInventory("CrossbowToken",1)
+	TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower		//		<--- This line comes from Project Brutality 3.0 , it is to cancel the deselect animation
+	Wait
+   Select:
+	 TNT1 A 0 A_PlaySound("Player/Select",0,100)
+	Goto Ready
+   Fire:
+	 TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+	 TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+	 TNT1 A 0 A_JumpIfInventory("InWater",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GPRunning",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GooTimer",1,"NotReady")
+     CSBJ A 1
+	 CSBJ B 4 A_FireCustomMissile("GP_Arrow",2,0,14,2,0,2)//A_FireCustomMissile("WaterRocket",2,0,14,2,0,2)
+	 CSBJ C 1  
+	 //TNT1 A 0 A_TakeInventory ("WaterRocket",1,0,0)
+	 TNT1 A 0 A_JumpIfInventory("InWater",1,"NotReady")
+	 TNT1 A 0 A_JumpIfInventory("GooTimer",1,"NotReady")
+	 CSBJ DEEA 1 
+	 CSBJ A 1 A_ReFire
+     Goto Ready
+   GameOver:
+	TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+	Goto Ready
+   Flash:
+     CSBJ A 5 Bright A_Light1
+     Goto LightDone
+     CSBJ A 5 Bright A_Light1
+     Goto LightDone
+   Spawn:
+     CRBI A -1
+     Stop
+   }
+}
+
+actor GP_Arrow : Ammo
+{
+Radius 2//1//2//4
+Height 1
+Speed  32//30
+Damage (10)
+Alpha 50
+Inventory.Amount 100
+Inventory.MaxAmount 999
+Ammo.BackpackAmount 99
+Ammo.BackpackMaxAmount 999
+Inventory.Icon "WATRA0"
+Inventory.PickupMessage ""
+Projectile
++NOEXTREMEDEATH
++NOBLOCKMAP
+//+NOCLIP
++SOLID
++FORCEPAIN
+DamageType "Crossbow"
+SeeSound "WaterRifle/Fire"
+//DeathSound ""
+Obituary "" // "%o rode %k's rocket."
+ States
+{
+ Spawn:
+ TNT1 AA 0
+ TNT1 A 1 A_ChangeFlag ("NOCLIP",FALSE)
+ //TNT1 A 0 A_ChangeFlag ("NOCLIP",FALSE)
+ TNT1 A 1 A_SetSize(2,-1,false)
+ WATE B 4 
+ WATE CB 2 
+	Goto Vanish
+ Vanish:
+ TNT1 A 2 Thing_Stop(0)
+ TNT1 A 0 A_SpawnItemEX("WaterRocketDed",0,0,0,10,0,-2,0,0,0,0)
+ Stop
+ Death:
+ TNT1 A 0 A_SetSpeed(5,AAPTR_DEFAULT)
+ WATE D 8  
+ WATE E 6 
+	stop
+ }
+}

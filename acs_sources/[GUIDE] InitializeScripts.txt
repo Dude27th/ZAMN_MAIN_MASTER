@@ -1,0 +1,50 @@
+[Note: This is a continuation of "[Guide]MapperScripts" ^^]
+ 
+
+The "InitializeScripts" are scripts meant to change properties of the Survivor which is calling it.
+They are limited by what Inventory Type actors are limited to
+
+/*
+//	---------------------------------------------------------------------------------------------------------
+
+Name: 		
+		"RestartWithArguments"
+
+Syntax:		
+		ACS_NamedExecuteAlways("RestartWithArguments", 0, PriorityNumber, SurvivorScript, InitializeScript);
+
+Description:
+		As the "Survivor Priority" and "Survivor Script" of an Survivor are internal Arguments they can't be changed directly.
+		But with this script you can Despawn and Respawn the survivor with the Arguments that you put in the arguments.
+
+		Possible Values:
+			For PriorityNumber :
+				1 - 10	Regular ZAMN Limit
+				11- 20  Extended ZAMN Limit.	(Only if the "SurvivorLimit" script was set up previously[Check "MapperScripts.txt"])
+
+			For SurvivorScript :
+				1 - 9999 As long as the Script Number is wrote on the map scripts.
+
+			For InitializeScript :
+				1 - 9999 	[WARNING: If you set the "InitializeScript" the same number as the "InitializeScript" set on the map
+										you'll most likely get caught on a constant loop. This might have undesired results if not handled correctly.]
+
+
+		[NOTE: Keep in mind that if two survivors share the same PriorityNumber , the list for the Showcase at the level end may get corrupted.]
+
+Example:
+		ACS_NamedExecuteAlways("RestartWithArguments", 0, 5, 144, 74);
+
+		This will Despawn and Respawn this same Survivor in the same position with the passed arguments.
+		Despawning a Survivor by this method doesn't trigger the Survivor Scripts or any script that checks for that, 
+		as they are not considered Dead but Removed instead.
+
+//	---------------------------------------------------------------------------------------------------------
+*/
+
+There's no more Initialized Scripts available at the moment.
+But keep an eye in future demos ^^
+
+
+
+

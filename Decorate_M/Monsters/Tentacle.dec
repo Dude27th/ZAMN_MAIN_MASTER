@@ -1,0 +1,87 @@
+// They aren't placed in the map directly
+//$GZDB_SKIP
+ACTOR Tentacle : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN
+{
+  Health 20
+  Speed 10
+  Radius 13
+  Height 40
+  Scale 1.50
+  DamageFactor "MonsterFist", 2
+  DamageFactor "WeedWacker", 2
+  DamageFactor "Soda", 2
+  DamageFactor "Bazooka", 2
+  DamageFactor "FireExtinguisher", 0
+  DamageFactor "Popsicle", 2
+  DamageFactor "Crucifix", 2
+  
+  Monster
+  +STANDSTILL
+  +CANPASS		
+  +THRUSPECIES	
+  States
+  {
+  Spawn_Set:
+	TENC CBA 8 A_LookEX(0,0,0,0,360,"Idle")
+  Idle:
+	TNT1 A 0 A_JumpIfCloser(50, "Missile")
+    TENC A 3 A_LookEX(0,0,700,400,360,"See")
+	TNT1 A 0 A_SetAngle(random(0,360))
+	TENC AB 8
+	TENC C 4 A_Recoil(-7)
+	TENC D 4
+	Loop
+   See:
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	TENC A 8 A_FaceTarget
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	//
+	TENC B 4 A_FaceTarget
+	TENC B 2 A_Recoil(-15)
+	TNT1 A 0 A_JumpIfCloser(50, "Missile")
+	TENC C 8 A_JumpIfCloser(50, "Missile")
+	TNT1 A 0 A_JumpIfCloser(50, "Missile")
+	TENC D 2 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+	TNT1 A 0 A_JumpIfCloser(50, "Missile")
+	Goto Idle
+  Missile:
+  Melee:
+	TNT1 A 0 A_Stop
+	TNT1 A 0 A_JumpIfInTargetinventory("IsDead",1,"Death")
+    TENC ABC 8 A_CustomMeleeAttack((10),"","","Zombie")
+	TENC D 8
+    Goto Idle
+  Pain:
+	TENC A 1 A_JumpIfInventory("FreezeTime",1,2)
+    Goto See
+	TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+    Goto FreezeTime
+  Pain.Popsicle:
+  Pain.FireExtinguisher:
+	TENF A 1 ACS_NamedExecuteAlways("GiveFreeze",0,17,0,0)
+	TENF A 0 A_Jump(256, "FreezeTime")
+	Stop
+
+  Death:
+	TNT1 A 0 A_Stop
+	TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+	TNT1 A 0 A_PlaySound("Something/Bam2",0,0.5,false,ATTN_NORM)
+    TEND A 4 A_NoBlocking
+    TEND BCDE 4
+    Stop
+  }
+}
+
+Actor Tentacle_Still : Tentacle
+{
+  States
+  {
+  Idle:
+    TENC A 3 A_LookEX(0,0,700,400,360,"See")	//Should be CheckProximity + Sight [Player] ?
+  Loop
+  }
+} 

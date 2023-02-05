@@ -1,0 +1,298 @@
+ACTOR Castle_Lamp_A 13375
+{
+	Height 16
+	Radius 5
+	Scale 2.0
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+SOLID
+	States
+	{
+		Spawn:
+		CLAM A 1
+		Loop
+	}
+}
+
+ACTOR Castle_Lamp_B 13376
+{
+	Height 24
+	Radius 5
+	Scale 2.0
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+SOLID
+	States
+	{
+		Spawn:
+		CLAM B 1
+		Loop
+	}
+}
+
+ACTOR Castle_Potion_A 13378
+{
+	Height 16
+	Radius 5
+	Scale 0.75
+	//ScaleX 1.00
+	//ScaleY 0.75	
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+NOGRAVITY
+	+SOLID
+	//-SOLID
+	States
+	{
+		Spawn:
+		CPOT A 1
+		Loop
+	}
+}
+
+ACTOR Castle_Potion_B 13379
+{
+	Height 16
+	Radius 5
+	Scale 0.75
+	//ScaleX 1.00
+	//ScaleY 0.75	
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+NOGRAVITY
+	+SOLID
+	//-SOLID
+	States
+	{
+		Spawn:
+		CPOT A 1
+		Loop
+	}
+}
+
+ACTOR Castle_Potion_C 13380
+{
+	Height 16
+	Radius 5
+	Scale 0.75
+	//ScaleX 1.00
+	//ScaleY 0.75	
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+NOGRAVITY
+	+SOLID
+	//-SOLID
+	States
+	{
+		Spawn:
+		CPOT A 1
+		Loop
+	}
+}
+
+ACTOR Castle_RayHazard_0 13381
+{
+	Height 32
+	Radius 5
+	Scale 1.75
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	//$Arg0 "Sequence"
+	//$Arg0Type 11
+	//$Arg0Enum {0 = "None"; 1 = "Sequence 1"; 2 = "Sequence 2"; 3 = "Sequence 3"; 4 = "Sequence 4";}
+	+SOLID
+	States
+	{
+		Spawn:
+		TNT1 AA 0
+		TNT1 A 0 A_SetAngle(0)		// This to make sequences easier
+		TNT1 A 0 A_JumpIf(Args[0] == 1,"Sequence1")
+		TNT1 A 0 A_JumpIf(Args[0] == 2,"Sequence2")
+		TNT1 A 0 A_JumpIf(Args[0] == 3,"Sequence3")
+		TNT1 A 0 A_JumpIf(Args[0] == 4,"Sequence4")
+		NoSequence:
+		CSRY A 1
+		Loop
+		
+		Sequence1:	//2 seconds ON , 2 seconds OFF (Lateral)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",23,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",43,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",63,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",73,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		CSRY A 70
+		CSRY A 70	
+		Loop
+		Sequence2:	//2 seconds ON , 1 seconds OFF (Vertical)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,24,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,44,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,64,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,84,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,104,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		CSRY A 70
+		CSRY A 35
+		Loop
+		Sequence3:	//2 seconds ON , 3 seconds OFF (Lateral)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",23,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",43,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",63,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_A",73,0,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		CSRY A 70
+		CSRY A 105
+		Loop
+		Sequence4:	//Same as sequence 2, but shorter
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,24,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,44,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,64,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,84,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		//TNT1 A 0 A_SpawnItemEx("RayHazard_B",0,104,30,0,0,0,0,SXF_NOCHECKPOSITION)
+		CSRY A 70
+		CSRY A 35
+		Loop
+	}
+}
+
+ACTOR RayHazard_A
+{
+	Height 10
+	Radius 5
+	Scale 2.0
+	+NOCLIP
+	-SOLID
+	+NOGRAVITY
+	States
+	{
+		Spawn:
+		TNT1 AA 0 A_SetAngle(90)		//Quick fix, also AA 0 fixes flickering
+		Idle:
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABA 2  A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		Stop
+	}
+}
+
+ACTOR RayHazard_B
+{
+	Height 10
+	Radius 5
+	Scale 2.0
+	+NOCLIP
+	-SOLID
+	+NOGRAVITY
+	States
+	{
+		Spawn:
+		TNT1 AA 0
+		Idle:
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABAB 2 A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		RAY0 ABA 2  A_CustomMissile("RayHazardProjectile",-20,0,0,CMF_ABSOLUTEPITCH,90,0)
+		Stop
+	}
+}
+
+
+Actor RayHazardProjectile
+{
+Radius 8
+Height 1 //15
+Speed  20//11
+Mass 450//900//450
+Damage (0)
+Scale 1.15
+Projectile
+DamageType "RayHazard"
+SeeSound ""
+DeathSound ""
+-LOWGRAVITY
+-NOGRAVITY
++NOICEDEATH
++NOEXTREMEDEATH
++FORCEXYBILLBOARD
+Obituary "$OB_MPROCKET" // "%o rode %k's rocket."
+States
+	{
+	Spawn:
+	//GPOP A 2
+	TNT1 A 2
+	Death:
+	TNT1 A 0 A_Explode(5,16,0,0,16,0,0,"BulletPuff","RayHazard") 
+	//This behave the same as mushroom or spike hazard
+	Stop
+	}
+}
+
+ACTOR LaboratorySupport 13382
+{
+	Height 60
+	Radius 5
+	Scale 1.48
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+SOLID
+	States
+	{
+		Spawn:
+		LRTW A 1
+		Loop
+	}
+}
+
+ACTOR FrankesteinSupport 13383
+{
+	Height 60
+	Radius 8
+	Scale 1.75
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+SOLID
+	States
+	{
+		Spawn:
+		CFRY A 1
+		Loop
+	}
+}
+
+ACTOR MiniTower 13384
+{
+	Height 32
+	Radius 8
+	Scale 1.75
+	//$Category "Zombies Ate My Neighbors/Decorations/Theme/Castle"
+	+SOLID
+	States
+	{
+		Spawn:
+		CMRY A 1
+		Loop
+	}
+}
+
+Actor FakeDrTongue 13385
+{
+	Height 40
+	Radius 10
+	Scale 1.35
+	+NOCLIP
+	-FRIENDLY
+	//+NOTARGET
+	//$Category "Zombies Ate My Neighbors/Monsters/"
+	States
+	{
+		Spawn:
+		TNT1 AA 0
+		FTON AB 20 A_CheckProximity("GoAway","PlayerPawn",256,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)//A_CheckSightOrRange(96.0,"GoAway")
+		Loop
+		GoAway:
+		TNT1 A 0 A_PlaySound("Player/ItemUse",6,1)
+		FTON CDCDCDA 6
+		TNT1 A 0 A_PlaySound("Zombie/Death",0,1)
+		FTON EFGH 4
+		Stop
+	}
+}

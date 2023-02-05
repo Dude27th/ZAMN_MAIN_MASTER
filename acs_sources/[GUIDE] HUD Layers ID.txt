@@ -1,0 +1,68 @@
+					HUD LAYERS !!!
+				  -----------------
+ .
+ . 
+400 - 688: Highscore Characters					[Used only in Highscore/Newscore Interfaces]
+ .
+ .
+ . 
+ . 
+991: Lives Count								[Used]
+992: Weapon Indicator 							[Used]
+993: Weapon Ammo	(MonsterTime if Monster)	[Used]
+---: Item Indicator 				// 			SBARINFO
+---: Item Amount					// 			SBARINFO
+---: Key Icon									[Merged with MainHud]
+994: Key Counter								[Used]
+995: SkullKey COunter							[Used]  XXProblem	with	1009
+996: Monster/Goo/Water  Item Patch     			[Used]
+997: [Effect Powerup Indicator]	    			[]
+998: Unused										[]
+999: Main Hud (Zeke/Julie)						[Used]
+1000: Score Text								[Used]
+----: Score Points					//			SBARINFO
+1001: Skeleton Key Icon							[Used]	XXProblem 	with	1002/1003
+1002: Werewolf Timer							[Used]	XXProblem	with	1001
+1003: /General Timer							[Used]	XXProblem	with	1001
+1004: ???
+1005: ???
+1006: Werewolf/General Timer Icon Left 			[Used]
+1007: Werewolf/General Timer Icon Right			[Used]
+1008: Speed Shoes Activated Icon				[Used]
+1009: Werewolf/General Target String 			[Used]	XXProblem	with	995
+1010: Werewolf/General Target Icon Left 		[Used]
+1011: Werewolf/General Target Icon Right		[Used]
+
+
+ .
+ . 
+ .  
+ .
+ .
+9998:  Survivor Counter							[Used]
+9999:  Radar Border Overlay Patch				[Used]
+10000 - 10***: Radar Content Layers				[Used]
+ .												 [...]
+11000: Radar Border								[Used]
+11005: [Goo Damage Indicator]					[Used]
+ .
+20000: Game Over (Blood/Goo Falling Effect)		[Used]
+
+
+
+
+/*
+Lower Number : Closest layer from the camera point.
+.				(On Top)
+.					.
+.					.
+.					.
+.					.
+.					.
+.				(Below)
+Higher Number: Farest layer from the camera point.
+*/
+
+
+
+Every part of the Hud done in ACS will be drawn on top of the SBARINFO hud parts

@@ -1,0 +1,28 @@
+Actor FlameTrToken : WeaponToken_ZAMN
+{}
+
+Actor FlameThrower_ZAMN : WeaponClass_ZAMN	//Base Class
+{
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 40
+	Weapon.SlotNumber 0
+	+FORCEPAIN
+	DamageType "FlameThrower"
+	States
+	{
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Deselect:	//Generic State::
+			TNT1 A 0 A_TakeInventory("FlameTrToken",1)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait
+		Select:		//Generic State::
+			TNT1 A 0 A_PlaySound("Player/Select",1,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}

@@ -1,0 +1,87 @@
+// Alpha Stuff
+//$GZDB_SKIP
+/*
+
+ACTOR CREAMTRI 13359
+{
+  Height 15
+  Radius 15
+  //$Category "Decorate/GhoulPatrol/Decorations/IceCream"
+  -SOLID
+  States
+  {
+  Spawn:
+	CRET A -1//3
+    Loop
+  }
+}
+
+ACTOR CREAMUNKNOWN 13360
+{
+  Height 15
+  Radius 15
+  //$Category "Decorate/GhoulPatrol/Decorations/IceCream"
+  -SOLID
+  States
+  {
+  Spawn:
+	CREU A -1//3
+    Loop
+  }
+}
+
+ACTOR CREAMCHOCO 13361
+{
+  Height 15
+  Radius 15
+  //$Category "Decorate/GhoulPatrol/Decorations/IceCream"
+  -SOLID
+  States
+  {
+  Spawn:
+	CREC A -1//3
+    Loop
+  }
+}
+
+ACTOR CREAMMINT 13362
+{
+  Height 15
+  Radius 15
+  //$Category "Decorate/GhoulPatrol/Decorations/IceCream"
+  -SOLID
+  States
+  {
+  Spawn:
+	CREM A -1//3
+    Loop
+  }
+}
+
+ACTOR CREAMSTRAW 13363
+{
+  Height 15
+  Radius 15
+  //$Category "Decorate/GhoulPatrol/Decorations/IceCream"
+  -SOLID
+  States
+  {
+  Spawn:
+	CRES A -1//3
+    Loop
+  }
+}
+
+ACTOR CREAMPINEAPPLE 13364
+{
+  Height 15
+  Radius 15
+  //$Category "Decorate/GhoulPatrol/Decorations/IceCream"
+  -SOLID
+  States
+  {
+  Spawn:
+	CREP A -1//3
+    Loop
+  }
+}*/

@@ -1,0 +1,486 @@
+// They aren't placed in the map directly
+//$GZDB_SKIP
+
+Actor EvilDollClass : SpawnableMonsterNoAdd_ZAMN	//"MonsterMore" added manually
+{}
+
+ACTOR BabyDoll : EvilDollClass
+{
+	Health 40
+	Radius 11
+	Height 34
+	Mass 200
+	Speed 11
+	Scale 1.10
+	MeleeRange 30
+	DamageFactor "MonsterFist", 4
+	DamageFactor "WeedWacker", 2
+	DamageFactor "Tomatoes", 2
+	DamageFactor "Soda", 4
+	DamageFactor "Bazooka", 0
+	DamageFactor "Crucifix", 4
+	
+	DamageType "BabyDoll"
+	Monster
+	+AMBUSH
+	-NODROPOFF
+	+SLIDESONWALLS
+	-STANDSTILL
+	+NOCLIP
+	States
+	{
+	Spawn_Set:
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterMore",0,0,0,0)
+		TNT1 A 0 A_PlaySound("BabyDoll/Laugh",5,2.0)
+		AXEA A 1 A_ChangeFlag("NOCLIP",FALSE)
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+		AXEA ABABABABAB 2
+		AXEB ABCD 3
+		Goto See
+	Idle:
+		AXEB A 3 A_LookEX(0,0,400,0,360,"See")
+		AXEB BCD 3 A_Wander
+		AXEB A 3 A_LookEX(0,0,400,0,360,"See")
+		AXEB BCD 3 A_Wander
+		AXEB A 3 A_LookEX(0,0,400,0,360,"See")
+		AXEB BCD 3 A_Wander
+		Goto Vanish
+	See:
+		TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+		TNT1 A 0 A_ChangeFlag("NOCLIP",FALSE)
+
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,200,350,0,360,"Launch")
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,400,0,360,"Missile")
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+		
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,400,0,360,"Missile")
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,200,350,0,360,"Launch")
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,400,0,360,"Missile")
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,400,0,360,"Missile")
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,200,350,0,360,"Launch")
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,400,0,360,"Missile")
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,200,350,0,360,"Launch")
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,400,0,360,"Missile")
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",768,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+
+		AXEB AB 3 A_Chase
+		TNT1 A 0 A_CheckRange(600,"Vanish",true)
+		AXEB CD 3 A_Chase
+
+		TNT1 A 0 A_JumpIfInTargetLOS("See",100.0,0,600.0,600.0)
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,600,0,360,"See")
+		Goto Vanish
+	NoChase:
+		AXEB ABCD 3 A_Wander
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		Goto See
+		AXEB ABCD 3 A_Wander
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		Goto See
+		AXEB ABCD 3 A_Wander
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		Goto See
+		AXEB ABCD 3 A_Wander
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		Goto See
+		AXEB ABCD 3 A_Wander
+		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+		Goto See
+		AXEB ABCD 3 A_Wander
+		Goto See
+	Launch:
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		AXEA B 15 A_FaceTarget
+		TNT1 A 0 A_PlaySound("BabyDoll/Laugh",5,2.0)
+	Launch2:
+		AXEA B 2 A_Recoil(-4)
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,30,0,45,"Melee")
+		AXEB A 2 A_Recoil(-4)
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,30,0,45,"Melee")
+		AXEB B 2 A_Recoil(-4)
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,30,0,45,"Melee")
+		AXEB C 2 A_Recoil(-4)
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,30,0,45,"Melee")
+		AXEB D 2 A_Recoil(-4)
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,30,0,45,"Melee")
+		TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,500,0,45,"Launch2")
+		Goto Melee
+	Melee: 
+		AXEA A 0 //<- Sprite for Melee Delay
+		AXEA A 0 A_Jump(256,"Melee_Check")
+		Stop
+
+	MeleeReal:
+		AXEA A 1 A_Stop
+		TNT1 A 0 A_JumpIfInTargetinventory("IsDead",1,"Death")
+		TNT1 A 0 ACS_NamedExecuteAlways("StopMomentum",0,0,0,0)
+		AXEA A 1 A_FaceTarget
+		AXEA A 2 A_CustomMeleeAttack(10,"BabyDoll/Attack","","BabyDoll",TRUE)
+		AXEA ABABABAB 2
+		Goto See
+	Missile:
+		TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+		AXEA B 2
+		AXEA A 2 A_CustomComboAttack("AXE_P", 10, 1 , "BabyDoll/Attack")
+		AXEA CCCCBBAACCCCBBAACCCCBB 1
+		Goto See
+	Pain:
+		"----" A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		AXEB A 2 
+		Goto See
+	Pain.Water:
+		"----" A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("InFloorCheck",0,0,0,0)==0,4)
+		AXEB A 1 A_Stop
+		AXEB A 1 A_FaceTarget
+		AXEB A 1 ACS_NamedExecuteAlways("MiniJump",0,0,0,0)
+		AXEB A 4 A_Recoil(7)
+		AXEB AAA 4
+		Goto See
+	Pain.Bazooka:
+		"----" A 0 A_JumpIfInventory("FreezeTime",1,"FreezeTime")
+		AXBZ A 25
+		Goto See
+	Pain.Popsicle:
+	Pain.FireExtinguisher:
+		FAXB A 1 ACS_NamedExecuteAlways("GiveFreeze",0,17,0,0)
+		FAXB A 0 A_Jump(256, "FreezeTime")
+		Stop
+
+	Death:
+		TNT1 A 0 A_Jump(35, "DeadFire")
+		TNT1 A 0 A_Jump(65, "Ded")
+	DeadFire:
+		AXED A 1 A_Stop
+		AXED AAAAABBBBBB 1
+		AXED CDEF 5 Bright
+		AXED F 1 A_SpawnItemEx("BFIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_TELEFRAG|SXF_TRANSFERPOINTERS)
+		Stop
+	Ded:
+		TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+		AXED AB 6
+		TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+		AXED CDEFGHI 5 Bright
+		Stop
+	Pain.Reduce:
+		Goto Vanish
+
+	Vanish_Animation:
+		AXEV ABCDEFGH 4
+		Stop
+	}
+}
+
+Actor Axe_P : Ammo
+{
+	Radius 8
+	Height 15
+	Speed  16
+	Damage (10)
+	Scale 1.35
+	Projectile
+	DamageType "BabyDoll"
+	SeeSound "BabyDoll/Attack"
+	DeathSound ""
+	Obituary "$OB_MPROCKET" // "%o rode %k's rocket."
+	States
+	{
+		Spawn:
+			TNT1 A 0 
+			TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+			AXEP A 1 BRIGHT
+			AXEP ABCD 4 BRIGHT
+		Death:
+			TNT1 A 1 
+			Stop
+	}
+}
+
+Actor BFire : EvilDollClass
+{
+	Health 90
+	PainChance 1
+	Speed 12
+	Radius 12
+	Height 34
+	Scale 1.10
+	Mass 1600
+	SpawnID 12
+	DamageFactor "MonsterFist", 9
+	DamageFactor "WeedWacker", 4.5
+	DamageFactor "Tomatoes", 4.5
+	DamageFactor "Soda", 9
+	DamageFactor "Water", 	1	//Default
+	DamageFactor "Bazooka", 9
+	DamageFactor "FireExtinguisher", 9
+	DamageFactor "Crucifix", 9
+
+	Monster
+	+AMBUSH
+	-NOGRAVITY
+	-QUICKTORETALIATE
+	+STAYMORPHED
+	-DROPOFF
+	-NODROPOFF
+	-STANDSTILL
+	States
+	{
+		Spawn_Set:
+			AXEF ABCD 3 Bright A_Look
+			Goto Idle
+		Idle:
+			AXEF CD 3 Bright A_Look
+			Loop
+		See:
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_JumpIfInTargetInventory("ToReviveD",1,"Death")
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetLOS(1,100.0,0,600.0,600.0)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,601,0,0,360,"Death")
+			AXEF AB 3 Bright A_Chase
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF CD 3 Bright A_Chase
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			Loop
+		Melee:
+			AXEF A 0
+			AXEF A 0 A_Jump(256, "Melee_Check")
+			Stop
+
+		MeleeReal:
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF A 12 Bright A_FaceTarget
+			AXEF A 2 Bright A_SargAttack
+			AXEF A 24 Bright
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+			Goto See
+		Missile:
+			AXEF A 1 Bright A_FaceTarget
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF A 2 Bright A_Recoil (-10)
+			TNT1 A 0 A_LookEX(LOF_NOSOUNDCHECK,0,30,0,360,"Melee")
+			TNT1 A 0 A_SpawnItemEx("BFIRE_FIRE",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0)
+			AXEF A 2 Bright A_Recoil (-10)
+			Goto See
+		Pain:
+			AXEF A 1 Bright
+			Goto See
+		Pain.Popsicle:
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,10,0,0)
+		Pain.FireExtinguisher:
+		Death:
+			AXED G 2 Bright 
+			AXED HI 4 Bright A_NoBlocking
+			TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			Stop
+		Dead:
+			TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+			TNT1 A 1
+			Stop
+	}
+}
+
+ACTOR BFire_Fire
+{
+  Radius 10
+  Height 10
+  +NOCLIP
+  -SOLID
+  +STANDSTILL
+  States
+  {
+   Spawn:
+	AXED GHIG 5 Bright
+	Stop
+  }
+}
+
+
+
+
+
+
+
+///////////////////////////////////
+// Baby Box Spawner/Decoration   //
+///////////////////////////////////
+
+ACTOR BABYF_BOX2 12102
+{
+  Height 45
+  PainChance 1
+  Speed 0
+  Radius 30
+  Mass 100  
+  //$Category "Decorate/Decorations/Mall"
+  +SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    BFB2 A 3
+    Loop
+  }
+}
+
+ACTOR BABYF_BOX1 12103
+{
+  Height 35
+  PainChance 1
+  Speed 0
+  Radius 20
+  Mass 100
+  //$Category "Decorate/Decorations/Mall"
+  +SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    BFB1 A 3
+    Loop
+  }
+}

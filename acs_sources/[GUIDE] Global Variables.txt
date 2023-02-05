@@ -1,0 +1,168 @@
+This are global variables that the mod uses ((they have to be documented here if another one is added, 
+to keep a better reference on which and why are they used, also to have some mod compatibility this reference
+would help to check if there's compatibility issues)).
+ 
+They can be accessed from anywhere as long as it is defined again in the script Library.
+
+
+global str 1:FirstCard;
+ A string variable which stores the name of the first title card for the Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 2:SecndCard;
+ A string variable which stores the name of the second title card for the Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global int 3:SurvivorMaximum;
+ A int variable which stores the number of maximum survivors to spawn in this level and the next ones.
+ This was managed simpler before, but due to the inclusion of the "SurvivorLimit" script, this was added
+ as it now it will have to be calculated everytime at the start of each level to mantain equivalency.
+
+ Referenced in:
+ --------------
+- "Survivors.acs" 
+
+
+global int 4:SurvivorPrevMax;
+ A int variable which stores the number of maximum survivors to spawn in the previous level, to compare it with "SurvivorMaximum".
+ This was managed simpler before, but due to the inclusion of the "SurvivorLimit" script, this was added
+ as it now it will have to be calculated everytime at the start of each level to mantain equivalency.
+
+ Referenced in:
+ --------------
+- "Survivors.acs" 
+
+ 	
+global int 5:SurvivorDead;
+ A int variable which stores the number of equivalent dead survivors in this level and the next ones.
+ The number of dead survivors is calculated depending on the SurvivorMaximum variable.
+ This was managed simpler before, but due to the inclusion of the "SurvivorLimit" script, this was added
+ as it now it will have to be calculated everytime at the start of each level to mantain equivalency.
+
+ Referenced in:
+ --------------
+- "Survivors.acs" 
+
+
+global var 6: [Available]
+//Unused
+
+global var 7: [Available]
+//Unused
+
+global var 8: [Available]
+//Unused
+
+global var 9: [Available]
+//Unused
+
+
+
+global int 10:CustomCardTime [];
+An array variable which stores the idle time of each card.
+
+ Referenced in:
+ --------------
+- "TitleCards.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 11:CustomCard1;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 12:CustomCard2;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 13:CustomCard3;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 14:CustomCard4;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 15:CustomCard5;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 16:CustomCard6;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 17:CustomCard7;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 18:CustomCard8;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 19:CustomCard9;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+
+
+global str 20:CustomCard10;
+ A string variable which stores the name of a custom title card for the Custom Level Cards animation.
+
+ Referenced in:
+ --------------
+- "LevelContinuity.acs" 
+- Every map in their specific behaviour scripts
+

@@ -1,0 +1,371 @@
+//This removes Difficulties from Doom or other base maps/games
+ClearSkills
+
+Skill Hard
+{
+	SpawnFilter = 	Hard
+	PicName = 		"M_ULTRA"
+	Name = 			"$SKILL_HARD"
+	Key = 			"u"
+	DefaultSkill
+}
+
+
+Gameinfo
+{
+	PlayerClasses=			"ZEKE_PLAYER", "JULIE_PLAYER"
+	NoRandomPlayerClass=	True
+	StatusBarClass = 		"ZAMNTCHud"		//Starts the ZSCript Hud which retrieves player info
+	BorderFlat = 			"ZAMNBAK1"		//<-- I have several Background images to choose from in "flats/Backgrounds"
+	Infopage = "HELP", "CREDIT"
+	menufontcolor_selection = "Gold"
+}
+
+
+
+//This removes episodes from Doom or other base maps/games
+ClearEpisodes
+
+Episode ZOMBIE_P			// Episode [First Map of the Episode]
+{							
+name = "New Game"			
+key = "t"
+picname = "S_NGAME"			// "Name" is not used, as the "Picname" (Picture Name) replaces it instead
+NoSkillMenu
+}
+
+Episode LEVEL_SL
+{
+name = "Level Select\n"
+key = "s"
+picname = "S_SLCLEV"
+NoSkillMenu
+}
+
+Episode TITLEMAP	//Should be send to a info map
+{
+name = ""
+key = ""
+picname = "S_CSLVTL"
+NoSkillMenu
+}
+
+//Custom Campaigns   /////////////////////////
+Episode MIDNIGHT				
+{							
+name = "You should set a picname"
+key = "c"
+picname = "T_MIDNGT"			
+NoSkillMenu
+}
+
+
+Episode HELRGKDS				
+{							
+name = "You should set a picname"
+key = "c"
+picname = "T_HLRKDS"			
+NoSkillMenu
+}
+
+Episode CAMPTERR				
+{							
+name = "You should set a picname"
+key = "c"
+picname = "T_CMPTRR"			
+NoSkillMenu
+}
+
+
+
+// Menu Maps
+//-------------------------------------------------//
+map TITLEMAP "Zamn Titlemap"
+{
+music = ""
+SpawnWithWeaponRaised
+}
+
+map LEVEL_SL "Level Select"
+{
+music = ""
+KeepFullInventory
+SpawnWithWeaponRaised
+}
+
+map BONUS_SL "Bonus Select"
+{
+music = ""
+KeepFullInventory
+SpawnWithWeaponRaised
+}
+
+map EASTR_SL "Easter Egg Select"
+{
+music = ""
+KeepFullInventory
+SpawnWithWeaponRaised
+}
+
+map THANKS "Thank you for playing!"
+{
+music = ""
+KeepFullInventory
+SpawnWithWeaponRaised
+}
+
+
+// Actual Maps
+//-------------------------------------------------//
+map ZOMBIE_P "Zombie Panic"
+{
+levelnum = 1
+music = ""	//"ZOMBIEPC"
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "EVENIN_U"
+SecretNext = "TENTACLE"
+}
+
+map TENTACLE "Day Of The Tentacle"
+{
+levelnum = 801
+music = ""	//"MARSCHER"
+Sky1 = "Sky4", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "EVENIN_U"
+}
+
+map EVENIN_U "Evening Of The Undead"
+{
+levelnum = 2
+music = ""	//"EVENING"
+Sky1 = "Sky2", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "TERAIS_F"
+}
+
+map TERAIS_F "Terror In Aisle Five"
+{
+levelnum = 3
+music = ""	//"NOASSEMB"
+Sky1 = "Sky3", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "CHAIN_HG"
+}
+
+map CHAIN_HG "Chainsaw Hedgemaze Mayhem"
+{
+levelnum = 4
+music = ""	//"BOSSBATL"
+Sky1 = "Sky3", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "WERDKIDS"
+//Secret = "TENTACLE"		//METROPOLIS1
+}
+
+map WERDKIDS "Weird Kids On The Block"
+{
+levelnum = 5
+music = ""	//"WEIRDKDS"
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "PYRAMID"
+}
+
+map PYRAMID "Pyramid Of Fear"
+{
+levelnum = 6
+music = ""	//"PYRAMMU"
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "CASTLETR"
+}
+
+map CASTLETR "Dr Tongue's Castle Of Terror"
+{
+levelnum = 7
+music = ""	//"PYRAMMU"
+Sky1 = "Sky3", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "TITNTDLR"
+}
+
+map TITNTDLR "Titanic Toddler"
+{
+levelnum = 8
+music = ""	//"TITANIC"
+Sky1 = "Sky3", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "TOXICTRR"
+}
+
+map TOXICTRR "Toxic Terrors"
+{
+levelnum = 9
+music = ""	//"EVENING"
+Sky1 = "Sky5", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "NO_ASEMB"
+Secret = "MUSHROOM"	//
+}
+
+map MUSHROOM "Mushroom Men"
+{
+levelnum = 809
+music = "" //WERDKIDS
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "NO_ASEMB"
+}
+
+map NO_ASEMB "No Assembly Required"
+{
+levelnum = 10
+music = ""	//"NOASSEMB"
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "WEDGONE"
+}
+
+map WEDGONE "Weeds Gone Bad"
+{
+levelnum = 11
+music = ""	//"ZOMBIEPC"
+Sky1 = "Sky3", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "MARSCHER"
+}
+
+map MARSCHER "Mars Needs Cheerleaders"
+{
+levelnum = 12
+music = ""	//"MARSCHMU"
+Sky1 = "Sky3", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "CHOPMALL"
+//Secret = "THANKS"	//Go to "Cheerleaders Vs The Monsters"
+}
+
+map CHOPMALL "Chopping Mall"
+{
+levelnum = 13
+music = ""	//"NOASSEMB"
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "SEVNMEAL"
+}
+
+map SEVNMEAL "Seven Meals For Seven Zombies"
+{
+levelnum = 14
+music = ""	//"WEIRDKDS"
+Sky1 = "LEVEL_VD", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "DNRMSISL"
+}
+
+map DNRMSISL "Dinner On Monster Island"
+{
+levelnum = 15
+music = ""	//"ZOMBIEPC"
+Sky1 = "Sky2", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "DEPTHANT"
+Secret = "THANKS"
+}
+
+map DEPTHANT "From the Depths of the Earth: Ants"
+{
+levelnum = 16
+music = ""	//"BOSSBATL"
+Sky1 = "Sky1", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "THANKS"
+Secret = "THANKS"
+}
+
+
+//Custom Maps
+
+Map MIDNIGHT "Midnight Shopping"
+{
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Sky1 = "Sky2", 0
+Next = "THANKS"				// Next map if not a bonus
+SecretNext = "THANKS"		// Next map if bonus
+}
+
+Map HELRGKDS "Honey, I Enlarged The Kids"
+{
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Sky1 = "Sky3", 0
+Next = "THANKS"				// Next map if not a bonus
+SecretNext = "THANKS"		// Next map if bonus
+}
+
+map CAMPTERR "Camp Terror"
+{
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Sky1 = "Sky2", 0
+fogdensity = 255
+outsidefogdensity = 255
+music = ""	//"WEIRDKDS"
+Next = "THANKS"
+SecretNext = "THANKS"
+}
+
+
+
+//Easter Eggs
+Map METRO01 "Ghoul Patrol: Metropolis 1"
+{
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Sky1 = "Sky3", 0
+Next = "THANKS"				// Next map if not a bonus
+SecretNext = "THANKS"		// Next map if bonus
+}

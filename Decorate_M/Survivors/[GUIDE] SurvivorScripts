@@ -1,0 +1,67 @@
+ 
+ Survivor Scripts:
+ -----------------
+ 
+ One of the new mechanics implemented recently is survivor scripts, due to how the survivors 
+ are actually a group of actors this was kind of tricky to implement, but the results have potential.
+ 
+ So, the SurvivorSpawns take as a second argument a number, if this number is '0' it would simply
+ not activate a script but if specified otherwise, then it will call the numbered script
+ upon pickup(save), death, or werewolf transformation of the specified survivor.
+ 
+ _______________________________________________________________________
+ 
+ Your numbered called script can have no argument:
+ 
+ 
+ Script 123 (void)
+ {
+	...
+ }
+ _______________________________________________________________________
+ 
+ _______________________________________________________________________
+ 
+ Or it can have 1 argument, which is in this case the "Calling Motive":
+
+
+ Script 123 (int CallMotive)
+ {
+	...
+ }
+ _______________________________________________________________________
+ 
+ 
+ This optional argument is a number given by the survivor which specifies the conditions in 
+ which the numbered scripts was called.
+ This numbers mean:
+ 
+0: "Save" or "Pickup" of the survivor
+1: "Death" by normal means of the survivor 
+2: "Werewolf Transformation" of the survivor
+
+
+
+Using this number you can create different segments depending on the reason of calling it, allowing
+more control to the mapper/modder but it is optional depending on what is being used for.
+
+This "SurvivorScript" was meant to expand the level design capabilities of the ZAMN formula,
+I plan on a future to add a campaing with interconected maps to this mod taking advantage of this 
+SurvivorScripts but it could be used in many different ways. 
+
+Pretty much whatever the mappers want to do with this, because you could construct:
+- Timers
+- Opening/Closing areas
+- Triggering Cutscenes or something
+- Changing levels
+- Changing Textures
+- Changing Music
+- Changing Enemies
+- Etc.
+
+/*
+
+TO CHECK EXAMPLES OF SCRIPTS AND MORE INFORMATION 
+CHECK THE FILE WITH THIS SAME NAME, IN THE DIRECTORY "acs_sources"
+
+*/

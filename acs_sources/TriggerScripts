@@ -1,0 +1,613 @@
+#library "LevelScripts"
+#include "zcommon.acs"
+	     
+///////////////////////////////////////////
+//			Destructive Triggers		 //
+///////////////////////////////////////////
+      
+Script "GetTid" (void)
+{	SetResultValue(ActivatorTID());	}
+ 
+Script "GetInt" (int number)
+{	SetResultValue (number);}
+
+
+
+//TO DO: Clean unused scripts in the next revision!!! [06/06/21]
+
+
+Script "TriggerLeafs_X" (int maintag, int sidetag, int pallete)
+{
+		if(maintag==0)
+			ACS_NamedExecuteAlways("EmptyTriggerError",0,0,0,0);
+		else
+			{
+				if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+					{
+						if(sidetag==0)
+							sidetag = maintag-200;
+						Floor_LowerToNearest(maintag, 512);
+						str maintexture= "";
+						str sidetexture= "";
+					
+						switch(pallete)
+						{
+							case 0:	ChangeFloor(maintag,"GRHIT");			maintexture= "HEDGE_BR";	sidetexture= "HEDGE_B2";	break;
+							case 1:	/*ChangeFloor(maintag,"GRHIT");*/		maintexture= "NHEDG_BR";	sidetexture= "NHEDG_B2";	break;
+							case 2:	/*ChangeFloor(maintag,"GRHIT");*/		maintexture= "T_HEDGBR";	sidetexture= "T_HEDGB2";	break;
+							case 3:	/*ChangeFloor(maintag,"GRHIT");*/		maintexture= "W_HEDGBR";	sidetexture= "W_HEDGB2";	break;
+							
+							case 4:	/*ChangeFloor(maintag,"GRHIT");*/		maintexture= "HEDGE_BR";	sidetexture= "HEDGE_B2";	break;
+						}
+						
+						Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+						Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+						
+						SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE, maintexture);	
+						SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE , maintexture);
+						SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE, sidetexture);	
+						SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE , sidetexture);
+						
+						ACS_NamedExecuteAlways("SpawnLeafs_X",0,pallete,0,0);
+						
+						
+					}
+				else
+					{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+					}
+			}
+} 
+
+Script "TriggerFence_X" (int maintag, int pallete)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				str maintexture= "";
+				
+				switch(pallete)
+				{
+					case 0:		maintexture= "WM_BRFEN";	break;
+					case 1:		maintexture= "N_WBRFEN";	break;
+					case 2:		maintexture= "TWMBRFEN";	break;
+					case 3:		maintexture= "WWMBRFEN";	break;
+					
+					case 4:		maintexture= "WM_BRFEN";	break;
+				}
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE, maintexture);
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,  maintexture);
+				
+				ACS_NamedExecuteAlways("SpawnWood_X",0,pallete,0,0);
+			
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}
+	}
+
+Script "TriggerHouse_X" (int maintag, int pallete)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				str maintexture= "";
+				
+				switch(pallete)
+				{
+					case 0:	maintexture="HWALL_DB";	break;
+					case 1:	maintexture="NWALL_DB";	break;
+					case 2:	maintexture="T_HWALDB";	break;
+					case 3:	maintexture="W_HWALDB";	break;
+					
+					case 4:	maintexture="HWALL_DB";	break;
+				}
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,maintexture);
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE, maintexture);
+				
+				
+				//- Spawn something in here maybe?
+				//- Oh yeah, spawning debree would look cool
+				//- All right then!
+			}
+		else 
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}
+	}
+	
+Script "TriggerBathroomDay" (int SectorTag, int InnerWall, int OuterWall)	//int InnerWall == int Sink || int OuterWall == int Tub
+	{
+		if(!((SectorTag==0)||(SectorTag>=2000)))
+			{	Floor_LowerToNearest(SectorTag, 512);
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				
+				SetLineTexture(InnerWall,SIDE_FRONT,TEXTURE_MIDDLE,"BWALL_DB");
+				SetLineTexture(InnerWall,SIDE_BACK,TEXTURE_MIDDLE,"BWALL_DB");
+				
+				SetLineTexture(OuterWall,SIDE_FRONT,TEXTURE_MIDDLE,"HWALL_DB");
+				SetLineTexture(OuterWall,SIDE_BACK,TEXTURE_MIDDLE,"HWALL_DB");
+				str tospawn= "";
+				str tospawn2= "";
+				
+				if(ThingCount(T_NONE, InnerWall)>=1)
+				{
+					if(ThingCount(T_NONE, InnerWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, InnerWall), s: " actors with the Tag ( ", 
+					i: InnerWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(InnerWall, APROP_SPECIES, "SINKA0"))
+					{ tospawn = "SINKA0_BROKEN"; }
+					
+					int xsink = GetActorX(InnerWall);
+					int ysink = GetActorY(InnerWall);
+					int zsink = GetActorZ(InnerWall);
+					int asink = GetActorAngle(InnerWall);
+					Thing_Remove(InnerWall);
+					
+					SpawnForced(tospawn,xsink,ysink,zsink,InnerWall,asink);	
+					SetActorAngle(InnerWall,asink);
+				}
+				if(ThingCount(T_NONE, OuterWall)>=1)
+				{
+					if(ThingCount(T_NONE, OuterWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, OuterWall), s: " actors with the Tag ( ", 
+					i: OuterWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(OuterWall, APROP_SPECIES, "TUBA0"))
+					{ tospawn2 = "TUBA0_BROKEN"; }
+					
+					int xtub = GetActorX(OuterWall);
+					int ytub = GetActorY(OuterWall);
+					int ztub = GetActorZ(OuterWall);
+					int atub = GetActorAngle(OuterWall);
+					Thing_Remove(OuterWall);
+					
+					SpawnForced(tospawn2,xtub,ytub,ztub,OuterWall,atub);	
+					SetActorAngle(OuterWall,atub);
+				}
+			}
+		else 
+			{
+				if(SectorTag==0)
+					ACS_NamedExecuteAlways("SectorZero",0,0,0,0);
+				else if(SectorTag>=2000)
+					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+				Terminate;
+			}	
+	}
+	
+Script "TriggerBathroomNight" (int SectorTag, int InnerWall, int OuterWall)	//int InnerWall == int Sink , int OuterWall == int Tub
+	{
+		if(!((SectorTag==0)||(SectorTag>=2000)))
+			{	Floor_LowerToNearest(SectorTag, 512);
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				
+				SetLineTexture(InnerWall,SIDE_FRONT,TEXTURE_MIDDLE,"NBWAL_DB");
+				SetLineTexture(InnerWall,SIDE_BACK,TEXTURE_MIDDLE,"NBWAL_DB");
+				
+				SetLineTexture(OuterWall,SIDE_FRONT,TEXTURE_MIDDLE,"NWALL_DB");
+				SetLineTexture(OuterWall,SIDE_BACK,TEXTURE_MIDDLE,"NWALL_DB");
+				str tospawn= "";
+				str tospawn2= "";
+				
+				if(ThingCount(T_NONE, InnerWall)>=1)
+				{
+					if(ThingCount(T_NONE, InnerWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, InnerWall), s: " actors with the Tag ( ", 
+					i: InnerWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(InnerWall, APROP_SPECIES, "SINKA1"))
+					{ tospawn = "SINKA1_BROKEN"; }
+					
+					int xsink = GetActorX(InnerWall);
+					int ysink = GetActorY(InnerWall);
+					int zsink = GetActorZ(InnerWall);
+					int asink = GetActorAngle(InnerWall);
+					Thing_Remove(InnerWall);
+					
+					SpawnForced(tospawn,xsink,ysink,zsink,InnerWall,asink);	
+					SetActorAngle(InnerWall,asink);
+				}
+				if(ThingCount(T_NONE, OuterWall)>=1)
+				{
+					if(ThingCount(T_NONE, OuterWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, OuterWall), s: " actors with the Tag ( ", 
+					i: OuterWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(OuterWall, APROP_SPECIES, "TUBA1"))
+					{ tospawn2 = "TUBA1_BROKEN"; }
+					
+					int xtub = GetActorX(OuterWall);
+					int ytub = GetActorY(OuterWall);
+					int ztub = GetActorZ(OuterWall);
+					int atub = GetActorAngle(OuterWall);
+					Thing_Remove(OuterWall);
+					
+					SpawnForced(tospawn2,xtub,ytub,ztub,OuterWall,atub);	
+					SetActorAngle(OuterWall,atub);
+				}
+			}
+		else 
+			{
+				if(SectorTag==0)
+					ACS_NamedExecuteAlways("SectorZero",0,0,0,0);
+				else if(SectorTag>=2000)
+					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+				Terminate;
+			}	
+	}
+
+Script "TriggerBathroomToxic" (int SectorTag, int InnerWall, int OuterWall)	//int InnerWall == int Sink , int OuterWall == int Tub
+	{
+		if(!((SectorTag==0)||(SectorTag>=2000)))
+			{	Floor_LowerToNearest(SectorTag, 512);
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				
+				SetLineTexture(InnerWall,SIDE_FRONT,TEXTURE_MIDDLE,"T_BWALDB");
+				SetLineTexture(InnerWall,SIDE_BACK,TEXTURE_MIDDLE,"T_BWALDB");
+				
+				SetLineTexture(OuterWall,SIDE_FRONT,TEXTURE_MIDDLE,"T_HWALDB");
+				SetLineTexture(OuterWall,SIDE_BACK,TEXTURE_MIDDLE,"T_HWALDB");
+				str tospawn= "";
+				str tospawn2= "";
+				
+				if(ThingCount(T_NONE, InnerWall)>=1)
+				{
+					if(ThingCount(T_NONE, InnerWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, InnerWall), s: " actors with the Tag ( ",
+					i: InnerWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(InnerWall, APROP_SPECIES, "SINKA2"))
+					{ tospawn = "SINKA2_BROKEN"; }
+					
+					int xsink = GetActorX(InnerWall);
+					int ysink = GetActorY(InnerWall);
+					int zsink = GetActorZ(InnerWall);
+					int asink = GetActorAngle(InnerWall);
+					Thing_Remove(InnerWall);
+					
+					SpawnForced(tospawn,xsink,ysink,zsink,InnerWall,asink);	
+					SetActorAngle(InnerWall,asink);
+				} 
+				if(ThingCount(T_NONE, OuterWall)>=1)
+				{
+					if(ThingCount(T_NONE, OuterWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, OuterWall), s: " actors with the Tag ( ", 
+					i: OuterWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(OuterWall, APROP_SPECIES, "TUBA2"))
+					{ tospawn2 = "TUBA2_BROKEN"; }
+					
+					int xtub = GetActorX(OuterWall);
+					int ytub = GetActorY(OuterWall);
+					int ztub = GetActorZ(OuterWall);
+					int atub = GetActorAngle(OuterWall);
+					Thing_Remove(OuterWall);
+					
+					SpawnForced(tospawn2,xtub,ytub,ztub,OuterWall,atub);	
+					SetActorAngle(OuterWall,atub);
+				}
+			}
+		else 
+			{
+				if(SectorTag==0)
+					ACS_NamedExecuteAlways("SectorZero",0,0,0,0);
+				else if(SectorTag>=2000)
+					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+				Terminate;
+			}	
+	}
+	 
+Script "TriggerWallPipes" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				//ChangeFloor(maintag,"GRHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"HWAL_TB");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"HWAL_TB");
+				//SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE,"NHEDG_B2");
+				//SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE,"NHEDG_B2");
+				
+				//ACS_NamedExecuteAlways("SpawnLeafs_Night",0,0,0,0);
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+	  
+Script "TriggerGlass2" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				//Floor_LowerToNearest(maintag, 512);
+				Line_SetBlocking(maintag,0,BLOCKF_EVERYTHING);
+				//ChangeFloor(maintag,"GRHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"MLWDO1B");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"MLWDO1B");
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+	
+Script "TriggerGlass1" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				//Floor_LowerToNearest(maintag, 512);
+				Line_SetBlocking(maintag,0,BLOCKF_EVERYTHING);
+				//ChangeFloor(maintag,"GRHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"MLWDO1A");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"MLWDO1A");
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+	
+Script "TriggerSoda" (int Pallete, int LineTag)
+{
+	switch(Pallete)
+	{
+		case 0:	SetLineTexture(Linetag,SIDE_FRONT,TEXTURE_MIDDLE,"SO2TXFRD");
+				SetLineTexture(Linetag,SIDE_BACK,TEXTURE_MIDDLE,"SO2TXFRD");
+				break;
+	}
+}
+
+Script "TriggerMall1" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				//Line_SetBlocking(maintag,0,BLOCKF_EVERYTHING);
+				//ChangeFloor(maintag,"GRHIT");
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"ABARRO_D");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"ABARRO_D");
+				Line_SetTextureOffset(maintag,0,-16,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,-16,SIDE_BACK,TEXFLAG_BOTTOM);
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+
+
+Script "TriggerMallBox" (int maintag, int floorlevel)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				//Floor_LowerToNearest(maintag, 512);
+				if(floorlevel >= 0)
+					{
+						Floor_MoveToValue(maintag, 512, floorlevel, 0);
+						Floor_MoveToValue(maintag, 512, floorlevel, 0);
+					}
+				else
+					{
+						Floor_MoveToValue(maintag, 512, floorlevel, 1);
+						Floor_MoveToValue(maintag, 512, floorlevel, 1);
+					}
+				ChangeFloor(maintag,"MALLBHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"MLLBOXAM");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"MLLBOXAM");
+				Line_SetBlocking(maintag, 0, BLOCKF_PLAYERS|BLOCKF_EVERYTHING|BLOCKF_CREATURES);
+				//SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE,"NHEDG_B2");
+				//SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE,"NHEDG_B2");
+				
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+
+
+Script "TriggerPyramidWallSet" (int maintag)
+{
+	SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"PYRMWL0A");
+	SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"PYRMWL0A");
+	Delay(1);
+	Floor_RaiseByValue(maintag,522,32);
+	SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"PYRMWL0B");
+	SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"PYRMWL0B");
+	Delay(1);
+	SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"PYRMWL0C");
+	SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"PYRMWL0C");
+	Delay(1);
+	Floor_RaiseByValue(maintag,522,32);
+	SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"PYRMWL0D");
+	SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"PYRMWL0D");
+	Delay(1);
+	SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"PYRMWL0E");
+	SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"PYRMWL0E");
+	Delay(1);
+	SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"-");
+	SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"-");
+}
+
+Script "TriggerPyramidWallDet" (int maintag)
+{
+	int FloorY = GetSectorFloorZ(maintag,0,0);
+	while(FloorY == GetSectorFloorZ(maintag,0,0))
+	{
+	Floor_LowerByValue(maintag,522,64);
+	Delay(35);
+	}
+	
+}
+ 
+Script "TriggerFactoryBox" (int maintag, int floorlevel)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				//Floor_LowerToNearest(maintag, 512);
+				if(floorlevel >= 0)
+					{
+						Floor_MoveToValue(maintag, 512, floorlevel, 0);
+						Floor_MoveToValue(maintag, 512, floorlevel, 0);
+					}
+				else
+					{
+						Floor_MoveToValue(maintag, 512, floorlevel, 1);
+						Floor_MoveToValue(maintag, 512, floorlevel, 1);
+					}
+				ChangeFloor(maintag,"FACTBHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"MLLBOXAM");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"MLLBOXAM");
+				Line_SetBlocking(maintag, 0, BLOCKF_PLAYERS|BLOCKF_EVERYTHING|BLOCKF_CREATURES);
+				//SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE,"NHEDG_B2");
+				//SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE,"NHEDG_B2");
+				
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+
+Script "TriggerFactoryWall" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				//ChangeFloor(maintag,"GRHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"FOWAL_64");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"FOWAL_64");
+				//SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE,"NHEDG_B2");
+				//SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE,"NHEDG_B2");
+				
+				//ACS_NamedExecuteAlways("SpawnLeafs_Night",0,0,0,0);
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
+
+Script "TriggerFactoryPipes" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				//ChangeFloor(maintag,"GRHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"FWAL_TB");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"FWAL_TB");
+				//SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE,"NHEDG_B2");
+				//SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE,"NHEDG_B2");
+				
+				//ACS_NamedExecuteAlways("SpawnLeafs_Night",0,0,0,0);
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}

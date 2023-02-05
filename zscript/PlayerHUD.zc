@@ -1,0 +1,206 @@
+//HUD Display
+class ZAMNTCHud : BaseStatusBar
+{  
+	int FONT_COLOR;
+	HUDFont RegularFont;
+	HUDFont ScoreFont;
+	InventoryBarState InvBar;
+
+	int ammocheck;
+	
+	/*-- Initializes HUD Values --*/
+	/*----------------------------*/
+	override void Init()
+	{
+		Super.Init();
+		SetSize(0, 320, 200);
+	
+		Font fnt = "BIGFONT";
+		Font fnt2 = "STATUSFONT";
+		RegularFont = HUDFont.Create(fnt);		//Not Monospaced
+		ScoreFont = HUDFont.Create(fnt2, fnt2.GetCharWidth("0"), true);	//Monospaced 
+		InvBar = InventoryBarState.Create(RegularFont);
+	}
+	/*----------------------------*/
+	/*----------------------------*/
+
+
+	/*-- Calls HUD Drawing --*/
+	/*-----------------------*/
+	Override Void Draw(int state, double TicFrac)
+	{
+		Super.Draw (state, TicFrac);
+
+		BeginStatusBar();
+		DrawMainBar (TicFrac);
+	}
+	/*-----------------------*/
+	/*-----------------------*/
+
+	/*-- Does the Actual Drawing elements of HUD --*/
+	/*---------------------------------------------*/
+	void DrawMainBar(double TicFrac)
+	{
+		//Font Color
+		if(		CPlayer.mo.FindInventory("ZekeToken") || CPlayer.mo.FindInventory("ZekeTicket")
+			||CPlayer.mo.FindInventory("ZekeGPToken")) 				{FONT_COLOR = 0; }//[Zeke:  Red-Brick]
+		else if(CPlayer.mo.FindInventory("JulieToken") || CPlayer.mo.FindInventory("JulieTicket")
+			||CPlayer.mo.FindInventory("JulieGPToken"))				{FONT_COLOR = 21;}//[Julie: Blue-Cyan]
+
+
+		/*
+		//Font Scale
+		double FONT_SCALE = 1.49;
+
+		// Weapon Icon X/Y Scale			//[Note: Scale is not tied to HudSize as it was in ACS]
+		double WPICN_XSCALE= 0.95;//1.0;
+		double WPICN_YSCALE= 1.255;//1.275;
+
+		// Weapon Icon X/Y Offset			//[Note: Offset is relative to HudSize]
+		double WPICN_XOFFST= -128.15;
+		double WPICN_YOFFST= -158.5;
+
+		// Item Icon X/Y Scale			
+		double ITICN_XSCALE= WPICN_XSCALE;//1.0;
+		double ITICN_YSCALE= WPICN_YSCALE - 0.25;//1.275;
+
+		// Item Icon X/Y Offset			
+		double ITICN_XOFFST= WPICN_XOFFST + 42.5;
+		double ITICN_YOFFST= WPICN_YOFFST + 4;
+		*/
+		// Check the current selected item as to see if the player changed item
+		//string ItemSelected = "nothing";
+
+		//CVARS Actors of real CVARS defined for CVARS ACS HUD
+		CVar cvr_weaponicon = 		CVar.FindCVar('hud_wepicon');
+		CVar cvr_weaponammo1 = 		CVar.FindCVar('hud_wepammo1');
+		CVar cvr_weaponammo2 = 		CVar.FindCVar('hud_wepammo2');
+		CVar cvr_inventoryicon = 	CVar.FindCVar('hud_invicon');
+		CVar cvr_inventoryamount = 	CVar.FindCVar('hud_invamount');
+		CVar cvr_inventoryname = 	CVar.FindCVar('hud_invname');
+		CVar cvr_scorepoints = 		CVar.FindCVar('hud_score');
+
+		//------------ Weapon / Items ------------//
+		//----------------------------------------//
+		
+		if(CPlayer.mo.FindInventory("ZekeToken") || CPlayer.mo.FindInventory("JulieToken") || CPlayer.mo.FindInventory("ZekeGPToken") || CPlayer.mo.FindInventory("JulieGPToken"))
+		{
+			//Weapon / Item Info
+			if(CPlayer.mo.FindInventory("MonsterToken") != null)
+				{	
+					cvr_weaponicon.SetString("MONPUNCH");
+					ammocheck = GetAmount("MonsterTime")/35;
+					cvr_weaponammo1.SetInt(ammocheck);
+					cvr_weaponammo2.SetInt(-1);
+					
+					//Don't draw item counter while monster player.
+					cvr_inventoryicon.SetString("MONPUNCH");
+					cvr_inventoryamount.SetInt(-1);
+				}
+			else if(CPlayer.mo.FindInventory("GooTimer") != null)
+				{	
+					cvr_weaponicon.SetString("GOOICON");
+					ammocheck = GetAmount("GooTimer")/35;
+					cvr_weaponammo1.SetInt(ammocheck);
+					cvr_weaponammo2.SetInt(-1);
+
+					//Don't draw item counter while goo screen.
+					cvr_inventoryicon.SetString("GOOICON");
+					cvr_inventoryamount.SetInt(-1);
+				}
+			else if(CPlayer.mo.FindInventory("InWater") != null)
+				{
+					//Don't draw ammo/item counter while underwater.
+					cvr_weaponicon.SetString("WATRICON");
+					cvr_weaponammo1.SetInt(-1);
+					cvr_weaponammo2.SetInt(-1);
+	
+					cvr_inventoryicon.SetString("WATRICON");
+					cvr_inventoryamount.SetInt(-1);
+				}
+
+			//Check Weapon/Item Info (New Method)
+			else if(self.Cplayer.ReadyWeapon.Icon.IsValid())
+				{
+					//console.printf("Weapon Icon Method");
+					cvr_weaponicon.SetString(Texman.GetName(Cplayer.ReadyWeapon.Icon));
+
+					Inventory ammoget1, ammoget2;
+					[ammoget1, ammoget2] = GetCurrentAmmo();
+					
+					if(ammoget1 != null)	cvr_weaponammo1.SetInt(ammoget1.Amount);	else	cvr_weaponammo1.SetInt(-1);
+					if(ammoget2 != null)	cvr_weaponammo2.SetInt(ammoget2.Amount);	else	cvr_weaponammo2.SetInt(-1);
+
+					if(CPlayer.mo.InvSel != null)
+						{
+						cvr_inventoryicon.SetString(Texman.GetName(CPlayer.mo.InvSel.Icon));
+						cvr_inventoryamount.SetInt(CPlayer.mo.InvSel.Amount);
+						}
+					else
+						{
+						cvr_inventoryicon.SetString("tnt1a0");
+						cvr_inventoryamount.SetInt(-1);
+						}
+				}
+			//Check Weapon/Item Info (Old Method)
+			else 
+				{
+					//Weapon Icon == Weapon_Class_Name | Weapon Ammo == Weapon_Class_Name + "_Ammo" (Ammo taken from Weapon Class)
+					string WeaponNameCheck = self.CPlayer.ReadyWeapon.getClassName();
+					if(!(WeaponNameCheck.Length()> 8))
+					{
+						//console.printf("8 chars method");
+						cvr_weaponicon.SetString(self.CPlayer.ReadyWeapon.getClassName());
+
+						Inventory ammoget1, ammoget2;
+						[ammoget1, ammoget2] = GetCurrentAmmo();
+					
+						if(ammoget1 != null)	cvr_weaponammo1.SetInt(ammoget1.Amount);	else	cvr_weaponammo1.SetInt(-1);
+						if(ammoget2 != null)	cvr_weaponammo2.SetInt(ammoget2.Amount);	else	cvr_weaponammo2.SetInt(-1);
+					}
+					else
+					{
+						//console.printf("No Weapon Icon Found");
+						cvr_weaponicon.SetString("WEAPUNKN");
+
+						Inventory ammoget1, ammoget2;
+						[ammoget1, ammoget2] = GetCurrentAmmo();
+					
+						if(ammoget1 != null)	cvr_weaponammo1.SetInt(ammoget1.Amount);	else	cvr_weaponammo1.SetInt(-1);
+						if(ammoget2 != null)	cvr_weaponammo2.SetInt(ammoget2.Amount);	else	cvr_weaponammo2.SetInt(-1);
+					}
+					
+					//Don't forget to draw Inventory at the end
+					if(CPlayer.mo.InvSel != null)
+						{
+						cvr_inventoryicon.SetString(Texman.GetName(CPlayer.mo.InvSel.Icon));
+						cvr_inventoryamount.SetInt(CPlayer.mo.InvSel.Amount);
+						}
+					else
+						{
+						cvr_inventoryicon.SetString("tnt1a0");
+						cvr_inventoryamount.SetInt(-1);
+						}
+				}
+
+			//Item Difference Check (so it plays the selecting sound at change of item selected)
+			if(Cplayer.mo.InvSel != null)
+			{
+					cvr_inventoryname.SetString(CPlayer.mo.InvSel.GetClassName());
+			}
+		}
+		//------------  Score Points  ------------//
+		//----------------------------------------//
+		if(CPlayer.mo.FindInventory("ScoreActive") || CPlayer.mo.FindInventory("ScoreShow"))
+		{
+			int scorecheck = GetAmount("ScorePoints");
+
+			cvr_scorepoints.SetInt(scorecheck);
+		}
+			
+	}
+	/*---------------------------------------------*/
+	/*---------------------------------------------*/
+
+//End Of Class.
+}

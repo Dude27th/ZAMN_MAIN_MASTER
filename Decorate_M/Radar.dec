@@ -1,0 +1,878 @@
+//This comes from the radar.wad I'm keeping it here for reference
+//And for some Doom compatibility , even tho I'm probably not going to need it
+//considerating that this is a TC
+
+//$GZDB_SKIP
+ACTOR ZombieMan_ : Zombieman Replaces Zombieman
+{
+
+	States
+	{
+	Spawn:
+		POSS A 0 
+		POSS A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		POSS AB 10 A_Look
+		Goto Idle
+	Idle:
+		POSS AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR DoomImp1: DoomImp replaces DoomImp
+{
+
+	States
+	{
+	Spawn:
+		TROO A 0 
+		TROO A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		TROO AB 10 A_Look
+		Goto Idle
+	Idle:
+		TROO AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR ShotgunGuy_ : Shotgunguy Replaces Shotgunguy
+{
+
+	States
+	{
+	Spawn:
+		SPOS A 0 
+		SPOS A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SPOS AB 10 A_Look
+		Goto Idle
+	Idle:
+		SPOS AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR ChaingunGuy1: ChaingunGuy replaces ChaingunGuy
+{
+
+	States
+	{
+	Spawn:
+		CPOS A 0 
+		CPOS A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		CPOS AB 10 A_Look
+		Goto Idle
+	Idle:
+		CPOS AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR WolfensteinSS1 : WolfensteinSS  replaces WolfensteinSS 
+{
+
+	States
+	{
+	Spawn:
+		SSWV A 0 
+		SSWV A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SSWV AB 10 A_Look
+		Goto Idle
+	Idle:
+		SSWV AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR Demon11 : Demon  replaces Demon 
+{
+
+	States
+	{
+	Spawn:
+		SARG A 0 
+		SARG A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SARG AB 10 A_Look
+		Goto Idle
+	Idle:
+		SARG AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR Spectre1 : Spectre Replaces Spectre 
+{
+
+	States
+	{
+	Spawn:
+		SARG A 0 
+		SARG A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SARG AB 10 A_Look
+		Goto Idle
+	Idle:
+		SARG AB 10 A_Look
+		Loop
+	}
+}
+ 
+ACTOR Cacodemon1 : Cacodemon replaces Cacodemon  
+{
+
+	States
+	{
+	Spawn:
+		HEAD A 0 
+		HEAD A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		HEAD AB 10 A_Look
+		Goto Idle
+	Idle:
+		HEAD AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR BaronOfHell1 : BaronOfHell replaces BaronOfHell  
+{
+
+	States
+	{
+	Spawn:
+		BOSS A 0 
+		BOSS A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		BOSS AB 10 A_Look
+		Goto Idle
+	Idle:
+		BOSS AB 10 A_Look
+		Loop
+	}
+}
+
+
+ACTOR HellKnight1 : HellKnight  replaces HellKnight   
+{
+
+	States
+	{
+	Spawn:
+		BOS2 A 0 
+		BOS2 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		BOS2 AB 10 A_Look
+		Goto Idle
+	Idle:
+		BOS2 AB 10 A_Look
+		Loop
+	}
+}
+
+
+ACTOR PainElemental1 : PainElemental  replaces PainElemental   
+{
+
+	States
+	{
+	Spawn:
+		PAIN A 0 
+		PAIN A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		PAIN AB 10 A_Look
+		Goto Idle
+	Idle:
+		PAIN AB 10 A_Look
+		Loop
+	}
+}
+
+
+ACTOR Arachnotron1 : Arachnotron  replaces Arachnotron   
+{
+
+	States
+	{
+	Spawn:
+		BSPI A 0 
+		BSPI A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		BSPI AB 10 A_Look
+		Goto Idle
+	Idle:
+		BSPI AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR Revenant1  : Revenant replaces Revenant    
+{
+
+	States
+	{
+	Spawn:
+		SKEL A 0 
+		SKEL A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SKEL AB 10 A_Look
+		Goto Idle
+	Idle:
+		SKEL AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR LostSoul1 : LostSoul replaces LostSoul  
+{
+
+	States
+	{
+	Spawn:
+		SKUL A 0 
+		SKUL A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SKUL AB 10 A_Look
+		Goto Idle
+	Idle:
+		SKUL AB 10 A_Look
+		Loop
+	}
+}
+  
+ACTOR Fatso1 : Fatso replaces Fatso  
+{
+
+	States
+	{
+	Spawn:
+		FATT A 0 
+		FATT A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		FATT AB 10 A_Look
+		Goto Idle
+	Idle:
+		FATT AB 10 A_Look
+		Loop
+	}
+}
+  
+ACTOR Cyberdemon1 : Cyberdemon replaces Cyberdemon  
+{
+
+	States
+	{
+	Spawn:
+		CYBR A 0 
+		CYBR A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		CYBR AB 10 A_Look
+		Goto Idle
+	Idle:
+		CYBR AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR Archvile1 : Archvile replaces Archvile  
+{
+
+	States
+	{
+	Spawn:
+		VILE A 0 
+		VILE A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		VILE AB 10 A_Look
+		Goto Idle
+	Idle:
+		VILE AB 10 A_Look
+		Loop
+	}
+}
+  
+ACTOR SpiderMastermind1 : SpiderMastermind replaces SpiderMastermind  
+{
+
+	States
+	{
+	Spawn:
+		SPID A 0 
+		SPID A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		SPID AB 10 A_Look
+		Goto Idle
+	Idle:
+		SPID AB 10 A_Look
+		Loop
+	}
+}
+
+ACTOR CommanderKeen1 : CommanderKeen replaces CommanderKeen  
+{
+
+	States
+	{
+	Spawn:
+		KEEN A 0 
+		KEEN A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		KEEN AB 10 A_Look
+		Goto Idle
+	Idle:
+		KEEN AB 10 A_Look
+		Loop
+	}
+}
+  
+Actor Clip1 : Clip replaces Clip
+{
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor DoomImpBall1 : DoomImpBall replaces DoomImpBall
+{
+
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor CacodemonBall1 : CacodemonBall replaces CacodemonBall
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BaronBall1 : BaronBall replaces BaronBall
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Rocket1 : Rocket replaces Rocket
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor FatShot1 : FatShot replaces FatShot
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RevenantTracer1 : RevenantTracer replaces RevenantTracer
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor ArachnotronPlasma1 : ArachnotronPlasma replaces ArachnotronPlasma
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor PlasmaBall11 : PlasmaBall replaces PlasmaBall
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BFGBall1 : BFGBall replaces BFGBall
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor SpawnShot1 : SpawnShot replaces SpawnShot
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+/*
+Actor ClipBox1 : ClipBox replaces ClipBox
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RocketAmmo1 : RocketAmmo replaces RocketAmmo
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RocketBox1 : RocketBox replaces RocketBox
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Cell1 : Cell replaces Cell
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor CellPack1 : CellPack replaces CellPack
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Shell1 : Shell replaces Shell
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor ShellBox1 : ShellBox replaces ShellBox
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+*/
+Actor Backpack1 : Backpack replaces Backpack
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor ArmorBonus1 : ArmorBonus replaces ArmorBonus
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor GreenArmor1 : GreenArmor replaces GreenArmor
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BlueArmor1 : BlueArmor replaces BlueArmor
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor InvulnerabilitySphere1 : InvulnerabilitySphere replaces InvulnerabilitySphere
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Soulsphere1 : Soulsphere replaces Soulsphere
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Megasphere1 : Megasphere replaces Megasphere
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BlurSphere1 : BlurSphere replaces BlurSphere
+{
+	//$GZDB_SKIP
+   Powerup.Duration 0x7FFFFFFF
+   
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RadSuit1 : RadSuit replaces RadSuit
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Infrared1 : Infrared replaces Infrared
+{
+	//$GZDB_SKIP
+   Powerup.Duration 0x7FFFFFFF
+   
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Allmap1 : Allmap replaces Allmap
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Berserk1 : Berserk replaces Berserk
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor HealthBonus1 : HealthBonus replaces HealthBonus
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Stimpack1 : Stimpack replaces Stimpack
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Medikit1 : Medikit replaces Medikit
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BlueCard1 : BlueCard replaces BlueCard
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor YellowCard1 : YellowCard replaces YellowCard
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RedCard1 : RedCard replaces RedCard
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BlueSkull1 : BlueSkull replaces BlueSkull
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor YellowSkull1 : YellowSkull replaces YellowSkull
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RedSkull1 : RedSkull replaces RedSkull
+{
+	//$GZDB_SKIP
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteWithResult("RadarIdentifier",0)
+		Goto Super::Spawn
+	}
+}
+/*
+Actor ExplosiveBarrel1 : ExplosiveBarrel replaces ExplosiveBarrel
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+
+Actor Pistol1 : Pistol Replaces Pistol
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+
+Actor Chainsaw1 : Chainsaw replaces Chainsaw
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Shotgun1 : Shotgun replaces Shotgun
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor SuperShotgun1 : SuperShotgun replaces SuperShotgun
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor Chaingun1 : Chaingun replaces Chaingun
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor RocketLauncher1 : RocketLauncher replaces RocketLauncher
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor PlasmaRifle1 : PlasmaRifle replaces PlasmaRifle
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+
+Actor BFG90001 : BFG9000 replaces BFG9000
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		TNT1 A 0 ACS_ExecuteWithResult(100,0)
+		Goto Super::Spawn
+	}
+}
+*/

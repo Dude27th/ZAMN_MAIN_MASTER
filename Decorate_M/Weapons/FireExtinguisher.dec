@@ -1,0 +1,190 @@
+Actor FEToken : WeaponToken_ZAMN
+{}
+
+Actor FireExtinguisher_ZAMN : WeaponClass_ZAMN	//Base Class
+{
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 40
+	Weapon.SlotNumber 6
+	+FORCEPAIN
+	DamageType "FireExtinguisher"
+	States
+	{
+		Ready:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Fire:		//Overrided State::
+			TNT1 A 1
+			Loop
+		Deselect:	//Generic State::
+			TNT1 A 0 A_TakeInventory("FEToken",1)
+			TNT1 AAAAAAAAAAAAAAAAAA 0 A_Lower
+			Wait
+		Select:		//Generic State::
+			TNT1 A 0 A_PlaySound("Player/Select",1,100)
+			TNT1 A 0 A_Jump(256,"Ready")	//Jump to inherited Actor's "Ready"
+			Stop//Goto Ready
+	}
+}
+
+
+Actor FIREXT_Z : FireExtinguisher_ZAMN
+{
+	Weapon.AmmoType "FIREXT_Z_Ammo"
+	Inventory.RestrictedTo "ZEKE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		FEZE A 1 A_WeaponReady
+		Goto Ready
+	NotReady:
+		FEZE A 1 A_WeaponOffset(0,40)
+		FEZE A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		FEZE A 1 A_WeaponOffset(0,60)
+		FEZE A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 A_PlaySound("FireExting/Puff",0,100)
+		TNT1 A 0 A_GiveInventory("FEToken",1)
+		FEZE D 2 A_FireCustomMissile("FEPuff",random(-1,1),0,5,3,0,3) 
+		TNT1 A 0 A_TakeInventory("FIREXT_Z_Ammo",1)
+		FEZE D 2 A_FireCustomMissile("FakePuff",random(-1,1),0,5,3,0,3)
+		FEZE D 2 A_FireCustomMissile("FakePuff",random(-1,1),0,5,3,0,3)
+		TNT1 A 0 A_Refire
+		FEZE C 2
+		Goto Ready
+   }
+}
+
+Actor FIREXT_J : FireExtinguisher_ZAMN
+{
+	Weapon.AmmoType "FIREXT_J_Ammo"
+	Inventory.RestrictedTo "JULIE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		FEJU A 1 A_WeaponReady
+		Goto Ready
+	NotReady:
+		FEJU A 1 A_WeaponOffset(0,40)
+		FEJU A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		FEJU A 1 A_WeaponOffset(0,60)
+		FEJU A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		TNT1 A 0 A_PlaySound("FireExting/Puff",0,100)
+		TNT1 A 0 A_GiveInventory("FEToken",1)
+		FEJU D 2 A_FireCustomMissile("FEPuff",random(-1,1),0,5,3,0,3) 
+		TNT1 A 0 A_TakeInventory("FIREXT_J_Ammo",1)
+		FEJU D 2 A_FireCustomMissile("FakePuff",random(-1,1),0,5,3,0,3)
+		FEJU D 2 A_FireCustomMissile("FakePuff",random(-1,1),0,5,3,0,3)
+		TNT1 A 0 A_Refire
+		FEJU C 2
+		Goto Ready
+   }
+}
+
+
+Actor FEPuff : Ammo
+{
+Health 1000
+Radius 7
+Height 14
+Speed  22
+Damage (10)//Just for special damaged monsters
+Scale 1.50
++RIPPER
++NOEXTREMEDEATH
+-SOLID
+-NOCLIP
++NOBLOOD
++FORCEPAIN
+Inventory.Amount 200
+Inventory.MaxAmount 400
+Ammo.BackpackAmount 200
+Ammo.BackpackMaxAmount 400
+Inventory.Icon "ZBAZA0"
+Projectile
+DamageType "FireExtinguisher"
+ States
+{
+ Spawn: 
+ TNT1 A 3
+ FEPF ABCD 2 
+ Stop
+ Death:
+ FEPF ABCD 2
+ Stop
+ }
+}
+
+Actor FIREXT_Z_Ammo : Ammo {Inventory.MaxAmount 400}//FEPuff {}
+Actor FIREXT_J_Ammo : Ammo {Inventory.MaxAmount 400}//FEPuff {}
+
+Actor FakePuff : Ammo
+{
+Health 1000
+Radius 7
+Height 14
+Speed  22
+Damage 0
+Scale 1.50
++RIPPER
++NOEXTREMEDEATH
+-SOLID
+-NOCLIP
+//+NOCLIP
++NOBLOOD
+Inventory.Amount 200
+Inventory.MaxAmount 400
+Ammo.BackpackAmount 200
+Ammo.BackpackMaxAmount 400
+Inventory.Icon "ZBAZA0"
+Projectile
+ States
+{
+ Spawn: 
+ TNT1 A 3
+ FEPF ABCD 2 
+ Stop
+ Death:
+ FEPF ABCD 2
+ Stop
+ }
+}
+
+

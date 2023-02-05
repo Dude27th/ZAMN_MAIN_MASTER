@@ -1,0 +1,237 @@
+//$GZDB_SKIP
+
+/*
+[RADAR STUFF !!]
+Credits: 	- Radar code by "Cybermind"
+			- And "Endless123" for [hud modification and small details(?)] in his "Small Hud Add-on" with radar.
+*/
+		
+int pid=1000000;
+int tidcounter=10000;
+int count=0;
+global int 1:kx[];
+global int 2:ky[];
+global int 3:kz[];
+
+function int sqrt2(int number)
+{
+	if(number <= 3)
+	{
+		if(number > 0)
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+	int oldAns = number >> 1,                     // initial guess
+	    newAns = (oldAns + number / oldAns) >> 1; // first iteration
+
+	// main iterative method
+	while(newAns < oldAns)
+	{
+		oldAns = newAns;
+		newAns = (oldAns + number / oldAns) >> 1;
+	}
+
+	return oldAns;
+}
+
+function void DrawEllipse(int rx, int ry, int a, int b)
+{
+ int col,i,row,bnew;
+ int a_square,b_square,two_a_square,two_b_square,four_a_square,four_b_square,d;
+
+  b_square=b*b;
+  a_square=a*a;
+  row=b;
+  col=0;
+  two_a_square=a_square<<1;
+  four_a_square=a_square<<2;
+  four_b_square=b_square<<2;
+  two_b_square=b_square<<1;
+  SetFont("CONFONT");
+  d=two_a_square*((row-1)*(row))+a_square+two_b_square*(1-a_square);
+  while(a_square*(row)>b_square*(col))
+  {
+   if (d>=0)
+   {
+    row--;
+    d-=four_a_square*(row);
+   }
+   d+=two_b_square*(3+(col<<1));
+   col++;
+  }
+  d=two_b_square*(col+1)*col+two_a_square*(row*(row-2)+1)+(1-two_a_square)*b_square;
+  while ((row) + 1)
+  {
+   if (d<=0)
+   {
+    col++;
+    d+=four_b_square*col;
+   }
+   row--;
+   d+=two_a_square*(3-(row <<1));
+  }
+}
+
+function int distance (int tid1, int tid2)
+{
+	int x, y, z, d;
+	x = GetActorX(tid1) - GetActorX(tid2) >> 16; // Convert fixed point to integer
+	y = GetActorY(tid1) - GetActorY(tid2) >> 16;
+	z = GetActorZ(tid1) - GetActorZ(tid2) >> 16;
+	d = sqrt2( x*x + y*y + z*z );
+	return d;
+}
+
+
+function int distance2 (int x1, int y1, int z1, int x2, int y2, int z2)
+{
+	int x, y, z, d;
+	x = (x1 - x2) >> 16; // Convert fixed point to integer
+	y = (y1 - y2) >> 16;
+	z = (z1 - z2) >> 16;
+	d = sqrt2( x*x + y*y + z*z );
+	return d;
+}
+
+function int getspeed (int tid)
+{
+int x = GetActorX(tid);
+int y = GetActorY(tid);
+int z = GetActorZ(tid);
+int speed = distance2(x,y,z,kx[tid],ky[tid],kz[tid]);
+kx[tid]=GetActorX(tid);
+ky[tid]=GetActorY(tid);
+kz[tid]=GetActorZ(tid);
+return speed;
+}
+
+
+// Radar Contents
+function void DrawRadar(int tid, int scale,int x1,int y1, int unused, int dist)
+{
+int x,y,dx,dy;
+int scan;
+SetHudSize(640,480,0);
+//SetFont("SMALLFONT");
+//HudMessage(s:"^";HUDMSG_PLAIN,1,7,(x1<<16)+0.1,(y1<<16)+0.1,1873); //PLAYER! (0.01 Fixed Time ??)
+SetFont("CHARPLAY");
+HudMessage(s:"A";HUDMSG_PLAIN,1,7,(x1<<16)+0.1,(y1<<16)+0.1,1873); //PLAYER! (0.01 Fixed Time ??)
+for (int i=10000;i<tidcounter;++i)
+{
+	x=GetActorX(tid)-GetActorX(i);
+	y=GetActorY(tid)-GetActorY(i);
+	if (unused==1) 
+		scan=distance(tid,i) <= dist && CheckSight(0,i,0);
+	if (unused==0 || unused==2) 
+		scan=distance(tid,i) <= dist;
+		if (scan)
+		{
+			dx=((((FixedMul(x,cos(-GetActorAngle(0))))-(FixedMul(y,sin(-GetActorAngle(0)))))));
+			dy=((((FixedMul(x,sin(-GetActorAngle(0))))+(FixedMul(y,cos(-GetActorAngle(0)))))));
+			dx/=scale; dx+=y1<<16; dx=dx>>16; dx=dx<<16;
+			dy/=scale; dy+=x1<<16; dy=dy>>16; dy=dy<<16;
+			if (dx<0) dx-=0.1; else dx+=0.1;
+			if (dy<0) dy-=0.1; else dy+=0.1;
+			if (GetActorProperty(i,APROP_Speed) == 0  && GetActorProperty(i,APROP_SpawnHealth) == 1000 && unused!=2)
+				{SetFont("CHARYELL"); HudMessage(s:"A";HUDMSG_PLAIN,i,CR_GOLD,dy,dx,1873);} //ITEMS !
+			else if (GetActorProperty(i,APROP_Speed) > 0  && GetActorProperty(i,APROP_SpawnHealth) == 1000 && CheckActorProperty(i,APROP_Species,"BaronOfHell")==0 && unused!=2)
+				{SetFont("CHARRED"); HudMessage(s:"A";HUDMSG_PLAIN,i,CR_RED,dy,dx,1873);} //ENEMY PROJECTILES!
+			else if (GetActorProperty(i,APROP_SpawnHealth)>0 && GetActorProperty(i,APROP_Health)>0 && unused!=2)
+				{SetFont("CHARRED"); HudMessage(s:"A";HUDMSG_PLAIN,i,CR_RED,dy,dx,1873);} //ENEMIES!
+			else if (GetActorProperty(i,APROP_SpawnHealth)>0 && GetActorProperty(i,APROP_Health)<=0 && unused==2);
+		}
+}
+if (count == 0) {
+		count=100;
+		DrawEllipse(x1,y1,dist/scale,dist/scale);
+	}
+	--count;
+}
+
+Script "RadarIdentifierZAMN" (Void)
+{
+Thing_ChangeTID(0,tidcounter++);
+}
+
+
+
+//Radar Border
+
+Script "RadarBorder" (int game)//868 ENTER
+{
+	str layer1 = "";
+	str layer2 = "";
+	int AspectRatio;
+		if(CheckInventory("RadarActive")==1)
+			{
+				SetHudSize(640,480,0);
+				if(GetAspectRatioZamn() == ASPECT_4_3)
+						AspectRatio = 1;
+				else if(GetAspectRatioZamn() == ASPECT_5_4)
+						AspectRatio = 2;
+				else if(GetAspectRatioZamn() == ASPECT_16_9)
+						AspectRatio = 3;
+				else if(GetAspectRatioZamn() == ASPECT_16_10)
+						AspectRatio = 4;
+				else if(GetAspectRatioZamn() == ASPECT_17_10)
+						AspectRatio = 5;
+				else if(GetAspectRatioZamn() == ASPECT_21_9)
+						AspectRatio = 6;
+				
+				switch(game)
+				{
+					case 0:	layer1= "RADAR1ZM";	layer2= "RADAR2ZM";	Break;
+					case 1:	layer1= "RADAR1GP";	layer2= "RADAR2GP";	Break;
+				}
+				
+				SetFont(layer1); // [Draw Radar Border]
+				switch(AspectRatio){
+					case 1:	HudMessage(c:'A'; HUDMSG_PLAIN, 11000, -1, 576.0, 63.0, 1873, 1.0);	break;
+					case 2: HudMessage(c:'A'; HUDMSG_PLAIN, 11000, -1, 576.0, 63.0, 1873, 1.0);	break;
+					case 3:	HudMessage(c:'A'; HUDMSG_PLAIN, 11000, -1, 682.0, 63.0, 1873, 1.0);	break;
+					case 4:	HudMessage(c:'A'; HUDMSG_PLAIN, 11000, -1, 640.0, 63.0, 1873, 1.0);	break;
+					case 5:	HudMessage(c:'A'; HUDMSG_PLAIN, 11000, -1, 662.0, 63.0, 1873, 1.0);	break;
+					case 6:	HudMessage(c:'A'; HUDMSG_PLAIN, 11000, -1, 662.0, 63.0, 1873, 1.0);	break;
+					//HudMessage(c:'A'; HUDMSG_PLAIN,  id(128), -1,   x  ,  y  , 0, 1.0);
+				}
+				
+				SetFont(layer2); // [Draw Radar Border Patch]
+				switch(AspectRatio){
+					case 1:	HudMessage(c:'A'; HUDMSG_PLAIN, 9999, -1, 576.0, 63.0, 1873, 1.0);	break;
+					case 2:	HudMessage(c:'A'; HUDMSG_PLAIN, 9999, -1, 576.0, 63.0, 1873, 1.0);	break;
+					case 3:	HudMessage(c:'A'; HUDMSG_PLAIN, 9999, -1, 682.0, 63.0, 1873, 1.0);	break;
+					case 4:	HudMessage(c:'A'; HUDMSG_PLAIN, 9999, -1, 640.0, 63.0, 1873, 1.0);	break;
+					case 5:	HudMessage(c:'A'; HUDMSG_PLAIN, 9999, -1, 662.0, 63.0, 1873, 1.0);	break;
+					case 6:	HudMessage(c:'A'; HUDMSG_PLAIN, 9999, -1, 662.0, 63.0, 1873, 1.0);	break;
+				}
+			}
+
+			Delay(1);   
+}
+
+// Radar scans
+Script "RadarScans" (void) 
+	{
+			if(CheckInventory("RadarActive")==1)
+			{
+			
+			//DrawRadar(0, 10, 59, 410, 0, 500);  //DrawRadar(0,10,540,100,0,900);
+				//DrawRadar(int tid, int scale,int x1,int y1, int unused, int dist)
+				if(GetAspectRatioZamn() == ASPECT_4_3)
+					DrawRadar(0, 10, 573, 58, 0, 500);
+				else if(GetAspectRatioZamn() == ASPECT_5_4)
+					DrawRadar(0, 10, 573, 58, 0, 500);
+				else if(GetAspectRatioZamn() == ASPECT_16_9)
+					DrawRadar(0, 10, 679, 58, 0, 500);
+				else if(GetAspectRatioZamn() == ASPECT_16_10)
+					DrawRadar(0, 10, 637, 58, 0, 500);
+				else if(GetAspectRatioZamn() == ASPECT_17_10)
+					DrawRadar(0, 10, 659, 58, 0, 500);
+				else if(GetAspectRatioZamn() == ASPECT_21_9)
+					DrawRadar(0, 10, 659, 58, 0, 500);
+			}
+			Delay(1);	
+	}

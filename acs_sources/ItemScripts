@@ -1,0 +1,86 @@
+#library "ItemScripts"
+#include "zcommon.acs" 
+#include "CUValues.acs" 
+ 
+//[Speed Values in "CUValues.acs"]
+
+Script "SetSpeedy" (void)
+	{
+		SetActorProperty(0,APROP_Speed,SPEED_SHOES);
+		GiveInventory("SpeedTimer",1050);
+		while(CheckInventory("SpeedTimer") >= 1)
+		{
+			if(ACS_NamedExecuteWithResult("IsLevelFinished",0,0,0,0) == 1)
+			{TakeInventory("SpeedTimer",1050);	Break;}
+			TakeInventory("SpeedTimer",1);
+			Delay(1);
+		}
+		while(GetActorProperty(0,APROP_Speed) != SPEED_NORMAL)
+		{
+			SetActorProperty(0,APROP_Speed,SPEED_NORMAL);
+			Delay(1);
+		}
+		TakeInventory("SpeedyToken",1);
+	}
+
+
+Script "MedikitHeal" (void)
+{
+	if(CheckInventory("MediFirstUsed")<1)
+		{	GiveInventory("MedikitPickup",1);
+			GiveInventory("MediFirstUsed",1);
+			Terminate;	}
+	if(GetActorProperty(0,APROP_HEALTH)>90||GetActorProperty(0,APROP_HEALTH)<2||GetActorProperty(0,APROP_HEALTH)==100)
+		{
+			GiveInventory("GoodHealthToken",1);
+			GiveInventory("MedikitPickup",1);
+			/*Print(s: "Good Health!");	*/}
+	else
+		{	TakeInventory("GoodHealthToken",1);
+			GiveInventory("MedikitSound",1);
+			ACS_NamedExecuteAlways("ActualHealing",0,0,0,0);	}
+}
+
+Script "ActualHealing" (void)
+{
+		int HealthTotal = 100;
+		int HealthHave = 0;
+		HealthHave = (GetActorProperty(0,APROP_HEALTH));
+		int HealthGive = (HealthTotal - HealthHave);
+		GiveInventory("HealthBonus",(HealthGive));
+		GiveInventory("GoodHealthToken",1);
+}
+
+Script "GiveFreeze"	(int amount)
+{
+	GiveInventory("FreezeTime",amount);
+}
+
+Script "SearchPlayer" (void)							//WIPWIPWIPWIPWIPWIPWIPWIPWIPWIPWIP								WIPWIPWIWPIWIWPWIWIPWIPWIPW
+{
+	ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0);
+	CheckProximity(0,"PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST);
+	//if(CheckSight()
+}
+
+Script "PrintMe" (int token)
+{
+	print(i: token);
+}
+
+Script "TestSpeed" (void)
+{
+	while(true)
+	{
+		if(GetActorProperty(0,APROP_Speed) == SPEED_HALF)
+			print(s: "Speed: Floor Hazard (18350)");
+		else if(GetActorProperty(0,APROP_Speed) == SPEED_NORMAL)
+			print(s: "Speed: Normal (36700)");
+		else if(GetActorProperty(0,APROP_Speed) == SPEED_SHOESWACK)
+			print(s: "Speed: Shoes+WeedWacker (51118)");
+		else if(GetActorProperty(0,APROP_Speed) == SPEED_SHOES)
+			print(s: "Speed: Speed Shoes (65536)");	
+			
+		Delay(1);
+	}
+}

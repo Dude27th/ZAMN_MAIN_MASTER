@@ -1,0 +1,127 @@
+So MAPINFO as the name implies has the information about each map in therms of how they
+are connected by episodes and even from "this map" -> "next map".
+
+It has two to types of blocks:
+- Episode
+- Map
+
+
+					/*------------------------------*/
+					/*           EPISODES           */
+					/*------------------------------*/
+
+Episode CUSTM_N1				
+{							
+  name = ""
+  picname = "CUSTOM_T"			
+  NoSkillMenu
+}
+
+-------------
+
+
+
+Episode [Your first map here]
+------------------------------
+Alongside "Episode" you have to put the file name of the first map of the episode.
+It has to be the same name as the map file that are you working on
+and it can't be more than 8 characters.
+Like "ZOMBIE_P", "EVENIN_U", "PYRAMID", "TERAIS_F", "MIDNIGHT", etc.
+
+
+name = [Unused]
+----------------
+ZAMN TC doesn't have fonts properly implemented at this moment so this is not used.
+But it should take a font type and create a title for the episode with that font.
+
+
+picname = [Your title graphic]
+-------------------------------
+As fonts are not implemented yet, ZAMN TC uses a graphic to display his episode titles.
+The picname graphic replaces whatever is written in "name".
+I'm not sure which are the limitations of it , but be my guest in experimenting with it ^^
+
+
+[flags]
+-------- 
+This flags are needed to behave less than Doom and more like ZAMN.
+The flags necessary for the episodes are:
+
+NoSkillMenu
+
+
+
+
+Map Example:
+------------
+
+Map CUSTM_N1 "Custom Level 1"
+	{
+    Sky1 = "Sky1", 0
+	KeepFullInventory
+	NoIntermission
+	SpawnWithWeaponRaised
+	Next = "CUSTM_N2"				// Next map if not a bonus
+	SecretNext = "CUSTM_B1"			// Next map if bonus
+	}
+
+-------------
+
+
+
+Map [Filename] "The map actual name"
+---------------------------------------
+The filename is the name of the file of this map. 	Example: "EVENIN_U"
+It can be more than 8 characters and the episode will look for it 
+if it is the first map of the episode.
+The actual map of the name is the name displayed
+that it will display in the automap.				Example: "Evening Of The Undead"
+
+
+Sky1 = "Sky Texture", 0
+---------------------------
+GZDoom can use several methods to display skies in a map.
+ZAMN TC uses two at the same time, most of the time.
+
+The first method is a simple texture that you can put in "Sky Texture" and appears on the sky.
+Like for example the "blue sky/clouds" in "Zombie Panic" uses this, but is not really good for other details like hills or scenery.
+
+
+This is why the second method, the "SkyBox" is used as well.
+Every map has is own SkyBox in a isolated part of the map, and is pretty much a box with textures and a camera point.
+Like for example the "hills and little houses" in "Zombie Panic" uses this, and this creates a normally nice looking sky.
+
+
+[flags]
+----------
+Every map needs this flags in his block of code, to bypass some Doom restrictions like: Intermission Screens, Inventory Reduction, etc.
+The flags needed to be included are:
+
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+
+
+Next = "Next Map"
+--------
+This points to which map comes next when the player finishes the level by normal means, 
+it will change to it after the showcase of the survivors rescued.
+You need to write the file name of the map in here.
+
+
+SecretNext = "Next Map"
+--------
+This point to which map comes next when the player finishes the level and found a BonusLevel token, 
+it will change to it after the showcase of the survivors rescued.
+You need to write the file name of the map in here.
+
+
+
+
+The music of each map is written in the scripts of every map.
+Check the "[Guide] Music Tracklist.txt" for more info.
+
+
+Thanks for reading! ^^
+
+

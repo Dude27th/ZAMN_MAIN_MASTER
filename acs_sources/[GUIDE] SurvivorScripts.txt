@@ -1,0 +1,153 @@
+[Note: This guide continues in "[Guide]MapperScripts" ^^] 
+
+
+ Survivor Scripts:
+ -----------------
+ 
+ One of the new mechanics implemented recently is survivor scripts, due to how the survivors 
+ are actually a group of actors this was kind of tricky to implement, but the results have potential.
+ 
+ So, the SurvivorSpawns take as a second argument a number, if this number is '0' it would simply
+ not activate a script but if specified otherwise, then it will call the numbered script
+ upon pickup(save), death, or werewolf transformation of that specified survivor.
+ 
+ _______________________________________________________________________
+ 
+ Your numbered called script can have no argument:
+ 
+ 
+ Script 123 (void)
+ {
+	...
+ }
+
+ _______________________________________________________________________
+ 
+ Or it can have 1 argument, which is a number (between 0 and 2), in this case that argument is called "Motive":
+
+
+ Script 123 (int Motive)
+ {
+	...
+ }
+
+ _______________________________________________________________________
+ 
+ 
+ This optional argument is a number given by the survivor at the moment that he calls the script,
+ which specifies the conditions in which the numbered script was called.
+ This numbers mean:
+ 
+0: "Save" or "Pickup" of the survivor
+1: "Death" by normal means of the survivor 
+2: "Werewolf Transformation" of the survivor
+3: "By_The_Map" in case that the SurvivorScript of this survivor
+	was called directly from a script in the map.
+
+Using this number you can create different sequences depending on the reason of calling it, allowing
+more control to the mapper/modder, but it is optional depending on what is being used for.
+
+
+
+
+
+
+
+
+Examples:
+---------
+_______________________________________________________________________
+
+
+Script 111 (int cause)
+{
+	switch(cause)
+	{
+		case 0: 	Log(s: "Wow I got saved!");
+					Progress++;
+					break;
+
+		case 1:		Log(s: "Oh no I died :c");
+					Progress--;
+					break;
+
+        case 2:     Log(s: "Is that a full moon?");
+					Progress--;
+					break;
+		
+		case 3:     Log(s: "The system requires my cooperation. I MUST OBEY");
+					Progress--;
+					break;
+	}
+}
+
+_______________________________________________________________________
+
+
+Script 452 (void)
+{
+	int Songs [4] = { 1, 3, 9, 8};
+	ACS_NamedExecuteAlways("ChangeMusic",0,Songs[random(0,3)]);
+
+	//This will change the music at random to any of these tracks:
+	// - "Zombie Panic"
+	// - "No Assembly Required"
+	// - "Mars Needs Cheerleaders"
+	// - "Titanic Toddler"
+}
+
+_______________________________________________________________________
+
+
+Script 512 (int why)
+{
+	if(why == 0)
+	{
+		Time= Time + 50;
+		log(s: "Good Job!");
+	}
+	else
+	{
+		log(s: "THE TIME IS TICKING!!");
+	}
+}
+
+_______________________________________________________________________
+
+
+Script 143 (int iswolf)
+{
+	if(iswolf == 2)
+	{
+		ACS_NamedExecuteAlways("ChangeMusic",0,4);
+		// If a tourist with this survivor script turns into wolfs,
+		// the music will change to "BossBattle"
+	}
+}
+
+_______________________________________________________________________
+
+
+
+This "SurvivorScript" was meant to expand the level design capabilities of the ZAMN formula,
+I plan on a future to add a campaing with interconected maps to this mod taking advantage of this 
+SurvivorScripts but it could be used in many different ways. 
+
+Pretty much whatever the mappers want to do with this, because you could construct:
+- Timers
+- Opening/Closing areas
+- Triggering Cutscenes or something
+- Changing levels
+- Changing Textures
+- Changing Music
+- Changing Enemies
+- Etc.
+
+
+
+You can also check the "[Guide]MapperScripts" to continue reading about some customizable scripts that I made
+with the purpose of being launched by SurvivorScripts and how to use them to add more variety and spice
+to your levels! ^^
+
+And also check the map scripts from "Honey, I Enlarged The Kids" to see an example of what can be done with
+this "Survivor Scripts" ^^

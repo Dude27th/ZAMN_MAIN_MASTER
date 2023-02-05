@@ -1,0 +1,29 @@
+
+
+////////////////////////////////////////////////////////////
+///// 				  Ghoul Patrol					////////
+////////////////////////////////////////////////////////////
+
+
+
+ACTOR S_ICECREAMGUY : SurvivorBase_ZAMN
+{
+  SpawnID 3 //?
+  States
+  {
+  Start:
+    SCRE ABCDEFGHIJ 10
+    Goto Start
+  Pickup:
+	TNT1 A 0 A_GiveInventory("ScorePoints",100)
+	TNT1 A 0 ACS_NamedExecuteAlways("SurvivorSomething",0,1,0,0)
+	TNT1 A 0 A_SpawnItemEX("PointsSpawn",0,0,32,0,0,2,0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEPOSITION,0,909)
+	Stop
+
+  Pain.RedBlob:
+  Death.RedBlob:
+	TNT1 A 0 ACS_NamedExecuteAlways("GiveGoo",0,0,0,0)
+	SCRE YZ 0
+	Goto RedGooAnimation
+  }
+}

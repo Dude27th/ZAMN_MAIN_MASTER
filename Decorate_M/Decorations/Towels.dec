@@ -1,0 +1,68 @@
+ACTOR TOALLA_NE 13309
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Mall"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TONE A -1//3
+    Loop
+  }
+}
+
+ACTOR TOALLA_CE : TOALLA_NE 13310
+{
+  States
+  {
+  Spawn:
+    TOAC A -1//3
+    Loop
+  }
+}
+
+ACTOR TOALLA_VE : TOALLA_NE 13311
+{
+  States
+  {
+  Spawn:
+    TOAV A -1//3
+    Loop
+  }
+}
+
+ACTOR TOALLA_MO : TOALLA_NE 13312
+{
+  States
+  {
+  Spawn:
+    TOAM A -1//3
+    Loop
+  }
+}
+
+ACTOR TOALLA_NA : TOALLA_NE 13313
+{
+  States
+  {
+  Spawn:
+    TOAN A -1//3
+    Loop
+  }
+}
+
+ACTOR TOALLA_AM : TOALLA_NE 13314
+{
+  States
+  {
+  Spawn:
+    TOAA A -1//3
+    Loop
+  }
+}

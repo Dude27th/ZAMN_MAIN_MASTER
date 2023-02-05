@@ -1,0 +1,347 @@
+// They aren't placed in the map directly
+//$GZDB_SKIP
+ACTOR RedBlob : SpawnableMonster_ZAMN//MonsterClass_ZAMN
+{
+	Health 60
+	Speed 12
+	Radius 14
+	Height 40
+	Scale 1.50
+	MaxStepHeight 32
+	DamageFactor "MonsterFist", 0
+	DamageFactor "WeedWacker", 0
+	DamageFactor "Tomatoes", 0
+	DamageFactor "Soda", 0
+	DamageFactor "Water", 0
+	DamageFactor "Bazooka", 0
+	DamageFactor "FireExtinguisher", 0.35//0.5//1	//[1 may be too much considering that the puff causes twice the damage]
+	DamageFactor "Popsicles", 1
+	DamageFactor "Crucifix", 0
+	DamageFactor "Silverware", 0
+	DamageFactor "Plates", 	0
+	DamageFactor "FootBall", 	0
+	DamageFactor "MartianGun", 0
+	DamageFactor "FlameThrower", 0
+	DamageFactor "Banana", 	0
+	
+	DamageType "RedBlob"
+	Monster
+	+NOPAIN
+	States
+	{
+		Spawn_Set:
+			TNT1 A 3 	//Small Delay
+			BLOS A 1 A_LookEX(0,0,0,0,360,"Spawn2")
+		Spawn2:
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+			BLOS ABCD 4
+			BLOS D 1 A_ChangeFlag("NOPAIN",FALSE)
+			TNT1 A 0 A_FaceTarget
+			BLOS D 1 A_LookEX(0,0,0,0,360,"Idle")
+			Goto See
+			
+		Idle:
+			BLOW A 1 A_LookEX(0,0,500,400,360,"See")
+			BLOW A 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+			BLOW AA 2 A_Wander
+			BLOW B 1 A_LookEX(0,0,500,400,360,"See")
+			BLOW B 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+			BLOW BB 2 A_Wander
+			BLOW C 1 A_LookEX(0,0,500,400,360,"See")
+			BLOW C 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")
+			BLOW CC 2 A_Wander
+			BLOW D 1 A_LookEX(0,0,500,400,360,"See")
+			BLOW D 1 A_LookEX(LOF_NOSOUNDCHECK,600,0,0,360,"Vanish_Zombie")     
+			BLOW DD 2 A_Wander
+			Goto Vanish_Zombie
+		See:
+			BLOW AA 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See2")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See2:
+			BLOW BB 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See3")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See3:
+			BLOW CC 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See4")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See4:
+			BLOW DD 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See5")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See5:
+			BLOW AA 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See6")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See6:
+			BLOW BB 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See7")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See7:
+			BLOW CC 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See8")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See8:
+			BLOW DD 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See9")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See9:
+			BLOW AA 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See10")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See10:
+			BLOW BB 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See11")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See11:
+			BLOW CC 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"See12")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+		See12:
+			BLOW DD 2 A_Chase
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+			TNT1 A 0 A_JumpIfCloser(256.0,"Missile",true)
+			TNT1 A 0 A_JumpIfCloser(512.0,"See",true)
+			Goto Vanish_Zombie
+		
+		NoChase:
+			BLOW AA 3 A_Wander
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+			Goto Idle
+			BLOW BB 3 A_Wander
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+			Goto Idle
+			BLOW CC 3 A_Wander
+			TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+			Goto Idle
+			BLOW DD 3 A_Wander
+			Goto Idle
+		CalmDown:
+			BLOW AABBCCDD 2 A_Wander
+			Goto See
+		Melee:
+		Missile:
+			TNT1 A 0 A_JumpIfInTargetInventory("GooTimer",1,"CalmDown")
+			BLOF AB 6
+			BLOF C 6 A_PlaySound("Doppelganger/Spawn",0,4.0,false,ATTN_NONE)
+			TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 0 A_FaceTarget
+			TNT1 A 0 A_JumpIfCloser(96,"MissileShort",true)
+			TNT1 A 0 A_JumpIfCloser(128,"Missile128",true)
+			TNT1 A 0 A_JumpIfCloser(160,"Missile160",true)
+			TNT1 A 0 A_JumpIfCloser(192,"Missile192",true)
+			TNT1 A 0 A_JumpIfCloser(224,"Missile224",true)
+			TNT1 A 0 A_JumpIfCloser(256,"Missile256",true)
+			Goto MissileLarge
+		MissileShort:
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  5,0,5)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  5,0,5)
+			BLOF D 6//8
+			Goto CalmDown
+		Missile128:	
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  5,0,5)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile2",  5,0,64,  5,0,0)
+			BLOF D 6//8
+			Goto CalmDown
+		Missile160:
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  5,0,10)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile2",  0,0,64,  8,0,0)
+			BLOF D 6//8
+			Goto CalmDown
+		Missile192:
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  5,0,15)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile2",  0,0,64,  8,0,0)
+			BLOF D 6//8
+			Goto CalmDown
+		Missile224:
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  5,0,15)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile2",  0,0,64,  9,0,0)
+			BLOF D 6//8
+			Goto CalmDown
+		Missile256:
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  7,0,15)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile2",  0,0,64,  9,0,0)
+			BLOF D 6//8
+			Goto CalmDown
+		MissileLarge:
+			TNT1 A 0 A_JumpIf(CallACS("Lower") == 1, 3)
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",  0,0,60,  8,0,15)
+			BLOF D 6//8
+			Goto CalmDown
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile2",  0,0,64,  10,0,0)
+			BLOF D 6//8
+			Goto CalmDown
+		Pain.Reduce:
+			TNT1 A 0 A_CheckSight("Unspawn")
+			TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			BLOS DCBA 4
+			Stop
+
+		Pain:
+			BLOW A 1 A_JumpIfInventory("FreezeTime",1,2)
+			Goto See
+			TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+			Goto FreezeTime_Zombie
+		Pain.Popsicle:
+		Pain.FireExtinguisher:
+			BLFZ A 1 ACS_NamedExecuteAlways("GiveFreeze",0,10,0,0)
+			BLFZ A 0 A_Jump(256, "FreezeTime_Zombie")
+			Stop
+ 
+		ChangeTarget:
+			BLOW A 1 A_ClearTarget
+			Goto Idle
+	
+		Death:
+			TNT1 A 0 A_ChangeFlag("STANDSTILL",TRUE)
+			TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+			TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+			BLDT A 1 A_NoBlocking
+			BLDT ABCD 3 
+			TNT1 A 1
+			Stop
+		Vanish_Animation:
+			BLOS DCBA 4
+			Stop
+	}
+}
+
+Actor RedBlobProjectile
+{
+	Radius 8//15
+	Height 15//30//25
+	Speed  12//11
+	Mass 900//450
+	Damage (0)
+	Scale 1.50//1.15
+	Projectile
+	DamageType "RedBlob"
+	SeeSound ""
+	DeathSound ""
+	-LOWGRAVITY
+	-NOGRAVITY
+	+NOICEDEATH
+	+NOEXTREMEDEATH
+	+FORCEXYBILLBOARD
+	//+CEILINGHUGGER
+	//+BOUNCEONCEILINGS
+	Obituary "$OB_MPROCKET" // "%o rode %k's rocket."
+	States
+	{
+		Spawn:
+			TNT1 A 0 
+			TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+		Moving:
+			BLOP A 1 BRIGHT A_JumpIf(CallACS("RedProjectileWater")==1,"Vanish")
+			Goto Spawn+2
+		//Bounce.Ceiling:
+			//TNT1 A 0 A_ChangeFlag("CEILINGHUGGER",TRUE)
+			//
+			//Stop
+		Death:
+			TNT1 A 0 A_Explode(1,48/*32*/,0,0,32,0,0,"BulletPuff","RedBlob")
+			BLOP BC 4//D 4 
+			Stop
+		Vanish:
+			TNT1 A 0
+			Stop
+	}
+}
+
+Actor RedBlobProjectile2 : RedBlobProjectile
+{
+	Height 8
+	Mass 1800
+	+NOGRAVITY
+	+CEILINGHUGGER
+	+NOCLIP
+	+BOUNCEONCEILINGS
+	+THRUACTORS
+	States
+	{
+		Spawn:
+			TNT1 A 0 
+			TNT1 A 0 ACS_NamedExecuteAlways("RadarIdentifierZAMN",0,0,0,0)
+			BLOP A 2 
+			TNT1 A 0 A_ChangeFlag("CEILINGHUGGER",false)
+			//TNT1 A 0 A_ChangeFlag("NOCLIP",false)
+		Moving:
+			BLOP AAAAAAAAAA 1 A_JumpIfCloser(16.0,"DropNowC",true)
+			BLOP AAAAAAAAAA 1 A_JumpIfCloser(32.0,"DropNowL",true)
+			//Goto Death
+		DropNowL:
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",0,0,-10,4,0,-1)
+			Stop
+		DropNowC:
+			TNT1 A 0 A_SpawnItemEx("RedBlobProjectile",0,0,-10,2,0,-1)
+			Stop
+	}
+}

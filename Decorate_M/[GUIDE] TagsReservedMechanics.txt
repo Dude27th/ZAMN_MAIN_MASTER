@@ -1,0 +1,29 @@
+ 
+ 
+Tags Used by the mappers:
+-------------------------
+500 - 699 	: Primary Destructive Walls tags for Floor/Main Lines
+300 - 499* 	: Secondary Destructive Walls tags for Auxiliar decorations 
+
+*404		: 3D Floors with this tag will lower down by 2048 units.
+			  This will only activate if the game is running in Software mode, and it should improve performance a little.	
+ 
+ 
+ 
+(IMPORTANT: Some of this tags are reserved for some mechanics to work, please )
+(be careful if you do use them for your own scripting as they might conflict  )
+(with existing mechanics and it could produce unexpected behaviours.)
+
+Tags Used Internally:	
+--------------------- 
+51  -  55 : Showcase Survivor spots after Level Finish 
+
+
+555		  : Briefly used by Destructive Walls as a to tag themselves as a tag point for the props spawner
+//800	      : Briefly used by Stanley to set himself attacking a destructive wall , to set the spawner point while he waits for the animation //Deprecated?
+//840	      : Briefly used by Stanley to set himself attacking a destructive wall	//Deprecated?
+
+994 & 995 : Respectively Player One & Player Two teleport point tags for when the level is finished 
+998		  : Magic Door Spawn Point (Activated by a Survivor at Pickup or Death)
+
+2000 & 2001 : Player One and Two Tags

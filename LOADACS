@@ -1,0 +1,68 @@
+PlayerScripts	
+// Player Script Mechanics are in here
+
+LevelScripts
+// Level Called Scripts that are relevant to the player are in here
+
+TitleCards		//(previously known as LevelContinuity)
+// Title Cards Animation and transition between levels
+
+TriggerScripts
+// Scripts for the Destructive Triggers
+
+ItemScripts
+// For items that need a little bit of ACS
+
+MonsterPlayer
+// The scripts that check the time of the monster powerup, the counters for the health and all that sort of stuff
+
+HUD				
+// All that is drawn on screen [minus the items] is managed by this library
+// [Update:] Also implemented the radar add-on by Cybermind / Endless123
+// [Update:] The GetAspectRatio function was updated by me to detect also AspectRatio 21:9  
+
+LivesSystem 	
+// [Moved this script to his own library because it is kinda extensive]
+// [Update:] This library was reworked , now is 50x less code
+
+ThirdPersonCamera
+// By Solarsnowfall 
+
+Toggles
+// For some custom things from the menu which need to work in decorate,
+// or they need some sort of calculation to work, here it is.
+
+Survivors
+// For some survivors mechanics
+
+Showcase
+// Scripts for showcasing the survivors in the "Level Finished" screen and
+// for storaging the survivors in order after every pickup.
+
+DestructibleProps
+// Simple scripts for spawning the spawners of the spawned props (aka The leafs of the destructible walls, the wood of the fences, etc.)
+
+ErrorLogs
+//Some new mechanics can throw errors in a "try-catch" kind of way, the text are stored here
+//Also some scripts giving info on some mechanics are also stored here
+
+MonsterScripts
+// For ACS assisted monsters
+
+ScoreboardSelection
+// This is my most valuable library, my completely own HighScores System with permanent data storage I wrote here.
+// Complete with a grid based system and a interactive screen to add new scores.
+
+// Please don't copy and paste this one, I'll probably make it universal at some point for other modders to use.
+// But for now I'm just proud of my madman-ish ability to make stuff that is considered impossible or unlikely in this engine.
+
+SpectatorMode
+// Scripts for the Co-Op "Spectator Mode" where moved here as they where in pieces in several libraries.
+
+
+
+//Patreon Commissions Support!
+//CommissionSupport
+
+//Easter Eggs Gameplay and Mechanics!
+EasterEggs

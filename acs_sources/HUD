@@ -1,0 +1,1421 @@
+#library "HUD"
+#include "zcommon.acs"  
+#include "CUValues.acs"
+#include "RadarStuff.acs"
+ 
+     
+     
+//SomeVariables 
+int LevelFinished = 0;
+bool CheckSurvivorGameOver= true;
+
+//Water Splash
+int watplayX = 0;
+int watplayY = 0;
+int watplayZ = 0;
+
+//Extra_Patreon_Stuff:
+//bool IsSlapAddon = false;	//Deprecated: It's handled trough the ZSCript counterpart.
+
+
+/*
+//- - - - - - - - - - -//
+//        GUIDE        //
+//- - - - - - - - - - -//
+[1.- Main Hud: [Portrait, Health Bars, Life Icon, Zamn Keys Icon, Weapon Icon Borders, Item Icon Borders]
+[2.- Lives Counter]
+[3.- Weapon Icon]					
+[4.- Weapon Ammo Counter]			
+[5.- Item Icon / Item Amount]			
+[6.- Speedshoes Active Icon]
+[7.- Keys Counter]
+[8.- SkullKey Icon & Counter]
+
+[9.- Clean of non-class weapons]	//[Reduced: Mostly handed trough DECORATE]
+[10.- Water Mechanics]
+[11.- Monster Demorphing]
+[12.- Radar Calling]
+[13.- Score Text / Score Points]					
+
+[14.- Werewolf Timer]
+[15.- General Timer]
+[16.- General Counter]
+
+[17.- Screen Effect : Goo]
+[18.- Screen Effect : Martian Bubble]
+
+[19.- Game Over Check]
+[20.- Level Finished Check]
+*/
+
+
+#define rm 	0.1
+#define offsetcounter 0.20
+#define alsocountdown 0.25
+
+Script "HudMainScript" ENTER			// HUD SCRIPT!
+{
+	//Once per level variables:
+			Thing_ChangeTID(0, 2000 + PlayerNumber());
+			int SurvivorsLeft= 0;
+			int AspectRatio;
+			int color;
+
+			int ammocheck1= 0;
+			int ammocheck2= 0;
+			str CurrentItem= "nothing";
+			int itemamount= 0;
+
+			if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeTicket")==1)||(CheckInventory("ZekeGPToken")==1))		
+				color= HUDCOLOR_ZEKEZAMN;
+			else if((CheckInventory("JulieToken")==1)||(CheckInventory("JulieTicket")==1)||(CheckInventory("JulieGPToken")==1))																		
+				color= HUDCOLOR_JULIEZAMN;
+			if(CheckInventory("ZekeToken")==1||CheckInventory("JulieToken")==1)
+				TakeInventory("CantUseToken",1);
+
+			//Reset Cvar Bridges
+			SetCvarString("hud_wepicon","tnt1a0");
+			SetCvar("hud_wepammo1",-1);
+			SetCvar("hud_wepammo2",-1);
+			
+			SetCvarString("hud_invicon","tnt1a0");
+			SetCvar("hud_invamount",-1);
+			SetCvar("hud_invsound",false);
+
+	//----//
+			
+			
+	//Log(s: "Main Loop");
+
+	//-----------------------------//-----------------------------//-----------------------------//
+	//Zombies Ate My Neighbors HUD://-----------------------------//-----------------------------//
+	//-----------------------------//-----------------------------//-----------------------------//
+
+			while(CheckInventory("ZekeToken")==1||CheckInventory("JulieToken")==1)
+			{
+			TakeInventory("SelectToken",9999);
+			
+				//Main Hud Aspect Ratio Setup
+				if(GetAspectRatioZamn() == ASPECT_4_3)
+					{	AspectRatio = 1;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio4_3",1);}
+				else if(GetAspectRatioZamn() == ASPECT_5_4)
+					{	AspectRatio = 2;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio5_4",1);}
+				else if(GetAspectRatioZamn() == ASPECT_16_9)
+					{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio16_9",1);}
+				else if(GetAspectRatioZamn() == ASPECT_16_10)
+					{	AspectRatio = 4;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio16_10",1);}
+				else if(GetAspectRatioZamn() == ASPECT_17_10)
+					{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+						GiveInventory("AspectRatio17_10",1);}
+				else if(GetAspectRatioZamn() == ASPECT_21_9)
+					{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+						GiveInventory("AspectRatio17_10",1);}
+							
+						
+						//[1.- Main Hud: [Portrait, Health Bars, Life Icon, Zamn Keys Icon, Weapon Icon Borders, Item Icon Borders]
+						switch(AspectRatio)
+							{ 
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+						if(CheckInventory("ZekeToken")==1)
+						{
+							if(CheckInventory("MonsterToken")==1)				SetFont("ZHUDMON");
+							else 
+								SetFont( GetMainHudGraphic(GetActorProperty(0,APROP_HEALTH), HUDMODE_ZAMN, HUDPLAY_ZEKE) );
+						}
+						else
+						{
+							if(CheckInventory("MonsterToken")==1)				SetFont("JHUDMON");
+							else 
+								SetFont( GetMainHudGraphic(GetActorProperty(0,APROP_HEALTH), HUDMODE_ZAMN, HUDPLAY_JULIE) );
+						}
+						switch(AspectRatio)
+						{
+							case 1:	
+							case 2:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 100.0, 60.0, HUDTIME_ONETIC);	break;
+							case 3:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 0.0, 60.0, HUDTIME_ONETIC);	break;
+							case 4:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 25.0, 60.0, HUDTIME_ONETIC);	break;
+							case 5:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 20.0, 60.0, HUDTIME_ONETIC);	break;
+							//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 999, 0, 0.0, 60.0, HUDTIME_ONETIC);	break;
+						}
+
+
+						//[2.- Lives Counter]
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						SetFont("BIGFONT");
+						switch(AspectRatio)
+						{
+							case 1:
+							case 2:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 150.0, 40.0, HUDTIME_ONETIC);	break;
+							case 3:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 50.0, 40.0, HUDTIME_ONETIC);	break;
+							case 4:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 75.0, 40.0, HUDTIME_ONETIC);	break;
+							case 5:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 70.0, 40.0, HUDTIME_ONETIC);	break;
+							//case 6:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, 991, color, 50.0, 40.0, HUDTIME_ONETIC);	break;//HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, 991, color, 70.0, 40.0, HUDTIME_ONETIC);	break;
+						}
+						
+
+						//[3.- Weapon Icon]
+						
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+							SetFont(GetCVarString("hud_wepicon"));	//<- Weapon Icon obtained trough ZSCript Part.
+							switch(AspectRatio)
+							{
+								case 1:
+								case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 129.0, 89.0, HUDTIME_ONETIC);	break;
+								case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 29.0, 89.0, HUDTIME_ONETIC);	break;
+								case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 54.0, 89.0, HUDTIME_ONETIC);	break;
+								case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 49.0, 89.0, HUDTIME_ONETIC);	break;
+								//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 992, 0, 29.0, 89.0, HUDTIME_ONETIC);	break;
+							}
+						
+						//[4.- Weapon Ammo Counter]
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						SetFont("BIGFONT");
+						ammocheck1=0;
+						ammocheck2=0;
+						
+						ammocheck1 = GetCVar("hud_wepammo1");
+						ammocheck2 = GetCVar("hud_wepammo2");
+
+						if(ammocheck1 >= 0)
+						{
+							switch(AspectRatio)
+							{
+								case 1:		
+								case 2:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 130.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 3:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 4:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 55.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 5:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 50.0, 115.0, HUDTIME_ONETIC);		Break;
+								//case 6:		HudMessage(i: ammocheck; HUDMSG_PLAIN, 993, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+							}
+						}
+						if(ammocheck2 >= 0)
+						{
+							switch(AspectRatio)
+							{
+								case 1:		
+								case 2:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 130.0, 128.0, HUDTIME_ONETIC);		Break;
+								case 3:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 30.0, 128.0, HUDTIME_ONETIC);		Break;
+								case 4:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 55.0, 128.0, HUDTIME_ONETIC);		Break;
+								case 5:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 50.0, 128.0, HUDTIME_ONETIC);		Break;
+								//case 6:		HudMessage(i: ammocheck; HUDMSG_PLAIN, 997, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+							}
+						}
+						
+						//[5.- Item Icon / Item Amount] (Previously known as "Item Special Patch")
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+							
+						SetFont(GetCVarString("hud_invicon"));
+						itemamount=0;
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 174.0, 89.0, HUDTIME_ONETIC);	Break;
+								case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 74.0, 89.0, HUDTIME_ONETIC);	Break;
+								case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 99.0, 89.0, HUDTIME_ONETIC);	Break;
+								case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 94.0, 89.0, HUDTIME_ONETIC);	Break;
+								//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 996, 0, 74.0, 89.0, HUDTIME_ONETIC);	Break;
+							}
+						
+						//Play the Sound at item change
+						if((StrICmp(CurrentItem, GetCvarString("hud_invname")) != 0)&&(StrICmp(GetCvarString("hud_invicon"), "tnt1a0") != 0))
+						{	
+							if(StrICmp(CurrentItem, "nothing") == 0)
+							{
+								//Classic mistake
+								//Log(s: "Initial Item");
+								CurrentItem = GetCvarString("hud_invname");
+							}
+							else
+							{
+								//Log(s: "Inventory Sound");
+								GiveInventory("ItemSelectSound",1);
+								CurrentItem = GetCvarString("hud_invname");
+							}
+						}
+
+						itemamount = GetCVar("hud_invamount");
+						SetFont("BIGFONT");
+						if(itemamount >= 0)
+						{
+							switch(AspectRatio)
+							{
+								case 1:		
+								case 2:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 175.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 3:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 75.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 4:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 100.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 5:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 95.0, 115.0, HUDTIME_ONETIC);		Break;
+								//case 6:		HudMessage(i: ammocheck; HUDMSG_PLAIN, 997, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+							}
+						}
+						
+
+						//[6.- Speedshoes Active Icon]
+						if(CheckInventory("SpeedyToken") == 1)
+						{
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 480, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 440, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+							SetFont("SHOEA0");
+							switch(AspectRatio)
+								{
+									case 1:
+									case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SPEEDICON, 0, 80.0, 192.0, HUDTIME_ONETIC);	break;
+									case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SPEEDICON, 0, -20.0, 192.0, HUDTIME_ONETIC);	break;
+									case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SPEEDICON, 0, 5.0, 192.0, HUDTIME_ONETIC);	break;
+									case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SPEEDICON, 0, 0.0, 192.0, HUDTIME_ONETIC);	break;
+									//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 1008, 0, 2.0, 42.0, HUDTIME_ONETIC);	break;
+								}
+							//Log(s: "Layer 1008: SpeedShoes Icon");	//Test
+							
+						}
+							
+
+						//[7.- Keys Counter]
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						SetFont("BIGFONT");
+						switch(AspectRatio)
+						{
+							case 1:
+							case 2:	HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 173.0, 60.0, HUDTIME_ONETIC);	break;
+							case 3:	HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 73.0, 60.0, HUDTIME_ONETIC);	break;
+							case 4:	HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 98.0, 60.0, HUDTIME_ONETIC);	break;
+							case 5:	HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 93.0, 60.0, HUDTIME_ONETIC);	break;
+							//case 6:	HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, 994, CR_GOLD, 73.0, 60.0, HUDTIME_ONETIC);	break;//HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, 994, CR_GOLD, 93.0, 60.0, HUDTIME_ONETIC);	break;
+						}
+
+
+						//[8.- SkullKey Icon & Counter]
+						if(CheckInventory("ZamnSkullKey") >= 1)
+						{
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 480, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 440, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+							setfont("ZKEYS0");
+							switch(AspectRatio)
+								{
+									case 1:
+									case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SKULLKICON, 0, 106.0, 42.0, HUDTIME_ONETIC);	break;
+									case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SKULLKICON, 0, 6.0, 42.0, HUDTIME_ONETIC);	break;
+									case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SKULLKICON, 0, 31.0, 42.0, HUDTIME_ONETIC);	break;
+									case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_SKULLKICON, 0, 26.0, 42.0, HUDTIME_ONETIC);	break;
+									//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 1001, 0, 2.0, 42.0, HUDTIME_ONETIC);	break;
+								}
+							//Log(s: "Layer 1001: Skullkey Icon");		//Test
+							
+							
+							switch(AspectRatio)
+								{
+									case 1:	
+									case 2:	SetHudSize(640, 400, FALSE);	break;
+									case 3:
+									case 4:
+									case 5: SetHudSize(640, 360, FALSE);	break;
+									//case 6: SetHudSize(640, 360, FALSE);	break;
+								}
+								SetFont("STATUSFONT");
+							switch(AspectRatio)
+								{
+									case 1:
+									case 2:	HudMessage(i:CheckInventory("ZamnSkullKey");HUDMSG_PLAIN, HUDLAYER_SKULLCOUNT, CR_WHITE, 28.0, 30.0, HUDTIME_ONETIC);	break;
+									case 3:	HudMessage(i:CheckInventory("ZamnSkullKey");HUDMSG_PLAIN, HUDLAYER_SKULLCOUNT, CR_WHITE, 0.0, 30.0, HUDTIME_ONETIC);	break;
+									case 4:	HudMessage(i:CheckInventory("ZamnSkullKey");HUDMSG_PLAIN, HUDLAYER_SKULLCOUNT, CR_WHITE, 0.0, 30.0, HUDTIME_ONETIC);	break; 
+									case 5:	HudMessage(i:CheckInventory("ZamnSkullKey");HUDMSG_PLAIN, HUDLAYER_SKULLCOUNT, CR_WHITE, 8.0, 30.0, HUDTIME_ONETIC);	break; 
+									//case 6:	HudMessage(i:CheckInventory("ZamnSkullKey");HUDMSG_PLAIN, 995, CR_WHITE, 128.0, 55.0, HUDTIME_ONETIC);	break; 
+								}
+							//Log(s: "Layer 995: Skullkey Counter");	//Test
+							
+						}
+						
+
+						//[9.- Clean of non-class weapons]
+						if(CheckInventory("ZekeToken")==1)
+						{
+							TakeInventory("MonsterTime",1);
+							TakeInventory("MonsterUnmorphing",1);
+						
+							//Take a Julie Weapon if selected (General)
+							if((GetChar(GetWeapon(), (StrLen(GetWeapon())-1)) == 'J') || (GetChar(GetWeapon(), (StrLen(GetWeapon())-1)) == 'j'))
+								TakeInventory(GetWeapon(),1);
+
+						}
+						else
+						{
+							TakeInventory("MonsterTime",1);
+							TakeInventory("MonsterUnmorphing",1);
+							
+							//Take a Zeke Weapon if selected (General)
+							if((GetChar(GetWeapon(), (StrLen(GetWeapon())-1)) == 'Z') || (GetChar(GetWeapon(), (StrLen(GetWeapon())-1)) == 'z'))
+								TakeInventory(GetWeapon(),1);
+
+						}
+						
+						
+						//[10.- Water Mechanics]
+						if(GetActorProperty(0,APROP_Waterlevel)!= 0)
+						{ 
+							if(CheckInventory("InWater") < 7)
+							{
+								//Spawn SFX_InWater
+								watplayX = GetActorX(0);
+								watplayY = GetActorY(0);
+								watplayZ = GetActorZ(0);
+
+								SpawnForced("SFX_InWater", watplayX, watplayY, watplayZ, 0, 0);
+							}
+							GiveInventory("InWater",7);
+							SetActorProperty(0,APROP_Gravity,2.0); 
+							
+							if((GetActorProperty(0,APROP_Waterlevel)== 1)||(GetActorProperty(0,APROP_Waterlevel)== 2))
+								{ ThrustThingZ(0,1,1,1); }
+								
+							if(CheckInventory("MonsterToken")==1)
+								TakeInventory("MonsterTime",10);
+						}
+						else
+						{ 
+							if(CheckInventory("InWater") == 7)
+							{
+								//Spawn SFX_OuWater
+								watplayX = GetActorX(0);
+								watplayY = GetActorY(0);
+								watplayZ = GetActorZ(0);
+
+								SpawnForced("SFX_OuWaterP", watplayX, watplayY, watplayZ, 0, 0);
+							}
+							TakeInventory("InWater",1); 
+						}
+
+
+						if(ACS_NamedExecuteWithResult("CheckAvobeWater",0,0,0,0) == 1)
+							{
+								if( (MapUnit_ToInt(GetActorZ(0))) - (MapUnit_ToInt(GetActorFloorZ(0))) <= 128 )
+									{
+										/*print(s: "Water Sector");*/
+										if(CheckInventory("Bouncing") < 1)
+											SetActorProperty(0,APROP_Gravity,2.0); 
+									}
+							}
+						else
+							{	/*print(s: "Normal Sector");*/
+								SetActorProperty(0,APROP_Gravity,1.0); }
+
+						
+						//[11.- Monster Demorphing]
+						if((CheckInventory("MonsterToken")==1)&&(CheckInventory("MonsterTime")==0))
+						{
+							TakeInventory("MonsterToken",1);
+							TakeInventory("MonsterFists",1);
+							TakeInventory("MonsterTime",1);
+							UnMorphActor(0);
+							GiveInventory("MonsterUnmorphing",5);
+						}
+						
+
+						//[12.- Radar Calling]
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						if(CheckInventory("MonsterToken")!=1)
+						{
+							if(GetCvar("rdtoggle"))
+								{
+									ACS_NamedExecuteAlways("RadarBorder",0,0,0,0);
+									ACS_NamedExecuteAlways("RadarScans",0,0,0,0);						
+								}
+						
+							//Number of survivors below the radar
+							if(GetCvar("rdtoggle"))
+							{
+								switch(AspectRatio)
+									{
+										case 1:
+										case 2:	SetHudSize(320, 200, FALSE);	break;
+										case 3:
+										case 4:
+										case 5:	SetHudSize(320, 180, FALSE);	break;
+										//case 6:	SetHudSize(320, 180, FALSE);	break;
+									}
+								
+								SurvivorsLeft= ACS_NamedExecuteWithResult("GetSurvivorLeft");
+								
+								if(SurvivorsLeft<=20 && SurvivorsLeft>=0)
+									SetFont( StrParam(s: "NUMBR", i: SurvivorsLeft) );
+								else
+									SetFont("NUMBR0");
+								
+								switch(AspectRatio)
+									{
+										case 1:
+										case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 296.0, 50.0, HUDTIME_ONETIC);	break;
+										case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 349.0, 44.0, HUDTIME_ONETIC);	break;
+										case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 327.0, 44.0, HUDTIME_ONETIC);	break;
+										case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 339.0, 44.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 9998, 0, 339.0, 44.0, HUDTIME_ONETIC);	break;
+									}
+							}
+						}
+						
+						
+						//[13.- Score Text / Score Points]
+						if(( (GetCVar("sctoggle")&&CheckInventory("ScoreNoCheck")!=1) || CheckInventory("ScoreShow")==1 || CheckInventory("ScoreActive")==1 ))
+						{
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 380, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 340, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+								
+								SetFont("BIGFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 360.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 380.0, HUDTIME_ONETIC);	break;
+										case 3:
+										case 4:
+										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 000.0, 330.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+								//Log(s: "Layer 1000: Score Text");		//Test
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(320, 240, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(320, 200, FALSE);	break;
+								//case 6: SetHudSize(320, 180, FALSE);	break;
+							}
+				
+								SetFont("STATUSFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 200.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 194.0, HUDTIME_ONETIC);	break;
+										case 3:
+										case 4:
+										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 50.0, 194.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+						}
+							
+						
+						
+						//[14.- Werewolf Timer]
+						str counterparsed = "";
+						int secs = 0;
+						bool countdownactive=false;
+						//Werewolf Timer Deprecated: General Timer with Werewolf Settings is used instead.
+						
+						//[15.- General Timer]
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						if(CheckInventory("GeneralTimer") == 1)
+						{
+							countdownactive= true;
+							counterparsed = "";
+							secs = ACS_NamedExecuteWithResult("GetTime") / 35;
+							
+							if(secs < 10)	{	counterparsed = StrParam(s: "0", i: secs);	}
+							else			{	counterparsed = StrParam(i: secs);			}
+							switch(AspectRatio)
+									{	case 1:	
+										case 2:	SetHudSize(320, 200, FALSE);	break;
+										case 3: 
+										case 4: 
+										case 5:	SetHudSize(320, 180, FALSE);	break;		}
+							SetFont("BIGFONT");
+							switch(AspectRatio)
+								{
+									case 1:
+									case 2:	
+									case 3:	
+									case 4:	
+									case 5:	HudMessage(s: counterparsed ;HUDMSG_PLAIN, HUDLAYER_ANYTIMER, 0, 160.0, 13.0, HUDTIME_ONETIC);	break;
+									//case 6:	HudMessage(s: counterparsed ;HUDMSG_PLAIN, 903, 0, 150.0, 13.0, HUDTIME_ONETIC);	break;//HudMessage(s: counterparsed ;HUDMSG_PLAIN, 1003, 0, 160.0, 13.0, HUDTIME_ONETIC);	break;
+								}
+							//Log(s: "Layer 903: General Timer");	//Test
+							
+							int icontimer= ACS_NamedExecuteWithResult("GetIconTimer");
+							
+							switch(icontimer)
+							{
+								case 0: SETFONT("TNT1A0");		break;
+								case 1:	SETFONT("CHERICON");	break;
+								case 2:	SETFONT("BABYICON");	break;
+								case 3:	SETFONT("DOGEICON");	break;
+								case 4:	SETFONT("WOLFICON");	break;
+								case 5:	SETFONT("ZOMBICON");	break;
+								
+								Default: SETFONT("TNT1A0");		break;
+							}
+					 		
+							switch(AspectRatio)
+									{	case 1:	
+										case 2:	SetHudSize(320, 200, FALSE);	break;
+										case 3: 
+										case 4: 
+										case 5:	SetHudSize(320, 180, FALSE);	break;		}
+							switch(AspectRatio)
+								{
+									case 1:
+									case 2:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONLF, 0, 130.0, 12.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONRG, 0, 190.0, 12.0, HUDTIME_ONETIC);	break;
+									case 3:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONLF, 0, 120.0, 12.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONRG, 0, 200.0, 12.0, HUDTIME_ONETIC);	break;
+									
+									case 4:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONLF, 0, 120.0, 12.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONRG, 0, 200.0, 12.0, HUDTIME_ONETIC);	break;
+									case 5:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONLF, 0, 120.0, 12.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TIMERICONRG, 0, 200.0, 12.0, HUDTIME_ONETIC);	break;
+									//case 6:	HudMessage(s: "A" ;HUDMSG_PLAIN, 1006, 0, 110.0, 12.0, HUDTIME_ONETIC);	
+									//		HudMessage(s: "A" ;HUDMSG_PLAIN, 1007, 0, 190.0, 12.0, HUDTIME_ONETIC);	break;
+								}	
+							//Log(s: "Layer 1006/1007: Left/Right Timer Icon");	//Test
+								
+						}
+						
+						//[16.- General Counter]
+						if(CheckInventory("GeneralGoal") == 1)
+						{
+							str progresstarget = "";
+						
+							int target = ACS_NamedExecuteWithResult("GetCurrentCount");
+							int goal = ACS_NamedExecuteWithResult("GetGoalCount");
+							
+							progresstarget = StrParam(i: target, s: " / ", i: goal);
+							
+
+							switch(AspectRatio)
+									{	case 1:	case 2:	SetHudSize(320, 200, FALSE);	break;
+										case 3: case 4: case 5:	SetHudSize(320, 180, FALSE);	break;		}
+							SetFont("BIGFONT");
+							
+							if(!countdownactive)
+								{HudMessage(s: progresstarget ;HUDMSG_PLAIN, HUDLAYER_ANYTARGET, 0, 160.0, 13.0, HUDTIME_ONETIC);}
+							else
+								{HudMessage(s: progresstarget ;HUDMSG_PLAIN, HUDLAYER_ANYTARGET, 0, 160.0, 25.0, HUDTIME_ONETIC);}
+							
+							//Log(s: "Layer 1009: General Counter");	//Test
+							
+							
+							int iconcounter= ACS_NamedExecuteWithResult("GetIconCount");
+						
+							switch(iconcounter)
+							{
+								case 0:	SETFONT("TNT1A0");		break;
+								case 1:	SETFONT("CHERICON");	break;
+								case 2:	SETFONT("BABYICON");	break;
+								case 3:	SETFONT("DOGEICON");	break;
+								case 4:	SETFONT("WOLFICON");	break;
+								case 5:	SETFONT("ZOMBICON");	break;
+								
+								Default: SETFONT("TNT1A0");		break;
+							}
+								
+							if(!countdownactive)
+							{
+								switch(AspectRatio)
+								{
+									case 1:
+									case 2:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 130.0, 13.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 190.0, 13.0, HUDTIME_ONETIC);	break;
+											
+									case 3:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 120.0, 13.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 200.0, 13.0, HUDTIME_ONETIC);	break;
+									
+									case 4:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 120.0, 13.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 200.0, 13.0, HUDTIME_ONETIC);	break;
+											
+									case 5:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 120.0, 13.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 200.0, 13.0, HUDTIME_ONETIC);	break;
+								}
+							}
+							else
+							{
+								switch(AspectRatio)
+								{
+									case 1:
+									case 2:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 130.0, 25.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 190.0, 25.0, HUDTIME_ONETIC);	break;
+											
+									case 3:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 120.0, 25.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 200.0, 25.0, HUDTIME_ONETIC);	break;
+									
+									case 4:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 120.0, 25.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 200.0, 25.0, HUDTIME_ONETIC);	break;
+											
+									case 5:	HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONLF, 0, 120.0, 25.0, HUDTIME_ONETIC);	
+											HudMessage(s: "A" ;HUDMSG_PLAIN, HUDLAYER_TARGTICONRG, 0, 200.0, 25.0, HUDTIME_ONETIC);	break;
+								}
+							}
+							
+							//Log(s: "Layer 1010/1011: Left/Right Counter Icon");	//Test
+								
+						}
+						countdownactive= false;
+					
+					
+						//[17.- Screen Effect : Goo]
+						if(CheckInventory("GooTimer")>=1)
+						{
+							SetHudSize(320,200,FALSE);
+							SetFont( GetGooEffectGraphic(CheckInventory("GooTimer")) );
+							
+							HudMessage(s:"A";HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_SCREENEFECT, 0, 160.0, 80.0, HUDTIME_ONETIC);
+						}
+						
+							int Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+							if(Buttons & (BT_JUMP))						{	TakeInventory("GooTimer",2);	}
+							if(Buttons & (BT_MOVELEFT|BT_MOVERIGHT))	{	TakeInventory("GooTimer",1);	}
+							TakeInventory("GooTimer",1);
+						
+							if(CheckInventory("GooTimer")>5)				{	SetActorProperty(0,APROP_Speed,SPEED_HALF);	}
+							else if((CheckInventory("GooTimer")<=5)&&(CheckInventory("GooTimer")>=1))
+							{
+								if(CheckInventory("SpeedyToken") == 1)		{SetActorProperty(0,APROP_Speed,SPEED_SHOES);}
+								else										{SetActorProperty(0,APROP_Speed,SPEED_NORMAL);}
+								
+								while(GetActorProperty(0,APROP_Speed) == SPEED_HALF)
+								{
+									if(CheckInventory("SpeedyToken") == 1)	{SetActorProperty(0,APROP_Speed,SPEED_SHOES);}
+									else									{SetActorProperty(0,APROP_Speed,SPEED_NORMAL);}
+								}
+							}
+						
+
+						//[18.- Screen Effect : Martian Bubble]
+						if(CheckInventory("BubbleTime")>=1)
+						{
+							SetHudSize(320,200,FALSE);
+							SetFont( GetBubbleEffectGraphic(CheckInventory("BubbleTime")) );
+							
+							HudMessage(s:"A";HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_SCREENEFECT, 0, 160.0, 100.0, HUDTIME_ONETIC);
+						}
+
+
+
+						
+
+
+						//[19.- Game Over Check]
+						if(CheckSurvivorGameOver)
+						{
+							if(ACS_NamedExecuteWithResult("SurvivorGameOver") == 1)
+							{
+								//Log(s: "It's game over");
+								if(CheckInventory("ZekeToken")==1)
+								{	TakeInventory("ZekeToken",1);	GiveInventory("ZekeTicket",1);}
+								if(CheckInventory("JulieToken")==1)
+								{	TakeInventory("JulieToken",1);	GiveInventory("JulieTicket",1);}
+								
+								GiveInventory("GameOverToken",1);
+								TakeInventory("ScoreActive",1);
+								TakeInventory("ScoreShow",1);
+							}
+							
+						}	
+					
+						//[20.- Level Finished Check]
+						if(LevelFinished == 1)
+							{
+								GiveInventory("ScoreNoCheck",1);
+								TakeInventory("ScoreActive",1);
+								TakeInventory("GooTimer",9999);
+								TakeInventory("BubbleTime",9999);
+								TakeInventory("InWater",7);
+								ACS_NamedExecuteAlways("TeleportMe",0,0,0,0);
+								
+								if(CheckInventory("BonusToken")==1)
+								{
+									ACS_NamedExecuteAlways("SetBonus",0,0,0,0);
+									TakeInventory("BonusToken",1);
+								}
+								if(CheckInventory("ZekeToken")==1)
+								{
+									GiveInventory("ZekeTicket",1);
+									TakeInventory("ZekeToken",1);	
+								}
+								else
+								{
+									GiveInventory("JulieTicket",1);
+									TakeInventory("JulieToken",1);
+								}
+								
+								GiveInventory("CantUseToken",1);
+							}
+
+
+						//IDKFA, IDFA or "Give All" commands
+						if(CheckInventory("CheaterToken")==1)
+							{ ACS_NamedExecuteAlways("CheaterScript",0,0,0,0); }
+						
+						
+						//Medikit Waste Fix
+						if(GetActorProperty(0,APROP_HEALTH)>90||GetActorProperty(0,APROP_HEALTH)<2||GetActorProperty(0,APROP_HEALTH)==100)
+							{ GiveInventory("GoodHealthToken",1); }
+						else
+							{ TakeInventory("GoodHealthToken",1); }
+
+			Delay(1);
+			}
+
+			//Showcase "Score" Mini Hud Part
+			
+			while(CheckInventory("ScoreShow")==1)
+				{
+					//Log(s: "Score Hud");	//Test
+						//Main Hud Aspect Ratio Setup
+						if(GetAspectRatioZamn() == ASPECT_4_3)
+						{	AspectRatio = 1;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+							GiveInventory("AspectRatio4_3",1);}
+						else if(GetAspectRatioZamn() == ASPECT_5_4)
+						{	AspectRatio = 2;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+							GiveInventory("AspectRatio5_4",1);}
+						else if(GetAspectRatioZamn() == ASPECT_16_9)
+						{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+							GiveInventory("AspectRatio16_9",1);}
+						else if(GetAspectRatioZamn() == ASPECT_16_10)
+						{	AspectRatio = 4;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio17_10",1);	
+							GiveInventory("AspectRatio16_10",1);}
+						else if(GetAspectRatioZamn() == ASPECT_17_10)
+						{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+							GiveInventory("AspectRatio17_10",1);}
+						else if(GetAspectRatioZamn() == ASPECT_21_9)
+						{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+							GiveInventory("AspectRatio17_10",1);}
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 380, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 340, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+								
+								SetFont("BIGFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 360.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 380.0, HUDTIME_ONETIC);	break;
+										case 3:
+										case 4:
+										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 000.0, 330.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+								//Log(s: "Layer 1000: Score Text");		//Test
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(320, 240, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(320, 200, FALSE);	break;
+								//case 6: SetHudSize(320, 180, FALSE);	break;
+							}
+								SetFont("STATUSFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 200.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 194.0, HUDTIME_ONETIC);	break;
+										case 3:
+										case 4:
+										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 50.0, 194.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+					Delay(1);
+			}
+
+
+	//-----------------------------//-----------------------------//-----------------------------//
+	//Ghoul Patrol Easter Egg HUD: //-----------------------------//-----------------------------//
+	//-----------------------------//-----------------------------//-----------------------------//
+			
+			while(CheckInventory("ZekeGPToken")==1||CheckInventory("JulieGPToken")==1)
+			{
+			TakeInventory("SelectToken",9999);
+			
+			//Main Hud Aspect Ratio Setup
+			if(GetAspectRatioZamn() == ASPECT_4_3)
+				{	AspectRatio = 1;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+					GiveInventory("AspectRatio4_3",1);}
+			else if(GetAspectRatioZamn() == ASPECT_5_4)
+				{	AspectRatio = 2;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+					GiveInventory("AspectRatio5_4",1);}
+			else if(GetAspectRatioZamn() == ASPECT_16_9)
+				{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+					GiveInventory("AspectRatio16_9",1);}
+			else if(GetAspectRatioZamn() == ASPECT_16_10)
+				{	AspectRatio = 4;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio17_10",1);	
+					GiveInventory("AspectRatio16_10",1);}
+			else if(GetAspectRatioZamn() == ASPECT_17_10)
+				{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+					GiveInventory("AspectRatio17_10",1);}
+			else if(GetAspectRatioZamn() == ASPECT_21_9)
+				{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+					GiveInventory("AspectRatio17_10",1);}
+					
+					
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+						
+						//Main Hud Graphic [Portrait, Health Bars, Life Icon, Zamn Keys Icon, Weapon Icon Borders, Item Icon Borders]
+						if(CheckInventory("ZekeGPToken")==1)
+						{
+							if(CheckInventory("MonsterToken")==1)				SetFont("ZHGPMON");
+							else 
+								SetFont( GetMainHudGraphic(GetActorProperty(0,APROP_HEALTH), HUDMODE_GHOUL, HUDPLAY_ZEKE) );
+						}
+						else
+						{
+							if(CheckInventory("MonsterToken")==1)				SetFont("JHGPMON");
+							else 
+								SetFont( GetMainHudGraphic(GetActorProperty(0,APROP_HEALTH), HUDMODE_GHOUL, HUDPLAY_JULIE) );
+						}
+						switch(AspectRatio)
+						{
+							case 1:	
+							case 2:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 100.0, 60.0, HUDTIME_ONETIC);	break;
+							case 3:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 0.0, 60.0, HUDTIME_ONETIC);	break;
+							case 4:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 25.0, 60.0, HUDTIME_ONETIC);	break;
+							case 5:	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, HUDLAYER_MAINHUD, 0, 20.0, 60.0, HUDTIME_ONETIC);	break;
+							//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 999, 0, 0.0, 60.0, HUDTIME_ONETIC);	break;
+						}
+
+						//Lives Counter
+						SetFont("BIGFONT");
+						switch(AspectRatio)
+						{
+							case 1:
+							case 2:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 150.0, 40.0, HUDTIME_ONETIC);	break;
+							case 3:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 50.0, 40.0, HUDTIME_ONETIC);	break;
+							case 4:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 75.0, 40.0, HUDTIME_ONETIC);	break;
+							case 5:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, HUDLAYER_LIVESCOUNT, color, 70.0, 40.0, HUDTIME_ONETIC);	break;
+							//case 6:	HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, 991, color, 50.0, 40.0, HUDTIME_ONETIC);	break;//HudMessage(i:CheckInventory("LifeToken");HUDMSG_PLAIN, 991, color, 70.0, 40.0, HUDTIME_ONETIC);	break;
+						}
+						
+						//Weapons Icons
+						
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+							SetFont(GetCVarString("hud_wepicon"));	//<- Weapon Icon obtained trough ZSCript Part.
+							switch(AspectRatio)
+							{
+								case 1:
+								case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 129.0, 89.0, HUDTIME_ONETIC);	break;
+								case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 29.0, 89.0, HUDTIME_ONETIC);	break;
+								case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 54.0, 89.0, HUDTIME_ONETIC);	break;
+								case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_WEAPONICON, 0, 49.0, 89.0, HUDTIME_ONETIC);	break;
+								//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 992, 0, 29.0, 89.0, HUDTIME_ONETIC);	break;
+							}
+					
+						
+						//Weapons Ammo Counter
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						SetFont("BIGFONT");
+						ammocheck1=0;
+						ammocheck2=0;
+						
+						ammocheck1 = GetCVar("hud_wepammo1");
+						ammocheck2 = GetCVar("hud_wepammo2");
+
+						if(ammocheck1 >= 0)
+						{
+							switch(AspectRatio)
+							{
+								case 1:		
+								case 2:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 130.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 3:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 4:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 55.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 5:		HudMessage(i: ammocheck1; HUDMSG_PLAIN, HUDLAYER_WEAPONAMMO, color, 50.0, 115.0, HUDTIME_ONETIC);		Break;
+								//case 6:		HudMessage(i: ammocheck; HUDMSG_PLAIN, 993, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+							}
+						}
+						if(ammocheck2 >= 0)
+						{
+							switch(AspectRatio)
+							{
+								case 1:		
+								case 2:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 130.0, 128.0, HUDTIME_ONETIC);		Break;
+								case 3:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 30.0, 128.0, HUDTIME_ONETIC);		Break;
+								case 4:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 55.0, 128.0, HUDTIME_ONETIC);		Break;
+								case 5:		HudMessage(i: ammocheck2; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, color, 50.0, 128.0, HUDTIME_ONETIC);		Break;
+								//case 6:		HudMessage(i: ammocheck; HUDMSG_PLAIN, 997, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+							}
+						}
+
+						//GP Keys Counter
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						SetFont("BIGFONT");
+						switch(AspectRatio)
+						{
+							case 1:
+							case 2:	HudMessage(i:CheckInventory("GhoulPKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 173.0, 60.0, HUDTIME_ONETIC);	break;
+							case 3:	HudMessage(i:CheckInventory("GhoulPKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 73.0, 60.0, HUDTIME_ONETIC);	break;
+							case 4:	HudMessage(i:CheckInventory("GhoulPKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 98.0, 60.0, HUDTIME_ONETIC);	break;
+							case 5:	HudMessage(i:CheckInventory("GhoulPKey");HUDMSG_PLAIN, HUDLAYER_ZKEYSCOUNT, CR_GOLD, 93.0, 60.0, HUDTIME_ONETIC);	break;
+							//case 6:	HudMessage(i:CheckInventory("GhoulPKey");HUDMSG_PLAIN, 994, CR_GOLD, 73.0, 60.0, HUDTIME_ONETIC);	break;//HudMessage(i:CheckInventory("ZamnKey");HUDMSG_PLAIN, 994, CR_GOLD, 93.0, 60.0, HUDTIME_ONETIC);	break;
+						}
+
+						//[Item Icon / Item Amount]
+						switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 400, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 360, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+							
+						SetFont(GetCVarString("hud_invicon"));
+						itemamount=0;
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 174.0, 89.0, HUDTIME_ONETIC);	Break;
+								case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 74.0, 89.0, HUDTIME_ONETIC);	Break;
+								case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 99.0, 89.0, HUDTIME_ONETIC);	Break;
+								case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_ITEMICON, 0, 94.0, 89.0, HUDTIME_ONETIC);	Break;
+								//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 996, 0, 74.0, 89.0, HUDTIME_ONETIC);	Break;
+							}
+						
+						//Play the Sound at item change
+						if((StrICmp(CurrentItem, GetCvarString("hud_invname")) != 0)&&(StrICmp(GetCvarString("hud_invicon"), "tnt1a0") != 0))
+						{	
+							if(StrICmp(CurrentItem, "nothing") == 0)
+							{
+								//Classic mistake
+								//Log(s: "Initial Item");
+								CurrentItem = GetCvarString("hud_invname");
+							}
+							else
+							{
+								//Log(s: "Inventory Sound");
+								GiveInventory("ItemSelectSound",1);
+								CurrentItem = GetCvarString("hud_invname");
+							}
+						}
+
+						itemamount = GetCVar("hud_invamount");
+						SetFont("BIGFONT");
+						if(itemamount >= 0)
+						{
+							switch(AspectRatio)
+							{
+								case 1:		
+								case 2:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 175.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 3:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 75.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 4:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 100.0, 115.0, HUDTIME_ONETIC);		Break;
+								case 5:		HudMessage(i: itemamount; HUDMSG_PLAIN, HUDLAYER_WEAPONAMM2, HUDCOLOR_TEXTWHITE, 95.0, 115.0, HUDTIME_ONETIC);		Break;
+								//case 6:		HudMessage(i: ammocheck; HUDMSG_PLAIN, 997, color, 30.0, 115.0, HUDTIME_ONETIC);		Break;
+							}
+						}
+
+						//[Score Text / Score Points]
+						if(( (GetCVar("sctoggle")&&CheckInventory("ScoreNoCheck")!=1) || CheckInventory("ScoreShow")==1 || CheckInventory("ScoreActive")==1 ))
+						{
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(640, 380, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(640, 340, FALSE);	break;
+								//case 6: SetHudSize(640, 360, FALSE);	break;
+							}
+						
+								
+								SetFont("BIGFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 360.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 380.0, HUDTIME_ONETIC);	break;
+										case 3:
+										case 4:
+										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 000.0, 330.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+								//Log(s: "Layer 1000: Score Text");		//Test
+							switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(320, 240, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(320, 200, FALSE);	break;
+								//case 6: SetHudSize(320, 180, FALSE);	break;
+							}
+				
+								SetFont("STATUSFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 200.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 194.0, HUDTIME_ONETIC);	break;
+										case 3:
+										case 4:
+										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 50.0, 194.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+						}
+
+
+
+						//Running Check
+						Buttons = GetPlayerInput(-1, INPUT_BUTTONS);
+						if(Buttons & (BT_SPEED))
+						{	GiveInventory("GPRunning",2);	SetActorProperty(0,APROP_Speed,SPEED_GPRUN);	}
+						else
+						{	TakeInventory("GPRunning",1);	SetActorProperty(0,APROP_Speed,SPEED_GPWALK);	}
+			
+						//Constant Cleaning of NonClass Weapons
+						TakeInventory("MonsterTime",1);
+						
+ 
+						//IDKFA, IDFA or "Give All" commands
+						if(CheckInventory("CheaterToken")==1)
+							{ ACS_NamedExecuteAlways("CheaterScript",0,0,0,0); }
+						
+						
+						//Medikit Waste Fix
+						if(GetActorProperty(0,APROP_HEALTH)>90||GetActorProperty(0,APROP_HEALTH)<2||GetActorProperty(0,APROP_HEALTH)==100)
+							{ GiveInventory("GoodHealthToken",1); }
+						else
+							{ TakeInventory("GoodHealthToken",1); }
+						
+						
+						//Water Mechanics
+						if(GetActorProperty(0,APROP_Waterlevel)!= 0)
+						{ 
+							GiveInventory("InWater",7);
+							
+							if((GetActorProperty(0,APROP_Waterlevel)== 1)||(GetActorProperty(0,APROP_Waterlevel)== 2))
+								{ ThrustThingZ(0,1,1,1); }
+								
+							if(CheckInventory("MonsterToken")==1)
+								TakeInventory("MonsterTime",10);
+						}
+						else
+						{ 
+							TakeInventory("InWater",1); 
+						}
+						
+						
+						//Radar Calling
+						if(CheckInventory("MonsterToken")!=1)
+						{
+							if(GetCvar("rdtoggle"))
+								{
+									ACS_NamedExecuteAlways("RadarBorder",0,1,0,0);
+									ACS_NamedExecuteAlways("RadarScans",0,0,0,0);						
+								}
+						
+							//Number of survivors below the radar
+							if(GetCvar("rdtoggle"))
+							{
+								switch(AspectRatio)
+									{
+										case 1:
+										case 2:	SetHudSize(320, 200, FALSE);	break;
+										case 3:
+										case 4:
+										case 5:	SetHudSize(320, 180, FALSE);	break;
+										//case 6:	SetHudSize(320, 180, FALSE);	break;
+									}
+								
+								//SurvivorsLeft= CheckInventory("SurvivorsInLevel") - CheckInventory("SurvivorsSaved");
+								SurvivorsLeft= ACS_NamedExecuteWithResult("GetSurvivorLeft");//CallACS("GetSurvivorLeft");
+								switch(SurvivorsLeft)
+								{
+									case 0:		SetFont("NUMBR0");	break;
+									case 1:		SetFont("NUMBR1");	break;
+									case 2:		SetFont("NUMBR2");	break;
+									case 3:		SetFont("NUMBR3");	break;
+									case 4:		SetFont("NUMBR4");	break;
+									case 5:		SetFont("NUMBR5");	break;
+									case 6:		SetFont("NUMBR6");	break;
+									case 7:		SetFont("NUMBR7");	break;
+									case 8:		SetFont("NUMBR8");	break;
+									case 9:		SetFont("NUMBR9");	break;
+									case 10:	SetFont("NUMBR10");	break;
+									case 11:	SetFont("NUMBR11");	break;
+									case 12:	SetFont("NUMBR12");	break;
+									case 13:	SetFont("NUMBR13");	break;
+									case 14:	SetFont("NUMBR14");	break;
+									case 15:	SetFont("NUMBR15");	break;
+									case 16:	SetFont("NUMBR16");	break;
+									case 17:	SetFont("NUMBR17");	break;
+									case 18:	SetFont("NUMBR18");	break;
+									case 19:	SetFont("NUMBR19");	break;
+									case 20:	SetFont("NUMBR20");	break;
+								}
+								
+								switch(AspectRatio)
+									{
+										case 1:
+										case 2:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 296.0, 50.0, HUDTIME_ONETIC);	break;
+										case 3:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 349.0, 44.0, HUDTIME_ONETIC);	break;
+										case 4:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 327.0, 44.0, HUDTIME_ONETIC);	break;
+										case 5:	HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_RADRSURVNUM, 0, 339.0, 44.0, HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"A";HUDMSG_PLAIN, 9998, 0, 339.0, 44.0, HUDTIME_ONETIC);	break;
+									}
+							}
+						}
+						
+						//[Monster Demorphing]
+						if((CheckInventory("MonsterToken")==1)&&(CheckInventory("MonsterTime")==0))
+						{
+							TakeInventory("MonsterToken",1);
+							TakeInventory("MonsterFists",1);
+							TakeInventory("MonsterTime",1);
+							UnMorphActor(0);
+							GiveInventory("MonsterUnmorphing",5);
+						}
+
+						//Game Over Check
+						if(CheckSurvivorGameOver)
+						{
+							if(ACS_NamedExecuteWithResult("SurvivorGameOver") == 1)
+								GiveInventory("GameOverToken",1);
+						}	
+					
+						//Level Finished Check!
+						if(LevelFinished == 1)
+							{
+								GiveInventory("ScoreNoCheck",1);
+								TakeInventory("ScoreActive",1);
+								ACS_NamedExecuteAlways("TeleportMe",0,0,0,0);
+								
+								if(CheckInventory("BonusToken")==1)
+								{
+									ACS_NamedExecuteAlways("SetBonus",0,0,0,0);
+									TakeInventory("BonusToken",1);
+								}
+								if(CheckInventory("ZekeGPToken")==1)
+								{
+									GiveInventory("ZekeTicket",1);
+									TakeInventory("ZekeGPToken",1);	
+								}
+								else
+								{
+									GiveInventory("JulieTicket",1);
+									TakeInventory("JulieGPToken",1);
+								}
+								
+								GiveInventory("CantUseToken",1);
+							}
+			
+			Delay(1);
+			}
+						
+	//-----------------------------//-----------------------------//-----------------------------//
+	//ANOTHER EASTER EGG HUD:	   //-----------------------------//-----------------------------//
+	//-----------------------------//-----------------------------//-----------------------------//
+			
+			/*
+			while(AnotherEasterEggHud)
+			{
+			//Log(s: "Easter Egg 2 Hud");	//Test
+			
+			
+			Delay(1);
+			}
+			
+			*/
+			
+	//-----------------------------//-----------------------------//-----------------------------//
+	//-----------------------------//-----------------------------//-----------------------------//
+	//-----------------------------//-----------------------------//-----------------------------//
+
+Delay(1);	Restart;		
+// This will keep this script running at all times, you don't need to have any hud showing all the time
+// but the huds keep track of several things like some tokens management and timing management
+// so you may want to keep this script running at all times regardless
+
+// If you are reading this and I didn't added any other hud than the ZAMN one, or you want to create a new one,
+// you can just use a while(your_hud_token_here) running with this same script.
+}
+
+
+
+
+
+
+Script "SetFinished" (void)
+{ LevelFinished = 1; }
+
+
+
+
+Script "ScoreCheck" (int nosound)
+	{
+	if(CheckInventory("ScoreNoCheck")!=1){
+		if(GetCVAR("sctoggle")&&CheckInventory("ScoreActive")!=1)
+			{
+				TakeInventory("ScoreDeactive",1);
+				GiveInventory("ScoreActive",1);
+				if(nosound!=1)
+					GiveInventory("ScoreSound",1);
+			}
+		else if(!GetCVAR("sctoggle")&&CheckInventory("ScoreDeactive")!=1)
+			{
+				TakeInventory("ScoreActive",1);
+				GiveInventory("ScoreDeactive",1);
+			}
+	}
+	nosound=0;
+	Delay(1);
+	Restart;
+	}
+	 
+
+Script "ScoreToggle" (void)
+{
+	if(CheckInventory("ScoreNoCheck")!=1){
+		if(GetCVAR("sctoggle"))
+			{
+				TakeInventory("ScoreActive",1);
+				GiveInventory("ScoreDeactive",1);
+				SetCvar("sctoggle",false);
+			}
+		else
+			{
+				TakeInventory("ScoreDeactive",1);
+				GiveInventory("ScoreActive",1);
+				SetCvar("sctoggle",true);
+				GiveInventory("ScoreSound",1);
+			}
+	}
+	Delay(1);
+}
+
+
+/*______________________________________FUNCTIONS___________________________________________*/
+	
+
+Script "IgnoreSurvivorGameOver" (void)
+{
+	CheckSurvivorGameOver = false;
+}
+
+Script "IsLevelFinished" (void)
+{
+	SetResultValue(LevelFinished);
+}
