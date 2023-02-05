@@ -4,6 +4,11 @@
 - Added map "Ants"
 - Added Custom Survivor "S_DOG2"
 
+[Standalone ZAMNTC]
+- Setup main file as a folder and uploaded it as a repository 
+to Github: https://github.com/Dude27th/ZAMN_MAIN_MASTER
+	
+
 [LZDoom Exclusive]
 - Added file "GameLoader.ipk3" which is a stripped down version of Nash s "MyStandAloneGame.ipk3".
 	With this you won t need to download freedom neither, as you can run ZAMNTC now with "GameLoader" as a base.
