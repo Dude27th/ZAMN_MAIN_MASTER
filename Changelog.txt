@@ -7,6 +7,7 @@
 [Standalone ZAMNTC]
 - Setup main file as a folder and uploaded it as a repository 
 to Github: https://github.com/Dude27th/ZAMN_MAIN_MASTER
+- 
 	
 
 [LZDoom Exclusive]
