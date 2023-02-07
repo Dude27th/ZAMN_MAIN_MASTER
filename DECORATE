@@ -8,20 +8,24 @@
 //// Weapons Decorate
 #include "Decorate_M/Weapons/ZAMN_WeaponBase.dec"
 #include "Decorate_M/Weapons/Pickups.dec"
-#include "Decorate_M/Weapons/MonsterFists.dec"
-#include "Decorate_M/Weapons/WeedWacker.dec"
-#include "Decorate_M/Weapons/Tomatoes.dec"
-#include "Decorate_M/Weapons/Soda.dec"
-#include "Decorate_M/Weapons/WaterRifle.dec"
-#include "Decorate_M/Weapons/Bazooka.dec"
-#include "Decorate_M/Weapons/FireExtinguisher.dec"
-#include "Decorate_M/Weapons/Popsicle.dec"
-#include "Decorate_M/Weapons/Crucifix.dec"
-#include "Decorate_M/Weapons/Silverware.dec"
-#include "Decorate_M/Weapons/Plates.dec"
-#include "Decorate_M/Weapons/FootBall.dec"
-#include "Decorate_M/Weapons/FlameThrower.dec"
-#include "Decorate_M/Weapons/BananaWeapon.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/MonsterFists.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/WeedWacker.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Tomatoes.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Soda.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/WaterRifle.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Bazooka.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/FireExtinguisher.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Popsicle.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Crucifix.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Silverware.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/Plates.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/FootBall.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/FlameThrower.dec"
+#include "Decorate_M/Weapons/Zamn_Weapons/BananaWeapon.dec"
+
+//#include "Decorate_M/Weapons/GHOUL_WeaponBase.dec"
+#include "Decorate_M/Weapons/Ghoul_Weapons/ZZ_GPCrossbow.dec"
+
 
 //// Triggers / Miscellaneous
 #include "Decorate_M/DestructiveTriggers.dec"
@@ -37,24 +41,26 @@
 
 //// Monsters Decorate
 #include "Decorate_M/Monsters/ZAMN_MonsterBase.dec"
-#include "Decorate_M/Monsters/MonsterSpawners.dec"
-#include "Decorate_M/Monsters/AxeBabyDoll.dec"
-#include "Decorate_M/Monsters/MushroomMen.dec"
-#include "Decorate_M/Monsters/ChainsawManiac.dec"
-#include "Decorate_M/Monsters/Zombie.dec"
-#include "Decorate_M/Monsters/Tentacle.dec"
-#include "Decorate_M/Monsters/GiantPod.dec"
-#include "Decorate_M/Monsters/Doppelganger.dec"
-#include "Decorate_M/Monsters/Mummy.dec"
-#include "Decorate_M/Monsters/Werewolf.dec"
-#include "Decorate_M/Monsters/TitanicToddler.dec"
-#include "Decorate_M/Monsters/RedBlob.dec"
-#include "Decorate_M/Monsters/Frankestein.dec"
-#include "Decorate_M/Monsters/Martians.dec"
-#include "Decorate_M/Monsters/UFO.dec"
-#include "Decorate_M/Monsters/FootballPlayer.dec"
-#include "Decorate_M/Monsters/CatacombSpikes.dec"
-#include "Decorate_M/Monsters/Gillmen.dec"
+#include "Decorate_M/Monsters/Spawnable/MonsterSpawners.dec"
+#include "Decorate_M/Monsters/Spawnable/Zombie.dec"
+#include "Decorate_M/Monsters/Spawnable/AxeBabyDoll.dec"
+#include "Decorate_M/Monsters/Spawnable/MushroomMen.dec"
+#include "Decorate_M/Monsters/Spawnable/Tentacle.dec"
+#include "Decorate_M/Monsters/Spawnable/Doppelganger.dec"
+#include "Decorate_M/Monsters/Spawnable/Mummy.dec"
+#include "Decorate_M/Monsters/Spawnable/Werewolf.dec"
+#include "Decorate_M/Monsters/Spawnable/RedBlob.dec"
+#include "Decorate_M/Monsters/Spawnable/Martians.dec"
+#include "Decorate_M/Monsters/Spawnable/Gillmen.dec"
+
+#include "Decorate_M/Monsters/Hazards/GiantPod.dec"
+#include "Decorate_M/Monsters/Hazards/FootballPlayer.dec"
+#include "Decorate_M/Monsters/Hazards/CatacombSpikes.dec"
+
+#include "Decorate_M/Monsters/Bosses/Frankestein.dec"
+#include "Decorate_M/Monsters/Bosses/UFO.dec"
+#include "Decorate_M/Monsters/Bosses/TitanicToddler.dec"
+#include "Decorate_M/Monsters/Bosses/ChainsawManiac.dec"
 
 //// Survivors Decorate
 #include "Decorate_M/Survivors/SurvivorsMain.dec"
@@ -80,18 +86,7 @@
 #include "Decorate_M/Decorations/SkyboxProps.dec"
 #include "Decorate_M/Decorations/ZZ_Custom.dec"
 
-
-/*----------------------------------*/
-//           GHOUL PATROL           //
-/*----------------------------------*/
-
-//// Weapons Decorate
-#include "Decorate_M/Weapons/ZZ_GPCrossbow.dec"
-
-//// Decorations Decorate
 #include "Decorate_M/Decorations/ZZ_GhoulPatrol/G_Flora.dec"
-
-
 
 
 //This actor will serve to see if the voxels imported correctly
