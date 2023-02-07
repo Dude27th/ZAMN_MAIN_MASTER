@@ -1,7 +1,7 @@
 + "ZAMN_MAIN" (??th February, 2023)
 -------------------------------------------------------------
 [Zamn TC]
-- Added map "Ants"
+- Added Level 16 "From The Depths Of The Earth: Ants"
 - Added Custom Survivor "S_DOG2"
 
 [Standalone ZAMNTC]
