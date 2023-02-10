@@ -6,6 +6,7 @@
 - Addendum to Level 4 "Chainsaw Hedgemaze Mayhem" as a Patreon commission
 - Reworked some collision to improve performance on Level 5 "Weird Kids On The Block"
 - Tweaked windows behind tiny drawers in all maps.
+- Cleaning and Removal of redundant 3D Floors on Custom Level "Camp Terror"
 
 [Standalone ZAMNTC]
 - Setup main file as a folder and uploaded it as a repository 
