@@ -7,11 +7,14 @@
 - Reworked some collision to improve performance on Level 5 "Weird Kids On The Block"
 - Tweaked windows behind tiny drawers in all maps.
 - Cleaning and Removal of redundant 3D Floors on Custom Level "Camp Terror"
+- Replaced Frankestein Frames "FRKWB4B6" and "FRKWB5" with non corrupted alternatives.
 
 [Standalone ZAMNTC]
 - Setup main file as a folder and uploaded it as a repository 
 to Github: https://github.com/Dude27th/ZAMN_MAIN_MASTER
-	
+
+[Add-Ons]
+- "Beta_FrankesteinSprites" added, which replaces the Frankestein Sprites with the ones from the "Monsters" Beta version of ZAMN.
 
 [LZDoom Exclusive]
 - Added file "GameLoader.ipk3" which is a stripped down version of Nash s "MyStandAloneGame.ipk3".

@@ -52,6 +52,7 @@
 #include "Decorate_M/Monsters/Spawnable/RedBlob.dec"
 #include "Decorate_M/Monsters/Spawnable/Martians.dec"
 #include "Decorate_M/Monsters/Spawnable/Gillmen.dec"
+#include "Decorate_M/Monsters/Spawnable/Ants.dec"
 
 #include "Decorate_M/Monsters/Hazards/GiantPod.dec"
 #include "Decorate_M/Monsters/Hazards/FootballPlayer.dec"

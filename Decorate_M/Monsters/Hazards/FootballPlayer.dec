@@ -622,6 +622,8 @@ Actor FootballWallDetected	//If colission gets funky change the TNT1 to ALRT to 
 	States
 	{
 	Spawn:
+		TNT1 A 0
+		//TNT1 A 0 A_Log("Wall")
 		SRVD A 2//4
 		Stop
 	}

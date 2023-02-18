@@ -1,0 +1,269 @@
+// They aren't placed in the map directly
+
+ACTOR Ants : SpawnableMonster_ZAMN 12313
+{
+  Health 10
+  Speed 22
+  Height 64
+  Radius 16
+  XScale 1.75
+  YScale 1.75
+  MeleeRange 20
+  DamageType "Zombie"
+  Monster
+  +NOPAIN
+  +INVULNERABLE
+  -STANDSTILL
+  +DROPOFF
+  States
+  {
+  Spawn_Set:
+	TNT1 A 1 A_LookEX(0,0,0,0,360,"Spawn2")
+  Spawn2:
+	TNT1 A 0 A_Log("Spawn")
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+    TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	ANTS ABC 10
+    ANTS C 1 A_ChangeFlag("NOPAIN",FALSE)
+	ANTS C 1 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_FaceTarget
+	ANTS C 1 A_LookEX(0,0,0,0,360,"Idle")
+	Goto Idle
+  Idle:
+	TNT1 A 0 A_Log("Idle")
+	ANTW A 1 A_LookEX(0,0,500,400,360,"See")
+	TNT1 A 0 A_CheckProximity("See","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+    ANTW AAABBBCCCDDD 3 A_Wander
+	TNT1 A 0 A_CheckProximity("See","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+    TNT1 A 0 A_Jump(256, "Vanish_Ants") //Virtual Jump			//Goto Vanish
+	Stop
+   See:
+	TNT1 A 0 A_Log("See")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	//TNT1 A 0 A_CheckSight("FindTarget")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	TNT1 A 0 A_CheckSight("FindTarget")
+	
+	//TNT1 A 0 A_Log("See Again")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	TNT1 A 0 A_CheckSight("FindTarget")
+	
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN) //??
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	ANTW AAA 3 A_Chase("Melee","",CHF_NORANDOMTURN|CHF_NODIRECTIONTURN)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+	
+	TNT1 A 0 A_CheckProximity("See","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("See","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("See","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("See","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_Jump(256, "Vanish_Ants")	//Virtual Jump			//Goto Vanish
+	Stop
+  FindTarget:
+	TNT1 A 0 A_Log("Find")
+	TNT1 A 0 A_ChangeFlag("SOLID",FALSE)
+	
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_CustomComboAttack("AntsWallCheck", 0, 1, "")//A_SpawnItemEx("FootballWallCheck",-16,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+	//TNT1 A 0 A_SpawnItemEx("WallCheck",-4,0,32,80,0,0)
+	ANTW AAA 3 {
+		if( A_CheckProximity("Climb","AntsWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST) )
+			{	A_Log("Found Wall"); return state("Climb");	}
+		//A_Recoil(-3);
+		return state(0);
+	}
+	
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_CustomComboAttack("AntsWallCheck", 0, 1, "")//A_SpawnItemEx("FootballWallCheck",-16,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+	ANTW BBB 3 {
+		if( A_CheckProximity("Climb","AntsWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST) )
+			{	A_Log("Found Wall"); return state("Climb");	}
+		//A_Recoil(-3);
+		return state(0);
+	}
+	
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_CustomComboAttack("AntsWallCheck", 0, 1, "")//A_SpawnItemEx("FootballWallCheck",-16,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+	ANTW CCC 3 {
+		if( A_CheckProximity("Climb","AntsWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST) )
+			{	A_Log("Found Wall"); return state("Climb");	}
+		//A_Recoil(-3);
+		return state(0);
+	}
+	
+	TNT1 A 0 A_CheckProximity("","PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","InChaseSpawn",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_CustomComboAttack("AntsWallCheck", 0, 1, "")//A_SpawnItemEx("FootballWallCheck",-16,0,16,80,0,0,0,SXF_ABSOLUTEANGLE|SXF_NOCHECKPOSITION,0,0)
+	ANTW DDD 3 {
+		if( A_CheckProximity("Climb","AntsWallDetected",80,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST) )
+			{	A_Log("Found Wall"); return state("Climb");	}
+		//A_Recoil(-3);
+		return state(0);
+	}
+	TNT1 A 0 A_CheckSight("Vanish_Ants")
+	Goto See
+	
+  Climb:
+	TNT1 A 0 A_Log("To Climb")
+	TNT1 A 0 A_Recoil(-6)
+	ANTJ AAA 3
+	
+	ANTJ A 1 A_ChangeFlag("NOCLIP", True)
+	ANTJ A 0 A_ChangeFlag("FLOAT", True)
+	//TNT1 A 0 A_FaceTarget
+	ANTJ A 1 A_Recoil(-6)
+	ANTJ BBB 3
+	
+	TNT1 A 0 A_ChangeFlag("NOCLIP", False)
+	ANTJ A 0 A_ChangeFlag("FLOAT", False)
+	TNT1 A 0 A_Recoil(-4)
+	ANTJ CCC 3
+	Goto See
+	
+  NoChase:
+	TNT1 A 0 A_Log("Wander")
+	ANTW AAA 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ANTW BBB 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ANTW CCC 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+	ANTW DDD 3 A_Wander
+	TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,1)
+	Goto Idle
+
+  Melee:
+	ANTW A 0 
+	ANTW A 0 A_Jump(256, "Melee_Check")
+	Stop
+
+  MeleeReal:
+	TNT1 A 0 A_Log("Melee")
+	TNT1 A 0 A_JumpIfInTargetinventory("IsDead",1,"Death")
+    ANTW A 1 A_FaceTarget
+    ANTW A 1 A_CustomMeleeAttack((10),"","","Zombie")
+	ANTW A 1
+	ANTW ABB 3
+    Goto Idle
+  Pain.Reduce:
+	TNT1 A 0 A_Jump(256, "Vanish")	//Vanish No Checks
+	Stop
+  Pain:
+	ANTW A 1 A_JumpIfInventory("FreezeTime",1,2)
+    Goto See
+	TNT1 A 0 ACS_NamedExecuteAlways("DamageTaken",0,20,0,0)
+    Goto FreezeTime
+  Pain.Popsicle:
+  Pain.FireExtinguisher:
+	FZOM A 1 ACS_NamedExecuteAlways("GiveFreeze",0,17,0,0)
+	FZOM A 0 A_Jump(256, "FreezeTime_Zombie")
+	Stop
+
+  ChangeTarget:
+	ANTW A 1 A_ClearTarget
+	Goto Idle
+  Death:
+	TNT1 A 0 ACS_NamedExecuteAlways("MonsterLess",0,0,0,0)
+	TNT1 A 0 A_GiveInventory("ScorePoints",100,AAPTR_TARGET)
+	TNT1 A 0 A_PlaySound("Something/Bam2",0,0.5,false,ATTN_NORM)
+    ANTD A 1 A_NoBlocking
+    ANTD ABCDE 5 
+    TNT1 A 1
+    Stop
+  Vanish_Animation:
+	ANTS CBA 10
+	Stop
+  }
+}
+
+Actor AntsWallCheck : FastProjectile
+{
+	Height 16
+	Radius 16//24
+	Speed 80
+	RenderStyle "None"
+	Damage(1)
+	//-RIPPER
+	-SOLID
+	//+NOCLIP
+	//+THRUACTORS
+	States
+	{
+		Spawn:
+			ALRT B 2//4 //A_log("Tackle")
+		Death:
+			TNT1 A 1 A_SpawnItemEx("AntsWallDetected")	
+			Stop
+	}
+}
+
+Actor AntsWallDetected	//If colission gets funky change the TNT1 to ALRT to see
+{							//what is hitting into
+	Height 4
+	Radius 8
+	RenderStyle "None"
+	+NOCLIP
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		//TNT1 A 0 A_Log("Wall")
+		SRVD A 3//4
+		Stop
+	}
+}
