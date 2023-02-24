@@ -160,6 +160,7 @@ ACTOR Ants : SpawnableMonster_ZAMN 12313
 	
   Climb:
 	TNT1 A 0 A_Log("To Climb")
+	TNT1 A 0 CallACS("AngleToCardinalBasic",0)//A_SetAngle(
 	TNT1 A 0 A_Recoil(-6)
 	ANTJ AAA 3
 	
