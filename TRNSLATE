@@ -12,7 +12,7 @@ GiantPodHit = "55:55 = [80, 192, 248]:[80, 192, 248]", "56:56 = [0, 144, 248]:[0
 
 
 
-//Mushroom Palletes
+//Mushroom Palletes	[Deprecated, the palletes are correct but there's a better implementation currently]
 //-----------------
 
 //[Mushroom Day:] //Normal

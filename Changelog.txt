@@ -1,17 +1,23 @@
-+ "ZAMN_MAIN" (??th February, 2023)
++ "ZAMN_MAIN" (04th March, 2023) [February Demo, Sorry for being late! ;;]
 -------------------------------------------------------------
 [Zamn TC]
 - Added Level 16 "From The Depths Of The Earth: Ants"
+- Edited several sprites for the "Giant Ants"
+- Added wip enemies "Giant Ants" with support for picking up 4 items (Bazooka/WaterPickup/ScoreA/ScoreB).
+	More support for further items will be added later.
+- Also the "Red Giant Ants" will use the same code, but their pallete translation isn't done yet.
 - Added Custom Survivor "S_DOG2"
 - Addendum to Level 4 "Chainsaw Hedgemaze Mayhem" as a Patreon commission
 - Reworked some collision to improve performance on Level 5 "Weird Kids On The Block"
-- Tweaked windows behind tiny drawers in all maps.
+- Tweaked tiny windows behind tiny drawers in all maps.
 - Cleaning and Removal of redundant 3D Floors on Custom Level "Camp Terror"
 - Replaced Frankestein Frames "FRKWB4B6" and "FRKWB5" with non corrupted alternatives.
 
 [Standalone ZAMNTC]
 - Setup main file as a folder and uploaded it as a repository 
 to Github: https://github.com/Dude27th/ZAMN_MAIN_MASTER
+( As of 04/03/23 the Github repo doesn't have the latest update due to internet connection problems,
+	it will be updated once I can connect it properly again )
 
 [Add-Ons]
 - "Beta_FrankesteinSprites" added, which replaces the Frankestein Sprites with the ones from the "Monsters" Beta version of ZAMN.

@@ -101,6 +101,20 @@ Actor MonsterClass_ZAMN
 							/*^  This hides the fact that that there's no despawn animation, there should be a despawn animation*/
 			TNT1 A 0 A_Jump(256, "Vanish")
 			Stop
+		Vanish_Ants:
+			ANTD A 0 {
+				if(Args[0] == 1)	//Bazooka
+					{	A_SpawnItemEx("BazookaPickup");}
+				else if(Args[0] == 2)	//Water
+					{	A_SpawnItemEx("WaterPickup");}
+				else if(Args[0] == 3)	//ScoreA : Gold
+					{	A_SpawnItemEx("ScoreA");}
+				else if(Args[0] == 4)	//ScoreB : Dollar
+					{	A_SpawnItemEx("ScoreB");}
+			}
+			TNT1 A 0 A_Jump(256, "Vanish")
+			Stop
+
 		Vanish:			//Generic State
 			TNT1 A 0 A_ChangeFlag(Invulnerable, True)
 			TNT1 A 0 A_ChangeFlag(NoPain, True)

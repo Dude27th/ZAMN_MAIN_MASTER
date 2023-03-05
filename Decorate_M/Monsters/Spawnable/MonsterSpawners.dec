@@ -928,6 +928,57 @@ Actor Spawn_GillMen 12312	//Fixed Despawn!
 	}
 }
 
+Actor Spawn_Ants 12313	//Fixed Despawn!
+{
+	Radius 32
+	Height 1
+	Mass 4000
+	+NOCLIP
+	+NOTARGET
+	+NOTELEFRAG
+	-FRIENDLY
+	//$Category "Zombies Ate My Neighbors/Monsters/"
+	//$Arg0 "Spawn Radius"
+	//$Arg1 "Delay Tics"
+	//$Color 4
+	States
+	{
+		Spawn:
+			ANTW A 0
+			TNT1 A 0 ACS_NamedExecuteAlways("SetDelay",0,Args[1],0,0)
+			TNT1 A 0 A_LookEX(0,0,0,0,360,"Idle")
+			Goto Idle
+		Idle:
+			TNT1 A 1 A_CheckProximity("","PlayerPawn",512,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			TNT1 A 1 A_JumpIfInTargetInventory("IsDead",1,"Idle")
+			//TNT1 A 1 A_LookEx(LOF_NOSOUNDCHECK|LOF_DONTCHASEGOAL,0,600,0,360,"SpawnSeed")
+			TNT1 A 1 A_CheckProximity("SpawnSeed","PlayerPawn",512/*768*/,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
+			Loop
+		SpawnSeed:
+			TNT1 A random(0,8)	//Prevent Overstep 
+			TNT1 A 0 ACS_NamedExecute("MonsterAllow",0,0,0,0)
+			TNT1 A 1
+			TNT1 A 0 A_JumpIfInventory("MonsterDiscount",1,"Reduce")
+			TNT1 A 0 A_JumpIfInventory("MonsterAllow",1,1)
+			Goto Idle
+			TNT1 A 0 A_TakeInventory("MonsterAllow",1)
+			TNT1 A 0 A_JumpIf(Args[2] == 1, 1)
+			//TNT1 A 0 A_CheckSight("SpawnSeed")
+			TNT1 A 1 A_SpawnItemEx("Ants",random(-Args[0],Args[0]),random(-Args[0],Args[0]),0,0,0,0,0,SXF_SETMASTER|SXF_TRANSFERPOINTERS)
+		Delay:
+			TNT1 A 1 A_TakeInventory("Delay",1)
+			TNT1 A 0 A_JumpIfInventory("Delay",1,"Delay")
+			TNT1 A 1
+			TNT1 A 0 ACS_NamedExecuteAlways("SetDelay",0,Args[1],0,0)
+			Goto Idle
+		Reduce:
+			TNT1 A 1 A_TakeInventory("MonsterDiscount",1)
+			TNT1 A 1 A_DamageChildren(0,"Reduce")
+			TNT1 A 1 A_DamageChildren(0,"Reduce")
+			TNT1 A 1 A_DamageChildren(0,"Reduce")
+			Goto Idle
+		}
+}
 
 
 

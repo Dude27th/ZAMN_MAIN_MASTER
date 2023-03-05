@@ -64,10 +64,7 @@ Script "GetCardinalBasic" (int AnglePointer)
 	}
 }
 
-Script "AngleToCardinalBasic" (int Angle)
-{
-	Log(i: Angle);
-}
+
 
 Script "Reposition" (void)
 {

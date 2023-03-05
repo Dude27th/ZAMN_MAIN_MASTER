@@ -2,7 +2,7 @@
 #include "zcommon.acs"
 #include "CUValues.acs"
      
-    
+      
 ///////////////////////////////
 //       SPAWN CONTROL!      //
 ///////////////////////////////
@@ -615,6 +615,7 @@ Script "SetHitUFO" (void)
 	SetTranslation(0,"Normal");
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -838,7 +839,29 @@ Script "CheckWaterSplash" (void)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Ants
+
+Script "AngleToCardinalBasic" (void)	//WIP
+{
+	int angleact = GetActorAngle(0) * 360;//>> 8;
+	log(i: (GetActorAngle(0) * 360) );
+}
+
+Script "GetAntInventory" (void)
+{
+	SetResultValue(CheckInventory("AntInventory"));
+}
+
+Script "AntItemStarter" (void)
+{
+	GiveInventory("AntInventory",1);
+	Delay(140);
+	Restart;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 Script "LogSpawn" (void)	{	Log(s: "Monster Spawned!");	}

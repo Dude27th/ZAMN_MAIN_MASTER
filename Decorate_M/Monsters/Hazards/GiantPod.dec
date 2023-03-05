@@ -604,6 +604,7 @@ Damage (0)
 +FORCEXYBILLBOARD
 +STANDSTILL
 +FLOORHUGGER
++AMBUSH //<- Fixes stuttering
 -SOLID
 -FRIENDLY
 
@@ -830,7 +831,7 @@ Speed  20//11
 Mass 450//900//450
 Damage (0)
 Scale 1.15
-RenderStyle "None"//"Normal"
+RenderStyle "None"//"Normal"//
 Projectile
 DamageType "FloorHazard"
 SeeSound ""
@@ -853,6 +854,31 @@ States
 }
 
 Actor FloorHazardProjectileBig : FloorHazardProjectile
+{
+	Radius 16
+	Scale 2.30
+	States
+	{
+		Death:
+		TNT1 A 0 A_Explode(10,32,0,0,32,0,0,"BulletPuff","FloorHazard") 
+		Stop
+	}
+}
+
+
+
+Actor SpikeHazardProjectile : FloorHazardProjectile
+{
+	RenderStyle "Normal"//"Normal"//
+	States
+	{
+		Spawn:
+		GPOP A 8//35//4
+		Stop
+	}
+}
+
+Actor SpikeHazardProjectileBig : SpikeHazardProjectile
 {
 	Radius 16
 	Scale 2.30

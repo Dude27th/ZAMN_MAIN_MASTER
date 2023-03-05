@@ -53,6 +53,7 @@ ACTOR T_LEAFSDAY 14500
   DamageFactor "Martian", 0
   DamageFactor "FootballTackle_Right", 0
   DamageFactor "FootballTackle_Left", 0
+  DamageFactor "Ant_WallCheck", 0
   -SOLID
   //+NOGRAVITY
   -FLOAT

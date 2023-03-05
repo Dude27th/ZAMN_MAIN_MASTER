@@ -715,7 +715,7 @@ Example:
 		...
 		}
 
-		This script will give points on a constant loop to the player while he/she/they is still on the level.
+		This script will give points on a constant loop to the player while they are still on the level.
 		It checks if the result is '0' and if it is, then it will wait 1 tic (1/35 second) before checking again
 		until the result returns '1'.
 		And then it will terminate this same script.

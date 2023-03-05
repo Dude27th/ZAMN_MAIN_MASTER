@@ -1345,7 +1345,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 
 ACTOR ZEKE_MONSTER : ZEKE_PLAYER//ZAMN_PLAYER
 {						//MonsterPlayer has to inherit from Zeke's/Julie's Player Class and not from base ZAMN Class.
-	Speed 0.570			//This is because by doing it this way you also inherit Zeke's/Julie's inventory management and allowing to pickup weapons.
+	Speed 0.570			//This is because by doing it this way you also inherit Zeke's/Julie's inventory management and allows it to pickup weapons.
 	Mass 1000
 	PainChance 1
 	Friction 0.99999999999999999999999990000
@@ -1501,35 +1501,7 @@ ACTOR JULIEGP_PLAYER : JULIE_PLAYER
 }
 */
 
-Actor GPPlayerDust
-{
-Height 10
-Radius 5
-+NOCLIP
-+NOGRAVITY
-+FORCEXYBILLBOARD
-States
-	{
-	Spawn:
-	  GPDS A 1
-	  TNT1 A 1
-	  GPDS B 1
-	  TNT1 A 1
-	  GPDS B 1
-	  TNT1 A 1
-	  GPDS C 1
-	  TNT1 A 1
-	  GPDS C 1
-	  TNT1 A 1
-	  GPDS D 1
-	  TNT1 A 1
-	  GPDS D 1
-	  TNT1 A 1
-	  GPDS D 1
-	  TNT1 A 1
-	Stop
-	}
-}
+
 
 
 
