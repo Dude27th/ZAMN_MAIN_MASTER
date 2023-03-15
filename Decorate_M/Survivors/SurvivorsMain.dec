@@ -28,12 +28,12 @@ Actor SurvivorBase_ZAMN : CustomInventory
   DamageFactor "FlameThrower", 		0
   DamageFactor "Banana", 			0
 
-  DamageFactor "Alert", 0
-  DamageFactor "FloorHazard", 0
-  DamageFactor "Zombie", 0.1
-  DamageFactor "TitanicStomp", 0.1
-  DamageFactor "Martian", 0.1
-  PainChance "SetArg", 256
+  DamageFactor "Alert", 			0
+  DamageFactor "FloorHazard", 		0
+  DamageFactor "Zombie", 			0.1
+  DamageFactor "TitanicStomp", 		0.1
+  DamageFactor "Martian", 			0.1
+  PainChance "SetArg", 		256
   -SOLID
   +SHOOTABLE	//
   -PUSHABLE

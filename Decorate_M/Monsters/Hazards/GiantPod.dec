@@ -869,7 +869,7 @@ Actor FloorHazardProjectileBig : FloorHazardProjectile
 
 Actor SpikeHazardProjectile : FloorHazardProjectile
 {
-	RenderStyle "Normal"//"Normal"//
+	RenderStyle "None"//"Normal"//
 	States
 	{
 		Spawn:

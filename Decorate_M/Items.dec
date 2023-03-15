@@ -7,9 +7,9 @@ Actor CustomInventoryItem: CustomInventory	//Dummy so GZDB doesn't mark 20 or so
 {}
 
 Actor GoodHealthToken : ItemToken	{}
-Actor FreezeTime : MoreInventory		{	Inventory.MaxAmount 500000	}
-Actor Delay : MoreInventory				{	Inventory.MaxAmount 500000	}
-Actor MLifeToken : MoreInventory		{	Inventory.MaxAmount 3		}
+Actor FreezeTime : MoreInventory	{	Inventory.MaxAmount 500000	}
+Actor Delay : MoreInventory			{	Inventory.MaxAmount 500000	}
+Actor MLifeToken : MoreInventory	{	Inventory.MaxAmount 3		}
 Actor MediFirstUsed : ItemToken		{}
 Actor SpeedyToken : ItemToken		{}
 Actor DoMonsterToken : ItemToken	{}

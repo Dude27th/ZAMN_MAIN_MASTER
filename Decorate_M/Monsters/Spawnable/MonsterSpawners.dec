@@ -980,8 +980,25 @@ Actor Spawn_Ants 12313	//Fixed Despawn!
 		}
 }
 
-
-
+Actor Spawn_AntsRed : Spawn_Ants 12314
+{
+	//$Sprite "ATRWA1"
+	States
+	{
+		SpawnSeed:
+			TNT1 A random(0,8)	//Prevent Overstep 
+			TNT1 A 0 ACS_NamedExecute("MonsterAllow",0,0,0,0)
+			TNT1 A 1
+			TNT1 A 0 A_JumpIfInventory("MonsterDiscount",1,"Reduce")
+			TNT1 A 0 A_JumpIfInventory("MonsterAllow",1,1)
+			Goto Idle
+			TNT1 A 0 A_TakeInventory("MonsterAllow",1)
+			TNT1 A 0 A_JumpIf(Args[2] == 1, 1)
+			//TNT1 A 0 A_CheckSight("SpawnSeed")
+			TNT1 A 1 A_SpawnItemEx("Ants_Red",random(-Args[0],Args[0]),random(-Args[0],Args[0]),0,0,0,0,0,SXF_SETMASTER|SXF_TRANSFERPOINTERS)
+			Goto Delay
+	}
+}
 
 
 

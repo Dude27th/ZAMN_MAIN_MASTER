@@ -2,17 +2,10 @@
 //TODO LIST:
 //----------- High Priority ------------//
 //
-// - [BUG] Failed Spawns:	Sometimes the Spawners [especially the Zombie Spawner] creates problems with the 
-//							spawning scripts. And all spawn points stop working until they player activate
-//							the spawns causing the problem again.
+// - [BUG] Failed Spawns:	Fixed with the Halloween Demo, altough the EvilDoll spawns still cause some issues.
 //
 // - Rework Triggers :		They don't need to have different actors for different palletes-.
 //							It can just be an argument.
-//
-// - All levels  tweak:		Tiny drawer window should have the Door's top as well.
-//							They can't end on the wooden floor.
-//
-//							Water shadow shouldn't be sector based, but 3D floor based. [Look at "Dinner On Monster Island" for explanation]
 //
 // - Weapons / Easter Eggs:	Use a global str to determine the game type, default should be ZAMN.
 //							When all weapons cheat is active check this variable, and launch a Script Cleaning easter eggs weapon.
@@ -21,9 +14,7 @@
 //
 //------------ Low Priority ------------//
 //
-// - [BUG]	:				Player's Invincibility frames can retrigger at times, breaking invulnerability times.
-//							(Somewhat fixed now due to "HealthCheckHelper" reactivating Invulnerbaility)
-//							Still, the player fails sometimes to enter Pain State, skipping Invulnerability.
+// - [BUG]	:				Player pain sound doesn't activate always
 //							
 //
 // - Frankestein:			Finish Voxel Spawn animation !
@@ -44,9 +35,6 @@
 //							(YEAH, SEVERAL MONSTERS NEED MORE FINE TUNNING, EVEN MORE NOW THAT)
 //							(I HAVE MORE EXACT INFO ABOUT THEIR RESISTANCES, INCLUDING BOSSES)
 //
-// - Custom Level Idea:		"Campament Fear", a mix between a slasher Friday 13th-esque place, with a Lover's Peak.
-//							(ALL RIGHT THIS SOUNDS COOL, BUT YEAH A LOT OF ASSETS SHOULD BE MADE FOR IT)
-//							(IN THE BACKBURNER FOR NOW)
 //
 //----------- Maybe won't fix ----------//
 //

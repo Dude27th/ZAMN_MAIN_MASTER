@@ -1,3 +1,24 @@
++ "ZAMN_MAIN" (??th March, 2023) [March Demo]
+-------------------------------------------------------------
+[Zamn TC]
+- Added Pallete Translation for "Ants_Red"
+- Added "Ants_Red" wip enemies
+- Fixed stuttering on levels with tons of Mushroom/Spike Hazards enemies
+- Rewrote Spike_Metal Hazards to improve performance
+- Fixed oversight with the UFO Boss not seeing the player if it wasn't alerted first
+
+[Zamn Core]
+- Added 2-dimensional arrays to contain all the names of the Title Cards.
+	One for the "Normal_Levels" and another for the "Bonus_Levels" and the previous system will be deprecated, 
+	"Custom Levels" will not change though as they need the previous, more flexible approach.
+- Re-organized the [Guide] documentation as .acs files so it's more accesible from map editors.
+- Some cleaning of unnecesary acs libraries, and re-organized "LOADACS" as to portray better the libraries loaded.
+- Re-organized "Maps" folder, compiled Custom Level maps into "Maps_3-Custom" and 
+	compiled Menu maps into "Maps_0-Menu" as well. This was done to reduce clutter on the maps folder. 
+
+
+
+
 + "ZAMN_MAIN" (04th March, 2023) [February Demo, Sorry for being late! ;;]
 -------------------------------------------------------------
 [Zamn TC]

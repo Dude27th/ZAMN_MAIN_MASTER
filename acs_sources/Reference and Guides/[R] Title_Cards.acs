@@ -1,0 +1,156 @@
+//[Don't compile this, is just for reference]
+
+
+						/*--------------------------*/
+						/*		  TITLE CARDS		*/
+						/*--------------------------*/
+
+Every level has two Title Cards.
+Which are pngs in the form of strips, that you can check in the textures.
+This is how they work.
+
+Example:
+--------
+
+(...)			
+str Card1= "CUST_STR";		
+str Card2= "CUST_FIN";		
+
+You have to set this in the scripts 
+part of the map in GZDoom Builder for each map.
+
+
+
+
+
+
+The way that "ZAMN TC" handles this is by using two strips.
+
+The first strip "****_STR", shows the initial black screen at the bottom
+and the initial text at the upper half.
+
+
+---------------
+|         	  |
+| /*Text 1*/  |
+|         	  |
+---------------
+|             |
+| /*(void)*/  |
+|             |
+---------------
+
+
+
+The script handling the animation will start showing the lower
+part of the "****_STR" and it will scroll rapidly to make the effect 
+of the text falling and bouncing onto the screen.
+
+
+The second strip "CUST_FIN", shows the initial text now 
+in the lower half, and the final text at the upper half.
+
+---------------
+|         	  |
+| /*Text 2*/  |
+|         	  |
+---------------
+|             |
+| /*Text 1*/  |
+|             |
+---------------
+
+
+
+The script handling the animation will start showing the lower
+part of the "CUST_FIN" (So the change between stips looks seamless)
+and it will repeat the scrolling with the second strip.
+
+
+Finally it will end with the upper half of "CUST_FIN" in front of the camera
+and in another layer it will play the fade out animation.
+
+---------------
+|         	  |
+| /*Text 2*/  |
+|         	  |
+---------------
+
+
+(...)
+
+---------------
+|         	  |
+| /*Fading*/  |
+|         	  |
+---------------
+
+
+
+And that's it! c:
+
+
+						/*--------------------------*/
+						/*    CUSTOM TITLE CARDS	*/
+						/*--------------------------*/
+
+The Custom Title Cards work in the same way than the regular title cards.
+Apart from the difference on syntax mentioned on "[Guide] MapperScripts" 
+this TitleCards can also be HD as , they are textures.
+
+As an example there's 10 TitleCards included to work as a Test:
+- "CCARD1"
+- "CCARD2"
+- "CCARD3"
+- "CCARD4"
+- "CCARD5"
+- "CCARD6"	/ "CCARD6" (hires)
+- "CCARD7"	/ "CCARD7" (hires)
+- "CCARD8"
+- "CCARD9"
+- "CCARD10"
+
+
+
+
+    "CCARD1"         "CCARD2"         "CCARD3"         "CCARD4"         "CCARD5"
+---------------  ---------------  ---------------  ---------------  ---------------
+|         	  |  |             |  |             |  |             |  |             |
+| /*Text 1*/  |  | /*Text 2*/  |  | /*Text 3*/  |  | /*(image)*/ |  | /*Text 5*/  |
+|         	  |  |         	   |  |         	|  |         	 |  |         	  |
+---------------  ---------------  ---------------  ---------------  ---------------
+|             |  |             |  |             |  |             |  |             |
+| /*(void)*/  |  | /*Text 1*/  |  | /*Text 2*/  |  | /*Text 3*/  |  | /*(image)*/ |
+|             |  |			   |  |             |  |             |  |             |
+---------------  ---------------  ---------------  ---------------  ---------------
+
+
+    "CCARD6"         "CCARD7"         "CCARD8"         "CCARD9"        "CCARD10"
+---------------  ---------------  ---------------  ---------------  ---------------
+|         	  |  |             |  |             |  |             |  |             |
+| /*(image)*/ |  | /*Text 7*/  |  | /*Text 8*/  |  | /*Text 9*/  |  | /*Text 10*/ |
+|         	  |  |         	   |  |         	|  |         	 |  |         	  |
+---------------  ---------------  ---------------  ---------------  ---------------
+|             |  |             |  |             |  |             |  |             |
+| /*Text 5*/  |  | /*(image)*/ |  | /*Text 7*/  |  | /*Text 8*/  |  | /*Text 9*/  |
+|             |  |			   |  |             |  |             |  |             |
+---------------  ---------------  ---------------  ---------------  ---------------        	  |
+
+
+
+The textures of the TitleCards "CCARD6" and "CCARD7" are HD, or Hi-Resolution.
+
+- To make HD textures you have to place a texture with the target dimension in the "textures"
+  folder, in this case the resolution of the strips is of 256x448.
+
+- So both "CCARD6" and "CCARD7" have textures with that resolution on the textures folder.
+
+- And then you place the real high definition textures in the "hires" folder, 
+  with the same names as the textures that they are meant to replace.
+
+- This way the HD textures of the "hires" folder will be scaled down 
+  or up to the resolution of the textures placed in the "textures" folder 
+  with their same names.
+
+
+And that should be it! ^^

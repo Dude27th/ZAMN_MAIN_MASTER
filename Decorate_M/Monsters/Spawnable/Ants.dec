@@ -396,8 +396,8 @@ Actor Ants_Red : Ants
 	States
 	{
 	Spawn_Set:
-		TNT1 A 1 //A_LookEX(0,0,0,0,360,"Spawn2")
-		TNT1 A 0 //ACS_NamedExecuteAlways("AntRedPallete", 0, 0, 0, 0)
+		TNT1 A 0 ACS_NamedExecuteAlways("RedAntPallete", 0, 0, 0, 0)
+		TNT1 A 1 A_LookEX(0,0,0,0,360,"Spawn2")
 		Goto Spawn2
 	}
 }

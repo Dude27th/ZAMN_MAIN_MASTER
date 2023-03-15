@@ -1,4 +1,6 @@
-// Player Select Animations
+// 
+//Player Select Animations ::
+//---------------------------
 
 texture CLPZEK01
 	pic CLPZEK32 tics 1
@@ -69,8 +71,47 @@ texture CLPJUL01
 	pic CLPJUL01 tics 1
 
 
-// Video Layer: Zombie Panic
+// 
+//Level Select Animations ::
+//---------------------------
 
+
+// Movie Roll 
+texture MOVR_01
+	pic MOVR_01 tics 1
+	pic MOVR_02 tics 1
+	pic MOVR_03 tics 1
+	pic MOVR_04 tics 1
+	pic MOVR_05 tics 1
+	pic MOVR_06 tics 1
+	pic MOVR_07 tics 1
+	pic MOVR_08 tics 1
+	pic MOVR_09 tics 1
+	pic MOVR_10 tics 1
+	pic MOVR_11 tics 1
+	pic MOVR_12 tics 1
+	pic MOVR_13 tics 1
+	pic MOVR_14 tics 1
+	pic MOVR_15 tics 1
+	pic MOVR_16 tics 1
+	pic MOVR_17 tics 1
+	pic MOVR_18 tics 1
+	pic MOVR_19 tics 1
+	pic MOVR_20 tics 1
+	pic MOVR_21 tics 1
+	pic MOVR_22 tics 1
+	pic MOVR_23 tics 1
+	pic MOVR_24 tics 1
+	pic MOVR_25 tics 1
+	pic MOVR_26 tics 1
+	pic MOVR_27 tics 1
+	pic MOVR_28 tics 1
+	pic MOVR_29 tics 1
+	pic MOVR_30 tics 1
+	pic MOVR_31 tics 1
+	pic MOVR_32 tics 1
+
+// Video Layer: Zombie Panic
 texture ZPF0400
 	pic ZPF0400 tics 1
 	pic ZPF0402 tics 1
@@ -250,7 +291,6 @@ texture ZPF0400
 	pic ZPF0750 tics 1
 
 // Video Layer: Day Of The Tentacle [Bonus]
-
 texture DTC0340
 	pic DTC0340 tics 1
 	pic DTC0342 tics 1
@@ -430,7 +470,6 @@ texture DTC0340
 	pic DTC0690 tics 1
 
 // Video Layer: Evening Of The Undead
-
 texture EVG1286
 	pic EVG1286 tics 1
 	pic EVG1288 tics 1
@@ -610,7 +649,6 @@ texture EVG1286
 	pic EVG1636 tics 1
 	
 // Video Layer: Terror In Aisle Five
- 
 texture T5F0226
 	pic T5F0226 tics 1
 	pic T5F0228 tics 1
@@ -790,7 +828,6 @@ texture T5F0226
 	pic T5F0576 tics 1
 
 // Video Layer: Chainsaw Hedgemaze Mayhem
-
 texture HEG1350
 	pic HEG1350 tics 1
 	pic HEG1352 tics 1
@@ -970,7 +1007,6 @@ texture HEG1350
 	pic HEG1700 tics 1
 
 // Video Layer: Weird Kids On The Block
-
 texture WKF1192
 	pic WKF1192 tics 1
 	pic WKF1194 tics 1
@@ -1150,7 +1186,6 @@ texture WKF1192
 	pic WKF1542 tics 1
 
 // Video Layer: Pyramid Of Fear
-
 texture PYF0300
 	pic PYF0300 tics 1
 	pic PYF0302 tics 1
@@ -1330,7 +1365,6 @@ texture PYF0300
 	pic PYF0650 tics 1
 
 // Video Layer: Dr Tongue's Castle Of Terror
-
 texture DTC2830
 	pic DTC2830 tics 1
 	pic DTC2832 tics 1
@@ -1510,7 +1544,6 @@ texture DTC2830
 	pic DTC3180 tics 1
 
 // Video Layer: Titanic Toddler
-
 texture TTD1606
 	pic TTD1606 tics 1
 	pic TTD1608 tics 1
@@ -1690,7 +1723,6 @@ texture TTD1606
 	pic TTD1956 tics 1	
 
 // Video Layer: Toxic Terrors
-
 texture TTF0902
 	pic TTF0902 tics 1
 	pic TTF0904 tics 1
@@ -2048,7 +2080,6 @@ texture MSM0280
 	pic MSM0630 tics 1
 
 // Video Layer: No Assembly Required
-
 texture NAR0260
 	pic NAR0260 tics 1
 	pic NAR0262 tics 1
@@ -2228,7 +2259,6 @@ texture NAR0260
 	pic NAR0610 tics 1
 
 // Video Layer: Weeds Gone Bad
-
 texture WGB0520
 	pic WGB0520 tics 1
 	pic WGB0522 tics 1
@@ -2407,6 +2437,7 @@ texture WGB0520
 	pic WGB0868 tics 1
 	pic WGB0870 tics 1
 
+// Video Layer: Weeds Gone Bad
 texture MRS0650
 	pic MRS0650 tics 1
 	pic MRS0652 tics 1

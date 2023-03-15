@@ -656,7 +656,7 @@ Script "FinishPoint2" (void)
 ///////////////////////////////
 
 
-
+/*
 ///////////////////////////////
 //        TRAMPOLINES!       //
 ///////////////////////////////
@@ -681,8 +681,8 @@ Script "TrampolineMaster" (int trampolinetag, int pallete)
 				case 0:	bouncetiles[0]="TRAMP_J"; bouncetiles[1]="TRAMP_J2"; bouncetiles[2]="TRAMP_F";	Break;
 				case 1: bouncetiles[0]="NTRAM_J"; bouncetiles[1]="NTRAM_J2"; bouncetiles[2]="NTRAM_F";	Break;
 				case 2: bouncetiles[0]="TTRAMPJ"; bouncetiles[1]="TTRAMPJ2"; bouncetiles[2]="TTRAMPF";	Break;
-				case 3: /* Winter */																	Break;
-				case 4: /* Spring */																	Break;
+				case 3: // Winter 																	//Break;
+				case 4: // Spring 																	//Break;
 			}
 			ChangeFloor(trampolinetag,bouncetiles[0]);
 			Delay(10);
@@ -717,7 +717,7 @@ Script "Trampoline Sound" (void)
 			Delay(15);
 			TakeInventory("Bouncing",1);	}
 }
-
+*/
 
 
 

@@ -1,0 +1,459 @@
+#include "acsutils.acs"
+
+
+/* Common use values used by several libraries, 
+you can import this values instead of redefining them everytime*/
+//Also added set values that don't need to be redefined.
+
+//-----------------------------//-----------------------------//-----------------------------//
+//  Zombies Ate My Neighbors:  //-----------------------------//-----------------------------//
+//-----------------------------//-----------------------------//-----------------------------//
+
+#libdefine ZCAM_ZAMN			42.0	//Universal at the moment
+
+//APROP_Speed
+
+//Player.Speed 0.56 	== 	36700
+
+#libdefine SPEED_SHOES 		65536		//<-- Speed Shoes
+#libdefine SPEED_SHOESWACK 	51118		//<-- Speed Shoes  - WeedWack Cap
+#libdefine SPEED_NORMAL 	36700		//<-- Normal Speed
+#libdefine SPEED_WACK		21626		//<-- Normal Speed - WeedWack Cap  [Heavy Weapon]
+#libdefine SPEED_HALF 		18350		//<-- Half Default Speed [Floor Hazard]
+
+
+#libdefine ZJUMP_ZAMN 		6.0
+
+
+
+// This converts the map units into ints to be easier to work with.
+// 1 mapunit in x,y,z is equivalent to 65536 in ints
+function int MapUnit_ToInt (int mapunit)
+{
+	return mapunit / 65536;	
+}
+
+function int IntTo_MapUnit (int intnumb)
+{
+	return intnumb * 65536;
+}
+
+
+//Cardinal Angles aka 8 directional angles
+int CardinalAngles[8] = {0, 45, 90, 135, 180, 225, 270, 315}; //,360 == 0
+
+Script "GetCardinalAngle" (int AnglePointer)
+{	if(AnglePointer < 8)
+		SetResultValue(CardinalAngles[AnglePointer]);
+	else
+		Log(s: "Pointer has to be 0 - 7.");
+}
+
+Script "GetCardinalBasic" (int AnglePointer)
+{
+	int result = 0;
+
+	switch(AnglePointer)
+	{
+		case 0:	SetResultValue(CardinalAngles[0]);	Break;
+		case 1:	SetResultValue(CardinalAngles[2]);	Break;
+		case 2:	SetResultValue(CardinalAngles[4]);	Break;
+		case 3:	SetResultValue(CardinalAngles[6]);	Break;
+
+		Default:	Log(s: "Use 'GetCardinalAngle' instead of 'GetCardinalBasic' to have all 8 cardinals.");	Break;
+	}
+}
+
+
+
+Script "Reposition" (void)
+{
+	int OwnX = GetActorX(0);
+	int OwnY = GetActorY(0);
+	int OwnZ = GetActorZ(0);
+
+	SetActorPosition(0,OwnX,OwnY,OwnZ,false);
+}
+
+
+//[RESERVED TAGS]
+
+#libdefine TAG_POINT1SHOWCASE 51
+#libdefine TAG_POINT2SHOWCASE 52
+#libdefine TAG_POINT3SHOWCASE 53
+#libdefine TAG_POINT4SHOWCASE 54
+#libdefine TAG_POINT5SHOWCASE 55
+
+#libdefine TAG_TRIGGERPROPSPAWN 555
+#libdefine TAG_STANLEYWALLSET1 800			//Deprecated?
+#libdefine TAG_STANLEYWALLSET2 840			//Deprecated?
+
+#libdefine TAG_P1FINISHSPOT 994
+#libdefine TAG_P2FINISHSPOT 995
+
+#libdefine TAG_MAGICDOORSPAWN 998
+
+//[OTHER VALUES]
+
+#libdefine STAY_MORPHED 	0x7FFFFFFF
+#libdefine SPAWNLIMIT_ZAMN 	6
+
+
+#libdefine  ZAMN_WATSIZE  8	 //<-- <-- Update the size by the number of textures to check
+str 		ZAMN_WATRTEX [ZAMN_WATSIZE] = 
+{
+	/*[Grass: Day  ]*/
+		"WAT_DRD1","WAT_DRD2","WAT_PLD1",
+	/*[Grass: Night]*/
+		"WAT_DRN1","WAT_DRN2","WAT_PLN1",
+	/*[Grass: Toxic]*/
+		"WAT_DRT2","WAT_PLT1"
+	/*[Grass:Winter]*/
+		//---
+	/*[Grass:Spring]*/
+		//---														
+};
+
+
+//Note: This should check if the texture below this actor is a water texture but due to engine limitations you can't check the water texture directly, 
+//		only the floor texture of the sector in wich the water sector appears. So if you are getting a false positive, 
+//		check the textures that it does check for and reconsider using textures that respond correctly.	Or not, it would look funny.
+
+Script "CheckAvobeWater" (void)	
+{								
+	int result = 0;				
+	
+	for(int w=0 ; w < ZAMN_WATSIZE; w++)
+	{	if (CheckActorFloorTexture(0, ZAMN_WATRTEX[w]))
+			{	//Log (s:"On Water!");		
+				result = 1;				}
+	}
+
+	SetResultValue(result);
+}
+
+
+//[HUD DRAWING LAYERS]
+
+
+//Defines 
+#libdefine HUDCOLOR_ZEKEZAMN 	0 
+#libdefine HUDCOLOR_JULIEZAMN 	21
+#libdefine HUDCOLOR_TEXTWHITE 	9
+
+#libdefine HUDMODE_ZAMN 		0
+#libdefine HUDMODE_GHOUL		1
+
+#libdefine HUDPLAY_ZEKE 		0
+#libdefine HUDPLAY_JULIE		1
+
+
+function str GetMainHudGraphic(int Health, int HudMode, int Player)
+{
+	str graphic = "";
+
+	switch(HudMode)
+	{
+		case HUDMODE_ZAMN:	
+							if(Player == HUDPLAY_ZEKE)
+							{
+								 if(Health > 90)		graphic = "ZHUD100";
+							else if(Health > 80)		graphic = "ZHUD90";
+							else if(Health > 70)		graphic = "ZHUD80";
+							else if(Health > 60)		graphic = "ZHUD70";
+							else if(Health > 50)		graphic = "ZHUD60";
+							else if(Health > 40)		graphic = "ZHUD50";
+							else if(Health > 30)		graphic = "ZHUD40";
+							else if(Health > 20)		graphic = "ZHUD30";
+							else if(Health > 10)		graphic = "ZHUD20";
+							else if(Health > 1)			graphic = "ZHUD10";
+							else if(Health == 1)		graphic = "ZHUD00";
+							}
+							else if(Player == HUDPLAY_JULIE)
+							{
+								 if(Health > 90)		graphic = "JHUD100";
+							else if(Health > 80)		graphic = "JHUD90";
+							else if(Health > 70)		graphic = "JHUD80";
+							else if(Health > 60)		graphic = "JHUD70";
+							else if(Health > 50)		graphic = "JHUD60";
+							else if(Health > 40)		graphic = "JHUD50";
+							else if(Health > 30)		graphic = "JHUD40";
+							else if(Health > 20)		graphic = "JHUD30";
+							else if(Health > 10)		graphic = "JHUD20";
+							else if(Health > 1)			graphic = "JHUD10";
+							else if(Health == 1)		graphic = "JHUD00";
+							}
+							Break;
+		case HUDMODE_GHOUL:
+							if(Player == HUDPLAY_ZEKE)
+							{
+								 if(Health > 90)		graphic = "ZHGP100";
+							else if(Health > 80)		graphic = "ZHGP90";
+							else if(Health > 70)		graphic = "ZHGP80";
+							else if(Health > 60)		graphic = "ZHGP70";
+							else if(Health > 50)		graphic = "ZHGP60";
+							else if(Health > 40)		graphic = "ZHGP50";
+							else if(Health > 30)		graphic = "ZHGP40";
+							else if(Health > 20)		graphic = "ZHGP30";
+							else if(Health > 10)		graphic = "ZHGP20";
+							else if(Health > 1)			graphic = "ZHGP10";
+							else if(Health == 1)		graphic = "ZHGP00";
+							}
+							else if(Player == HUDPLAY_JULIE)
+							{
+								 if(Health > 90)		graphic = "JHGP100";
+							else if(Health > 80)		graphic = "JHGP90";
+							else if(Health > 70)		graphic = "JHGP80";
+							else if(Health > 60)		graphic = "JHGP70";
+							else if(Health > 50)		graphic = "JHGP60";
+							else if(Health > 40)		graphic = "JHGP50";
+							else if(Health > 30)		graphic = "JHGP40";
+							else if(Health > 20)		graphic = "JHGP30";
+							else if(Health > 10)		graphic = "JHGP20";
+							else if(Health > 1)			graphic = "JHGP10";
+							else if(Health == 1)		graphic = "JHGP00";
+							}
+							Break;
+	}
+	return graphic;
+}
+
+function str ScoreFillZeros(int ScorePoints)
+{
+	str result = "";
+
+	str scorefill = "";
+
+		 if(ScorePoints <10)		scorefill = "000000";
+	else if(ScorePoints <100)		scorefill = "00000";
+	else if(ScorePoints <1000)		scorefill = "0000";
+	else if(ScorePoints <10000)		scorefill = "000";
+	else if(ScorePoints <100000)	scorefill = "00";
+	else if(ScorePoints <1000000)	scorefill = "0";
+
+	result = StrParam(s: scorefill, i: ScorePoints);
+	return result;
+}
+
+function str GetGooEffectGraphic(int GooAmount)
+{
+	str fontresult = "";
+		 if(GooAmount >= 105)		fontresult = "GLOO20";
+	else if(GooAmount >= 100)		fontresult = "GLOO19";
+	else if(GooAmount >= 95)		fontresult = "GLOO18";
+	else if(GooAmount >= 90)		fontresult = "GLOO17";
+	else if(GooAmount >= 85)		fontresult = "GLOO16";
+	else if(GooAmount >= 80)		fontresult = "GLOO15";
+	else if(GooAmount >= 75)		fontresult = "GLOO14";
+	else if(GooAmount >= 70)		fontresult = "GLOO13";
+	else if(GooAmount >= 65)		fontresult = "GLOO12";
+	else if(GooAmount >= 60)		fontresult = "GLOO11";
+	else if(GooAmount >= 55)		fontresult = "GLOO10";
+	else if(GooAmount >= 50)		fontresult = "GLOO9";
+	else if(GooAmount >= 45)		fontresult = "GLOO8";
+	else if(GooAmount >= 40)		fontresult = "GLOO7";
+	else if(GooAmount >= 25)		fontresult = "GLOO6";
+	else if(GooAmount >= 20)		fontresult = "GLOO5";
+	else if(GooAmount >= 15)		fontresult = "GLOO4";
+	else if(GooAmount >= 10)		fontresult = "GLOO3";
+	else if(GooAmount >= 5)			fontresult = "GLOO2";
+	else if(GooAmount >= 0)			fontresult = "GLOO1";
+
+	return fontresult;
+}
+
+function str GetBubbleEffectGraphic(int BubbleTime)
+{
+	str fontresult = "";
+	switch(BubbleTime)
+		{
+			case 50:	fontresult = "MBBLA0";	Break;
+			case 49:	fontresult = "MBBLB0";	Break;
+			case 48:	fontresult = "MBBLC0";	Break;
+			case 47:	fontresult = "MBBLD0";	Break;
+			case 46:	fontresult = "MBBLE0";	Break;
+			case 45:	fontresult = "MBBLF0";	Break;
+			case 44:	fontresult = "MBBLG0";	Break;
+			case 43:	fontresult = "MBBLH0";	Break;
+			case 42:	fontresult = "MBBLI0";	Break;
+			case 41:	fontresult = "MBBLJ0";	Break;
+
+			Default:	fontresult = "MBBLJ0";	Break;
+			case 6 :	fontresult = "MBBLK0";	Break;
+			case 5 :	fontresult = "MBBLL0";	Break;
+			case 4 :	fontresult = "MBBLM0";	Break;
+			case 3 :	fontresult = "MBBLN0";	Break;
+			case 2 :	fontresult = "MBBLO0";	Break;
+			case 1 :	fontresult = "MBBLP0";	Break;
+		}
+
+	return fontresult;
+}
+
+
+
+//Defines [HUD LAYER IDs]
+#libdefine HUDLAYER_WEAPONICON 	991 //&
+#libdefine HUDLAYER_WEAPONAMMO 	992	//&
+#libdefine HUDLAYER_WEAPONAMM2 	993 //&
+#libdefine HUDLAYER_ITEMICON 	994 //&
+#libdefine HUDLAYER_ITEMAMOUNT 	995 //&
+#libdefine HUDLAYER_ZKEYSCOUNT 	996 //&
+#libdefine HUDLAYER_SKULLCOUNT 	997 //&
+#libdefine HUDLAYER_SKULLKICON 	998 //&
+#libdefine HUDLAYER_MAINHUD 	999 //&
+#libdefine HUDLAYER_LIVESCOUNT 	1000 //&
+#libdefine HUDLAYER_SCORETEXT 	1001 //&
+#libdefine HUDLAYER_SCOREPOINTS	1002 //&
+#libdefine HUDLAYER_SPEEDICON	1003 //&
+//
+#libdefine HUDLAYER_WOLFTIMER 	1004 //&
+#libdefine HUDLAYER_ANYTIMER 	1005 //&
+#libdefine HUDLAYER_TIMERICONLF 1006 //&
+#libdefine HUDLAYER_TIMERICONRG 1007 //&
+#libdefine HUDLAYER_ANYTARGET 	1008 //&
+#libdefine HUDLAYER_TARGTICONLF 1009 //&
+#libdefine HUDLAYER_TARGTICONRG 1010 //&
+
+
+#libdefine HUDLAYER_RADRSURVNUM 9998 //&
+#libdefine HUDLAYER_RADROVRLAYP 9999 //&
+#libdefine HUDLAYER_RADRGRAPHIC 10000 //&
+
+#libdefine HUDLAYER_SCREENEFECT 11005 //&
+#libdefine HUDLAYER_GAMEOVERLY1 20000 //&
+#libdefine HUDLAYER_GAMEOVERLY2 20001 //&
+
+
+#libdefine HUDTIME_ONETIC 		1873 //&
+#libdefine HUDTIME_TENTICS 		18730 //&
+#libdefine HUDTIME_ONESECOND 	65555 //&								
+#libdefine HUDTIME_INFINITE 	0.0 //&
+
+
+
+//-----------------------------//-----------------------------//-----------------------------//
+//       Ghoul Patrol :        //-----------------------------//-----------------------------//
+//-----------------------------//-----------------------------//-----------------------------//
+
+//APROP_Speed
+
+#libdefine SPEED_GPRUN  55050		//(Ghoul Patrol) Running Speed
+#libdefine SPEED_GPWALK 34768		//(Ghoul Patrol) Normal Speed
+
+
+#libdefine ZJUMP_GHOUL 		8.0
+#libdefine ZCAM_GPSLIDE		21.0
+
+//Function written by "TDRR" on the Zdoom Forums.
+function int GetByteAngle(int tid)
+{
+	int angle = GetActorAngle(tid) >> 8;
+	if (angle < 128)
+		angle = angle + 128;
+	else angle = angle - 128;
+return angle;
+}
+
+//-----------------------------//-----------------------------//-----------------------------//
+//-----------------------------//-----------------------------//-----------------------------//
+//-----------------------------//-----------------------------//-----------------------------//
+
+
+
+/* HIGSCORE FONTS */
+
+str CHAR_FONT [61];		//Array for loading the current font characters + 10 score characters
+str CHAR_ZAMN 	[51] = { "ZCHR_00", "ZCHR_01", "ZCHR_02", "ZCHR_03", "ZCHR_04", "ZCHR_05", "ZCHR_06", "ZCHR_07", "ZCHR_08", "ZCHR_09", "ZCHR_10", "ZCHR_11", "ZCHR_12", "ZCHR_13", "ZCHR_14", "ZCHR_15", "ZCHR_16", "ZCHR_17", "ZCHR_18", "ZCHR_19", "ZCHR_20", "ZCHR_21", "ZCHR_22", "ZCHR_23", "ZCHR_24", "ZCHR_25", "ZCHR_26", "ZCHR_27", "ZCHR_28", "ZCHR_29", "ZCHR_30", "ZCHR_31", "ZCHR_32", "ZCHR_33", "ZCHR_34", "ZCHR_35", "ZCHR_36", "ZCHR_37", "ZCHR_38", "ZCHR_39", "ZCHR_40", "ZCHR_41", "ZCHR_42", "ZCHR_43", "ZCHR_44", "ZCHR_45", "ZCHR_46", "ZCHR_47", "ZCHR_48", "ZCHR_49", "ZCHR_50"};
+str CHAR_GHOUL 	[51] = { "GCHR_00", "GCHR_01", "GCHR_02", "GCHR_03", "GCHR_04", "GCHR_05", "GCHR_06", "GCHR_07", "GCHR_08", "GCHR_09", "GCHR_10", "GCHR_11", "GCHR_12", "GCHR_13", "GCHR_14", "GCHR_15", "GCHR_16", "GCHR_17", "GCHR_18", "GCHR_19", "GCHR_20", "GCHR_21", "GCHR_22", "GCHR_23", "GCHR_24", "GCHR_25", "GCHR_26", "GCHR_27", "GCHR_28", "GCHR_29", "GCHR_30", "GCHR_31", "GCHR_32", "GCHR_33", "GCHR_34", "GCHR_35", "GCHR_36", "GCHR_37", "GCHR_38", "GCHR_39", "GCHR_40", "GCHR_41", "GCHR_42", "GCHR_43", "GCHR_44", "GCHR_45", "GCHR_46", "GCHR_47", "GCHR_48", "GCHR_49", "GCHR_50"};
+str CHAR_SMASH 	[51] = { "SCHB_00", "SCHB_01", "SCHB_02", "SCHB_03", "SCHB_04", "SCHB_05", "SCHB_06", "SCHB_07", "SCHB_08", "SCHB_09", "SCHB_10", "SCHB_11", "SCHB_12", "SCHB_13", "SCHB_14", "SCHB_15", "SCHB_16", "SCHB_17", "SCHB_18", "SCHB_19", "SCHB_20", "SCHB_21", "SCHB_22", "SCHB_23", "SCHB_24", "SCHB_25", "SCHB_26", "SCHB_27", "SCHB_28", "SCHB_29", "SCHB_30", "SCHB_31", "SCHB_32", "SCHB_33", "SCHB_34", "SCHB_35", "SCHB_36", "SCHB_37", "SCHB_38", "SCHB_39", "SCHB_40", "SCHB_41", "SCHB_42", "SCHB_43", "SCHB_44", "SCHB_45", "SCHB_46", "SCHB_47", "SCHB_48", "SCHB_49", "SCHB_50"};
+str SCOR_SMASH  [10] = { "SCHA_00", "SCHA_01", "SCHA_02", "SCHA_03", "SCHA_04", "SCHA_05", "SCHA_06", "SCHA_07", "SCHA_08", "SCHA_09"};	//LoadFonts() will use this secondary array for score characters
+int fi=0;	//Iterator
+
+function int LoadFonts (int game)
+{
+	switch(game)
+	{
+		case 0:	//Zamn Font
+				for(fi=0; fi<51; fi++)	{CHAR_FONT[fi] = CHAR_ZAMN[fi];}
+				for(fi=51; fi<61; fi++){CHAR_FONT[fi] = CHAR_ZAMN[fi-51];}
+				break;
+		case 1:	//Ghoul Patrol Font
+				for(fi=0; fi<51; fi++)	{CHAR_FONT[fi] = CHAR_GHOUL[fi];}
+				for(fi=51; fi<61; fi++){CHAR_FONT[fi] = CHAR_GHOUL[fi-51];}
+				break;
+		case 2:	//Smash T.V. Font(s)
+				for(fi=0; fi<51; fi++)	{CHAR_FONT[fi] = CHAR_SMASH[fi];}
+				for(fi=51; fi<61; fi++){CHAR_FONT[fi] = SCOR_SMASH[fi-51];}
+				break;
+	}
+return 1;
+}
+
+
+//HUD FUNCTIONS !!
+
+#define ASPECT_21_9		(21.3/9)			
+function int GetAspectRatioZamn(void)		//Modified based on "GetAspectRatio()"
+{
+		int width = GetScreenWidth();	//GetCVAR("vid_defwidth");
+		int height = GetScreenHeight();	//GetCVAR("vid_defheight");
+		int nowidescreen = GetCVAR("vid_nowidescreen");
+		int tft = GetCVAR("vid_tft");
+		int aspect = GetCVAR("vid_aspect");
+			switch(aspect)
+				{ 
+					case 1: return ASPECT_16_9;
+					case 2: return ASPECT_16_10;
+					case 3: return ASPECT_4_3;
+					case 4: return ASPECT_5_4;
+					case 5: return ASPECT_17_10;
+					case 6:	return ASPECT_21_9;	
+				}
+			//log(s: "No Force Aspect Ratio");
+			if(nowidescreen)
+				{ 
+					//log(s: "Calculated Ratio No Widescreen");
+					if(!tft)
+						return ASPECT_4_3;
+					if(height * ASPECT_5_4 == width<<16)
+						return ASPECT_5_4;
+					else
+		 				return ASPECT_4_3;
+				}
+			if(abs((abs(height * ASPECT_16_9)>>16) - width) < 10)
+				{	return ASPECT_16_9;		}
+			if(abs((abs(height * ASPECT_17_10)>>16) - width) < 10)
+				{	return ASPECT_17_10;	}
+			if(abs((abs(height * ASPECT_16_10)>>16) - width) < 60)
+				{	if(width == 640 && height == 480)
+					{	return ASPECT_4_3;	}
+					return ASPECT_16_10;
+				}
+			if(abs((abs(height * ASPECT_21_9)>>16) - width) < 60)
+				{	return ASPECT_21_9;		}
+			if((height * ASPECT_5_4)>>16 == width && tft)
+				{	return ASPECT_5_4;		}
+			if(abs((abs(height * ASPECT_4_3)>>16) - width) < 60)
+				{	return ASPECT_4_3;		}
+			
+			// Ok, Plan B:
+			if ((width - height < width / 5)||(height - width < height / 5))
+			{			return ASPECT_4_3;	/*log(s: "4_3 maybe");*/	}
+			else if(width > height)
+			{
+					if(abs(width - height) >= width / 2)
+					{	return ASPECT_17_10;/*log(s: "17_10 maybe");*/	}
+					else if(abs(width - height) <=/*<=*/ (width * 3) / 4)
+					{	return ASPECT_16_9; /*log(s: "16_9 maybe");*/	}
+					else
+					{	return ASPECT_4_3;  /*log(s: "4_3 maybe");*/	}	
+			}
+			else if(height >= width)
+			{			return ASPECT_4_3;  /*log(s: "4_3 maybe");*/	}
+					
+
+			//log(s: "Everything failed :c");
+			return ASPECT_16_9;
+}
+

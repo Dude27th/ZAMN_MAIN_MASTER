@@ -1,0 +1,76 @@
+//[Don't compile this, is just for reference]
+
+/*
+This are global variables that the mod uses 
+[They have to be documented here if another one is added, to keep a better reference on which and why are they used, 
+also to have some mod compatibility this reference would help to check if there's compatibility issues].*/
+ 
+They can be accessed from anywhere as long as it is defined again in the script Library.
+
+
+//-- TitleCard Stuff --//
+global str 1:	Start_Card;			//Referenced::	"TitleCards.acs"
+ String variable, initial Texture of the Level Cards Animation
+
+global str 2:	End_Card;			//Referenced::	"TitleCards.acs"
+ String variable, final Texture of the Level Cards Animation
+
+
+
+//-- Survivors Stuff --//
+global int 3:	SurvivorMaximum;	//Referenced::	"Survivors.acs" 
+ Int variable, sets the maximum number of survivors on the level trough the "Survivor Limit" script.
+ Actual number will be calculated each map acounting saved/dead survivors.
+
+global int 4:	SurvivorPrevMax;	//Referenced::	"Survivors.acs" 
+ Int variable, keeps track of the "SurvivorMaximum" of the previous maps.
+ 	
+global int 5:	SurvivorDead;		//Referenced::	"Survivors.acs" 
+ Int variable, based on Dead Survivors and "SurvivorMaximum" sets how much survivors won't spawn on the level.
+
+
+
+//-- Nothing --//
+global var 6: 	[Available]			//Referenced::	None
+global var 7: 	[Available]			//Referenced::	None
+global var 8: 	[Available]			//Referenced::	None
+global var 9: 	[Available]			//Referenced::	None
+
+
+
+
+//-- TitleCard (Custom) Stuff --//
+global int 10:	Custom_Card_Time[];	//Referenced::	"TitleCards.acs"
+ Int Array Variable, if custom cards are active this stores the time of each one.
+
+
+global str 11:	Custom_Card_01;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 01 of the Custom Level Cards Animation.
+
+global str 12:	Custom_Card_02;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 02 of the Custom Level Cards Animation.
+
+global str 13:	Custom_Card_03;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 03 of the Custom Level Cards Animation.
+
+global str 14:	Custom_Card_04;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 04 of the Custom Level Cards Animation.
+
+global str 15:	Custom_Card_05;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 05 of the Custom Level Cards Animation.
+
+global str 16:	Custom_Card_06;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 06 of the Custom Level Cards Animation.
+
+global str 17:	Custom_Card_07;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 07 of the Custom Level Cards Animation.
+
+global str 18:	Custom_Card_08;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 08 of the Custom Level Cards Animation.
+
+global str 19:	Custom_Card_09;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 09 of the Custom Level Cards Animation.
+
+global str 20:	Custom_Card_10;		//Referenced::	"TitleCards.acs"
+ String variable, Texture Number 10 of the Custom Level Cards Animation.
+

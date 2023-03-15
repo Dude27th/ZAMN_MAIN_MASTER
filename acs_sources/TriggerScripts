@@ -1,6 +1,74 @@
 #library "LevelScripts"
 #include "zcommon.acs"
 	     
+
+///////////////////////////////
+//        TRAMPOLINES!       //
+///////////////////////////////
+
+
+
+// Wrapper	(if not specified in the level itself)////////////////////////////////
+Script "TrampolineJump" (int TrampolineTag, int Pallete)						//
+{	ACS_NamedExecuteAlways("TrampolineMaster",0,TrampolineTag,Pallete,0);	}	//
+//////////////////////////////////////////////////////////////////////////////////
+
+
+Script "TrampolineMaster" (int trampolinetag, int pallete)
+{
+	if(trampolinetag!=0)
+		{
+			str bouncetiles[3];
+			int playertag=ACS_NamedExecuteWithResult("GetTid",0,0,0,0);
+			ACS_NamedExecuteAlways("Trampoline Sound",0,0,0,0);
+			ThrustThingZ(playertag,48,0,0);
+			switch(pallete){
+				case 0:	bouncetiles[0]="TRAMP_J"; bouncetiles[1]="TRAMP_J2"; bouncetiles[2]="TRAMP_F";	Break;
+				case 1: bouncetiles[0]="NTRAM_J"; bouncetiles[1]="NTRAM_J2"; bouncetiles[2]="NTRAM_F";	Break;
+				case 2: bouncetiles[0]="TTRAMPJ"; bouncetiles[1]="TTRAMPJ2"; bouncetiles[2]="TTRAMPF";	Break;
+				case 3: /* Winter */																	Break;
+				case 4: /* Spring */																	Break;
+			}
+			ChangeFloor(trampolinetag,bouncetiles[0]);
+			Delay(10);
+			ChangeFloor(trampolinetag,bouncetiles[1]);
+			Delay(5);
+			ChangeFloor(trampolinetag,bouncetiles[2]);
+		}
+	else
+		{
+		if(trampolinetag==0)
+			{	
+			Log(s: "There is no sector tag asigned for this trampoline!\n---------------------------------------------------\n( Argument 1 )");
+			}
+		}
+}
+
+Script "Trampoline_NoTexture" (int jumpforce)
+{
+	int playertag=ACS_NamedExecuteWithResult("GetTid",0,0,0,0);
+	ACS_NamedExecuteAlways("Trampoline Sound",0,0,0,0);
+	ThrustThingZ(playertag,jumpforce,0,0);
+}
+
+Script "Trampoline Sound" (void)
+{
+	if(CheckInventory("Bouncing")==1)
+		{	Delay(10);
+			TakeInventory("Bouncing",1);
+			Terminate;	}
+	else
+		{	GiveInventory("TrampolineSound",1);
+			Delay(15);
+			TakeInventory("Bouncing",1);	}
+}
+
+
+
+
+
+
+
 ///////////////////////////////////////////
 //			Destructive Triggers		 //
 ///////////////////////////////////////////

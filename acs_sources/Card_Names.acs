@@ -1,0 +1,104 @@
+
+//Some defines for easy use
+#libdefine Start 0
+#libdefine End 1
+
+#libdefine CustomLevel 0
+
+
+global str 1: Start_Card;		//Start Card
+global str 2: End_Card;			//End Card
+
+
+global int 10: Custom_Card_Time[];	//Custom Card Array
+global str 11: Custom_Card_01;		//Custom Card 01
+global str 12: Custom_Card_02;		//Custom Card 02
+global str 13: Custom_Card_03;		//Custom Card 03
+global str 14: Custom_Card_04;		//Custom Card 04
+global str 15: Custom_Card_05;		//Custom Card 05
+global str 16: Custom_Card_06;		//Custom Card 06
+global str 17: Custom_Card_07;		//Custom Card 07
+global str 18: Custom_Card_08;		//Custom Card 08
+global str 19: Custom_Card_09;		//Custom Card 09
+global str 20: Custom_Card_10;		//Custom Card 10
+
+
+
+
+//Title Cards:: Organized by Progression
+str LevelCard_Normal [49][2] =
+{
+	{"",""},	//	:: 	[Unused]
+	{"LTZP_STR","LTZP_FIN"},	//	1: 	Zombie Panic
+	{"LTEU_STR","LTEU_FIN"},	//	2: 	Evening Of The Undead
+	{"LTTF_STR","LTTF_FIN"},	//	3: 	Terror In Aisle Five
+	{"LTCM_STR","LTCM_FIN"},	//	4:	Chainsaw Hedgemaze Mayhem
+	{"LTWK_STR","LTWK_FIN"},	//	5:	Weird Kids On The Block
+	{"LTPF_STR","LTPF_FIN"},	//	6:	Pyramid Of Fear
+	{"LTTC_STR","LTTC_FIN"},	//	7:	Dr Tongues Castle Of Terror
+	{"LTTT_STR","LTTT_FIN"},	//	8:	Titanic	Toddler
+	{"LTTX_STR","LTTX_FIN"},	//	9:	Toxic Terrors
+	{"LTNA_STR","LTNA_FIN"},	//	10:	No Assembly Required
+	{"LTWB_STR","LTWB_FIN"},	//	11:	Weeds Gone Bad
+	{"LTMC_STR","LTMC_FIN"},	//	12:	Mars Needs Cheerleaders
+	{"LTML_STR","LTML_FIN"},	//	13:	Chopping Mall
+	{"LT7M_STR","LT7M_FIN"},	//	14:	Seven Meals For Seven Zombies
+	{"LTDN_STR","LTDN_FIN"},	//	15:	Dinner On Monster Island
+	{"LTAN_STR","LTAN_FIN"},	//	16:	Ants
+	{"LTOF_STR","LTOF_FIN"},	//	17:	Office Of The Doomed
+	{"LTSD_STR","LTSD_FIN"},	//	18:	Squidmen Of The Deep
+	{"LTNG_STR","LTNG_FIN"},	//	19:	Nightmare On Terror Street
+	{"LTIV_STR","LTIV_FIN"},	//	20:	Invasion Of The Snakeoids
+	{"LTRA_STR","LTRA_FIN"},	//	21:	The Day The Earth Ran Away
+	{"LTRT_STR","LTRT_FIN"},	//	22:	Revenge Of Dr Tongue
+	{"LTCV_STR","LTCV_FIN"},	//	23:	The Caves Of Mistery
+	{"LTWD_STR","LTWD_FIN"},	//	24:	Warehouse Of the Evil Dolls
+	{"LTLS_STR","LTLS_FIN"},	//	25:	Look Whos Shopping
+	{"LTRF_STR","LTRF_FIN"},	//	26:	Where The Red Fern Growls
+	{"LTDW_STR","LTDW_FIN"},	//	27:	Dances With Werewolves
+	{"LTMV_STR","LTMV_FIN"},	//	28:	Mark Of The Vampire
+	{"LTZH_STR","LTZH_FIN"},	//	29:	Zombie House Party
+	{"LTHF_STR","LTHF_FIN"},	//	30:	The Horror Of Floor Thirteen
+	{"LTLC_STR","LTLC_FIN"},	//	31:	Look Whos Coming To Dinner
+	{"LTGA_STR","LTGA_FIN"},	//	32:	Giant Ant Farm
+	{"LTFC_STR","LTFC_FIN"},	//	33:	Fish And Crypts
+	{"LTIC_STR","LTIC_FIN"},	//	34:	I Was A Chainsaw Maniac
+	{"LTBT_STR","LTBT_FIN"},	//	35:	Boardwalk Of Terrors
+	{"LTMP_STR","LTMP_FIN"},	//	36:	Monster Phobia
+	{"LTLH_STR","LTLH_FIN"},	//	37:	Labyrinth Of Horrors
+	{"LTBL_STR","LTBL_FIN"},	//	38:	Monsters Of The Blue Lagoon
+	{"LTDV_STR","LTDV_FIN"},	//	39:	Destroy All Vampires
+	{"LTP2_STR","LTP2_FIN"},	//	40:	Pyramid Of Fear 2
+	{"LTMG_STR","LTMG_FIN"},	//	41:	Martians Go Home!
+	{"LTSP_STR","LTSP_FIN"},	//	42:	Spikes
+	{"LTSC_STR","LTSC_FIN"},	//	43:	Super Fund Cleanup Site
+	{"LTCT_STR","LTCT_FIN"},	//	44:	The Curse Of Dr Tongue
+	{"LTDP_STR","LTDP_FIN"},	//	45:	Danger In Picnic Park
+	{"LTDC_STR","LTDC_FIN"},	//	46:	Day Of The Chainsaw
+	{"LTCR_STR","LTCR_FIN"},	//	47:	Gridiron Terror
+	{"LTCS_STR","LTCS_FIN"}		//	48:	Curse Of The Tongue		->		[Go to:	"Monsters Among Us"]
+};
+
+
+str LevelCard_Bonus [8][2] =
+{
+	{"",""},					//	::	[Unused]
+	{"LTDT_STR","LTDT_FIN"},	//	1:	[Bonus] Day Of The Tentacle			[Access: 01]
+	{"LTMM_STR","LTMM_FIN"},	//	2:	[Bonus] Mushroom Men				[Access: 09]
+	{"LTVS_STR","LTVS_FIN"},	//	3:	[Bonus] Cheerleaders Vs Monsters	[Access: 12]
+	{"LTVW_STR","LTVW_FIN"},	//	4:	[Bonus] Someplace Very Warm			[Access: 17]
+	{"LTST_STR","LTST_FIN"},	//	5:	[Bonus] The Son Of Dr Tongue		[Access: 22]
+	{"LTCF_STR","LTCF_FIN"},	//	6: 	[Bonus] Curse Of The Pharaohs		[Access: 33]
+	{"LTMU_STR","LTMU_FIN"}		//	7:	[Bonus] Monsters Among Us			[Access: 48]
+};
+
+
+
+//Tiny Hacks :p
+function int SetThisPlayer (int Track, int LevelNum, int BonuNum)
+{
+	ACS_NamedExecuteAlways("SetPlayer", 0, Track, LevelNum, BonuNum);
+
+	return	0;
+}
+

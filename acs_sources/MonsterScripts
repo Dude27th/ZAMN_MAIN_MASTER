@@ -6,7 +6,7 @@
 ///////////////////////////////
 //       SPAWN CONTROL!      //
 ///////////////////////////////
-       
+        
 int MonsterCount=0;
 int MonsterLimit= SPAWNLIMIT_ZAMN;//+2 if Co-Op				//[Coordination error fixed! ^^]
 
@@ -859,6 +859,11 @@ Script "AntItemStarter" (void)
 	GiveInventory("AntInventory",1);
 	Delay(140);
 	Restart;
+}
+
+Script "RedAntPallete" (void)
+{
+	SetTranslation(0,"RedAnt");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

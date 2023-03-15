@@ -71,10 +71,10 @@
 #include "Decorate_M/ExitDoor.dec"
 
 //// Decorations Decorate
-#include "Decorate_M/Decorations/Bananas.dec"
-#include "Decorate_M/Decorations/Books.dec"
+//#include "Decorate_M/Decorations/Bananas.dec"
+//#include "Decorate_M/Decorations/Books.dec"
 #include "Decorate_M/Decorations/Castle.dec"
-#include "Decorate_M/Decorations/IceCreams.dec"
+//#include "Decorate_M/Decorations/IceCreams.dec"
 #include "Decorate_M/Decorations/Estofado.dec"
 #include "Decorate_M/Decorations/Flora.dec"
 #include "Decorate_M/Decorations/Freezes.dec"
@@ -84,8 +84,9 @@
 #include "Decorate_M/Decorations/Furniture.dec"
 #include "Decorate_M/Decorations/Towels.dec"
 #include "Decorate_M/Decorations/ToxicWaste.dec"
-#include "Decorate_M/Decorations/SkyboxProps.dec"
+//#include "Decorate_M/Decorations/SkyboxProps.dec"
 #include "Decorate_M/Decorations/ZZ_Custom.dec"
+#include "Decorate_M/Decorations/ZZ_Unused.dec"	//<- Temporal for other stuff
 
 #include "Decorate_M/Decorations/ZZ_GhoulPatrol/G_Flora.dec"
 
