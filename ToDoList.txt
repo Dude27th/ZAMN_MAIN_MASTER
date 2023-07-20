@@ -38,8 +38,7 @@
 //
 // - Water Gun Quirk (?):	"In the original, there was a trick to dealing with the chainsaw maniacs. 
 //	( ryguy9876 ) 			What you would do is freeze them in place with the fire extinguisher then wail on them 
-//							with the water pistol from it's maximum range as the water pistol had a weird quirk where it did more damage to enemies caught in the water splash. Not only did this work, it was the only way to consistently get the "Chainsaw massacre" point bonus. 
-//							It's also worth noting that chainsaw maniacs are one of the only enemies in the game that don't respawn."
+//							with the water pistol from it's maximum range as the water pistol had a weird quirk where it did more damage to enemies caught in the water splash. Not only did this work, it was the only way to consistently get the Chainsaw massacre point bonus."
 //
 // - Try to make a 3D model for the MartianRay weapon.	
 //							(I NEED TO WORK WITH BLENDER AGAIN OR GOD HELP ME)
