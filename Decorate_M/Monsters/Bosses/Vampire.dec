@@ -34,29 +34,15 @@ ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 	{			
 		Spawn:
 			TNT1 A 0 
-			TNT1 A 1 A_LookEx(LOF_DONTCHASEGOAL,0,0,0,360,"Idle")
+   VMPS ABCDEF 5 //testing
+			TNT1 A 0 A_LookEx(LOF_DONTCHASEGOAL,0,0,0,360,"Idle")
 			Goto Idle
-			TNT1 A 1 A_SetArg(0,3)
+			
 		Idle:
-			STID A 0 A_ClearTarget
-			STID A 0 A_ChangeFlag("NOPAIN",FALSE)
-			TNT1 A 0 A_JumpIf(Args[4] == 1, "See")
-			STID A 1 A_LookEx(LOF_NOSOUNDCHECK|LOF_FULLVOLSEESOUND,0,1200,0,360,"Scare")
-			TNT1 A 0 A_JumpIf(Args[1] != 0,1)
+			VMPI A 1 //doing something
 			Goto Idle
-			STID A 1 A_CheckProximity("Scare","PlayerPawn",356,1,CPXF_ANCESTOR|CPXF_SETTARGET|CPXF_CLOSEST)
-			Goto Idle
-		Scare:
-			TNT1 A 0{
-				if(Args[4] == 0)
-				{	A_SetArg(4,1);	}
-				else
-				{	A_StopSound(4);	}
-			}
-			STID A 35
-			TNT1 A 0 A_JumpIf(Args[1] == 1,1)
-			Goto See
-			TNT1 A 0 A_SetArg(1,0)
+
+		
 		See:
 			STWA A 0 A_ChangeFlag("NOPAIN",FALSE)
 			STAH A 0 A_ChangeFlag("NOCLIP",FALSE)
