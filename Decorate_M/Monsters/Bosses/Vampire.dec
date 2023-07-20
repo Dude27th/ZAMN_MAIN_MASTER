@@ -10,13 +10,8 @@ ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 	XScale 1.75
 	MeleeRange 80
 	//$Category "Zombies Ate My Neighbors/Monsters/Bosses"
-	//$Arg0 "[ 0: Default ] Lifes"
-	//$Arg1 "Look All Around"
-	//Arg2 "ChainsawTime" [Used by the actor itself]
-
-	//Arg4 "SoundUsed"
-	//$Title "Chainsaw Maniac"
 	//$Color 4
+//Damage Factors have to be get from documentation 
 	DamageFactor "MonsterFist", 45 //? Shoot in the dark
 	DamageFactor "WeedWacker", 7.5
 	DamageFactor "Tomatoes", 5 //? Shoot in the dark
@@ -33,26 +28,12 @@ ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 	-NOCLIP
 	+STANDSTILL
 	+DONTRIP
-	+BUDDHA
-	-FRIGHTENED
-	SeeSound "Stanley/Sight"
+	SeeSound "" //vampire laugh
 	
 	States
 	{			
 		Spawn:
 			TNT1 A 0 
-			TNT1 A 0 A_SetArg(4, 0)
-			TNT1 A 0 A_JumpIf(Args[0] == 1,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 2,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 3,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 4,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 5,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 6,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 7,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 8,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 9,"Idle")
-			TNT1 A 0 A_JumpIf(Args[0] == 10,"Idle")
-			TNT1 A 1 A_JumpIf(Args[0] == 0,2)
 			TNT1 A 1 A_LookEx(LOF_DONTCHASEGOAL,0,0,0,360,"Idle")
 			Goto Idle
 			TNT1 A 1 A_SetArg(0,3)
