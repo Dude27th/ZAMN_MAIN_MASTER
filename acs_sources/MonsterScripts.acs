@@ -1,0 +1,932 @@
+#library "MonsterScripts"
+#include "zcommon.acs"
+#include "CUValues.acs"
+     
+      
+///////////////////////////////
+//       SPAWN CONTROL!      //
+///////////////////////////////
+         
+int MonsterCount=0;
+int MonsterLimit= SPAWNLIMIT_ZAMN;//+2 if Co-Op				//[Coordination error fixed! ^^]
+
+Script "CheckGameMode" OPEN
+{ 
+	if(PlayerCount()==1)	
+			//SinglePlayer
+			MonsterLimit= SPAWNLIMIT_ZAMN;
+	else 	
+		if((CheckActorInventory(2000,"Health")>1)&&(CheckActorInventory(2001,"Health")>1))	
+			//Co-Op
+			MonsterLimit= SPAWNLIMIT_ZAMN + 2;
+	
+		else																	
+			//Co-Op(One player died)
+			MonsterLimit= SPAWNLIMIT_ZAMN;
+}
+
+
+Script "MonsterLess" (void)
+{	if(MonsterCount>0)
+	{	//This prevents negative counter, which will create more spawns than the limit
+			MonsterCount--;	
+			/*Log(s: "Monster Less");*/
+	}
+}
+
+Script "MonsterMore" (void)
+{	MonsterCount++;	/*Log(s: "Monster More");*/}
+
+
+Script "MonsterAllow" (void)		//New !
+{
+	if(MonsterCount<MonsterLimit)
+		{GiveInventory("MonsterAllow",1); /*Log(s: StrParam(s: "Monster Allowed: ", i: (MonsterLimit - MonsterCount), s: "Vacant"));*/}
+	else if(MonsterCount>MonsterLimit)
+		{GiveInventory("MonsterDiscount",1); TakeInventory("MonsterAllow",1); /*Log(s: StrParam(s: "Monster Not: ", i: (MonsterLimit - MonsterCount), s: "Vacant"));*/}
+	else
+		{TakeInventory("MonsterAllow",1); /*Log(s: StrParam(s: "Monster Not: ", i: (MonsterLimit - MonsterCount), s: "Vacant"));*/}
+}
+
+Script "SpawnDoubleCheck" (void)
+{
+	if(MonsterCount >= MonsterLimit)
+		{	SetResultValue(1);}
+	else
+		{	SetResultValue(0);}
+}
+
+Script "GetMonsterCount" (void)
+{
+	SetResultValue(MonsterCount);
+}
+
+Script "GetMonsterLimit" (void)
+{
+	SetResultValue(MonsterLimit);
+}
+
+Script "MonsterAllowSimple" (void) 	//New !
+{
+	if(MonsterCount<MonsterLimit)
+		GiveInventory("MonsterAllow",1); 
+}
+
+Script "MonsterDiscount" ENTER
+	{
+		if(CheckInventory("TargetDiscount")>=1)
+			{
+				TakeInventory("TargetDiscount",1);
+				TakeInventory("Targeted",1);
+			}
+		Delay(1);
+		Restart; 
+	}
+
+
+
+
+
+
+Script "SetDelay" (int DelayAmount)
+{	
+	TakeInventory("Delay",99999);
+	GiveInventory("Delay",DelayAmount + random(0,20));	
+	}
+
+Script "SetDelayAccurate" (int DelayAmount)
+{
+	TakeInventory("Delay",99999);
+	GiveInventory("Delay",DelayAmount);	
+	}
+
+Script "GiveMonsterLifes" (int Lives)
+{	GiveInventory("MLifeToken",Lives);}
+
+
+
+
+
+
+//Testing
+Script "TestMonsterLimit" (void)
+{
+	while(true)
+	{
+	print(s: StrParam(s: "Current: ", i: MonsterCount, s: "\nLimit: ", i: MonsterLimit));
+	delay(1);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////// 
+
+
+//Chainsaw Maniac
+
+Script "SetAttackingAngle" (void)
+	{	
+		//SetActorAngle(0, GetActorAngle(0) - 0.0625);		//Perfect?
+		SetActorAngle(0, GetActorAngle(0) - 0.06);			//Previous iteration movement [Prefered]
+		//SetActorAngle(0, GetActorAngle(0) + 0.0625);		//Counter Clockwise
+		
+		/*int tics = 34;
+		while(tics-- >0)
+			{	
+				if(CheckInventory("FreezeTime")>0)
+					Terminate;
+				SetActorAngle (0, GetActorAngle (0) - 0.06);
+				Delay (1);
+			}*/
+		
+//Note:	Loop not needed, managed by decorate now.
+	}
+	
+int TriggerX = 0;
+int TriggerY = 0;
+int TriggerZ = 0;
+bool reposition = false;
+
+//Called by the Trigger itself
+Script "SetTriggerCoordinate" (void)
+{
+	TriggerX = GetActorX(0);
+	TriggerY = GetActorY(0);
+	TriggerZ = GetActorZ(0);
+}
+
+
+//Called by Stanley Himself
+Script "PositionStanleyWall" (void)
+{
+	SetActorPosition(0,TriggerX,TriggerY,TriggerZ,FALSE);
+}
+
+//Called by the Trigger itself
+Script "StanleyAnimation_X" (int maintag, int pallete)
+{
+	switch(pallete)
+		{
+			//Hedgemaze Day
+			case 0:	Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG0A");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG0A");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG0B");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG0B");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG0C");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG0C");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG0D");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG0D");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG0E");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG0E");	Delay(7);
+					Break;
+			//Hedgemaze Night
+			case 1:	Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG1A");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG1A");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG1B");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG1B");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG1C");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG1C");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG1D");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG1D");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG1E");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG1E");	Delay(7);
+					Break;
+			//Hedgemaze Toxic
+			case 2:	Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG2A");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG2A");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG2B");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG2B");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG2C");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG2C");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG2D");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG2D");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG2E");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG2E");	Delay(7);
+					Break;
+			//Hedgemaze Winter
+			case 3:	Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG3A");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG3A");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG3B");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG3B");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG3C");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG3C");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG3D");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG3D");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANHG3E");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANHG3E");	Delay(7);
+					Break;
+			//Hedgemaze Spring?
+			case 4:	//
+					Break;
+			//Mall_01
+			case 5: //Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANML0A");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANML0A");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANML0B");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANML0B");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANML0C");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANML0C");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANML0D");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANML0D");	Delay(7);
+					SetLineTexture(maintag,SIDE_FRONT,TEXTURE_BOTTOM,"CHANML0E");	SetLineTexture(maintag,SIDE_BACK,TEXTURE_BOTTOM,"CHANML0E");	Delay(7);
+					Break;
+		}
+}
+
+// ----------- Custom Trigger Support ----------
+
+//Called by the Trigger itself
+Script "ResetTriggerCoordinate" (int thisx, int thisy, int thisz)	//Needs MapToUnit conversion ?
+{
+	TriggerX = IntTo_MapUnit(thisx);
+	TriggerY = IntTo_MapUnit(thisy);
+	TriggerZ = IntTo_MapUnit(thisz);
+	reposition = true;
+}
+
+//Checked by Stanley
+Script "CheckReposition" (void)
+{
+	if(reposition)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+//Called by Stanley
+Script "RepositionStanleyWall" (void)
+{
+	SetActorPosition(0,TriggerX,TriggerY,TriggerZ,FALSE);
+	reposition = false;
+}
+
+// ---------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////// 
+
+// Giant Pod
+
+Script "GiantPodHitCheck" (void)
+{
+	while(true)
+	{
+		int Health= 	GetActorProperty(0,APROP_Health);
+		Delay(1);	
+		int NowHealth= 	GetActorProperty(0,APROP_Health);
+		
+		if((Health > NowHealth)&&(NowHealth > 0))
+			ACS_NamedExecuteAlways("SetHitGiantPod",0,0,0,0);
+	}
+	
+}
+
+//Original timing was 2|2|2, but 4|2|2 works better because in first person the 2|2|2 can be too fast
+//and produce eye strain or worse if you are using a melee weapon like the Weed Wacker or the Crucifix.
+Script "SetHitGiantPod" (void)
+{
+	SetTranslation(0,"GiantPodHit");
+	Delay(4);
+	SetTranslation(0,"Normal");
+	Delay(2);
+	SetTranslation(0,"GiantPodHit");
+	Delay(2);
+	SetTranslation(0,"Normal");
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Werewolf
+
+Script "FixedAngle" (int angle)
+{
+	if(angle < 0)
+		angle = angle * -1;
+	SetResultValue(angle);
+}
+
+Script "CheckZWolf_UpTarget" (void)
+{	int difference = 0;
+	int monsterZ = MapUnit_ToInt(GetActorZ(0));
+	SetActivator (0, AAPTR_TARGET);
+	int targetZ = MapUnit_ToInt(GetActorZ(0));
+	
+	//monsterZ = monsterZ / MAPZ_UNIT;
+	//targetZ = targetZ / MAPZ_UNIT;
+	
+	if(monsterZ < targetZ)
+	{
+		difference = targetZ - monsterZ;
+		
+		//Log(s: "Chequeo:");
+		//Log(s: StrParam(s: "Wolf: ", i: monsterZ, s: "  Target: ", i: targetZ));
+		//Log(s: StrParam(s: "Diferencia: ", i: difference ));
+		
+		if(difference >= 40)
+		{
+			//Log(s: "Resultado valido");
+			SetResultValue(1);
+		}
+		else
+		{
+			//Log(s: "Resultado Invalido");
+			SetResultValue(0);
+		}
+	}
+	else
+	{
+		//Log(s: "Resultado Invalido");
+		SetResultValue(0);
+	}
+		
+}
+
+Script "CheckTargetOnWater" (void)
+{
+	SetActivator (0, AAPTR_TARGET);
+	if((GetActorProperty(0,APROP_Waterlevel) > 0) || (CheckInventory("InWater") > 0))
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+	
+}
+
+Script "SelfOnWater" (void)
+{
+	if(GetActorProperty(0,APROP_Waterlevel) > 0)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+
+/*
+Script "JumpTell" (int aber)
+{
+	switch(aber)
+	{
+		case 1:	Log(s: "JumpChase");
+				break;
+				
+		case 2:	Log(s: "JumpClimbShort");
+				break;
+				
+		case 3:	Log(s: "JumpClimbLong");
+				break;
+	}
+}
+*/
+
+Script "SectorHeightCheck" (int Height)
+{		
+	//Log(s: "Sector Height Check");
+		int ceilingZ = MapUnit_ToInt(GetActorCeilingZ(0));
+		int floorZ = MapUnit_ToInt(GetActorFloorZ(0));
+
+		if((ceilingZ - floorZ) >= Height)
+			SetResultValue(1);
+		else
+			SetResultValue(0);	
+}
+
+
+	
+Script "InFloorCheck" (void)
+	{	//int monsterZ = MapUnit_ToInt(GetActorZ(0));
+		//int floorZ = MapUnit_ToInt(GetActorFloorZ(0));
+		
+		if((GetActorZ(0) - GetActorFloorZ(0)) <= 10)
+			SetResultValue(1);
+		else
+			SetResultValue(0);	}
+			
+Script "CheckMidUpperTarget" (void)
+{
+	int monsterZ = MapUnit_ToInt(GetActorZ(0));
+	SetActivator (0, AAPTR_TARGET);
+	int targetZ = MapUnit_ToInt(GetActorZ(0));
+	
+	if(monsterz >= targetZ)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+// TitanicToddler
+
+#define intfloat 1.0
+Script "TitanicFiring" (int range)
+{
+	if(CheckProximity(0, "TitanicFiring", range * intfloat, 1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST))
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "TitanicHitCheck" (void)
+{
+	while(true)
+	{
+		int Health= 	GetActorProperty(0,APROP_Health);
+		Delay(1);	
+		int NowHealth= 	GetActorProperty(0,APROP_Health);
+		
+		if((Health > NowHealth)&&(NowHealth > 0))
+			ACS_NamedExecuteAlways("SetHitTitanic",0,0,0,0);
+		
+		//Restart;
+	}
+	
+}
+ 
+Script "SetHitTitanic" (void)
+{
+	SetActorProperty(0, APROP_RenderStyle, STYLE_Stencil);//SetTranslation(0,"TitanicHit");
+	Delay(5);
+	SetActorProperty(0, APROP_RenderStyle, STYLE_Normal);//SetTranslation(0,"Normal");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+// RedBlobs
+
+Script "RedProjectileWater" (void)
+{
+	if(GetActorProperty(0,APROP_Waterlevel)!= 0)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
+Script "Lower" (void)
+{
+	
+	if(MapUnit_ToInt(GetActorCeilingZ(0)) - MapUnit_ToInt(GetActorFloorZ(0)) <= 64)
+	{
+		//log(s: "Low");
+		SetResultValue(1);
+	}
+	  
+	else
+	{
+		SetResultValue(0);
+	}
+	  
+}
+
+//Survivors Use This
+Script "GiveGoo" (void)
+{
+	GiveInventory("GooToken",1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Martians
+
+
+Script "CheckYToTarget" (void)
+{
+	int MonsterY= MapUnit_ToInt(GetActorY(0));
+	SetActivatorToTarget(0);
+	int TargetY= MapUnit_ToInt(GetActorY(0));
+
+	if((TargetY >= MonsterY))
+	{
+		SetResultValue(1);
+	}
+	else
+	{
+		if(MonsterY < 0)	{MonsterY = MonsterY * -1;}
+		if(TargetY < 0)		{TargetY = TargetY * -1;}
+		
+		int Difference = 0;
+
+		if(MonsterY > TargetY)
+			Difference = MonsterY - TargetY;
+		else
+			Difference = TargetY - MonsterY;
+
+		if(Difference < 300)
+			SetResultValue(1);
+		else if(Difference >= 300)
+			SetResultValue(2);
+		else
+		//SetResultValue(0);
+		SetResultValue(2);
+	}
+}
+
+
+Script "CheckXToLeft" (void)
+{
+	int MonsterX= MapUnit_ToInt(GetActorX(0));
+	SetActivatorToTarget(0);
+	int TargetX= MapUnit_ToInt(GetActorX(0));
+
+	int Difference = 0;
+
+	if(MonsterX < TargetX)
+		SetResultValue(0);
+	else
+	{
+		if(TargetX <0 )  TargetX = TargetX * -1;
+		if(MonsterX <0 ) MonsterX = MonsterX * -1;
+		Difference = TargetX - MonsterX;
+		if(Difference < 0)
+			Difference = Difference * -1;
+		if(Difference < 450)
+			SetResultValue(1);
+		if(Difference >= 450)
+			SetResultValue(2);
+	}
+		
+}
+
+Script "CheckXToRight" (void)
+{
+	int MonsterX= MapUnit_ToInt(GetActorX(0));
+	SetActivatorToTarget(0);
+	int TargetX= MapUnit_ToInt(GetActorX(0));
+
+	int Difference = 0;
+
+	if(MonsterX > TargetX)
+		SetResultValue(0);
+	else
+	{
+		if(TargetX <0 )  TargetX = TargetX * -1;
+		if(MonsterX <0 ) MonsterX = MonsterX * -1;
+		Difference = TargetX - MonsterX;
+		if(Difference < 0)
+			Difference = Difference * -1;
+		if(Difference > 450)
+			SetResultValue(1);
+		if(Difference <= 450)
+			SetResultValue(2);
+	}
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+// UFO
+
+Script "OffsetUFO" (int frame)
+{
+	int XPos = 0;
+	int YPos = 0;
+	//int Movement = 24;
+	switch(frame)
+	{
+		case 1: SetActorPosition(0,GetActorX(0) - 8.0,GetActorY(0) + 8.0,GetActorZ(0),false);
+				//XPos = GetActorX(0) - Movement;
+				//YPos = GetActorY(0) + Movement;
+				//Log(s: "Frame 1");
+				break;
+		
+		case 2: SetActorPosition(0,GetActorX(0) - 8.0,GetActorY(0) - 8.0,GetActorZ(0),false);
+				//XPos = GetActorX(0) - Movement;
+				//YPos = GetActorY(0) - Movement;
+				//Log(s: "Frame 2");
+				break;
+		
+		case 3: SetActorPosition(0,GetActorX(0) + 8.0,GetActorY(0) - 8.0,GetActorZ(0),false);
+				//XPos = GetActorX(0) + Movement;
+				//YPos = GetActorY(0) - Movement;
+				//Log(s: "Frame 3");
+				break;
+
+		case 4: SetActorPosition(0,GetActorX(0) + 8.0,GetActorY(0) + 8.0,GetActorZ(0),false);
+				//XPos = GetActorX(0) + Movement;
+				//YPos = GetActorY(0) + Movement;
+				//Log(s: "Frame 4");
+				break;
+	}
+	
+	//SetActorPosition(0,XPos,YPos,GetActorZ(0),false);
+}
+
+
+Script "GetUFOShadowZ"  (void)
+{
+	SetResultValue( 0 - ( MapUnit_ToInt(GetActorZ(0)) - MapUnit_ToInt(GetActorFloorZ(0)) ) );//First Guess let it be at ground 0
+}
+
+Script "SetShadowPieceZ" (void)
+{
+	if(GetActorZ(0) != GetActorFloorZ(0))
+	{
+		SetActorPosition(0,GetActorX(0),GetActorY(0),GetActorFloorZ(0),false);
+		SetResultValue(1);
+	} 
+	else
+	{
+		SetResultValue(0);
+	}
+}
+
+
+Script "UFOHitCheck" (void)	// Translation doesn't work at the moment as it requires VOXELDEF
+{
+	while(true)
+	{
+		int Health= 	GetActorProperty(0,APROP_Health);
+		Delay(1);	
+		int NowHealth= 	GetActorProperty(0,APROP_Health);
+		
+		if((Health > NowHealth)&&(NowHealth > 0))
+			ACS_NamedExecuteAlways("SetHitUFO",0,0,0,0);
+	}
+	
+}
+
+
+Script "SetHitUFO" (void)
+{
+	SetTranslation(0,"UFOHit");
+	Delay(4);
+	SetTranslation(0,"Normal");
+	Delay(2);
+	SetTranslation(0,"UFOHit");
+	Delay(2);
+	SetTranslation(0,"Normal");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//FootBallPlayer
+
+Script "ShuffleDirection" (int arg)
+{
+	int newarg = 0;
+	switch(arg)
+	{
+		case 0: newarg = arg;	Break;
+		case 1:	newarg = 2;		Break;
+		case 2:	newarg = 1;		Break;
+	}
+
+	SetResultValue(newarg);
+}
+
+
+
+
+#define DecimalDegree 0.00277777777777777777777777777778
+#define DecimalRange 0.05//0.0625
+
+
+//TODO: Rewrote the shortest aproximation loop to take any angle as target.
+Script "RotateAngleTo" (int SetAngle)
+{
+	for(int it=0; it<20; it++)
+	{
+
+		if(it %5 == 0)
+		{
+		//Thing_Stop(0);
+		ThrustThing(SetAngle * 256 / 360 + 128, 10, 0, 0);
+		}
+
+		if( (GetActorAngle(0) >  ((SetAngle * DecimalDegree) + DecimalRange)) || 
+			(GetActorAngle(0) <  ((SetAngle * DecimalDegree) - DecimalRange)) )
+		{
+			switch(SetAngle)
+			{
+			Case 0:		//Right
+						if(GetActorAngle(0) <= 0.5)
+								SetActorAngle(0, GetActorAngle(0) - 0.04);
+						else
+								SetActorAngle(0, GetActorAngle(0) + 0.04);
+						Break;
+						
+			Case 180:	//Left
+						if(GetActorAngle(0) > 0.5)
+							SetActorAngle(0, GetActorAngle(0) - 0.04);
+						else
+							SetActorAngle(0, GetActorAngle(0) + 0.04);
+						Break;
+			}
+		}
+		//When close enough to SetAngle set it to SetAngle
+		else
+			SetActorAngle(0, SetAngle * DecimalDegree);
+	Delay(1);
+	}
+}
+
+/*	//WIP
+//Extended Version
+#define mov_pos  1
+#define mov_neg -1
+Script "RotateAngleToX" (int SetAngle, int Tics)
+{
+	int ItTics=0;
+	int Distance=0;
+	int move = 0;
+
+	
+
+	//TESTING
+	int startang = GetActorAngle(0) * 360;
+	SetAngle = GetCvar("SetAngle");
+	Tics = GetCvar("Tics");
+	
+
+	int Playerangle = GetActorAngle(0) * 360;
+	//First Calculate the shortest distance and direction.
+		 if( Playerangle >  SetAngle)
+		{
+			Distance = Playerangle - SetAngle;
+			//move = mov_neg;
+
+			//if(Distance > 180)
+			//{
+			//	Distance = SetAngle + (360 - (GetActorAngle(0) * 360));
+				//move = mov_neg;
+				//move = mov_pos;	
+			//}
+		}
+	else if( Playerangle <  SetAngle)
+		{
+			Distance = SetAngle - Playerangle;
+			//move = mov_pos;
+		
+			//if(Distance > 180)
+			//{
+			//	Distance = (GetActorAngle(0) * 360) + (360 - SetAngle);
+			//	move = mov_pos;
+				//move = mov_neg;	
+			//}
+		}
+	else
+		{	
+			//Set Directly
+			Distance = 1;
+			Tics = 1;
+		}
+	
+	
+	//Distance = max((GetActorAngle(0) * 360), SetAngle) - min((GetActorAngle(0) * 360), SetAngle);//			(GetActorAngle(0) * 360) - SetAngle;
+
+	//if(Distance > 180)
+	//if(Distance < 180)
+	//	move = mov_pos;
+	//else
+	//	move = mov_neg;
+
+	//if(Distance < 0)
+	//	Distance = Distance * -1;
+
+
+	//Default is 35 TicSteps
+	if(Tics == 0)
+	{ Tics = 35; }
+
+
+	if(Tics == 1)
+	{
+		//Set Directly
+		SetActorAngle(0, SetAngle * DecimalDegree);
+	}
+	else
+	{
+	
+		for(ItTics=Tics; ItTics>0; ItTics--)
+		{
+			print(s: StrParam(s: "start: ", f: (startang/360), s: "\nactual: ", f: (GetActorAngle(0)), s: "\n fin: ", f: (SetAngle * DecimalDegree), s: "\ndist: ", f: (Distance/360), s: "\nsteptodo: ", i: ItTics));
+			SetActorAngle(0, GetActorAngle(0) + (((Distance/Tics)/360) * move) );
+			Delay(1);
+		}
+
+		SetActorAngle(0, SetAngle/360);
+	}		
+}
+*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+// GillMan
+
+Script "GillMan_SpeedModifier" (void)
+{
+	while(true)
+	{
+		
+		//In Water
+		if(GetActorProperty(0,APROP_Waterlevel) > 0)
+			{	SetActorProperty(0,APROP_Speed,9.0/*8.0*/);
+				//if(GetActorProperty(0,APROP_Waterlevel) > 1)
+				//	SetActorProperty(0,APROP_RenderStyle,STYLE_Translucent);
+				//else
+				//	SetActorProperty(0,APROP_RenderStyle,STYLE_Normal);
+			}
+		
+		//Not in Water
+		else
+			{	SetActorProperty(0,APROP_Speed,6.0);
+				//SetActorProperty(0,APROP_RenderStyle,STYLE_Normal);
+			}
+
+		Delay(1);
+	}
+}
+
+Script "CheckWaterSplash" (void)
+{
+	bool InWater = true;
+	int watmonsX = 0;
+	int watmonsY = 0;
+	int watmonsZ = 0;
+
+	while(true)
+	{
+		//InWater
+		if(GetActorProperty(0,APROP_Waterlevel)!= 0)
+		{
+			if(!(InWater))
+			{
+				watmonsX = GetActorX(0);
+				watmonsY = GetActorY(0);
+				watmonsZ = GetActorZ(0);
+
+				SpawnForced("SFX_InWater", watmonsX, watmonsY, watmonsZ, 0, 0);
+			}
+
+			InWater = true;
+		}
+		//OutWater
+		else
+		{
+			if(InWater)
+			{
+				watmonsX = GetActorX(0);
+				watmonsY = GetActorY(0);
+				watmonsZ = GetActorZ(0);
+
+				if((watmonsX != 0) || (watmonsY != 0))
+					SpawnForced("SFX_InWater", watmonsX, watmonsY, watmonsZ, 0, 0);
+			}
+			InWater = false;
+		}
+		
+		Delay(1);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Ants
+
+Script "AngleToCardinalBasic" (void)	//WIP
+{
+	int angleact = GetActorAngle(0) * 360;//>> 8;
+	log(i: (GetActorAngle(0) * 360) );
+}
+
+Script "GetAntInventory" (void)
+{
+	SetResultValue(CheckInventory("AntInventory"));
+}
+
+Script "AntItemStarter" (void)
+{
+	GiveInventory("AntInventory",1);
+	Delay(140);
+	Restart;
+}
+
+Script "RedAntPallete" (void)
+{
+	SetTranslation(0,"RedAnt");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Script "LogSpawn" (void)	{	Log(s: "Monster Spawned!");	}
+Script "LogIdle" (void)		{	Log(s: "Monster Idle!");	}
+Script "LogSee" (void)		{	Log(s: "Monster See!");	}
+Script "LogChase1" (void)	{	Log(s: "Chase 1");	}
+Script "LogChase2" (void)	{	Log(s: "Chase 2");	}
+Script "LogChase3" (void)	{	Log(s: "Chase 3");	}
+Script "LogChase4" (void)	{	Log(s: "Chase 4");	}
+Script "LogMelee" (void)	{	Log(s: "Monster Melee!");	}
+Script "LogDeath" (void)	{	Log(s: "Monster Death!");	}
+
+
+//Custom Monster Spawner
+Script "MoveSpawnMonster" (int radius)
+{
+	int ownx = GetActorX(0);
+	int owny = GetActorY(0);
+	int ownz = GetActorZ(0);
+
+	SetActorPosition(0, ownx+random(-radius, radius), owny+random(-radius, radius), ownz, false);
+	Delay(2);
+	SetActorPosition(0, ownx, owny, ownz, false);
+}
+
+//General Use
+Script "SpawnWaterCheck" (void)
+{
+	if(GetActorProperty(0,APROP_Waterlevel) > 0)			//if IT IS spawning on water
+		{
+			if(StrICmp(GetActorClass(0), "Gillman") == 0)	//if IT IS a Gillman who's checking just ignore
+				{SetResultValue(0);
+				//Log(s: "It is a Gillman");
+				}
+			else
+				{SetResultValue(1);
+				//Log(s: "Wrong Water Spawn");
+				}
+		}
+	else
+		SetResultValue(0);
+}

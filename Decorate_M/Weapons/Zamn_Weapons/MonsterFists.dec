@@ -1,4 +1,4 @@
-ACTOR MonsterFists : Weapon//WeaponClass_ZAMN	//Don't inherit from ZAmn Class, different Raising animation.
+ACTOR MonsterFists : Weapon//WeaponClass_ZAMN	//Don't inherit from WeaponClass_ZAMN, different Raising animation.
 {
   Weapon.SelectionOrder 1500
   Weapon.SlotNumber 2

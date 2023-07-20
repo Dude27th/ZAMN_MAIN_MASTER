@@ -1,0 +1,8 @@
+Actor Solid_Decoration
+{	+SOLID	}
+
+Actor Solid_Door
+{	+SOLID	}
+
+Actor Solid_Drawer
+{	+SOLID	}

@@ -51,7 +51,7 @@ Script "GetCardinalAngle" (int AnglePointer)
 
 Script "GetCardinalBasic" (int AnglePointer)
 {
-	int result = 0;
+	int result = 0;	//?
 
 	switch(AnglePointer)
 	{
@@ -65,6 +65,65 @@ Script "GetCardinalBasic" (int AnglePointer)
 }
 
 
+Script "SnapNearestCardinal" (void)	
+{
+	int Rads = GetActorAngle(0) >> 8;
+	//Log(s: StrParam(s: "Angle:", i: Rads));
+	int Cardinal = 0;
+	//Snap to the nearest cardinal:: -16° from Cardinal, +16° from Cardinal I think
+		//Rads 0.
+		if( ((Rads >= 240)&&(Rads <= 256)) || ((Rads >= 0)&&(Rads < 16)) )
+			{Cardinal=0;}
+		//Rads 45.
+		else if((Rads >= 16)&&(Rads < 48))
+			{Cardinal=32;}
+		//Rads 90.
+		else if((Rads >= 48)&&(Rads < 80))
+			{Cardinal=64;}
+		//Rads 135.
+		else if((Rads >= 80)&&(Rads < 112))
+			{Cardinal=96;}
+		//Rads 180.
+		else if((Rads >= 112)&&(Rads < 144))
+			{Cardinal=128;}
+		//Rads 225.
+		else if((Rads >= 144)&&(Rads < 176))
+			{Cardinal=160;}
+		//Rads 270.
+		else if((Rads >= 176)&&(Rads < 208))
+			{Cardinal=192;}
+		//Rads 315.
+		else if((Rads >= 208)&&(Rads < 240))
+			{Cardinal=224;}
+
+	//Log(s: StrParam(s: "Cardinal:", i: Cardinal));
+	//SetResultValue(Cardinal);
+	SetActorAngle(0, (Cardinal << 8));
+}
+
+Script "SnapBasicCardinal" (void)	
+{
+	int Rads = GetActorAngle(0) >> 8;
+	//Log(s: StrParam(s: "Angle:", i: Rads));
+	int Cardinal = 0;
+	//Snap to the nearest cardinal:: -32° from Cardinal, +32° from Cardinal I think
+		//Rads 0.
+		if( ((Rads >= 224)&&(Rads <= 256)) || ((Rads >= 0)&&(Rads < 32)) )
+			{Cardinal=0;}
+		//Rads 64.
+		else if((Rads >= 32)&&(Rads < 96))
+			{Cardinal=64;}
+		//Rads 128.
+		else if((Rads >= 96)&&(Rads < 160))
+			{Cardinal=128;}
+		//Rads 192.
+		else if((Rads >= 160)&&(Rads < 224))
+			{Cardinal=192;}
+
+	//Log(s: StrParam(s: "Cardinal:", i: Cardinal));
+	//SetResultValue(Cardinal);
+	SetActorAngle(0, (Cardinal << 8));
+}
 
 Script "Reposition" (void)
 {
@@ -88,6 +147,8 @@ Script "Reposition" (void)
 #libdefine TAG_STANLEYWALLSET1 800			//Deprecated?
 #libdefine TAG_STANLEYWALLSET2 840			//Deprecated?
 
+#libdefine TAG_P1 			2000
+#libdefine TAG_P2 			2001
 #libdefine TAG_P1FINISHSPOT 994
 #libdefine TAG_P2FINISHSPOT 995
 
@@ -97,6 +158,7 @@ Script "Reposition" (void)
 
 #libdefine STAY_MORPHED 	0x7FFFFFFF
 #libdefine SPAWNLIMIT_ZAMN 	6
+#libdefine NONE				0
 
 
 #libdefine  ZAMN_WATSIZE  8	 //<-- <-- Update the size by the number of textures to check
@@ -235,6 +297,69 @@ function str ScoreFillZeros(int ScorePoints)
 	return result;
 }
 
+
+#libdefine HUDFX_GOO 		0
+#libdefine HUDFX_BUBBLE		1
+
+function str GetHudEffect(int Amount, int Type)
+{
+	str fontresult = "";
+	switch(Type)  
+	{
+		case HUDFX_GOO:
+				 if(Amount >= 105)		fontresult = "GLOO20";
+			else if(Amount >= 100)		fontresult = "GLOO19";
+			else if(Amount >= 95)		fontresult = "GLOO18";
+			else if(Amount >= 90)		fontresult = "GLOO17";
+			else if(Amount >= 85)		fontresult = "GLOO16";
+			else if(Amount >= 80)		fontresult = "GLOO15";
+			else if(Amount >= 75)		fontresult = "GLOO14";
+			else if(Amount >= 70)		fontresult = "GLOO13";
+			else if(Amount >= 65)		fontresult = "GLOO12"; 
+			else if(Amount >= 60)		fontresult = "GLOO11"; 
+			else if(Amount >= 55)		fontresult = "GLOO10";
+			else if(Amount >= 50)		fontresult = "GLOO9";
+			else if(Amount >= 45)		fontresult = "GLOO8";
+			else if(Amount >= 40)		fontresult = "GLOO7";
+			else if(Amount >= 25)		fontresult = "GLOO6";
+			else if(Amount >= 20)		fontresult = "GLOO5";
+			else if(Amount >= 15)		fontresult = "GLOO4";
+			else if(Amount >= 10)		fontresult = "GLOO3";
+			else if(Amount >= 5)		fontresult = "GLOO2";
+			else if(Amount >= 0)		fontresult = "GLOO1";
+			Break;
+			
+		case HUDFX_BUBBLE:
+			switch(Amount)
+			{
+				case 50:	fontresult = "MBBLA0";	Break;
+				case 49:	fontresult = "MBBLB0";	Break;
+				case 48:	fontresult = "MBBLC0";	Break;
+				case 47:	fontresult = "MBBLD0";	Break;
+				case 46:	fontresult = "MBBLE0";	Break;
+				case 45:	fontresult = "MBBLF0";	Break;
+				case 44:	fontresult = "MBBLG0";	Break;
+				case 43:	fontresult = "MBBLH0";	Break;
+				case 42:	fontresult = "MBBLI0";	Break;
+				case 41:	fontresult = "MBBLJ0";	Break;
+	
+				Default:	fontresult = "MBBLJ0";	Break;
+				case 6 :	fontresult = "MBBLK0";	Break;
+				case 5 :	fontresult = "MBBLL0";	Break;
+				case 4 :	fontresult = "MBBLM0";	Break;
+				case 3 :	fontresult = "MBBLN0";	Break;
+				case 2 :	fontresult = "MBBLO0";	Break;
+				case 1 :	fontresult = "MBBLP0";	Break;
+			}
+			Break;
+	}
+	
+	return fontresult;
+}
+
+
+
+/*
 function str GetGooEffectGraphic(int GooAmount)
 {
 	str fontresult = "";
@@ -260,8 +385,8 @@ function str GetGooEffectGraphic(int GooAmount)
 	else if(GooAmount >= 0)			fontresult = "GLOO1";
 
 	return fontresult;
-}
-
+}*/
+/*
 function str GetBubbleEffectGraphic(int BubbleTime)
 {
 	str fontresult = "";
@@ -288,7 +413,7 @@ function str GetBubbleEffectGraphic(int BubbleTime)
 		}
 
 	return fontresult;
-}
+}*/
 
 
 

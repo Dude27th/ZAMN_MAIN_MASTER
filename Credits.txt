@@ -123,7 +123,7 @@ Extra Game Over Colors:
 		- "Unused Zamn"
 		- "Zamn: The Lost Levels"
 		- "Elite Zamn"
-		- "Elite Zamn 2"
+		- "Elite Zamn 2 (Beta)"
 		- "Doomsday 2"
 
 	By Board_Avenger's Hacks:

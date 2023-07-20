@@ -3,28 +3,43 @@
 //----------- High Priority ------------//
 //
 // - [BUG] Failed Spawns:	Fixed with the Halloween Demo, altough the EvilDoll spawns still cause some issues.
+//						
 //
 // - Rework Triggers :		They don't need to have different actors for different palletes-.
 //							It can just be an argument.
 //
-// - Weapons / Easter Eggs:	Use a global str to determine the game type, default should be ZAMN.
-//							When all weapons cheat is active check this variable, and launch a Script Cleaning easter eggs weapon.
-//							Easter Egg Weapons should inherit for differet weapon class actors. (Ex: "WeaponBase_Ghoul" | "WeaponBase_Smash" | "WeaponBase_Sky")
-//							This way weapon detection is easier, hopefully.
+//
+// - Land Enemies on Water:	2) Sometimes while chasing the player land enemies launch themselves and end up on water.
+//							This should NOT happen.
+//
+// - Survivor 404 Failsafe:	Add an exception case for survivors in case that they have a 404 tag.
+//							As 404 actors get erased, and this would cause a softlock.
 //
 //------------ Low Priority ------------//
 //
 // - [BUG]	:				Player pain sound doesn't activate always
 //							
 //
-// - Frankestein:			Finish Voxel Spawn animation !
-//							[RECOVERED !! I'LL FINISH THIS WHEN I CAN BUT, IM TIRED]
+// - Frankestein:			1) Finish Voxel Spawn animation !
 //							[MIGHT NEED ANOTHER MONTH FOR POLISHING, TOO MANY ASSETS WITHOUT A FINAL PASS :/]
+//
+//							2) Check hitbox receiving multiple damage (?)
 //
 // - RedBlob:				Try to fix their projectile, to move trough 3D floors. If they are outside the players sight.
 //							(YEAH, HOW TO CHECK FOR IMPACT ON 3D FLOORS THO ?)
 //
 //-------------- Optional --------------//
+//
+// - FAN REQUEST:			Port ZAMNTC (or a simplified version of it) to Zandronum.
+//
+// - (TheOmegaPaladin):		At the start of "Honey I Enlarged The Kids" the breakable tree is not clear
+//							to be destructible as the starting area is full of trees.
+//							(Maybe just have it open??)
+//
+// - Water Gun Quirk (?):	"In the original, there was a trick to dealing with the chainsaw maniacs. 
+//	( ryguy9876 ) 			What you would do is freeze them in place with the fire extinguisher then wail on them 
+//							with the water pistol from it's maximum range as the water pistol had a weird quirk where it did more damage to enemies caught in the water splash. Not only did this work, it was the only way to consistently get the "Chainsaw massacre" point bonus. 
+//							It's also worth noting that chainsaw maniacs are one of the only enemies in the game that don't respawn."
 //
 // - Try to make a 3D model for the MartianRay weapon.	
 //							(I NEED TO WORK WITH BLENDER AGAIN OR GOD HELP ME)
@@ -34,6 +49,11 @@
 //							The lives system might need some reworking.
 //							(YEAH, SEVERAL MONSTERS NEED MORE FINE TUNNING, EVEN MORE NOW THAT)
 //							(I HAVE MORE EXACT INFO ABOUT THEIR RESISTANCES, INCLUDING BOSSES)
+//
+// - Weapons / Easter Eggs:	Use a global str to determine the game type, default should be ZAMN.
+//							When all weapons cheat is active check this variable, and launch a Script Cleaning easter eggs weapon.
+//							Easter Egg Weapons should inherit for differet weapon class actors. (Ex: "WeaponBase_Ghoul" | "WeaponBase_Smash" | "WeaponBase_Sky")
+//							This way weapon detection is easier, hopefully.
 //
 //
 //----------- Maybe won't fix ----------//

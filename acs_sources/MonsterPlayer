@@ -1,7 +1,9 @@
 #library "MonsterPlayer"
 #include "zcommon.acs"
 #include "CUValues.acs"
- 
+  
+//Monster Player Class::
+//-------------------------------------------------------------------------- 
    
 Script "MorphMonster" (void)
 {
@@ -47,18 +49,6 @@ Script "GiveOwnZ" (void)
 }
 
 // Methods !!
-/*	//Deprecated: Use "CleanWeaponTokens" instead
-Script "TakeTokens" (void)
-{
-	TakeInventory("FalseFlag",1);
-	TakeInventory("WeedWackerToken",1);	
-	TakeInventory("TomatoToken",1);	
-	TakeInventory("SodaToken",1);	
-	TakeInventory("WRToken",1);	
-	TakeInventory("BToken",1);
-	TakeInventory("FEToken",1);
-	TakeInventory("CrucifixToken",1);
-}*/
 
 Script "HealthCount" (void)
 	{
@@ -91,7 +81,7 @@ Script "HealthCount" (void)
 		SetActorProperty(0,APROP_HEALTH,HealthHave);
 	Delay(11);	//MorphAnimation
 	
-	while(CheckInventory("MonsterTime")>0)
+	while((CheckInventory("MonsterTime")>0)||(CheckInventory("GhostTime")>0))
 		{ Delay(1); }
 	if(HealthTake > 0)
 		//DamageThing(HealthTake);
@@ -105,108 +95,52 @@ Script "HealthCount" (void)
 	HealthTake = 0;
 	}
 	
+//Ghost Player Class::
+//--------------------------------------------------------------------------
 
-/*	//Deprecated: Recent reworks of the monster morphing method and class prevents this from happening.
-#define WEED_WACKER_SLC 		1
-#define TOMATO_SLC 				2
-#define SODA_SLC 				3
-#define WATER_RIFLE_SLC			4
-#define BAZOOKA_SLC 			5
-#define FIRE_EXTINGUISHER_SLC 	6
-#define CRUCIFIX_SLC 			7
-
-//After unmorphing, doublecheck for missing picked up weapons but with ammo.
-Script "FixMissingWeapons" (void)	
+Script "MorphGhost" (void)
 {
-		Delay(1);
-		int SelectedWeapon=0;
-
-		if((CheckInventory("WeedWackerToken") == 1)||(CheckInventory("FalseFlag") == 1))
-			SelectedWeapon = WEED_WACKER_SLC;
-		else if(CheckInventory("TomatoToken") == 1)
-			SelectedWeapon = TOMATO_SLC;
-		else if(CheckInventory("SodaToken") == 1)
-			SelectedWeapon = SODA_SLC;
-		else if(CheckInventory("WRToken") == 1)
-			SelectedWeapon = WATER_RIFLE_SLC;
-		else if(CheckInventory("BToken") == 1)
-			SelectedWeapon = BAZOOKA_SLC;
-		else if(CheckInventory("FEToken") == 1)
-			SelectedWeapon = FIRE_EXTINGUISHER_SLC;
-		else if(CheckInventory("CrucifixToken") == 1)
-			SelectedWeapon = CRUCIFIX_SLC;
-
-		//Patreon Comissions///////////////////////////////
-		else if(ACS_NamedExecuteWithResult("IsSlapAddon")==1)
-			{if(CheckInventory("SlapToken")==1)
-			SelectedWeapon = 11;}
- 
-		///////////////////////////////////////////////////
-
-		str playerid="";
-		str weapon="";
-		if(CheckInventory("ZekeToken")==1)		playerid="_Z";
-		else									playerid="_J";
-
-		//This was more readable in earlier builds but this is shorter
-		//So, if player has ammo for a weapon and not the weapon then it should give the weapon, 
-		//but taking the extra ammo that comes from the weapon.
-		//Ex: "WDWKER", "_Z" or "_J", "_Ammo" <------> "WDWKER_Z_Ammo" or "WDWKER_J_Ammo"
-
-		weapon= "WDWKER"; 
-		if((CheckInventory(StrParam(s: weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s: weapon, s: playerid)) < 1))	
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 50);	}
-		weapon= "TOMATO"; 
-		if((CheckInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s:  weapon, s: playerid)) < 1))	
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 5);		}
-		weapon= "SODA"; 
-		if((CheckInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s:  weapon, s: playerid)) < 1))	
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 6);		}
-		weapon= "WTRGUN"; 
-		if((CheckInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s:  weapon, s: playerid)) < 1))	
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 90);	}
-		weapon= "BAZOKA"; 
-		if((CheckInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s:  weapon, s: playerid)) < 1))					
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 5);		}
-		weapon= "FIREXT"; 
-		if((CheckInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s:  weapon, s: playerid)) < 1))					
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 40);	}
-		weapon= "CRUCFX"; 
-		if((CheckInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo")) >= 1)&&(CheckInventory(StrParam(s:  weapon, s: playerid)) < 1))					
-				{	GiveInventory(StrParam(s:  weapon, s: playerid),1);
-					TakeInventory(StrParam(s:  weapon, s: playerid, s: "_Ammo"), 20);	}
-
-		//Patreon Comissions///////////////////////////////
-		if(ACS_NamedExecuteWithResult("IsSlapAddon")==1)
-		{	
-		weapon= "SLAPWP"; 
-				GiveInventory(StrParam(s:  weapon, s: playerid),1);		
-		}
-
-		///////////////////////////////////////////////////
-			
-
-		
-		switch(SelectedWeapon)
-		{
-			Case WEED_WACKER_SLC:		SetWeapon(StrParam(s:  "WDWKER", s: playerid));		Break;
-			Case TOMATO_SLC:			SetWeapon(StrParam(s:  "TOMATO", s: playerid));		Break;
-			Case SODA_SLC:				SetWeapon(StrParam(s:  "SODA"  , s: playerid));		Break;
-			Case WATER_RIFLE_SLC:		SetWeapon(StrParam(s:  "WTRGUN", s: playerid));		Break;
-			Case BAZOOKA_SLC:			SetWeapon(StrParam(s:  "BAZOKA", s: playerid));		Break;
-			Case FIRE_EXTINGUISHER_SLC:	SetWeapon(StrParam(s:  "FIREXT", s: playerid));		Break;
-			Case CRUCIFIX_SLC:			SetWeapon(StrParam(s:  "CRUCFX", s: playerid));		Break;
-
-			//Patreon Commissions//////////////
-			Case 11:					SetWeapon(StrParam(s:  "SLAPWP", s: playerid));		Break;
+	if(CheckInventory("ZekeToken")==1)
+		{ MorphActor(0,"ZEKE_GHOST","",STAY_MORPHED,MRF_FULLHEALTH|MRF_ADDSTAMINA|MRF_WHENINVULNERABLE|MRF_LOSEACTUALWEAPON,"NoFlash","NoFlash"); 
+		  SetPlayerProperty(FALSE, OFF, PROP_TOTALLYFROZEN);		}
+	else
+		{ MorphActor(0,"JULIE_GHOST","",STAY_MORPHED,MRF_FULLHEALTH|MRF_ADDSTAMINA|MRF_WHENINVULNERABLE|MRF_LOSEACTUALWEAPON,"NoFlash","NoFlash"); 
+		  SetPlayerProperty(FALSE, OFF, PROP_TOTALLYFROZEN);		}
+	//print(s: "ScriptMorphed");
+	ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0);
+	TakeInventory("DoGhostToken",1);
+	GiveInventory("GhostToken",1);
+	GiveInventory("GhostWeapon",1);
+	GiveInventory("GhostTime",1400);
+	ACS_NamedExecuteAlways("GhostCollision",0,0,0,0);
+	SetWeapon("GhostWeapon");
+	//
 	
-			///////////////////////////////////
-		}
-		
-}*/
+	while("GhostTime" >= 1)
+	{ Delay(1);		/*Delay to do what tho ??*/}
+
+} 
+
+Script "GhostCollision" (void)
+{
+	while(CheckInventory("GhostToken")>0)
+	{
+		//if()//Solid decoration on the way
+		//{}
+		//else
+		//{
+			if(CheckProximity(0, "MonsterClass_ZAMN", 64.0, 1, CPXF_ANCESTOR))
+			{
+				HudMessage(s: "Can Pass";HUDMSG_PLAIN,0,0,0.5,0.5,HUDTIME_ONETIC);
+				SetActorFlag(0, "SOLID", FALSE);
+			}
+			else
+			{
+				HudMessage(s: "Blocked";HUDMSG_PLAIN,0,0,0.5,0.5,HUDTIME_ONETIC);
+				SetActorFlag(0, "SOLID", TRUE);
+			}
+		//}
+
+	Delay(1);
+	}
+}

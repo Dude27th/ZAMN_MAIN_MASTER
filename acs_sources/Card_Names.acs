@@ -3,7 +3,15 @@
 #libdefine Start 0
 #libdefine End 1
 
+//Cameras
+#libdefine Camera_Standard 		1
+#libdefine Camera_WideScreen 	2
+#libdefine Camera_Survivors 	25
+
+
 #libdefine CustomLevel 0
+#libdefine NoLevel 0
+#libdefine NoBonus 0
 
 
 global str 1: Start_Card;		//Start Card
@@ -28,7 +36,7 @@ global str 20: Custom_Card_10;		//Custom Card 10
 //Title Cards:: Organized by Progression
 str LevelCard_Normal [49][2] =
 {
-	{"",""},	//	:: 	[Unused]
+	{"",""},					//	0: 	[Unused]
 	{"LTZP_STR","LTZP_FIN"},	//	1: 	Zombie Panic
 	{"LTEU_STR","LTEU_FIN"},	//	2: 	Evening Of The Undead
 	{"LTTF_STR","LTTF_FIN"},	//	3: 	Terror In Aisle Five
@@ -82,7 +90,7 @@ str LevelCard_Normal [49][2] =
 
 str LevelCard_Bonus [8][2] =
 {
-	{"",""},					//	::	[Unused]
+	{"",""},					//	0:	[Unused]
 	{"LTDT_STR","LTDT_FIN"},	//	1:	[Bonus] Day Of The Tentacle			[Access: 01]
 	{"LTMM_STR","LTMM_FIN"},	//	2:	[Bonus] Mushroom Men				[Access: 09]
 	{"LTVS_STR","LTVS_FIN"},	//	3:	[Bonus] Cheerleaders Vs Monsters	[Access: 12]

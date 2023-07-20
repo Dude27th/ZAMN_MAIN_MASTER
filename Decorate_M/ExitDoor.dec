@@ -41,6 +41,15 @@ Actor StartLevelPlayer2 : TeleportDest2 15033
 }
 
 //$GZDB_SKIP
+Actor EDToken : Inventory
+{	Inventory.MaxAmount 1	}
+
+Actor LevelFinished : EDToken	{}
+Actor YesTeleport : EDToken		{}
+Actor RemoveToken : EDToken		{}
+
+
+
 Actor ExitDoor	
 {
   Height 20
@@ -101,17 +110,6 @@ Actor DoorPointer : CustomInventory
 		Loop
 		}
 }
-
-Actor LevelFinished : Inventory
-{
-	Inventory.MaxAmount 1
-}
-  
-Actor YesTeleport : Inventory
-{
-	Inventory.MaxAmount 1
-}
-
 
 Actor FinishPoint1 : TeleportDest2 15030
 {
@@ -275,9 +273,4 @@ Actor ShowPoint5 : ShowPoint1 15055
 		TNT1 A 1 ACS_NamedExecuteAlways("SetPoint5",0,0,0,0)
 		Goto Idle
 		}
-}
-
-Actor RemoveToken : Inventory
-{
-Inventory.MaxAmount 1
 }

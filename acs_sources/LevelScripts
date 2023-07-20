@@ -1,7 +1,7 @@
 #library "LevelScripts"
 #include "zcommon.acs"
 #include "CUValues.acs"
-                     
+                      
 ///////////////////////////////
 //     MAIN LEVEL SCRIPTS    //
 ///////////////////////////////
@@ -13,7 +13,7 @@ Script "StartPlayer" (void)	//Wrapper
 {ACS_NamedExecuteAlways("SetPlayer",0,0,0,0);}
 
 
-
+ 
 //Intro Control
 int TitleCardsDone=0;
 int CustomTitleCardMode=0;
@@ -21,15 +21,21 @@ int CustomCardNumber=0;
 int SkipTitleCards=0;
 
 //Coordinates
-int StartPointX1 = 0;
-int StartPointY1 = 0;
-int StartPointZ1 = 0;
-int StartPointAngle1 = 0;
 
-int StartPointX2 = 0;
-int StartPointY2 = 0;
-int StartPointZ2 = 0;
-int StartPointAngle2 = 0;
+int StartPoint1 [4] = {0, 0, 0, 0};		// X, Y, Z, Angle
+int StartPoint2 [4] = {0, 0, 0, 0};		// X, Y, Z, Angle
+
+//int StartPointX1 = 0;
+//int StartPointY1 = 0;
+//int StartPointZ1 = 0;
+//int StartPointAngle1 = 0;
+
+//int StartPointX2 = 0;
+//int StartPointY2 = 0;
+//int StartPointZ2 = 0;
+//int StartPointAngle2 = 0;
+
+
 
 
 
@@ -78,11 +84,11 @@ Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 		}
 	
 	//Cleans the custom level Number 
-	if((GetCVar("customlevelnumber")!= 0)&&(NumLevel == 0))
-		{	SetCvar("customlevelnumber",0);	}
+	if((GetCVar("customlevelnumber")!= 0)&&(NumLevel == NONE))
+		{	SetCvar("customlevelnumber", NONE);	}
 
 	//Unsets the musicoff Cvar that might have been setup by a previous exit door
-	SetCVar("musicoff",0);
+	SetCVar("musicoff", NONE);
 
 	Delay(1);//(2);
 
@@ -90,7 +96,7 @@ Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 	ACS_NamedExecuteAlways("CallAnimation",0,0,0,0);	//<-- Calls Title Cards Animation
 	Delay(1);
 	while(TitleCardsDone==0)
-	{Delay(1);}
+		{Delay(1);}
 	
 
 	//Co-Op Spectator Mode!
@@ -114,12 +120,12 @@ Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 
 	//The Level Starts!//
 	SetPlayerProperty(FALSE,OFF,PROP_TOTALLYFROZEN);
-	SetPlayerProperty(FALSE,OFF,PROP_FROZEN);
-	SetActorPosition(2000,StartPointX1,StartPointY1,StartPointZ1,FALSE);
-	SetActorAngle(2000,StartPointAngle1);
+	SetPlayerProperty(FALSE,OFF,PROP_FROZEN);	
+		SetActorPosition(TAG_P1, StartPoint1[0], StartPoint1[1], StartPoint1[2], FALSE);
+		SetActorAngle(TAG_P1, StartPoint1[3]);
 	if(PlayerCount() > 1)
-	{	SetActorPosition(2001,StartPointX2,StartPointY2,StartPointZ2,FALSE);
-		SetActorAngle(2001,StartPointAngle2);	}
+	{	SetActorPosition(TAG_P2, StartPoint2[0], StartPoint2[1], StartPoint2[2], FALSE);
+		SetActorAngle(TAG_P2, StartPoint2[3]);	}
 	
 	ChangeCamera(0,0,0);	//**	//[Reverted] A camera delay 
 	
@@ -147,7 +153,9 @@ Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 
 //Wrapper
 Script "ReduceDetail" (void)
-{	Thing_Remove(404);	}
+{	
+		Thing_Remove(404);	
+}
 
 //Title Cards Checks and Control
 Script "SetTitleCardsDone" (void)
@@ -183,14 +191,20 @@ Script "CallAnimation" (void)
 
 
 
-
 //Move the players to their starting position in the map
 Script "StartPointCoordinates" (int PointNumber)
 {
 	switch(PointNumber)
 		{
-			case 1 : StartPointX1 = GetActorX(0);	StartPointY1 = GetActorY(0);	StartPointZ1 = GetActorZ(0);	StartPointAngle1 = GetActorAngle(0);	Break;
-			case 2 : StartPointX2 = GetActorX(0);	StartPointY2 = GetActorY(0);	StartPointZ2 = GetActorZ(0);	StartPointAngle2 = GetActorAngle(0);	Break;
+			case 1 : 	StartPoint1[0] = GetActorX(0);	
+						StartPoint1[1] = GetActorY(0);	
+						StartPoint1[2] = GetActorZ(0);	
+						StartPoint1[3] = GetActorAngle(0);	Break;
+
+			case 2 : 	StartPoint2[0] = GetActorX(0);	
+						StartPoint2[1] = GetActorY(0);	
+						StartPoint2[2] = GetActorZ(0);	
+						StartPoint2[3] = GetActorAngle(0);	Break;
 		}
 }
  
@@ -522,7 +536,7 @@ Script "DynamicMusic" (int TrackNumber)
 					}
 			}
 		}
-		SetTrack= 0;
+		SetTrack= NONE;
 		Delay(1);
 		Restart;
 	}
@@ -592,19 +606,19 @@ Script "LevelEnd" (void)
 	SetCVar("musicoff",1);
 	
 	//Co-Op Bug Fix : Player is teleported even after being dead
-	if(CheckActorInventory(2000,"Health") != 1)
-	{	TeleportOther(2000, TAG_P1FINISHSPOT, 0);	
-		TakeActorInventory(2000,"GooTimer",500);	}
+	if(CheckActorInventory(TAG_P1, "Health") != 1)
+	{		 TeleportOther(TAG_P1, TAG_P1FINISHSPOT, 0);	
+		TakeActorInventory(TAG_P1, "GooTimer",500);	}
 	
 	
 	if(PlayerCount()>0)
 	{
 		//Co-Op Bug Fix : Player is teleported even after being dead
-		if(CheckActorInventory(2001,"Health") != 1)
-		{	TeleportOther(2001, TAG_P2FINISHSPOT, 0);	
-			GiveActorInventory(2001,"ScoreNoCheck",1);
-			TakeActorInventory(2001,"ScoreActive",1);
-			TakeActorInventory(2001,"GooTimer",500);	}
+		if(CheckActorInventory(TAG_P2, "Health") != 1)
+		{		 TeleportOther(TAG_P2, TAG_P2FINISHSPOT, 0);	
+			GiveActorInventory(TAG_P2, "ScoreNoCheck",1);
+			TakeActorInventory(TAG_P2, "ScoreActive",1);
+			TakeActorInventory(TAG_P2, "GooTimer",500);	}
 		
 	}
 	
@@ -1068,7 +1082,7 @@ Script "IsNoBazookaFireAchieved" (void)
 
 Script "CountBazookaFire" (int PlayerTag)	//Trigger:	Player Firing Bazooka
 {
-	if(PlayerTag == 2000)
+	if(PlayerTag == TAG_P1)
 		BazookaFireP1++;
 	else
 		BazookaFireP2++;

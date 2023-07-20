@@ -61,7 +61,7 @@ Script "SearchPlayer" (void)							//WIPWIPWIPWIPWIPWIPWIPWIPWIPWIPWIP								WI
 	ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0);
 	CheckProximity(0,"PlayerPawn",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST);
 	//if(CheckSight()
-}
+} 
 
 Script "PrintMe" (int token)
 {

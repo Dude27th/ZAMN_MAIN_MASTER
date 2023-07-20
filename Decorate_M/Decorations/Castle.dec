@@ -1,4 +1,4 @@
-ACTOR Castle_Lamp_A 13375
+ACTOR Castle_Lamp_A : Solid_Decoration 13375
 {
 	Height 16
 	Radius 5
@@ -13,7 +13,7 @@ ACTOR Castle_Lamp_A 13375
 	}
 }
 
-ACTOR Castle_Lamp_B 13376
+ACTOR Castle_Lamp_B : Solid_Decoration 13376
 {
 	Height 24
 	Radius 5
@@ -28,7 +28,7 @@ ACTOR Castle_Lamp_B 13376
 	}
 }
 
-ACTOR Castle_Potion_A 13378
+ACTOR Castle_Potion_A : Solid_Decoration 13378
 {
 	Height 16
 	Radius 5
@@ -47,7 +47,7 @@ ACTOR Castle_Potion_A 13378
 	}
 }
 
-ACTOR Castle_Potion_B 13379
+ACTOR Castle_Potion_B : Solid_Decoration 13379
 {
 	Height 16
 	Radius 5
@@ -66,7 +66,7 @@ ACTOR Castle_Potion_B 13379
 	}
 }
 
-ACTOR Castle_Potion_C 13380
+ACTOR Castle_Potion_C : Solid_Decoration 13380
 {
 	Height 16
 	Radius 5
@@ -85,7 +85,7 @@ ACTOR Castle_Potion_C 13380
 	}
 }
 
-ACTOR Castle_RayHazard_0 13381
+ACTOR Castle_RayHazard_0 : Solid_Decoration 13381
 {
 	Height 32
 	Radius 5
@@ -228,7 +228,7 @@ States
 	}
 }
 
-ACTOR LaboratorySupport 13382
+ACTOR LaboratorySupport : Solid_Decoration 13382
 {
 	Height 60
 	Radius 5
@@ -243,7 +243,7 @@ ACTOR LaboratorySupport 13382
 	}
 }
 
-ACTOR FrankesteinSupport 13383
+ACTOR FrankesteinSupport : Solid_Decoration 13383
 {
 	Height 60
 	Radius 8
@@ -258,7 +258,7 @@ ACTOR FrankesteinSupport 13383
 	}
 }
 
-ACTOR MiniTower 13384
+ACTOR MiniTower : Solid_Decoration 13384
 {
 	Height 32
 	Radius 8

@@ -1,3 +1,35 @@
+///////////////////////////////////
+//         G E N E R A L         //
+///////////////////////////////////
+
+ACTOR TVZM 13302
+{
+  Height 20
+  Radius 3
+   //$Category "Zombies Ate My Neighbors/ZZ_Custom/Decorations"
+  +SOLID
+  States
+  {
+  Spawn:
+    TVZM A -1//3
+    Loop
+  }
+}
+
+ACTOR LOWLAMP 13294
+{
+  Height 15
+  Radius 10
+  //$Category "Zombies Ate My Neighbors/ZZ_Custom/Decorations"
+  +SOLID
+  States
+  {
+  Spawn:
+	HGLP A -1//3
+    Loop
+  }
+}
+
 
 ///////////////////////////////////
 //      C A M P  T E R R O R     //
