@@ -19,6 +19,7 @@ ACTOR ZAMN_PLAYER : PlayerPawn	//Base ZAMN Player Class
 	Friction 0.99999999999999999999990000000
 	PainChance 256
 	MaxStepHeight 16
+	Species "Player_Actor"	//Test
 		
 	/*
 	"Player.StartItem"s are not inherited, 
@@ -42,6 +43,7 @@ ACTOR ZAMN_PLAYER : PlayerPawn	//Base ZAMN Player Class
 	Player.DamageScreenColor "Red", 0.0
 	+NOBLOOD
 	+NOEXTREMEDEATH
+	+THRUSPECIES	//TEST
 	+NOTELEFRAG
 	+BUDDHA
 	-INVULNERABLE

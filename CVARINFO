@@ -43,6 +43,7 @@ user string	hud_invname = "";
 user string hud_invicon = "";
 user int hud_invamount = 0;
 user int hud_score	= 0;
+user int play_water = 0;
 
 //Survivor Scripts Help
 server string surv_currentname = "";

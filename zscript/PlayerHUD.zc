@@ -5,7 +5,7 @@ class ZAMNTCHud : BaseStatusBar
 	HUDFont RegularFont;
 	HUDFont ScoreFont;
 	InventoryBarState InvBar;
-
+ 
 	int ammocheck;
 	
 	/*-- Initializes HUD Values --*/
@@ -79,6 +79,7 @@ class ZAMNTCHud : BaseStatusBar
 		CVar cvr_inventoryamount = 	CVar.FindCVar('hud_invamount');
 		CVar cvr_inventoryname = 	CVar.FindCVar('hud_invname');
 		CVar cvr_scorepoints = 		CVar.FindCVar('hud_score');
+		CVar cvr_playerwater = 		CVar.FindCVar('play_water');	//Exact Water Depth
 
 		//------------ Weapon / Items ------------//
 		//----------------------------------------//
@@ -106,6 +107,17 @@ class ZAMNTCHud : BaseStatusBar
 
 					//Don't draw item counter while goo screen.
 					cvr_inventoryicon.SetString("GOOICON");
+					cvr_inventoryamount.SetInt(-1);
+				}
+			else if(CPlayer.mo.FindInventory("GhostToken") != null)
+				{	
+					cvr_weaponicon.SetString("MONGHOST");
+					ammocheck = GetAmount("GhostTime")/35;
+					cvr_weaponammo1.SetInt(ammocheck);
+					cvr_weaponammo2.SetInt(-1);
+
+					//Don't draw item counter while goo screen.
+					cvr_inventoryicon.SetString("MONGHOST");
 					cvr_inventoryamount.SetInt(-1);
 				}
 			else if(CPlayer.mo.FindInventory("InWater") != null)
@@ -188,6 +200,11 @@ class ZAMNTCHud : BaseStatusBar
 			{
 					cvr_inventoryname.SetString(CPlayer.mo.InvSel.GetClassName());
 			}
+
+			//WaterDepth Check WIP
+			//cvr_playerwater.SetInt(CPlayer.mo.waterdepth);
+
+
 		}
 		//------------  Score Points  ------------//
 		//----------------------------------------//

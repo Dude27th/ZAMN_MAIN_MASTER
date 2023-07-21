@@ -123,24 +123,27 @@ Script "MorphGhost" (void)
 
 Script "GhostCollision" (void)
 {
+	int Buttons = 0;
+	int OldButtons = 0;
+	bool forward = false;
+
 	while(CheckInventory("GhostToken")>0)
 	{
-		//if()//Solid decoration on the way
-		//{}
-		//else
-		//{
-			if(CheckProximity(0, "MonsterClass_ZAMN", 64.0, 1, CPXF_ANCESTOR))
-			{
-				HudMessage(s: "Can Pass";HUDMSG_PLAIN,0,0,0.5,0.5,HUDTIME_ONETIC);
-				SetActorFlag(0, "SOLID", FALSE);
-			}
-			else
-			{
-				HudMessage(s: "Blocked";HUDMSG_PLAIN,0,0,0.5,0.5,HUDTIME_ONETIC);
-				SetActorFlag(0, "SOLID", TRUE);
-			}
-		//}
+		SetActorProperty(0, APROP_Species, "Monster_Actor");
 
-	Delay(1);
+		//if (GetActorProperty (0, APROP_WaterLevel) != 0)
+		//print(f: GetActorProperty(0, APROP_WaterDepth));
+		//fuck it
+		if ( (GetActorProperty (0, APROP_WaterLevel) != 0) || (ACS_NamedExecuteWithResult("CheckAvobeWater",0,0,0,0) == 1 ))
+		{ 	SetActorPosition(0, GetActorX(0), GetActorY(0), 0, false);	
+			SetActorProperty(0, APROP_GRAVITY, 0.0);
+			SetActorPitch(0, 0);	}
+		else
+		{	SetActorProperty(0, APROP_GRAVITY, 1.0);	}
+
+		Delay(1);
 	}
+
+	SetActorProperty(0, APROP_Species, "Player_Actor");
+	SetActorProperty(0, APROP_GRAVITY, 1.0);
 }

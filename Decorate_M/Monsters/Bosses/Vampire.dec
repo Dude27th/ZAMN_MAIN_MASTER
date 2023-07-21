@@ -1,6 +1,6 @@
 ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 {
-	Health 1500		WIP
+	Health 1500		
 	Speed 14
 	Radius 16//20
 	Height 50
@@ -11,7 +11,7 @@ ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 	MeleeRange 80
 	//$Category "Zombies Ate My Neighbors/Monsters/Bosses"
 	//$Color 4
-//Damage Factors have to be get from documentation 
+	//Damage Factors have to be get from documentation 
 	DamageFactor "MonsterFist", 45 //? Shoot in the dark
 	DamageFactor "WeedWacker", 7.5
 	DamageFactor "Tomatoes", 5 //? Shoot in the dark
@@ -34,7 +34,7 @@ ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 	{			
 		Spawn:
 			TNT1 A 0 
-   VMPS ABCDEF 5 //testing
+			VMPS ABCDEF 5 //testing
 			TNT1 A 0 A_LookEx(LOF_DONTCHASEGOAL,0,0,0,360,"Idle")
 			Goto Idle
 			

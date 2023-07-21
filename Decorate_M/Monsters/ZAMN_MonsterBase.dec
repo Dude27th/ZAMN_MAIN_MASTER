@@ -4,6 +4,7 @@ Actor MonsterClass_ZAMN
 	PainChance 0
 	Mass 400
 	MaxStepHeight 16
+	Species "Monster_Actor"	//Test
 
 	//	Weapons Damage Resistances	[Generic]
 	DamageFactor "MonsterFist", 		1
