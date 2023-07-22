@@ -114,11 +114,14 @@ Script "MorphGhost" (void)
 	GiveInventory("GhostTime",1400);
 	ACS_NamedExecuteAlways("GhostCollision",0,0,0,0);
 	SetWeapon("GhostWeapon");
+	FadeTo (0, 0, 255, 0.25, 1);
 	//
 	
 	while("GhostTime" >= 1)
 	{ Delay(1);		/*Delay to do what tho ??*/}
 
+	FadeTo (0, 0, 0, 1.0, 1);
+	CancelFade();
 } 
 
 Script "GhostCollision" (void)
@@ -146,4 +149,6 @@ Script "GhostCollision" (void)
 
 	SetActorProperty(0, APROP_Species, "Player_Actor");
 	SetActorProperty(0, APROP_GRAVITY, 1.0);
+	FadeTo (0, 0, 0, 1.0, 1);
+	CancelFade();
 }
