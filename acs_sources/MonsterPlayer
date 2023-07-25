@@ -76,7 +76,8 @@ Script "HealthCount" (void)
 		{	HealthTake = (HealthTotal - HealthHave);
 			GiveInventory("NoPainToken",1);}
 	
-	Delay(100);	//MorphAnimation
+	//this next line doesnt fit with the ghost animation
+	Delay(100);	//MorphAnimation			
 	if(HealthTake > 0)	//Bugfix
 		SetActorProperty(0,APROP_HEALTH,HealthHave);
 	Delay(11);	//MorphAnimation

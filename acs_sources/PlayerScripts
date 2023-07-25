@@ -4,7 +4,7 @@
        
   
 
-
+ 
 //This script prevents cummulative damage, by checking the players health
 //and if they receive damage more than 10 at the same time, it will calculate
 //how much more health they should have and give them back that health.
@@ -15,7 +15,7 @@ Script "HealthCheckHelper" ENTER
 	//Log(s: StrParam(s: "Health Normal : ", i: HealthLast));
 	while(true)
 	{
-	if((CheckInventory("MonsterToken") < 1) && (CheckInventory("MonsterUnmorphing") < 1) && (CheckInventory("NoHelper") < 1))
+	if((CheckInventory("MonsterToken") < 1) && (CheckInventory("GhostToken") < 1) && (CheckInventory("MonsterUnmorphing") < 1) && (CheckInventory("NoHelper") < 1))
 		{
 				if(HealthLast != GetActorProperty(0,APROP_HEALTH))
 					{
