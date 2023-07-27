@@ -14,6 +14,7 @@ ACTOR MUSHROOM_MEN : SpawnableMonster_ZAMN//MonsterClass_ZAMN//12050
   Monster
   +NOPAIN
   -STANDSTILL
+  +NODROPOFF
   States
   {
   Spawn_Set:

@@ -27,6 +27,7 @@ ACTOR RedBlob : SpawnableMonster_ZAMN//MonsterClass_ZAMN
 	DamageType "RedBlob"
 	Monster
 	+NOPAIN
+	+NODROPOFF
 	States
 	{
 		Spawn_Set:

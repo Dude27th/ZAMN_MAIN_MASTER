@@ -15,6 +15,7 @@ Actor Martian1 : SpawnableMonster_ZAMN//MonsterClass_ZAMN
 	Monster
 	+NOPAIN
 	-STANDSTILL
+	+NODROPOFF
 	States
 	{
 		Spawn_Set:

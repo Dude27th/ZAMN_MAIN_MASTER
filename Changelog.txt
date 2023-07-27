@@ -15,6 +15,7 @@
 - Fixed an oversight on Level 11 "Weeds Gone Bad" which had a survivor spawn with tag 404.
 	So it was being erased by error if the game was played on Software Mode.
 - Fixed land monsters spawning underwater 
+- Prevented land monsters falling into water (WIP WEREWOLF)
 
 [Zamn Core]
 - Added 2-dimensional arrays to contain all the names of the Title Cards.

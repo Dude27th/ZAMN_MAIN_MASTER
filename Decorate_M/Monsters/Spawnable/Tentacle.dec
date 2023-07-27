@@ -19,6 +19,7 @@ ACTOR Tentacle : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN
   +STANDSTILL
   +CANPASS		
   +THRUSPECIES	
+  +NODROPOFF
   States
   {
   Spawn_Set:

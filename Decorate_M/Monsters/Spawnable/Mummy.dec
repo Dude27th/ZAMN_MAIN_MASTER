@@ -21,6 +21,7 @@ ACTOR ZAMN_Mummy : SpawnableMonster_ZAMN//MonsterClass_ZAMN
 	DamageType "Zombie"
 	Monster
 	-STANDSTILL
+	+NODROPOFF
 	States
 	{
 		Spawn_Set:
