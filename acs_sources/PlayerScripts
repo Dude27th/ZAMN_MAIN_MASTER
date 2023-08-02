@@ -200,6 +200,8 @@ Script "CheaterScript" (void)
 	GiveInventory("MedikitPickup",10);
 	GiveInventory("ZamnKey",10);
 	GiveInventory("MonsterPotion",20);
+	GiveInventory("GhostPotion",20);
+	GiveInventory("RandomPotion",20);
 	GiveInventory("SpeedyShoes",10);
 	GiveInventory("Clowns",20);
 

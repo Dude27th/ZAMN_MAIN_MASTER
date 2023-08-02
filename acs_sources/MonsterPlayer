@@ -4,7 +4,7 @@
   
 //Monster Player Class::
 //-------------------------------------------------------------------------- 
-   
+    
 Script "MorphMonster" (void)
 {
 	if(CheckInventory("ZekeToken")==1)
@@ -77,12 +77,14 @@ Script "HealthCount" (void)
 			GiveInventory("NoPainToken",1);}
 	
 	//this next line doesnt fit with the ghost animation
-	Delay(100);	//MorphAnimation			
-	if(HealthTake > 0)	//Bugfix
-		SetActorProperty(0,APROP_HEALTH,HealthHave);
-	Delay(11);	//MorphAnimation
+	//print(s: "wait 100 tics");
+	//Delay(100);	//MorphAnimation			
+	//if(HealthTake > 0)	//Bugfix
+	//	SetActorProperty(0,APROP_HEALTH,HealthHave);
+	//print(s: "wait 11 tics more");
+	//Delay(11);	//MorphAnimation
 	
-	while((CheckInventory("MonsterTime")>0)||(CheckInventory("GhostTime")>0))
+	while( (CheckInventory("MonsterTime") > 0) || (CheckInventory("GhostTime") > 0) || (CheckInventory("IsMonsterTransforming") > 0) )
 		{ Delay(1); }
 	if(HealthTake > 0)
 		//DamageThing(HealthTake);
@@ -133,13 +135,13 @@ Script "GhostCollision" (void)
 
 	while(CheckInventory("GhostToken")>0)
 	{
-		SetActorProperty(0, APROP_Species, "Monster_Actor");
+		SetActorProperty(0, APROP_Species, "Monster_Actor");	//This lets the player go trough monsters 
 
 		//if (GetActorProperty (0, APROP_WaterLevel) != 0)
 		//print(f: GetActorProperty(0, APROP_WaterDepth));
 		//fuck it
 		if ( (GetActorProperty (0, APROP_WaterLevel) != 0) || (ACS_NamedExecuteWithResult("CheckAvobeWater",0,0,0,0) == 1 ))
-		{ 	SetActorPosition(0, GetActorX(0), GetActorY(0), 0, false);	
+		{ 	SetActorPosition(0, GetActorX(0), GetActorY(0), 0, false);	//<-- Setting Z position at constant 0 creates a limitation, but it works for now
 			SetActorProperty(0, APROP_GRAVITY, 0.0);
 			SetActorPitch(0, 0);	}
 		else

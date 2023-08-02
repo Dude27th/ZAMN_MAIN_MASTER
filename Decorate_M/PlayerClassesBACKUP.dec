@@ -98,11 +98,6 @@ ACTOR ZAMN_PLAYER : PlayerPawn	//Base ZAMN Player Class
   AltSkinXDeath:
     TNT1 A -1
 	Stop
-
-  Player_RandomDecide:	//I don't have exact probability numbers so let's say 16% each
-	TNT1 A 0 A_Jump(WIPP
-
-
 	}
 }
 
@@ -310,11 +305,6 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P1MP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Zeke_MonsterFinal:
-	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TRMO ABC 9 A_ChangeFlag("INVULNERABLE",TRUE)
 	TRMO D 8 A_ChangeFlag("INVULNERABLE",TRUE)
 	TRMO D 1 A_ChangeFlag("INVULNERABLE",TRUE)
@@ -340,34 +330,12 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P1IP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Zeke_GhostFinal:
-	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	P1IP EFEFEF 9 A_ChangeFlag("INVULNERABLE",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
 	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
 	Goto Spawn
-  Zeke_RandomTransform:
-	//TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Zeke_MonsterTransform") 
-	TNT1 A 0 A_GiveInventory("IsMonsterTransforming",1)
-	TNT1 A 0 A_JumpIfHealthLower(2,"DeathCheck")	//This prevents Morph if Dead
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
-    TNT1 A 0 A_PlaySound("Player/ItemUse",0,100)
-	TNT1 A 0 A_TakeInventory("DoRandomToken",1)
-	TNT1 A 0 ACS_NamedExecuteAlways("HealthCount",0,0,0,0)
-	//
-	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
-	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	P1RP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_Jump(256, "Player_RandomDecide")
-	Stop
   Pain.RedBlob:
 	TNT1 AAAAAAAAAAA 0
 	TNT1 A 0 A_JumpIf(CallACS("CheckGoo") == 1,"NoGoo")
@@ -1206,11 +1174,6 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P2MP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Julie_MonsterFinal:
-	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TRMO ABC 9 A_ChangeFlag("INVULNERABLE",TRUE)
 	TRMO D 8 A_ChangeFlag("INVULNERABLE",TRUE)
 	TRMO D 1 A_ChangeFlag("INVULNERABLE",TRUE)
@@ -1229,41 +1192,19 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
     TNT1 A 0 A_PlaySound("Player/ItemUse",0,100)
 	TNT1 A 0 A_TakeInventory("DoGhostToken",1)
-	TNT1 A 0 ACS_NamedExecuteAlways("HealthCount",0,0,0,0)	//<-- Timed script [!]
-	//
-	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
-	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	P2IP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Julie_GhostFinal:
-	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
-	P2IP EFEFEF 9 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
-	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
-	TNT1 A 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
-	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
-	Goto Spawn
-  Julie_RandomTransform:
-	//TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Zeke_MonsterTransform") 
-	TNT1 A 0 A_GiveInventory("IsMonsterTransforming",1)
-	TNT1 A 0 A_JumpIfHealthLower(2,"DeathCheck")	//This prevents Morph if Dead
-	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
-    TNT1 A 0 A_PlaySound("Player/ItemUse",0,100)
-	TNT1 A 0 A_TakeInventory("DoRandomToken",1)
 	TNT1 A 0 ACS_NamedExecuteAlways("HealthCount",0,0,0,0)
 	//
 	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
 	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	P2RP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
-	TNT1 A 0 A_Jump(256, "Player_RandomDecide")
-	Stop
+	P2IP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	P2IP EFEFEF 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
+	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
+	Goto Spawn
   Pain.RedBlob:
 	TNT1 AAAAAAAAAAA 0
 	TNT1 A 0 A_JumpIf(CallACS("CheckGoo") == 1,"NoGoo")
