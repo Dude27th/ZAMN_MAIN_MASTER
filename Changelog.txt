@@ -1,4 +1,4 @@
-+ "ZAMN_MAIN" (??th March, 2023) [March Demo]
++ "ZAMN_MAIN" (??th March, 2023) [Im getting back to it demo]
 -------------------------------------------------------------
 [Zamn TC]
 - Added bonus map "Cheerleaders Vs Monsters" (WIP)
@@ -14,8 +14,10 @@
 - Added missing frame in Zeke's walking animation
 - Fixed an oversight on Level 11 "Weeds Gone Bad" which had a survivor spawn with tag 404.
 	So it was being erased by error if the game was played on Software Mode.
-- Fixed land monsters spawning underwater 
-- Prevented land monsters falling into water (WIP WEREWOLF)
+- Prevented land monsters spawning/landing on water
+- Werewolves would try to reach out of water if landed in there
+- Added "GhostPotion" item
+- Added "RandomPotion" item
 
 [Zamn Core]
 - Added 2-dimensional arrays to contain all the names of the Title Cards.
@@ -29,8 +31,6 @@
 	due to becoming both categories too big to mantain in the same file.
 - Re-organized "Decorate_M/Decorations" folder, actors are now stored by level theme and interactive actors are stored separatedly.
 	This should reduce clutter on the files, and also neccesary due some new rules.
-- Started work on Ghost Transformation***
-	+ Added Ghost Effect Player Sprites
 /*- Reworked Doors:
 	TO TEST !!!
 		- Correct voxel frames 		[]

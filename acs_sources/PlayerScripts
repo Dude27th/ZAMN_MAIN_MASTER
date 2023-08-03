@@ -26,7 +26,7 @@ Script "HealthCheckHelper" ENTER
 								HealthLast = HealthNow;
 							}
 						else
-							{
+							{ 
 								//Log(s: StrParam(s: "ERROR ERROR ERROR ERROR!  \nHealth Actual: ", i: HealthNow));
 								
 								HealthGive = (HealthLast - 10) - GetActorProperty(0,APROP_HEALTH);

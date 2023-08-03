@@ -99,10 +99,85 @@ ACTOR ZAMN_PLAYER : PlayerPawn	//Base ZAMN Player Class
     TNT1 A -1
 	Stop
 
-  Player_RandomDecide:	//I don't have exact probability numbers so let's say 16% each
-	TNT1 A 0 A_Jump(WIPP
-
-
+  Player_RandomDecide:	//I don't have exact probability numbers so let's say 16% each so I guess 41/256
+	TNT1 A 0 A_Jump(41, "Player_Instakit")			//Medikit
+	TNT1 A 0 A_Jump(41, "Player_MonsterFinal")		//Monster
+	TNT1 A 0 A_Jump(41, "GhostFinal")				//Ghost			[Needs to set first the sprite set, so specific state first, then generic]
+	//TNT1 A 0 A_Jump(41, "Mr_Hyde")					//Mr Hyde Mode	[Needs to set first the sprite set, so specific state first, then generic]
+	TNT1 A 0 A_Jump(41, "Player_InstaShoes")		//SpeedShoes
+	TNT1 A 0 A_Jump(256, "Player_InstaHurt")			//Hurt Player
+	TNT1 A 0 A_Jump(256, "Spawn")	//<-- Failsafe
+	Stop
+  Player_Instakit:
+	TNT1 A 0 ACS_NamedExecuteAlways("MedikitHeal",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOff",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOff",0,0,0,0)
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+	TNT1 A 0 A_Jump(256, "Spawn")
+	Stop
+  Player_MonsterFinal:	//Generic
+	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
+	TRMO ABC 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	TRMO D 8 A_ChangeFlag("INVULNERABLE",TRUE)
+	TRMO D 1 A_ChangeFlag("INVULNERABLE",TRUE)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 A_PlaySound("Monster/Growl",0,1.5)
+	TNT1 A 0 ACS_NamedExecuteAlways("MorphMonster",0,0,0,0)
+	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
+	TNT1 A 0 A_Jump(256, "Spawn")	//Goto Spawn
+	Stop
+  Player_GhostFinal:
+	"####" E 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
+	"####" E 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
+	"####" E 0 A_ChangeFlag("INVULNERABLE",TRUE)
+	"####" E 0 A_ChangeFlag("NOPAIN",TRUE)
+	"####" EFEFEF 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	"####" E 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	"####" E 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	"####" E 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
+	"####" E 0 A_TakeInventory("IsMonsterTransforming",1)
+	"####" E 0 A_Jump(256, "Spawn")	//Goto Spawn
+	Stop
+  Player_MrHyde:	//WIP
+	"####" E 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
+	"####" E 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
+	"####" E 0 A_ChangeFlag("INVULNERABLE",TRUE)
+	"####" E 0 A_ChangeFlag("NOPAIN",TRUE)
+	"####" EFEFEF 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	"####" E 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	"####" E 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	"####" E 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
+	"####" E 0 A_TakeInventory("IsMonsterTransforming",1)
+	"####" E 0 A_Jump(256, "Spawn")	//Goto Spawn
+	Stop
+  Player_InstaShoes:
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOff",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOff",0,0,0,0)
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+	TNT1 A 0 A_GiveInventory("InstaShoes", 1)
+	TNT1 A 0 A_Jump(256, "Spawn")
+	Stop
+  Player_InstaHurt:
+	TNT1 A 0 A_GiveInventory("NoHelper", 1)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOff",0,0,0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOff",0,0,0,0)
+	TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
+	TNT1 A 0 ACS_NamedExecuteAlways("HurtPlayer",0,0,0,0)
+	TNT1 A 0 A_Jump(256, "Spawn")
+	Stop
 	}
 }
 
@@ -146,6 +221,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_JumpIfHealthLower(2,"DeathCheck")
 	TNT1 A 0 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	
 	TNT1 A 0 A_JumpIfInventory("AlreadyDead",1,"AlreadyDead")
 	TNT1 A 0 A_JumpIfInventory("DeathChecking",1,2)
@@ -172,6 +248,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	P1WL B 1 A_JumpIfInventory("GameOverToken",1,"GameOver")
 	P1WL B 1 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	P1WL B 1 A_JumpIfInventory("SpeedyToken",1,"SeeSpeedy")
 	P1WL B 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 
@@ -181,6 +258,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 
 	P1WL C 3 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	P1WL C 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 
 	TNT1 A 0 A_JumpIfInventory("JustStomped",1,2)
@@ -189,6 +267,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 
 	P1WL D 3 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	P1WL D 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 
 	TNT1 A 0 A_JumpIfInventory("JustStomped",1,2)
@@ -197,6 +276,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 
 	P1WL E 3 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	P1WL E 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 
 	TNT1 A 0 A_JumpIfInventory("JustStomped",1,2)
@@ -214,6 +294,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
 	P1WL E 3 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	Goto Spawn
   Missile:
 	TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Missile")
@@ -236,6 +317,8 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
 	TNT1 A 0 A_TakeInventory("GhostWeapon",1)
 	TNT1 A 0 A_TakeInventory("GhostToken",1)
+
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 
 	P1WL A 1 //Wait for important checks before jumping to the rest
 
@@ -310,7 +393,9 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P1MP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Zeke_MonsterFinal:
+	TNT1 A 0 A_Jump(256, "Player_MonsterFinal")	//<-- Generic
+	Stop
+  /*Zeke_MonsterFinal:
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
 	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
@@ -323,7 +408,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_PlaySound("Monster/Growl",0,1.5)
 	TNT1 A 0 ACS_NamedExecuteAlways("MorphMonster",0,0,0,0)
 	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
-	Goto Spawn
+	Goto Spawn*/
   Zeke_GhostTransform:
 	//TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Zeke_MonsterTransform") 
 	TNT1 A 0 //A_GiveInventory("WeaponFixer",1)
@@ -340,7 +425,10 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P1IP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Zeke_GhostFinal:
+  GhostFinal:
+	P1IP E 0 A_Jump(256, "Player_GhostFinal")
+	Stop
+	/*
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
 	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
@@ -350,7 +438,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
 	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
-	Goto Spawn
+	Goto Spawn*/
   Zeke_RandomTransform:
 	//TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Zeke_MonsterTransform") 
 	TNT1 A 0 A_GiveInventory("IsMonsterTransforming",1)
@@ -365,7 +453,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	P1RP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	P1RP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
 	TNT1 A 0 A_Jump(256, "Player_RandomDecide")
 	Stop
   Pain.RedBlob:
@@ -492,10 +580,12 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	P1WL B 1 A_JumpIfInventory("GameOverToken",1,"GameOver")
 	P1WL B 1 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	P1WL B 1 A_JumpIfInventory("SpeedyToken",1,"SeeSpeedy")
 	P1WL B 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	P1WL C 3 A_JumpIfInventory("DoMonsterToken",1,"Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Zeke_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Zeke_RandomTransform")
 	P1WL C 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	Goto See+13 //[!] Shouldn't jump by offsets, it breaks easily !!
   DeathCheck:
@@ -519,6 +609,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
 	TNT1 A 0 A_TakeInventory("DoMonsterToken",1)
 	TNT1 A 0 A_TakeInventory("DoGhostToken",1)
+	TNT1 A 0 A_TakeInventory("DoRandomToken",1)
 	TNT1 A 0 A_TakeInventory("GooTimer",9999)
 	TNT1 A 0 ACS_NamedExecuteAlways("NormalSpeed",0,0,0,0)
 	TNT1 A 0 A_Stop
@@ -589,7 +680,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	Goto Spawn
 
   ////////////////////////////////////////
-  //            Ghoul Patrol            //
+  //            Ghoul Patrol            //		//NEEDS UPDATING, DO AN UPDATE BEFORE IMPLEMENTING PROPERLY !!!!!!!!!!
   ////////////////////////////////////////
 
   GP_Spawn:
@@ -713,7 +804,7 @@ ACTOR ZEKE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_CheckProximity("GP_TitanicStomp","TitanicToddler",72,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST)
     TNT1 A 0 A_JumpIf(CallACS("IsMoving") == 1, "Spawn")	//if moving continue running, if not do the stop frame.
 
-	GP_RunStop:	
+  GP_RunStop:	
 	TNT1 A 0 A_Log("GP_STOP")
 	P1GP J 3 A_JumpIfInventory("DoMonsterToken",1,"GP_Zeke_MonsterTransform")
 	TNT1 A 0 A_JumpIf(CallACS("IsCrouching",0,0,0,0) == 1, "GP_Slide")
@@ -1046,6 +1137,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_JumpIfHealthLower(2,"DeathCheck")
 	TNT1 A 0 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	
 	TNT1 A 0 A_JumpIfInventory("AlreadyDead",1,"AlreadyDead")
 	TNT1 A 0 A_JumpIfInventory("DeathChecking",1,2)
@@ -1071,6 +1163,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	PLAB B 1 A_JumpIfInventory("GameOverToken",1,"GameOver")
 	PLAB B 1 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB B 1 A_JumpIfInventory("SpeedyToken",1,"SeeSpeedy")
 	PLAB B 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 
@@ -1080,6 +1173,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	
 	PLAB C 3 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB C 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	
 	TNT1 A 0 A_JumpIfInventory("JustStomped",1,2)
@@ -1088,6 +1182,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	
 	PLAB D 3 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB D 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	
 	TNT1 A 0 A_JumpIfInventory("JustStomped",1,2)
@@ -1096,6 +1191,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	
 	PLAB E 3 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform") 
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
     PLAB E 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	
 	TNT1 A 0 A_JumpIfInventory("JustStomped",1,2)
@@ -1109,10 +1205,13 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_CheckProximity("TitanicStomp","TitanicToddler",72,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_CLOSEST)
 	PLAB C 3 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB D 3 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB E 3 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	Goto Spawn
   Missile:
 	TNT1 A 0 A_JumpIfInventory("DeathChecking",1,"DeathCheckScript")
@@ -1128,6 +1227,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
   
 	TNT1 A 0 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 
 	TNT1 A 0 A_TakeInventory("MonsterFists",1)
 	TNT1 A 0 A_TakeInventory("MonsterToken",1)
@@ -1206,6 +1306,9 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P2MP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	TNT1 A 0 A_Jump(256, "Player_MonsterFinal")	//<-- Generic
+	Stop
+/*
   Julie_MonsterFinal:
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
@@ -1219,7 +1322,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_PlaySound("Monster/Growl",0,1.5)
 	TNT1 A 0 ACS_NamedExecuteAlways("MorphMonster",0,0,0,0)
 	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
-	Goto Spawn
+	Goto Spawn*/
   Julie_GhostTransform:
 	//TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Zeke_MonsterTransform") 
 	TNT1 A 0 //A_GiveInventory("WeaponFixer",1)
@@ -1236,7 +1339,10 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	P2IP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
-  Julie_GhostFinal:
+  GhostFinal:
+	P2IP E 0 A_Jump(256, "Player_GhostFinal")
+	Stop
+	/*
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("SetFrozenOn",0,0,0,0)
 	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
@@ -1246,7 +1352,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 ACS_NamedExecuteAlways("FirstPerson",0,0,0,0)
 	TNT1 A 0 ACS_NamedExecuteAlways("MorphGhost",0,0,0,0)
 	TNT1 A 0 A_TakeInventory("IsMonsterTransforming",1)
-	Goto Spawn
+	Goto Spawn*/
   Julie_RandomTransform:
 	//TNT1 AA 0 A_JumpIfInventory("Ghoul_Mod",1,"GP_Zeke_MonsterTransform") 
 	TNT1 A 0 A_GiveInventory("IsMonsterTransforming",1)
@@ -1261,7 +1367,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
 	TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
 	TNT1 A 0 ACS_NamedExecuteAlways("ThirdPerson",0,0,0,0)
-	P2RP ABCBCBDE 9 A_ChangeFlag("INVULNERABLE",TRUE)
+	P2RP ABCBCBD 9 A_ChangeFlag("INVULNERABLE",TRUE)
 	TNT1 A 0 A_Jump(256, "Player_RandomDecide")
 	Stop
   Pain.RedBlob:
@@ -1381,10 +1487,12 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	PLAB B 1 A_JumpIfInventory("GameOverToken",1,"GameOver")
 	PLAB B 1 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB B 1 A_JumpIfInventory("SpeedyToken",1,"SeeSpeedy")
 	PLAB B 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	PLAB C 3 A_JumpIfInventory("DoMonsterToken",1,"Julie_MonsterTransform")
 	TNT1 A 0 A_JumpIfInventory("DoGhostToken",1,"Julie_GhostTransform")
+	TNT1 A 0 A_JumpIfInventory("DoRandomToken",1,"Julie_RandomTransform")
 	PLAB C 1 A_JumpIfInventory("Bouncing",1,"TrampolineJump")
 	Goto See+13
   DeathCheck:
@@ -1407,6 +1515,7 @@ ACTOR JULIE_PLAYER : ZAMN_PLAYER
 	TNT1 A 0 A_TakeInventory("WeedWackerToken",1)
 	TNT1 A 0 A_TakeInventory("DoMonsterToken",1)
 	TNT1 A 0 A_TakeInventory("DoGhostToken",1)
+	TNT1 A 0 A_TakeInventory("DoRandomToken",1)
 	TNT1 A 0 A_TakeInventory("GooTimer",9999)
 	TNT1 A 0 ACS_NamedExecuteAlways("NormalSpeed",0,0,0,0)
 	TNT1 A 0 A_Stop

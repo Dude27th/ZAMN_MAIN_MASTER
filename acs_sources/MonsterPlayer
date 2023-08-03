@@ -114,7 +114,7 @@ Script "MorphGhost" (void)
 	TakeInventory("DoGhostToken",1);
 	GiveInventory("GhostToken",1);
 	GiveInventory("GhostWeapon",1);
-	GiveInventory("GhostTime",1400);
+	GiveInventory("GhostTime",700);	//1400
 	ACS_NamedExecuteAlways("GhostCollision",0,0,0,0);
 	SetWeapon("GhostWeapon");
 	FadeTo (0, 0, 255, 0.25, 1);

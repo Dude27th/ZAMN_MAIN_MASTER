@@ -51,6 +51,34 @@ Script "ActualHealing" (void)
 		GiveInventory("GoodHealthToken",1);
 }
 
+Script "HurtPlayer" (void)
+{
+		int HurtAmount = 0;
+		int HealthHave = 0;
+		int HealthFinal = 0;
+		HealthHave = (GetActorProperty(0,APROP_HEALTH));
+		HurtAmount = random(2, 6) * 10;
+
+		if(HealthHave > HurtAmount)
+			HealthFinal = HealthHave - HurtAmount;
+		else
+			HealthFinal = 1;
+		SetActorProperty(0,APROP_HEALTH,HealthFinal);
+		TakeInventory("GoodHealthToken",1);
+		Delay(1);
+		TakeInventory("NoHelper", 1);
+}
+
+//Test
+Script "CheckIfTheHealthIsOk" ENTER
+{
+	while(true)
+	{
+		print(s: StrParam(s: "Health", i: GetActorProperty(0,APROP_HEALTH)));
+		Delay(1);
+	}
+}
+
 Script "GiveFreeze"	(int amount)
 {
 	GiveInventory("FreezeTime",amount);
