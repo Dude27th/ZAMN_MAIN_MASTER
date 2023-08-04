@@ -3,14 +3,11 @@
 //----------- High Priority ------------//
 //
 // - [BUG] Failed Spawns:	Fixed with the Halloween Demo, altough the EvilDoll spawns still cause some issues.
-//						
+//			
 //
-// - Rework Triggers :		They don't need to have different actors for different palletes-.
-//							It can just be an argument.
-//
-//
-// - Land Enemies on Water:	2) Sometimes while chasing the player land enemies launch themselves and end up on water.
-//							This should NOT happen.
+// - Finish Rework Doors:	Doors are mostly just 2 types, Normal Key and Skull Key.
+//							Apart from usual variations, they behave equally so they could be standarized
+//							and doors should just have info on the Voxel to show.
 //
 // - Survivor 404 Failsafe:	Add an exception case for survivors in case that they have a 404 tag.
 //							As 404 actors get erased, and this would cause a softlock.
@@ -18,6 +15,9 @@
 //------------ Low Priority ------------//
 //
 // - [BUG]	:				Player pain sound doesn't activate always
+//
+// - Rework Triggers :		They don't need to have different actors for different palletes-.
+//							It can just be an argument.
 //							
 //
 // - Frankestein:			1) Finish Voxel Spawn animation !

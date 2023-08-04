@@ -1,4 +1,4 @@
-+ "ZAMN_MAIN" (??th March, 2023) [Im getting back to it demo]
++ "ZAMN_MAIN" (??th August, 2023) [Im getting back to it demo]
 -------------------------------------------------------------
 [Zamn TC]
 - Added bonus map "Cheerleaders Vs Monsters" (WIP)
@@ -17,7 +17,7 @@
 - Prevented land monsters spawning/landing on water
 - Werewolves would try to reach out of water if landed in there
 - Added "GhostPotion" item
-- Added "RandomPotion" item
+- Added "RandomPotion" item (Missing MrHyde mode)
 
 [Zamn Core]
 - Added 2-dimensional arrays to contain all the names of the Title Cards.
@@ -31,11 +31,9 @@
 	due to becoming both categories too big to mantain in the same file.
 - Re-organized "Decorate_M/Decorations" folder, actors are now stored by level theme and interactive actors are stored separatedly.
 	This should reduce clutter on the files, and also neccesary due some new rules.
-/*- Reworked Doors:
-	TO TEST !!!
-		- Correct voxel frames 		[]
-		- Correct Spawn Open		[]
-		- Special Doors Don't Die	[]*/
+- Reworked how transformation work to implement RandomPotion
+- Added a 2 seconds timer for the Exit Door, so the range in which activates grows by time.
+	This helps with people which stayed still at the ExitDoor spawn and had trouble getting it to work.
 
 
 

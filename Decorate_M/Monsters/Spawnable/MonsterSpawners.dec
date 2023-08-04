@@ -382,7 +382,7 @@ Actor Spawn_Mummy 12298
 			TNT1 A 0 A_JumpIf(Args[2]==1,"SpawnSlow")
 			Goto Idle
 		SpawnFast:
-			TNT1 A random(0,8)	//Prevent Overstep 
+			SARC A random(0,8)	//Prevent Overstep 
 			TNT1 A 0 ACS_NamedExecute("MonsterAllow",0,0,0,0)
 			SARC A 1 
 			TNT1 A 0 A_JumpIfInventory("MonsterDiscount",1,"Reduce")

@@ -70,14 +70,15 @@ Script "HurtPlayer" (void)
 }
 
 //Test
+/*
 Script "CheckIfTheHealthIsOk" ENTER
 {
 	while(true)
 	{
-		print(s: StrParam(s: "Health", i: GetActorProperty(0,APROP_HEALTH)));
+		print(s: StrParam(s: "Health ", i: GetActorProperty(0,APROP_HEALTH)));
 		Delay(1);
 	}
-}
+}*/
 
 Script "GiveFreeze"	(int amount)
 {
