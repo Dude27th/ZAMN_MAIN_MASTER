@@ -1,6 +1,6 @@
 ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 {
-	Health 1500		
+	Health 700	
 	Speed 14
 	Radius 16//20
 	Height 50
