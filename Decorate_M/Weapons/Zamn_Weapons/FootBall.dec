@@ -26,3 +26,131 @@ Actor FootBall_ZAMN : WeaponClass_ZAMN	//Base Class
 			Stop//Goto Ready
 	}
 }
+
+Actor FTBALL_Z : FootBall_ZAMN
+{
+	Weapon.AmmoType "FTBALL_Z_Ammo"
+	Inventory.RestrictedTo "ZEKE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		FTBZ A 1 A_WeaponReady
+		Goto Ready
+	NotReady:
+		FTBZ A 1 A_WeaponOffset(0,40)
+		FTBZ A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		FTBZ A 1 A_WeaponOffset(0,60)
+		FTBZ A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		FTBZ ABCDEFGH 1
+		TNT1 A 0 A_FireCustomMissile("FootBall",0,false, 0,15)
+		TNT1 A 0 A_TakeInventory("FTBALL_Z_Ammo",1)
+		FTBZ IJKLMDE 1 
+		TNT1 A 0 A_Refire
+		Goto Ready
+	}
+}
+
+Actor FTBALL_J : FootBall_ZAMN
+{
+	Weapon.AmmoType "FTBALL_J_Ammo"
+	Inventory.RestrictedTo "JULIE_PLAYER"
+	States
+	{
+	Ready:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("CleanWeaponTokens",0,0,0,0)
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		FTBJ A 1 A_WeaponReady
+		Goto Ready
+	NotReady:
+		FTBJ A 1 A_WeaponOffset(0,40)
+		FTBJ A 1 A_WeaponOffset(0,60)  
+	InWater:
+		TNT1 A 1 {	A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+					A_WeaponOffset(0,60);}
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("InWater");}		return state(0);	}
+	OutWater:
+		FTBJ A 1 A_WeaponOffset(0,60)
+		FTBJ A 1 A_WeaponOffset(0,40)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SelectToken",1,"Ready")
+		TNT1 A 0 A_JumpIfInventory("GameOverToken",1,"GameOver")
+		TNT1 A 0 {	if( (A_JumpIfInventory("InWater",1,"IsTrue"))||(A_JumpIfInventory("GooTimer",1,"IsTrue"))
+				   ||(A_JumpIfInventory("IsTackled",1,"IsTrue")) ||(A_JumpIfInventory("BubbleTime",1,"IsTrue")))
+					{return state ("NotReady");}		return state(0);	}
+		FTBJ ABCDEFGH 1
+		TNT1 A 0 A_FireCustomMissile("FootBall",0,false, 0,15)
+		TNT1 A 0 A_TakeInventory("FTBALL_J_Ammo",1)
+		FTBJ IJKLMDE 1 
+		TNT1 A 0 A_Refire
+		Goto Ready
+	}
+}
+
+
+Actor FTBALL_Z_Ammo : Ammo {Inventory.MaxAmount 100}
+Actor FTBALL_J_Ammo : Ammo {Inventory.MaxAmount 100}
+
+Actor FootBall : Ammo
+{
+Radius 4
+Height 4
+Speed  30
+Damage (10)
+Alpha 50
+Inventory.Amount 100
+Inventory.MaxAmount 100
+Ammo.BackpackAmount 100
+Ammo.BackpackMaxAmount 100
+Inventory.Icon "WATRA0"
+Inventory.PickupMessage ""
+Projectile
++SOLID
++FORCEPAIN
+DamageType "FootBall"
+SeeSound "Soda/Throw"
+Obituary "" 
+ States
+{
+ Spawn:
+	TNT1 AA 0
+	TNT1 A 1 A_ChangeFlag ("NOCLIP",FALSE)
+	//TNT1 A 1 A_SetSize(2,-1,false)
+	WATE B 4 
+	WATE CB 2 
+	//Goto Vanish
+ //Vanish:
+	//TNT1 A 2 Thing_Stop(0)
+	//TNT1 A 0 A_SpawnItemEX("WaterRocketDed",0,0,0,10,0,-2,0,0,0,0)
+	//Stop
+ Death:
+	TNT1 A 0 A_SetSpeed(5,AAPTR_DEFAULT)
+	WATE D 8  
+	WATE E 6 
+	Stop
+ }
+}

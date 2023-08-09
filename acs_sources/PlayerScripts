@@ -48,7 +48,7 @@ Script "HealthCheckHelper" ENTER
 								ACS_NamedExecuteAlways("PainInvulnerability",0,0,0,0);
 						}
 					}
-				HealthGive = 0;
+		 		HealthGive = 0;
 		}
 
 	HealthLast = GetActorProperty(0,APROP_HEALTH);

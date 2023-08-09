@@ -18,6 +18,7 @@
 - Werewolves would try to reach out of water if landed in there
 - Added "GhostPotion" item
 - Added "RandomPotion" item (Missing MrHyde mode)
+- Added "FootBall" weapon
 
 [Zamn Core]
 - Added 2-dimensional arrays to contain all the names of the Title Cards.
