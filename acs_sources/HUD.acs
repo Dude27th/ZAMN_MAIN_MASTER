@@ -9,6 +9,7 @@
 int LevelFinished = 0;
 bool CheckSurvivorGameOver= true;
 
+
 //Water Splash
 int watplayX = 0;
 int watplayY = 0;

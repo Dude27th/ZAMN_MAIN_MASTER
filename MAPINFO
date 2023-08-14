@@ -125,6 +125,7 @@ Sky1 = "Sky1", 0
 KeepFullInventory
 NoIntermission
 SpawnWithWeaponRaised
+//EvenLighting	//Experimental [!!!]
 Next = "EVENIN_U"
 SecretNext = "TENTACLE"
 }

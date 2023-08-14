@@ -315,7 +315,7 @@ Script "GameOverFast" (int Caller)	//First layer of the GameOver dropping blood 
 	if(GetCVAR("rctoggle")==1)
 		{	color=random(0,10);
 			SetCvar("ZGO_Color",color);	}
-
+ 
 	//Zamn Game Over
 	ACS_NamedExecuteAlways("SetGameOver_Zamn",0, color, 0, 0);
 	
@@ -356,12 +356,17 @@ Script "GameOverFast" (int Caller)	//First layer of the GameOver dropping blood 
 Script "GameOverFast2" (int Caller)	//Second layer of the GameOver dropping blood effect.
 	{
 	SetHudSize(320,200,FALSE);
-	switch(Caller)
+
+	switch(PlayerNumber())
 	{
-		case 0:	Delay(68);	Break;
-		case 1:	Delay(138);	Break;		
+		case 0:	while(OffsetLay1_P0 != 2750)
+				{Delay(1);}
+				Break;
+		case 1:	while(OffsetLay1_P1 != 2750)
+				{Delay(1);}
+				Break;
 	}
-				 
+
 				switch(PlayerNumber())
 				{
 					case 0:	while(true)
@@ -370,7 +375,7 @@ Script "GameOverFast2" (int Caller)	//Second layer of the GameOver dropping bloo
 								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P0 * rm,   HUDTIME_ONETIC);
 								delay(1);
 								if(OffsetLay2_P0<3000)
-									OffsetLay2_P0 = OffsetLay2_P0+20;
+									OffsetLay2_P0 = OffsetLay2_P0+40;
 							}	
 							Break;
 					case 1: while(true)
@@ -379,7 +384,7 @@ Script "GameOverFast2" (int Caller)	//Second layer of the GameOver dropping bloo
 								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P1 * rm,   HUDTIME_ONETIC);
 								delay(1);
 								if(OffsetLay2_P1<3000)
-									OffsetLay2_P1 = OffsetLay2_P1+20;
+									OffsetLay2_P1 = OffsetLay2_P1+40;
 							}	
 							Break;
 				}
@@ -435,11 +440,17 @@ Script "GameOverSlow" (int Caller)	//First layer of the GameOver dropping blood 
 Script "GameOverSlow2" (int Caller)	//Second layer of the GameOver dropping blood effect.
 	{
 	SetHudSize(320,200,FALSE);
-	switch(Caller)
+
+	switch(PlayerNumber())
 	{
-		case 0:	Delay(138);	Break;
-		case 1:	Delay(279);	Break;
+		case 0:	while(OffsetLay1_P0 != 2780)
+				{Delay(1);}
+				Break;
+		case 1:	while(OffsetLay1_P1 != 2780)
+				{Delay(1);}
+				Break;	
 	}
+
 				switch(PlayerNumber())
 				{
 					case 0:	while(true)
@@ -448,7 +459,7 @@ Script "GameOverSlow2" (int Caller)	//Second layer of the GameOver dropping bloo
 								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P0 * rm,   HUDTIME_ONETIC);
 								Delay(1);
 								if(OffsetLay2_P0<3000)
-									OffsetLay2_P0 = OffsetLay2_P0+10;
+									OffsetLay2_P0 = OffsetLay2_P0+20;
 							}	
 							Break;
 					case 1: while(true)
@@ -457,7 +468,7 @@ Script "GameOverSlow2" (int Caller)	//Second layer of the GameOver dropping bloo
 								HudMessage(s:"A";HUDMSG_PLAIN, HUDLAYER_GAMEOVERLY2, 0, HUDLAYER_GAMEOVERXOFS, OffsetLay2_P1 * rm,   HUDTIME_ONETIC);
 								Delay(1);
 								if(OffsetLay2_P1<3000)
-									OffsetLay2_P1 = OffsetLay2_P1+10;
+									OffsetLay2_P1 = OffsetLay2_P1+20;
 							}	
 							Break;
 				}	

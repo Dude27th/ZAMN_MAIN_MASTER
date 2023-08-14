@@ -35,6 +35,11 @@
 - Reworked how transformation work to implement RandomPotion
 - Added a 2 seconds timer for the Exit Door, so the range in which activates grows by time.
 	This helps with people which stayed still at the ExitDoor spawn and had trouble getting it to work.
+- Reworked "GameOver" animation, instead of running both layers on a timer, the second will start when the first one is at the correct position.
+	In handsight this approach makes more sense, hopefully it fixes once and for all the breaking "GameOver" screens.
+- Reduced Door Colissions for the players, monsters still would walk around the doors, while being less restrictive on players.
+	This was due that some maps like the current "Cheerleaders Vs Monsters" was hard to navigate due to not having enough space
+	for the colission boxes, so navigation was uncomfortable.
 
 
 

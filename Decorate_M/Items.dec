@@ -723,7 +723,7 @@ Actor GhoulPKey : ZamnKey 10510
 	-INVENTORY.INVBAR
 	+NOGRAVITY
 	Inventory.Icon ZKEYI0
-	//$Category "Zombies Ate My Neighbors/Items"
+	//$Category "GhoulPatrol/Items"
 	States
 		{
 		Spawn:

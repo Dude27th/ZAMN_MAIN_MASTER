@@ -188,6 +188,25 @@ Actor CrucifixPickup : WeaponPickup_ZAMN 14301
 
 
 
+Actor FootBallPickup : WeaponPickup_ZAMN 14302
+{
+ States
+	{
+	Spawn:
+		ftpk A 1
+		Loop
+	ZekeGive:
+		TNT1 AA 0
+		TNT1 A 0 A_GiveInventory("FTBALL_Z",1)
+		stop
+	JulieGive:
+		TNT1 AA 0
+		TNT1 A 0 A_GiveInventory("FTBALL_J",1)
+		stop
+	}
+}
+
+
 
 //Shortname Aliases
 Actor WackPick : WeedWackerPickup {}
@@ -207,7 +226,7 @@ Actor CruxPick : CrucifixPickup {}
 /*---------------------------------*/
 
 Actor WeaponPickup_Ghoul : WeaponPickup_ZAMN
-{//$Category "Zombies Ate My Neighbors/Weapons/GhoulPatrol"
+{//$Category "GhoulPatrol/Weapons"
 }
 
 Actor CrossbowPickup : WeaponPickup_Ghoul 14310
