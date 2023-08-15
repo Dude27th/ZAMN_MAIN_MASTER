@@ -624,9 +624,11 @@ Damage (0)
 -ACTIVATEMCROSS
 -CANPASS
 -ISMONSTER
-//$Category "Zombies Ate My Neighbors/Monsters/"
-//Arg0 "Pallete" //[Deprecated]
-//Arg1 "Delay"
+//$Category "Zombies Ate My Neighbors/Monsters/Mushrooms-Spikes"
+//$Arg0 "Active" 										
+//$Arg0Type 11
+//$Arg0Enum {0 = "Yes"; 1 = "No [Just Decorative]";}
+//Arg1 "Delay"											//[Deprecated] ??
 //Arg2 "AttackMode"
 //$Color 4
 DamageFactor "MonsterFist", 		0
@@ -654,6 +656,7 @@ States
 		Goto Check_Loop
 
 		Check_Loop:
+		"----" A 0 A_JumpIf(Args[0] == 1, "Decorative")
 		"----" A 1 A_JumpIfCloser(512, "Idle")
 		"----" A 1 A_LookEX(0,0,512,0,360,"Idle")	//<- CheckProximity would be too performance heavy to use here.
 		// This will keep unactive spikes/mushroom without a performance drop
@@ -727,13 +730,16 @@ States
 		Death:
 		TNT1 A 0
 		Stop
+		Decorative:		//Just stay still
+		"----" A -1
+		Stop
 	}
 }
 
 
 Actor MushroomSeed_Day : MushroomSeed 12212
 {
-//$Title "GP_MushroomDay"
+//$Title "MushroomGrass_Day"
  States
  {
 	Spawn:
@@ -745,7 +751,7 @@ Actor MushroomSeed_Day : MushroomSeed 12212
 
 Actor MushroomSeed_Night : MushroomSeed 12215
 {
-//$Title "GP_MushroomNight"
+//$Title "MushroomGrass_Night"
  States
  {
 	Spawn:
@@ -757,7 +763,7 @@ Actor MushroomSeed_Night : MushroomSeed 12215
 
 Actor MushroomSeed_Toxic : MushroomSeed 12216
 {
-//$Title "GP_MushroomToxic"
+//$Title "MushroomGrass_Toxic"
  States
  {
 	Spawn:
@@ -769,7 +775,7 @@ Actor MushroomSeed_Toxic : MushroomSeed 12216
 
 Actor MushroomSeed_Winter : MushroomSeed 12217
 {
-//$Title "GP_MushroomWinter"
+//$Title "MushroomGrass_Winter"
  States
  {
 	Spawn:
@@ -781,8 +787,7 @@ Actor MushroomSeed_Winter : MushroomSeed 12217
 
 Actor SpikeSeed_Day : MushroomSeed 12213
 {
-//$Category "Zombies Ate My Neighbors/Monsters/"
-//$Title "GP_SpikeDay"
+//$Title "SpikeCastle_Day"
 States
  {
 	Spawn:
@@ -794,8 +799,7 @@ States
 
 Actor SpikeSeed_Night : MushroomSeed 12218
 {
-//$Category "Zombies Ate My Neighbors/Monsters/"
-//$Title "GP_SpikeNight"
+//$Title "SpikeCastle_Night"
 States
  {
 	Spawn:
@@ -807,8 +811,7 @@ States
 
 Actor SpikeSeed_Dark : MushroomSeed 12219
 {
-//$Category "Zombies Ate My Neighbors/Monsters/"
-//$Title "GP_SpikeDark"
+//$Title "SpikeCastle_Dark"
 States
  {
 	Spawn:
@@ -820,8 +823,7 @@ States
 
 Actor SpikeSeed_Bright : MushroomSeed 12220
 {
-//$Category "Zombies Ate My Neighbors/Monsters/"
-//$Title "GP_SpikeBright"
+//$Title "SpikeCastle_Bright"
 States
  {
 	Spawn:
@@ -830,6 +832,58 @@ States
 		Goto Check_Loop
  }
 }
+
+Actor MushroomSeed_OfficeNormal : MushroomSeed 12221
+{
+//$Title "MushroomOffice_Normal"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH E 0 	//<-- Sets sprite
+		Goto Check_Loop
+ }
+}
+
+Actor MushroomSeed_OfficeDark : MushroomSeed 12222
+{
+//$Title "MushroomOffice_Dark"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH F 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor MushroomSeed_OfficeLight : MushroomSeed 12223
+{
+//$Title "MushroomOffice_Light"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH G 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+Actor MushroomSeed_OfficeDarkFire : MushroomSeed 12224
+{
+//$Title "MushroomOffice_DarkFire"
+ States
+ {
+	Spawn:
+		TNT1 A 0 
+		MUSH H 0 	//<-- Sets sprite 
+		Goto Check_Loop
+ }
+}
+
+
+
+
 
 Actor FloorHazardProjectile
 {
