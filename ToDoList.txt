@@ -18,6 +18,8 @@
 //
 // - Rework Triggers :		They don't need to have different actors for different palletes-.
 //							It can just be an argument.
+//
+// - Update Co-Op How To:	The instructions are kinda correct but the videos are down !!!
 //							
 //
 // - Frankestein:			1) Finish Voxel Spawn animation !

@@ -14,10 +14,12 @@ ACTOR FENCEPIECES_Day 13296
   States
   {
   Spawn:
-    FENC A 3 
-	FENC A 3 
-	FENC A 3 
-    Loop
+    //FENC A 3 
+	//FENC A 3 
+	//FENC A 3 
+    //Loop
+	FENC A -1
+	Stop
   }
 }
 
@@ -33,10 +35,12 @@ ACTOR FENCEPIECES_Night 13300
   States
   {
   Spawn:
-    FENC B 3 
-	FENC B 3 
-	FENC B 3 
-    Loop
+    //FENC B 3 
+	//FENC B 3 
+	//FENC B 3 
+    //Loop
+	FENC B -1
+	Stop
   }
 }
 
@@ -52,10 +56,12 @@ ACTOR FENCEPIECES_Toxic 13298
   States
   {
   Spawn:
-    FENC C 3 
-	FENC C 3 
-	FENC C 3 
-    Loop
+    //FENC C 3 
+	//FENC C 3 
+	//FENC C 3 
+    //Loop
+	FENC C -1
+	Stop
   }
 }
 
@@ -71,10 +77,12 @@ ACTOR FENCEPIECES_Winter 13301
   States
   {
   Spawn:
-    FENC D 3 
-	FENC D 3 
-	FENC D 3 
-    Loop
+    //FENC D 3 
+	//FENC D 3 
+	//FENC D 3 
+    //Loop
+	FENC D -1
+	Stop
   }
 }
 
