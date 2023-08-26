@@ -40,6 +40,8 @@
 - Reduced Door Colissions for the players, monsters still would walk around the doors, while being less restrictive on players.
 	This was due that some maps like the current "Cheerleaders Vs Monsters" was hard to navigate due to not having enough space
 	for the colission boxes, so navigation was uncomfortable.
+- Standarized Doors! Doors are now divided on Normal|Normal(Mirror)| and Special|Special(Mirror) type of doors
+	All door AI is now inherited, doors now just have to set the voxel frame and their inherited type will do the rest.
 
 
 

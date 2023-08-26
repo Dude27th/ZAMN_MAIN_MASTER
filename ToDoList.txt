@@ -3,11 +3,9 @@
 //----------- High Priority ------------//
 //
 // - [BUG] Failed Spawns:	Fixed with the Halloween Demo, altough the EvilDoll spawns still cause some issues.
-//			
 //
-// - Finish Rework Doors:	Doors are mostly just 2 types, Normal Key and Skull Key.
-//							Apart from usual variations, they behave equally so they could be standarized
-//							and doors should just have info on the Voxel to show.
+// - [BUG] Stanley Wrong:	If stanley triggers a Custom Trigger it will not only display the default grass texture,
+//							but he may also get stuck in the trigger not knowing properly where to be positionated.
 //
 // - Survivor 404 Failsafe:	Add an exception case for survivors in case that they have a 404 tag.
 //							As 404 actors get erased, and this would cause a softlock.
