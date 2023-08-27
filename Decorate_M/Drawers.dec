@@ -1,3 +1,5 @@
+//YOu are next
+
 ACTOR Door_Template		//PlaceHolder so I don't have to include the Door Decorate
 {
   Health 10
