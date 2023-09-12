@@ -45,3 +45,22 @@ Actor Web_Dark2 13401
 	Stop
  }
 }
+
+Actor OfficeCoach_Dark 13402
+{
+	Height 32
+	Radius 32
+	XScale 2.0
+	YScale 1.75
+//$Category "Zombies Ate My Neighbors/Decorations/Theme/Office"
+ +SOLID
+ +NOGRAVITY
+	States
+	{
+		Spawn:
+		SFA1 A -1//10
+		//SFA1 A 10
+		//Loop
+		Stop
+	}
+}

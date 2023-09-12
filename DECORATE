@@ -95,19 +95,22 @@
 
 Actor VoxelTest 15222
 {
-	Height 72
-	Radius 2
-	XScale 2.25
-	YScale 1.7
-	+NOCLIP
+	Height 32
+	Radius 32
+	//XScale 2.25
+	//YScale 1.7
+	XScale 2.0
+	YScale 1.75
+	//+NOCLIP
+	+SOLID
 	+NOGRAVITY
 	+CEILINGHUGGER
 	//$Category "Zombies Ate My Neighbors"
 	States
 	{
 		Spawn:
-		SARC A 10
-		SARC A 10
+		SFA1 A 10
+		SFA1 A 10
 		Loop
 	}
 }

@@ -1031,6 +1031,29 @@ ACTOR MT_FACTORYPIPES : MT_HOUSEDAY 14716
  }
 }
 
+ACTOR MT_OFFICEDARK : MT_HOUSEDAY 14717
+{
+ States
+ {
+  Death.Bazooka:
+	Goto DeathReal
+  Death.MonsterFist:
+	TNT1 A 1 A_GiveInventory("BazookaDeathToken",1)
+	Goto DeathReal
+  DeathReal:
+	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
+    TNT1 A 1 ACS_NamedExecuteAlways("TriggerOfficeDark",0,Args[0],0,0)
+	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
+	//TNT1 A 2
+	Goto Finish
+  ArgbyTag:
+    TNT1 A 1 ACS_NamedExecuteAlways("TriggerOfficeDark",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0)
+	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
+	//TNT1 A 2
+	Goto Finish
+ }
+}
+
 ACTOR MT_PYRAMIDWALL 14740
 {
   Mass 20000 

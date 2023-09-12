@@ -679,3 +679,30 @@ Script "TriggerFactoryPipes" (int maintag)
 						Terminate;
 			}	
 	}
+
+Script "TriggerOfficeDark" (int maintag)
+	{
+		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
+			{
+				int sidetag = maintag-200;
+				Floor_LowerToNearest(maintag, 512);
+				//ChangeFloor(maintag,"GRHIT");
+				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	Line_SetTextureOffset(maintag,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,"OFD_WLDB");
+				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,"OFD_WLDB");
+				//SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE,"NHEDG_B2");
+				//SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE,"NHEDG_B2");
+				
+				//ACS_NamedExecuteAlways("SpawnLeafs_Night",0,0,0,0);
+			}
+		else
+			{
+						if(maintag==0)
+							ACS_NamedExecuteAlways("TagZeroError",0,0,0,0);
+						else if(maintag<=200)
+							ACS_NamedExecuteAlways("TagNegativeError",0,0,0,0);
+						else if(maintag>=2000)
+							ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+						Terminate;
+			}	
+	}
