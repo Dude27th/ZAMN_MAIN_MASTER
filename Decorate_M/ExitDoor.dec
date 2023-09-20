@@ -40,7 +40,6 @@ Actor StartLevelPlayer2 : TeleportDest2 15033
 		}
 }
 
-//$GZDB_SKIP
 Actor EDToken : Inventory
 {	Inventory.MaxAmount 1	}
 
@@ -66,7 +65,8 @@ Actor ExitDoor
   States
 	{
 	Spawn:
-	TNT1 A 0 ACS_NamedExecuteAlways("ExitDoorSound",0,0,0,0)
+	TNT1 A 0 
+	TNT1 A 0 ACS_NamedExecuteAlways("CheckExitPosition",0,0,0,0)//ACS_NamedExecuteAlways("ExitDoorSound",0,0,0,0)
 	TNT1 A 0 A_PlaySound("Survivor/ExitDoor",0,100)
 	TNT1 A 0 A_SpawnItemEx("DoorPointer",0,0,10,0,0,0,0,SXF_SETMASTER)
 	EXDR ABCDEFGH 5
@@ -74,6 +74,7 @@ Actor ExitDoor
 	//Goto Blind
 	Blind:
 	EXDR H 1 A_LookEx(LOF_NOSOUNDCHECK,60 - Args[0],500,0,360,"Idle")
+	TNT1 A 0 A_JumpIf(Args[0] >= 60, 1)
 	TNT1 A 0 A_SetArg(0, Args[0] + 1)
 	Loop
 	Idle:
@@ -112,7 +113,7 @@ Actor DoorPointer : CustomInventory
 		Loop
 		}
 }
-
+/*
 Actor FinishPoint1 : TeleportDest2 15030
 {
   Height 1
@@ -120,6 +121,34 @@ Actor FinishPoint1 : TeleportDest2 15030
   Mass 7000 
   SpawnID 51
   //$Category "Zombies Ate My Neighbors/Other"
+  //$Sprite "EXDRH0"
+  +NOCLIP
+  -SOLID
+  -SHOOTABLE
+  States
+		{
+		Spawn:
+		TNT1 AAAAAAA 0
+		TNT1 A 1 ACS_NamedExecuteAlways("FinishPoint1",0,0,0,0)
+		Goto Idle
+		Idle:
+		TNT1 A 1 A_JumpIfInventory("YesTeleport",1,"DoIt")
+		Loop
+		DoIt:
+		TNT1 A 1 ACS_NamedExecuteAlways("FinishPlayer1",0,0,0,0)
+		TNT1 A 10
+		Stop
+		}
+}*/
+
+Actor FinishPoint_1 : TeleportDest2 15030
+{
+  Height 1
+  Radius 10
+  Mass 7000 
+  //SpawnID 49
+  //$Category "Zombies Ate My Neighbors/Other"
+  //$Sprite "EXDRH0"
   +NOCLIP
   -SOLID
   -SHOOTABLE
@@ -138,14 +167,15 @@ Actor FinishPoint1 : TeleportDest2 15030
 		Stop
 		}
 }
-  
-Actor FinishPoint2 : TeleportDest2 15031
+ 
+Actor FinishPoint_2 : TeleportDest2 15031
 {
   Height 1
   Radius 10
   Mass 7000 
-  SpawnID 51
+  //SpawnID 51
   //$Category "Zombies Ate My Neighbors/Other"
+  //$Sprite "EXDRH0"
   +NOCLIP
   -SOLID
   -SHOOTABLE
@@ -165,14 +195,13 @@ Actor FinishPoint2 : TeleportDest2 15031
 		}
 }
 
-
-  
-Actor ShowPoint1 15051
+Actor ShowPoint_X
 {
   Height 1
   Radius 10
   Mass 7000 
   //$Category "Zombies Ate My Neighbors/Other"
+  //$Sprite "SVMSA0"
   //Arg0 "SurvivorNumber"
   +NOCLIP
   -SOLID
@@ -204,16 +233,20 @@ Actor ShowPoint1 15051
 			Goto Idle
 		}
 }
-
-Actor ShowPoint2 : ShowPoint1 15052
+  
+Actor ShowPoint1: ShowPoint_X 15051
 {
-  Height 1
-  Radius 10
-  Mass 7000 
-  //$Category "Zombies Ate My Neighbors/Other"
-  +NOCLIP
-  -SOLID
-  -SHOOTABLE
+  States
+		{
+		Spawn:
+		TNT1 AAAAAAA 0
+		TNT1 A 1 ACS_NamedExecuteAlways("SetPoint1",0,0,0,0)
+		Goto Idle
+		}
+}
+
+Actor ShowPoint2 : ShowPoint_X 15052
+{
   States
 		{
 		Spawn:
@@ -223,15 +256,8 @@ Actor ShowPoint2 : ShowPoint1 15052
 		}
 }
 
-Actor ShowPoint3 : ShowPoint1 15053
+Actor ShowPoint3 : ShowPoint_X 15053
 {
-  Height 1
-  Radius 10
-  Mass 7000 
-  //$Category "Zombies Ate My Neighbors/Other"
-  +NOCLIP
-  -SOLID
-  -SHOOTABLE
   States
 		{
 		Spawn:
@@ -241,15 +267,8 @@ Actor ShowPoint3 : ShowPoint1 15053
 		}
 }
 
-Actor ShowPoint4 : ShowPoint1 15054
+Actor ShowPoint4 : ShowPoint_X 15054
 {
-  Height 1
-  Radius 10
-  Mass 7000 
-  //$Category "Zombies Ate My Neighbors/Other"
-  +NOCLIP
-  -SOLID
-  -SHOOTABLE
   States
 		{
 		Spawn:
@@ -259,15 +278,8 @@ Actor ShowPoint4 : ShowPoint1 15054
 		}
 }
 
-Actor ShowPoint5 : ShowPoint1 15055
+Actor ShowPoint5 : ShowPoint_X 15055
 {
-  Height 1
-  Radius 10
-  Mass 7000 
-  //$Category "Zombies Ate My Neighbors/Other"
-  +NOCLIP
-  -SOLID
-  -SHOOTABLE
   States
 		{
 		Spawn:

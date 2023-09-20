@@ -212,6 +212,11 @@ Script "StanleyAnimation_X" (int maintag, int pallete)
 		}
 }
 
+Script "Reset_ChainsawManiac" (void)
+{
+	
+}
+
 // ----------- Custom Trigger Support ----------
 
 //Called by the Trigger itself

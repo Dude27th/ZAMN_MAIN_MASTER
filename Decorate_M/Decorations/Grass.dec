@@ -769,7 +769,7 @@ ACTOR SILLON_A3 :Solid_Decoration 13495
   States
   {
   Spawn:
-    SLA3 A 3 
+    SLA3 A -1//3 
     Loop
   }
 }
@@ -784,7 +784,7 @@ ACTOR SILLON_A2 : Solid_Decoration 13496
   States
   {
   Spawn:
-    SLA2 A 3 
+    SLA2 A -1//3 
     Loop
   }
 }
@@ -799,7 +799,7 @@ ACTOR SILLON_A1 : Solid_Decoration 13497
   States
   {
   Spawn:
-    SLA1 A 3 
+    SLA1 A -1//3 
     Loop
   }
 }
@@ -814,7 +814,7 @@ ACTOR SILLON_A0 : Solid_Decoration 13498
   States
   {
   Spawn:
-    SLA0 A 3 
+    SLA0 A -1//3 
     Loop
   }
 }
@@ -867,7 +867,7 @@ ACTOR TUBA0 : Solid_Decoration 13516
   States
   {
   Spawn:
-    BTB0 A 1 
+    BTB0 A -1 
     Loop
   }
 }
@@ -878,7 +878,7 @@ ACTOR TUBA0_BROKEN : TUBA0 13517
   States
   {
   Spawn:
-   BTB0 B 1
+   BTB0 B -1
    Loop
   }
 }
@@ -893,7 +893,7 @@ ACTOR TUBA1 : Solid_Decoration 13518
   States
   {
   Spawn:
-    BTB1 A 1 
+    BTB1 A -1 
     Loop
   }
 }
@@ -904,7 +904,7 @@ ACTOR TUBA1_BROKEN : TUBA0 13519
   States
   {
   Spawn:
-   BTB1 B 1
+   BTB1 B -1
    Loop
   }
 }
@@ -919,7 +919,7 @@ ACTOR TUBA2 : Solid_Decoration 13520
   States
   {
   Spawn:
-    BTB2 A 1 
+    BTB2 A -1 
     Loop
   }
 }
@@ -930,7 +930,7 @@ ACTOR TUBA2_BROKEN : TUBA0 13521
   States
   {
   Spawn:
-   BTB2 B 1
+   BTB2 B -1
    Loop
   }
 }
@@ -945,7 +945,7 @@ ACTOR TUBA3 : Solid_Decoration 13522
   States
   {
   Spawn:
-    BTB3 A 1 
+    BTB3 A -1 
     Loop
   }
 }
@@ -956,7 +956,7 @@ ACTOR TUBA3_BROKEN : TUBA0 13523
   States
   {
   Spawn:
-   BTB3 B 1
+   BTB3 B -1
    Loop
   }
 }
@@ -1154,87 +1154,104 @@ ACTOR Food 13500
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),"VoxelA")
     Loop
   VoxelA:
-	FOOD A 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_A")
+	FOOD AA 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelB:
-	FOOD B 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_B")
+	FOOD BB 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelC:
-	FOOD C 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_C")
+	FOOD CC 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelD:
-	FOOD D 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_D")
+	FOOD DD 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelE:
-	FOOD E 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_E")
+	FOOD EE 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelF:
-	FOOD F 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_F")
+	FOOD FF 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelG:
-	FOOD G 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_G")
+	FOOD GG 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelH:	
-	FOOD H 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_H")
+	FOOD HH 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelI:
-	FOOD I 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_I")
+	FOOD II 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelJ:
-	FOOD J 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_J")
+	FOOD JJ 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelK:
-	FOOD K 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_K")
+	FOOD KK 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelL:
-	FOOD L 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_L")
+	FOOD LL 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelM:
-	FOOD M 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_M")
+	FOOD MM 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelN:
-	FOOD N 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_N")
+	FOOD NN 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelO: 
-	FOOD O 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_O")
+	FOOD OO 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelP:	
-	FOOD P 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_P")
+	FOOD PP 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==0),1)
 	Goto Spawn
   VoxelQ:
-	FOOD Q 10 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
+	//TNT1 A 0 A_Log("Food_Q")
+	FOOD QQ 5 A_CheckProximity("Safe","NoFood",256,1,CPXF_ANCESTOR)
 	TNT1 A 0 A_JumpIf((CallACS("Voxels")==2),"Spawn")
 	Goto Spawn
   Safe:

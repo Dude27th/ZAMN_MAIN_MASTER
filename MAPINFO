@@ -273,7 +273,18 @@ KeepFullInventory
 NoIntermission
 SpawnWithWeaponRaised
 Next = "CHOPMALL"
-//Secret = "THANKS"	//Go to "Cheerleaders Vs The Monsters"
+Secret = "CHERVSMN"	//Go to "Cheerleaders Vs The Monsters"
+}
+
+map CHERVSMN "Cheerleaders Vs Monsters"
+{
+levelnum = 812
+music = ""	//"EVENING"
+Sky1 = "Sky2", 0
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Next = "CHOPMALL"
 }
 
 map CHOPMALL "Chopping Mall"

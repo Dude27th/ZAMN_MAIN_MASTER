@@ -135,11 +135,22 @@ Script "SurvivorGameOver" (void)
 		SetResultValue(0);
 }
 
+
+int LastSurvivorX = 0;
+int LastSurvivorY = 0;
+int LastSurvivorZ = 0;
+
 //[Called by Survivors]
 Script "SurvivorSomething" (int what)
 //If a survivor dies or get saved this script will update the counter token and check if it needs to spawn the exit door
 {
 	int n = 0;
+	if ((GetActorX(0) != 0)&&(GetActorY(0) != 0))
+	{
+		LastSurvivorX = GetActorX(0);
+		LastSurvivorY = GetActorY(0);
+		LastSurvivorZ = GetActorZ(0);
+	}
 	switch(what)				
 		{						
 			//Survivor Died
@@ -178,6 +189,17 @@ Script "SurvivorSomething" (int what)
 					{ Delay(1);}
 			}
 }
+
+Script "CheckExitPosition" (void)
+{
+	if ((GetActorX(0) == 0)&&(GetActorY(0) == 0))
+	{		//Last survivor didn't register for some reason...
+		SetActorPosition(0, LastSurvivorX, LastSurvivorY, LastSurvivorZ, false);
+	}
+}
+
+
+
 
 //[Called by Survivors]
 Script "CheckZSurvivor" (void)
