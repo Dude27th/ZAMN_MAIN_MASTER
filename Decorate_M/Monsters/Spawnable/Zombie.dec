@@ -9,6 +9,7 @@ ACTOR ZAMN_ZOMBIE : SpawnableMonster_ZAMN
   Scale 1.10
   MeleeRange 20
   DamageType "Zombie"
+  //[Damage Factors Inherited from base]
   Monster
   +NOPAIN
   -STANDSTILL

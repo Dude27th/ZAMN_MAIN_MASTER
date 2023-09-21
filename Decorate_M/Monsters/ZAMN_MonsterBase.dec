@@ -7,21 +7,21 @@ Actor MonsterClass_ZAMN
 	Species "Monster_Actor"	//Test
 
 	//	Weapons Damage Resistances	[Generic]
-	DamageFactor "MonsterFist", 		1
-	DamageFactor "WeedWacker", 			1
-	DamageFactor "Tomatoes", 			1
-	DamageFactor "Soda", 				1
-	DamageFactor "Water", 				1
-	DamageFactor "Bazooka", 			1
-	DamageFactor "FireExtinguisher",	0
-	DamageFactor "Popsicle", 			1
-	DamageFactor "Crucifix", 			1
-	DamageFactor "Silverware", 			1
-	DamageFactor "Plates", 				1
-	DamageFactor "FootBall", 			1
-	DamageFactor "MartianGun", 			0
-	DamageFactor "FlameThrower", 		1
-	DamageFactor "Banana", 				1
+	DamageFactor "MonsterFist", 		1		//[X]
+	DamageFactor "WeedWacker", 			1		//[1]
+	DamageFactor "Tomatoes", 			1		//[2]
+	DamageFactor "Soda", 				1		//[3]
+	DamageFactor "Water", 				1		//[4]
+	DamageFactor "Bazooka", 			1		//[5]
+	DamageFactor "FireExtinguisher",	0		//[6]
+	DamageFactor "Popsicle", 			1		//[6]
+	DamageFactor "Crucifix", 			1		//[7]
+	DamageFactor "Silverware", 			1		//[8]
+	DamageFactor "Plates", 				1		//[8]
+	DamageFactor "FootBall", 			1		//[9]
+	DamageFactor "MartianGun", 			0		//[9]
+	DamageFactor "FlameThrower", 		1		//[0]
+	DamageFactor "Banana", 				1		//[0]
 
 	//	Monster Damage Resistances
 	DamageFactor "Zombie", 				0

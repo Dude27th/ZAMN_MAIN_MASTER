@@ -1,0 +1,17 @@
+Weapon Order
+:::::::::::::::::::
+
+1: WeedWacker						DT:{"WeedWacker"}
+2: Tomatoes							DT:{"Tomatoes"}
+3: Soda								DT:{"Soda"}
+4: WaterGuns						DT:{"Water"}
+5: Bazooka							DT:{"Bazooka"}
+6: FireExtinguisher, Popsicles		DT:{"FireExtinguisher", "Popsicle"}
+7: Crucifix							DT:{"Crucifix"}
+8: Silverware, Plates				DT:{"Silverware", "Plates"}
+9: FootBall, MartianGun				DT:{"FootBall", "MartianGun"}
+0: FlameThrower, Banana				DT:{"FlameThrower", "Banana"}
+
+
+X: MonsterFists [2]					DT:{"MonsterFist"}
+X: GhostWeapon  [2]					DT:{"-"}

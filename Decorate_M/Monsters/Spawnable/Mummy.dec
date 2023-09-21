@@ -9,16 +9,18 @@ ACTOR ZAMN_Mummy : SpawnableMonster_ZAMN//MonsterClass_ZAMN
 	Scale 1.35
 	Mass 20000
 	MeleeRange 20
+	DamageType "Zombie"
 	DamageFactor "MonsterFist", 5
 	DamageFactor "WeedWacker", 1.8                                                                                                                                                                                                                                                                 
 	DamageFactor "Tomatoes", 1.8
 	DamageFactor "Soda", 5
-	DamageFactor "Water", 1
 	DamageFactor "Bazooka", 5
-	DamageFactor "FireExtinguisher", 0
+	DamageFactor "Popsicle", 1.8
 	DamageFactor "Crucifix", 5
-	
-	DamageType "Zombie"
+	DamageFactor "Silverware", 2.5
+	DamageFactor "Plates", 2.5
+	DamageFactor "FlameThrower", 5
+	DamageFactor "Banana", 5
 	Monster
 	-STANDSTILL
 	+NODROPOFF

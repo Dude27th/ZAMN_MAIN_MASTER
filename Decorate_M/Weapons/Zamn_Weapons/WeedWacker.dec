@@ -10,8 +10,7 @@ Actor FalseFlag : 		WeaponToken_ZAMN	{}
 
 //Sequence Control
 Actor WW4 : WWGeneralToken 	{}
-///////////////////////////////////////////////
-///////////////////////////////////////////////
+
 
 Actor WeedWacker_ZAMN : WeaponClass_ZAMN //Base Class
 {

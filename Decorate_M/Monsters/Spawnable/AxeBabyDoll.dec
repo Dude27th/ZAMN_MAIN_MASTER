@@ -13,14 +13,18 @@ ACTOR BabyDoll : EvilDollClass
 	Speed 11
 	Scale 1.10
 	MeleeRange 30
+	DamageType "BabyDoll"
 	DamageFactor "MonsterFist", 4
 	DamageFactor "WeedWacker", 2
 	DamageFactor "Tomatoes", 2
 	DamageFactor "Soda", 4
 	DamageFactor "Bazooka", 0
+	DamageFactor "Popsicle", 2
 	DamageFactor "Crucifix", 4
-	
-	DamageType "BabyDoll"
+	DamageFactor "Silverware", 4
+	DamageFactor "Plates", 2
+	DamageFactor "FlameThrower", 4
+	DamageFactor "Banana", 4
 	Monster
 	+AMBUSH
 	-NODROPOFF
@@ -271,13 +275,17 @@ Actor BFire : EvilDollClass
 	SpawnID 12
 	DamageFactor "MonsterFist", 9
 	DamageFactor "WeedWacker", 4.5
-	DamageFactor "Tomatoes", 4.5
+	DamageFactor "Tomatoes", 3
 	DamageFactor "Soda", 9
-	DamageFactor "Water", 	1	//Default
 	DamageFactor "Bazooka", 9
 	DamageFactor "FireExtinguisher", 9
+	DamageFactor "Popsicle", 3
 	DamageFactor "Crucifix", 9
-
+	DamageFactor "Silverware", 4.5
+	DamageFactor "Plates", 4.5
+	DamageFactor "FootBall", 1.5
+	DamageFactor "FlameThrower", 9
+	DamageFactor "Banana", 9
 	Monster
 	+AMBUSH
 	-NOGRAVITY

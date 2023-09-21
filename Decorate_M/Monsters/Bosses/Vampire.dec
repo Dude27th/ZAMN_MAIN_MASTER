@@ -20,6 +20,8 @@ ACTOR Vampire : MonsterClass_ZAMN //Should be BossMonsterClass_ZAMN
 	DamageFactor "Bazooka", 37.5//75	Bazooka explosion does added damage
 	DamageFactor "FireExtinguisher", 0
 	DamageFactor "Crucifix", 45 //? Shoot in the dark
+	//DamageFactor "Crucifix", 45 //? Shoot in the dark
+	DamageFactor "FootBall", 45 //? Shoot in the dark
 	
 	PainChance "Bazooka", 0	 
 	Monster
