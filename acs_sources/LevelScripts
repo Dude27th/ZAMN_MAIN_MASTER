@@ -1016,6 +1016,14 @@ Script "GetCheerleaderCount" (void)
 Script "CheerleaderPlus" (void)
 {	CheerleaderCount++;	}
 
+Script "IsTenCheerleaderAchieved" (void)
+{
+	if(CheerleaderGoal >= CheerleaderCount)
+		SetResultValue(1);
+	else
+		SetResultValue(0);
+}
+
 // LYCANTHROPY PREVENTED
 
 int NoLycantrophyGoal= 0;

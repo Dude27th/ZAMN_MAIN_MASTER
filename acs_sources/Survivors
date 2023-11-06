@@ -395,3 +395,13 @@ Script "GetSurvivorsMaximum" (void)
 {
 	SetResultValue(SurvivorMaximum);
 }
+
+
+
+
+
+
+Script "TestWaterToken" (void)
+{
+	Log(s: StrParam(s: "InWater: ", i: CheckInventory("InWater")) );
+}

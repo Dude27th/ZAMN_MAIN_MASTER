@@ -6,7 +6,7 @@ int GotoBonus = 0;
 int GotoEasterEgg = 0;
 
  
-
+ 
 
 int SurvivorsCollected = 0;
 str SurvivorsLoaded		[21] = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
@@ -170,12 +170,21 @@ Script "ShowTime" (void)
 			
 			//TenCheerleaders
 			if(ACS_NamedExecuteWithResult("IsTenCheerleaderBonus")==1)					
-			{	if(ACS_NamedExecuteWithResult("GetCheerleaderGoal") <= ACS_NamedExecuteWithResult("GetCheerleaderCount"))
-				{	
-						//ACS_NamedExecuteAlways("BonusCheerleaderText",0,GetCheerleaderGoal);
-						Log(s: "Some Cheerleader Bonus!");
-						Delay(70);
-					
+			{	
+				if(ACS_NamedExecuteWithResult("IsTenCheerleaderAchieved") == 1)
+				{
+						if(ACS_NamedExecuteWithResult("GetCheerleaderGoal") == 10)	//Ten Cheerleader
+						{
+							ACS_NamedExecuteAlways("BonusTextAnimation",0,3);
+							ACS_NamedExecuteAlways("SetBonus",0,0,0,0);
+							Delay(70);
+						}
+						else														//Some Cheerleaders
+						{
+							ACS_NamedExecuteAlways("BonusTextAnimation",0,4);
+							ACS_NamedExecuteAlways("SetBonus",0,0,0,0);
+							Delay(70);
+						}
 				}
 			}
 			
@@ -230,9 +239,11 @@ Script "BonusTextAnimation" (int BonusType)
 	str graphic = "";
 	switch(BonusType)
 		{
-			case 0: graphic= "LEVEL_B";	Break;
-			case 1:	graphic= "LEVEL_E";	Break;
-			case 2: graphic= "LEVEL_S";	Break;
+			case 0: graphic= "LEVEL_B";	Break;		// Bonus
+			case 1:	graphic= "LEVEL_E";	Break;		// Easter Egg
+			case 2: graphic= "LEVEL_S";	Break;		// Survivors
+			CASE 3: graphic= "LEVEL_C"; Break;		// Ten Cheerleader
+			case 4: graphic= "LEVEL_H"; Break;		// Some Cheerleader
 			//case 3: graphic= "LEVEL_L"; Break;	//No Licantrophy
 			//case 4: graphic= "LEVEL_Z"; Break;	//No Bazooka Fired
 		}

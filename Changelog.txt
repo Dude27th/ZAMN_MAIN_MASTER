@@ -1,4 +1,11 @@
-+ "ZAMN_MAIN" (??th August, 2023) [Im getting back to it demo]
++ "ZAMN_MAIN" (06th November, 2023) [Hotfix Stuff 1]
+-------------------------------------------------------------
+[Zamn TC]
+- Reverted a couple of monsters wich where being tested with different damage values
+
+
+
++ "ZAMN_MAIN" (31th October, 2023) [DEVELOPMENT HELL IM SO SORRY]
 -------------------------------------------------------------
 [Zamn TC]
 - Added bonus map "Cheerleaders Vs Monsters" (WIP)
@@ -12,13 +19,18 @@
 - Moved "FireSeed" Hazard enemy to "GiantPod.dec" so it has a sensical location
 - "FireSeed" now can drop a key on death and comes with two aditional palletes
 - Added missing frame in Zeke's walking animation
-- Fixed an oversight on Level 11 "Weeds Gone Bad" which had a survivor spawn with tag 404.
-	So it was being erased by error if the game was played on Software Mode.
 - Prevented land monsters spawning/landing on water
 - Werewolves would try to reach out of water if landed in there
 - Added "GhostPotion" item
 - Added "RandomPotion" item (Missing MrHyde mode)
 - Added "FootBall" weapon
+- Fixed oversight with "PoolDude" Survivor and Gillmens thinking it was outside of water
+- Fixed an oversight on Level 11 "Weeds Gone Bad" which had a Survivor Spawn with tag 404.
+	So it was being erased by error if the game was played on Software Mode.
+- Added Error Warnings for Survivors:
+	- If they didn't have their priority set
+	- If the Spawner had Tag 404
+- Fixed Hud Score not offsetted properly if the Aspect Ratio wasn't forced
 
 [Zamn Core]
 - Added 2-dimensional arrays to contain all the names of the Title Cards.
@@ -32,16 +44,16 @@
 	due to becoming both categories too big to mantain in the same file.
 - Re-organized "Decorate_M/Decorations" folder, actors are now stored by level theme and interactive actors are stored separatedly.
 	This should reduce clutter on the files, and also neccesary due some new rules.
-- Reworked how transformation work to implement RandomPotion
-- Added a 2 seconds timer for the Exit Door, so the range in which activates grows by time.
-	This helps with people which stayed still at the ExitDoor spawn and had trouble getting it to work.
-- Reworked "GameOver" animation, instead of running both layers on a timer, the second will start when the first one is at the correct position.
-	In handsight this approach makes more sense, hopefully it fixes once and for all the breaking "GameOver" screens.
 - Reduced Door Colissions for the players, monsters still would walk around the doors, while being less restrictive on players.
 	This was due that some maps like the current "Cheerleaders Vs Monsters" was hard to navigate due to not having enough space
 	for the colission boxes, so navigation was uncomfortable.
 - Standarized Doors! Doors are now divided on Normal|Normal(Mirror)| and Special|Special(Mirror) type of doors
 	All door AI is now inherited, doors now just have to set the voxel frame and their inherited type will do the rest.
+- Reworked how transformations work to implement RandomPotions
+- Added a 2 seconds timer for the Exit Door, so the range in which activates grows by time.
+	This helps with people which stayed still at the ExitDoor spawn and had trouble getting it to work.
+- Reworked "GameOver" animation, instead of running both layers on a timer, the second will start when the first one is at the correct position.
+	In handsight this approach makes more sense, hopefully it fixes once and for all the breaking "GameOver" screens.
 
 
 

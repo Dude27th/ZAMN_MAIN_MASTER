@@ -944,7 +944,7 @@ Actor ColisionPillar2
   Health 10		//
   Mass 20000
   Height 50
-  Radius 6//20
+  Radius 2//6//20
   Scale 3.0
   +SOLID
   //+NOGRAVITY

@@ -8,7 +8,6 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 	MeleeRange 28
 	MaxDropOffHeight 64//128	//ORIGINAL
 	MaxStepHeight 32
-	//MaxDropOffHeight 64			//TESTING
 	DamageFactor "MonsterFist", 5
 	DamageFactor "WeedWacker", 1.9
 	DamageFactor "Tomatoes", 1.9
@@ -20,7 +19,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 	//$Arg0 AirRecoil (?)
 	//Arg1 CountActiveMonster
 	//Arg2 IsJumping (?)
-	//Arg3 Alerted Sound
+	//Arg3 Alerted Sound | SearchTries
 	//Arg4 Retreat Tried
 	//$Color 4
 	
@@ -32,7 +31,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 	+THRUSPECIES
 	+BOUNCEONCEILINGS
 	+EXPLODEONWATER
-	+NOFRICTION
+	//+NOFRICTION
 	//+BOUNCE
 	//+NODROPOFF//		//ORGINAL
 	//-NODROPOFF			//TESTING
@@ -56,10 +55,12 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
 		TNT1 A 0 A_SetArg(4, 0)	//Clean
 		WOLF AAA 1 A_Chase
+		TNT1 A 0 A_SetSize(15,48, false)	//Normal Hitbox
 		TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
-		
+		TNT1 A 0 //A_Log("Chase A")
+
 		TNT1 A 0 A_JumpIf(CallACS("SelfOnWater") == 1, "Retreat")
 		TNT1 A 0 A_JumpIf(CallACS("CheckTargetOnWater") == 1, "See2")
 		TNT1 AA 0 A_JumpIf(CallACS("CheckZWolf_UpTarget") == 1,"JumpClimbShort") 
@@ -72,6 +73,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 //A_Log("Chase B")
 		
 		TNT1 A 0 A_JumpIf(CallACS("SelfOnWater") == 1, "Retreat")
 		TNT1 A 0 A_JumpIf(CallACS("CheckTargetOnWater") == 1, "See3")
@@ -85,6 +87,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 //A_Log("Chase C")
 		
 		TNT1 A 0 A_JumpIf(CallACS("SelfOnWater") == 1, "Retreat")
 		TNT1 A 0 A_JumpIf(CallACS("CheckTargetOnWater") == 1, "See4")
@@ -98,6 +101,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		TNT1 A 0 A_CheckProximity("","InChaseSpawn",512,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_CheckProximity("","ClownToy",1024,1,CPXF_ANCESTOR|CPXF_CHECKSIGHT|CPXF_SETTARGET|CPXF_CLOSEST)
 		TNT1 A 0 A_JumpIfInTargetInventory("IsDead",1,"NoChase")
+		TNT1 A 0 //A_Log("Chase D")
 		
 		TNT1 A 0 A_JumpIf(CallACS("SelfOnWater") == 1, "Retreat")
 		TNT1 A 0 A_JumpIf(CallACS("CheckTargetOnWater") == 1, "See")
@@ -109,7 +113,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		Goto See
 		
 	JumpChase:
-		TNT1 A 0 //ACS_NamedExecute("JumpTell",0,1)
+		TNT1 A 0 //A_Log("Chase Jump")
 		TNT1 A 0 A_JumpIf(CallACS("CheckTargetOnWater") == 1, "See")
 		TNT1 A 0 A_FaceTarget
 		TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
@@ -129,7 +133,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		Goto JumpAir
 	
 	JumpClimbShort:
-		TNT1 A 0 //ACS_NamedExecute("JumpTell",0,2)
+		TNT1 A 0 //A_Log("Chase JumpClimb_S")
 		TNT1 A 0 A_FaceTarget
 		TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
 		TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
@@ -144,7 +148,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		Goto JumpAir
 	
 	JumpClimbLong:
-		TNT1 A 0 //ACS_NamedExecute("JumpTell",0,3)
+		TNT1 A 0 //A_Log("Chase JumpClimb_L")
 		TNT1 A 0 A_FaceTarget
 		TNT1 A 0 A_ChangeFlag("INVULNERABLE",TRUE)
 		TNT1 A 0 A_ChangeFlag("NOPAIN",TRUE)
@@ -178,7 +182,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		TNT1 A 0 A_SetArg(2, 0)
 		
 		WOLF QRS 2//3												//Landing
-		TNT1 A 0 A_SetSize(15,48,false)
+		TNT1 A 0 A_SetSize(15,48,true)	//Prevent Stucking
 		TNT1 A 0 A_ChangeFlag("INVULNERABLE",FALSE)
 		TNT1 A 0 A_ChangeFlag("NOPAIN",FALSE)
 		TNT1 A 0 A_JumpIf(CallACS("SelfOnWater") == 1, "Retreat")
@@ -186,7 +190,7 @@ ACTOR Werewolf : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN//3002
 		Goto See
 
 	Retreat:
-		//TNT1 A 0 A_Log("Retreat")
+		//TNT1 A 0 //A_Log("Retreat")
 		TNT1 A 0 A_JumpIf(Args[4] == 20, "Death")
 
 		TNT1 A 0 A_SpawnItemEx("WF_CloseLandCheck",-128,-128,  0, 0,0,0, 0)

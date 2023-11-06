@@ -115,6 +115,10 @@ Script "HudMainScript" ENTER			// HUD SCRIPT!
 				else if(GetAspectRatioZamn() == ASPECT_21_9)
 					{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
 						GiveInventory("AspectRatio17_10",1);}
+
+				else //Defaults to 16:9 if all fails	
+					{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio16_9",1);}
 							
 						
 						//[1.- Main Hud: [Portrait, Health Bars, Life Icon, Zamn Keys Icon, Weapon Icon Borders, Item Icon Borders]
@@ -423,7 +427,7 @@ Script "HudMainScript" ENTER			// HUD SCRIPT!
 						{
 							//bla bla bla set pitch at center, set height at 64 above bottom, you are floating
 						}
-						else								//:: Normal Conditions
+						else	//:: Normal Conditions
 						{
 
 							if(GetActorProperty(0,APROP_Waterlevel)!= 0)
@@ -550,28 +554,16 @@ Script "HudMainScript" ENTER			// HUD SCRIPT!
 						//[13.- Score Text / Score Points]
 						if(( (GetCVar("sctoggle")&&CheckInventory("ScoreNoCheck")!=1) || CheckInventory("ScoreShow")==1 || CheckInventory("ScoreActive")==1 ))
 						{
-							switch(AspectRatio)
+							/*switch(AspectRatio)
 							{
-								case 1:	
-								case 2:	SetHudSize(640, 380, FALSE);	break;
-								case 3:
-								case 4:
-								case 5: SetHudSize(640, 340, FALSE);	break;
-								//case 6: SetHudSize(640, 360, FALSE);	break;
-							}
-						
-								
-								SetFont("BIGFONT");
-								switch(AspectRatio)
-									{
-										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 360.0, HUDTIME_ONETIC);	break;
-										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 380.0, HUDTIME_ONETIC);	break;
-										case 3:
-										case 4:
-										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 000.0, 330.0, HUDTIME_ONETIC);	break;
-										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
-									}
-								//Log(s: "Layer 1000: Score Text");		//Test
+								case 1:	4_3
+								case 2:	5_4
+								case 3: 16_9
+								case 4: 16_10
+								case 5: 17_10
+								//case 6: 21_9 (17_10)
+								//Default: 16_9
+							}*/
 							switch(AspectRatio)
 							{
 								case 1:	
@@ -581,15 +573,36 @@ Script "HudMainScript" ENTER			// HUD SCRIPT!
 								case 5: SetHudSize(320, 200, FALSE);	break;
 								//case 6: SetHudSize(320, 180, FALSE);	break;
 							}
+								
+								SetFont("STATUSFONT");//("BIGFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 30.0, 234.0,/*050.0, 360.0,*/ HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 30.0, 234.0,/*050.0, 380.0,*/ HUDTIME_ONETIC);	break;
+										case 3: HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 0.0, 194.0,/*050.0, 380.0,*/ HUDTIME_ONETIC);	break;
+										case 4: HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 0.0, 194.0,/*050.0, 380.0,*/ HUDTIME_ONETIC);	break;
+										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 0.0, 194.0,/*000.0, 330.0,*/ HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+								//Log(s: "Layer 1000: Score Text");		//Test
+							/*switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(320, 240, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(320, 200, FALSE);	break;
+								//case 6: SetHudSize(320, 180, FALSE);	break;
+							}*/
 				
 								SetFont("STATUSFONT");
 								switch(AspectRatio)
 									{
-										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 200.0, HUDTIME_ONETIC);	break;
-										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 194.0, HUDTIME_ONETIC);	break;
+										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 85.0, 234.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 85.0, 234.0, HUDTIME_ONETIC);	break;
 										case 3:
 										case 4:
-										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 50.0, 194.0, HUDTIME_ONETIC);	break;
+										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 55.0, 194.0, HUDTIME_ONETIC);	break;
 										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
 									}
 						}
@@ -867,52 +880,45 @@ Script "HudMainScript" ENTER			// HUD SCRIPT!
 			Delay(1);
 			}
 
-			//Showcase "Score" Mini Hud Part
-			
+
+			//Showcase "Score" Mini Hud Part	
 			while(CheckInventory("ScoreShow")==1)
 				{
-					//Log(s: "Score Hud");	//Test
-						//Main Hud Aspect Ratio Setup
-						if(GetAspectRatioZamn() == ASPECT_4_3)
-						{	AspectRatio = 1;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
-							GiveInventory("AspectRatio4_3",1);}
-						else if(GetAspectRatioZamn() == ASPECT_5_4)
-						{	AspectRatio = 2;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
-							GiveInventory("AspectRatio5_4",1);}
-						else if(GetAspectRatioZamn() == ASPECT_16_9)
-						{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
-							GiveInventory("AspectRatio16_9",1);}
-						else if(GetAspectRatioZamn() == ASPECT_16_10)
-						{	AspectRatio = 4;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio17_10",1);	
-							GiveInventory("AspectRatio16_10",1);}
-						else if(GetAspectRatioZamn() == ASPECT_17_10)
-						{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
-							GiveInventory("AspectRatio17_10",1);}
-						else if(GetAspectRatioZamn() == ASPECT_21_9)
-						{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
-							GiveInventory("AspectRatio17_10",1);}
-						switch(AspectRatio)
-							{
-								case 1:	
-								case 2:	SetHudSize(640, 380, FALSE);	break;
-								case 3:
-								case 4:
-								case 5: SetHudSize(640, 340, FALSE);	break;
-								//case 6: SetHudSize(640, 360, FALSE);	break;
-							}
+				//Log(s: "Score Hud");	//Test
+				//Main Hud Aspect Ratio Setup
+				if(GetAspectRatioZamn() == ASPECT_4_3)
+					{	AspectRatio = 1;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio4_3",1);}
+				else if(GetAspectRatioZamn() == ASPECT_5_4)
+					{	AspectRatio = 2;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio5_4",1);}
+				else if(GetAspectRatioZamn() == ASPECT_16_9)
+					{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio16_9",1);}
+				else if(GetAspectRatioZamn() == ASPECT_16_10)
+					{	AspectRatio = 4;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio16_10",1);}
+				else if(GetAspectRatioZamn() == ASPECT_17_10)
+					{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+						GiveInventory("AspectRatio17_10",1);}
+				else if(GetAspectRatioZamn() == ASPECT_21_9)
+					{	AspectRatio = 5;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio16_10",1);	
+						GiveInventory("AspectRatio17_10",1);}
+
+				else //Defaults to 16:9 if all fails	
+					{	AspectRatio = 3;	TakeInventory("AspectRatio21_9",1);	TakeInventory("AspectRatio4_3",1); TakeInventory("AspectRatio16_9",2); TakeInventory("AspectRatio5_4",1); TakeInventory("AspectRatio16_10",1); TakeInventory("AspectRatio17_10",1);	
+						GiveInventory("AspectRatio16_9",1);}
 						
-								
-								SetFont("BIGFONT");
-								switch(AspectRatio)
-									{
-										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 360.0, HUDTIME_ONETIC);	break;
-										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 050.0, 380.0, HUDTIME_ONETIC);	break;
-										case 3:
-										case 4:
-										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 000.0, 330.0, HUDTIME_ONETIC);	break;
-										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
-									}
-								//Log(s: "Layer 1000: Score Text");		//Test
+							/*switch(AspectRatio)
+							{
+								case 1:	4_3
+								case 2:	5_4
+								case 3: 16_9
+								case 4: 16_10
+								case 5: 17_10
+								//case 6: 21_9 (17_10)
+								//Default: 16_9
+							}*/
 							switch(AspectRatio)
 							{
 								case 1:	
@@ -922,22 +928,45 @@ Script "HudMainScript" ENTER			// HUD SCRIPT!
 								case 5: SetHudSize(320, 200, FALSE);	break;
 								//case 6: SetHudSize(320, 180, FALSE);	break;
 							}
+								
+								SetFont("STATUSFONT");//("BIGFONT");
+								switch(AspectRatio)
+									{
+										case 1:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 30.0, 234.0,/*050.0, 360.0,*/ HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 30.0, 234.0,/*050.0, 380.0,*/ HUDTIME_ONETIC);	break;
+										case 3: HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 0.0, 194.0,/*050.0, 380.0,*/ HUDTIME_ONETIC);	break;
+										case 4: HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 0.0, 194.0,/*050.0, 380.0,*/ HUDTIME_ONETIC);	break;
+										case 5:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, HUDLAYER_SCORETEXT, HUDCOLOR_TEXTWHITE, 0.0, 194.0,/*000.0, 330.0,*/ HUDTIME_ONETIC);	break;
+										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
+									}
+								//Log(s: "Layer 1000: Score Text");		//Test
+							/*switch(AspectRatio)
+							{
+								case 1:	
+								case 2:	SetHudSize(320, 240, FALSE);	break;
+								case 3:
+								case 4:
+								case 5: SetHudSize(320, 200, FALSE);	break;
+								//case 6: SetHudSize(320, 180, FALSE);	break;
+							}*/
+				
 								SetFont("STATUSFONT");
 								switch(AspectRatio)
 									{
-										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 200.0, HUDTIME_ONETIC);	break;
-										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 100.0, 194.0, HUDTIME_ONETIC);	break;
+										case 1:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 85.0, 234.0, HUDTIME_ONETIC);	break;
+										case 2:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 85.0, 234.0, HUDTIME_ONETIC);	break;
 										case 3:
 										case 4:
-										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 50.0, 194.0, HUDTIME_ONETIC);	break;
+										case 5:	HudMessage(s: ScoreFillZeros(CheckInventory("ScorePoints")) ;HUDMSG_PLAIN, HUDLAYER_SCOREPOINTS, CR_UNTRANSLATED, 55.0, 194.0, HUDTIME_ONETIC);	break;
 										//case 6:	HudMessage(s:"SCORE:";HUDMSG_PLAIN, 1000, CR_WHITE, 000.0, 350.0, HUDTIME_ONETIC);	break;
 									}
+						
 					Delay(1);
 			}
 
 
 	//-----------------------------//-----------------------------//-----------------------------//
-	//Ghoul Patrol Easter Egg HUD: //-----------------------------//-----------------------------//
+	//Ghoul Patrol Easter Egg HUD: (Needs to be Updated !!)//-----------------------------//-----------------------------//
 	//-----------------------------//-----------------------------//-----------------------------//
 			
 			while(CheckInventory("ZekeGPToken")==1||CheckInventory("JulieGPToken")==1)

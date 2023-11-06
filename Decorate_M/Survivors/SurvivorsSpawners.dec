@@ -51,7 +51,12 @@ States
 		TNT1 A 0 A_JumpIf(Args[0] ==  2 , "Wait02")
 		TNT1 A 0 A_JumpIf(Args[0] ==  1 , "Wait01")
 	Mistake:
-		TNT1 A 0 A_Log("SurvivorSpawn's Priority Number can't be '0'. ")
+		TNT1 A 0 ACS_NamedExecuteAlways("Survivor_0",0,0,0,0)	//A_Log("SurvivorSpawn's Priority Number can't be '0'. ")
+		TNT1 A 1
+		Stop
+	Mistake_404:
+		TNT1 A 0 ACS_NamedExecuteAlways("Survivor_404",0,0,0,0)	//A_Log("SurvivorSpawn's Priority Number can't be '0'. ")
+		TNT1 A 1
 		Stop
 
 	Wait20:
@@ -108,8 +113,11 @@ States
 	{
 	Spawn:
 		SOLD AAAAAAAAAAAAA 0
-		TNT1 AA 1
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
 		
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
@@ -127,8 +135,12 @@ States
 	{
 	Spawn:
 		BABY AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -145,8 +157,12 @@ States
 	{
 	Spawn:
 		POOL AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -163,8 +179,12 @@ States
 	{
 	Spawn:
 		PROF AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -181,8 +201,12 @@ States
 	{
 	Spawn:
 		DOGO AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -199,8 +223,12 @@ States
 	{
 	Spawn:
 		CHER AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -217,8 +245,12 @@ States
 	{
 	Spawn:
 		TOUR AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -235,8 +267,12 @@ States
 	{
 	Spawn:
 		EXPL AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -253,8 +289,12 @@ States
 	{
 	Spawn:
 		CHEF AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -271,8 +311,12 @@ States
 	{
 	Spawn:
 		JUMP AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -289,8 +333,12 @@ States
 	{
 	Spawn:
 		TSON AAAAAAAAAAAAA 0
-		TNT1 AA 1 
 		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		TNT1 AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[0], "CheckWait")
 		TNT1 A 1
 		Stop
@@ -327,8 +375,12 @@ States
 	{
 	Spawn:
 		SVMS AAAAAAAAAAAAA 0
-		SVMS AA 1 
-		TNT1 A 0 A_JumpIf(Args[1] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == 404, "Mistake_404")
+		SVMS AA 1
+		//TNT1 A 0 A_JumpIf(Args[0] == 0 , "Mistake")
+		//TNT1 A 0 ACS_NamedExecuteAlways("Survivor404",0,0,0,0)
+
 		TNT1 A 0 A_JumpIf(CallACS("GetSurvivorsNumber")>= Args[1], "DoTheThing")
 		TNT1 A 1
 		Stop
@@ -341,7 +393,12 @@ States
 			//If not Hexen it will just spawn the passed class/actor wrote in Arg0Str
 		Stop
 	Mistake:
-		TNT1 A 0 A_Log("SurvivorSpawn's Priority Number can't be '0'. ")
+		TNT1 A 0 ACS_NamedExecuteAlways("Survivor_0",0,0,0,0)	//A_Log("SurvivorSpawn's Priority Number can't be '0'. ")
+		TNT1 A 1
+		Stop
+	Mistake_404:
+		TNT1 A 0 ACS_NamedExecuteAlways("Survivor_404",0,0,0,0)	//A_Log("SurvivorSpawn's Priority Number can't be '0'. ")
+		TNT1 A 1
 		Stop
 	}
 }

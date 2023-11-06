@@ -17,7 +17,7 @@ SpectatorMode	// Scripts for the Co-Op "Spectator Mode" where moved here as they
 TitleCards			// Title Cards Animation and transition between levels
 TriggerScripts		// Scripts for the Destructive Triggers, Trampolines and other level interactions.
 DestructibleProps	// Simple scripts for spawning the spawners of the spawned props 
-					//	(aka The leafs of the destructible walls, the wood of the fences, etc.)
+				 	//	(aka The leafs of the destructible walls, the wood of the fences, etc.)
 ErrorLogs			// Some new mechanics can throw errors in a "try-catch" kind of way, the text are stored here
 					//	Also some scripts giving info on some mechanics are also stored here
 

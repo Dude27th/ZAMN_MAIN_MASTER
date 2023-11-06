@@ -11,6 +11,7 @@
 Script "SetGame_ZAMN" (void)
 {
 	//PlaceHolder
+	//The Game By Default starts as ZAMN
 } 
 
 

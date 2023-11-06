@@ -997,6 +997,8 @@ Actor FireSeed 12300
 	{
 		Spawn:
 			TNT1 A 0 
+			FIM0 A 0
+
 			FIM2 A 0 A_JumpIf(Args[0] == 2, "Check") 
 			FIM1 A 0 A_JumpIf(Args[0] == 1, "Check")
 			FIM0 A 0 

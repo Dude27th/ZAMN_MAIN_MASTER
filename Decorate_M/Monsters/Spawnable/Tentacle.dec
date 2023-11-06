@@ -2,22 +2,22 @@
 //$GZDB_SKIP
 ACTOR Tentacle : SpawnableMonsterNoAdd_ZAMN//MonsterClass_ZAMN
 {
-  Health 50
+  Health 20
   Speed 10
   Radius 13
   Height 40
   Scale 1.50
-  DamageFactor "MonsterFist", 5
-  DamageFactor "WeedWacker", 1.8
-  DamageFactor "Tomatoes", 1.8
-  DamageFactor "Soda", 5
-  DamageFactor "Bazooka", 5
-  DamageFactor "Popsicle", 1.8
-  DamageFactor "Crucifix", 5
-  DamageFactor "Silverware", 2.5
-  DamageFactor "Plates", 2.5
-  DamageFactor "FlameThrower", 5
-  DamageFactor "Banana", 5
+  DamageFactor "MonsterFist", 2
+  DamageFactor "WeedWacker", 2
+  DamageFactor "Tomatoes", 2
+  DamageFactor "Soda", 2
+  DamageFactor "Bazooka", 2
+  DamageFactor "Popsicle", 2
+  DamageFactor "Crucifix", 2
+  DamageFactor "Silverware", 1
+  DamageFactor "Plates", 1
+  DamageFactor "FlameThrower", 2
+  DamageFactor "Banana", 2
   Monster
   +STANDSTILL
   +CANPASS		

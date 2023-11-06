@@ -15,10 +15,17 @@ STATUSFONT
        % SCRFNT_0
        / SCRFNT_0
        - SCRFNT_0    
+	   S SCRFNT_S    
+	   C SCRFNT_C    
+	   O SCRFNT_O    
+	   R SCRFNT_R    
+	   E SCRFNT_E    
+	   : SCRFNT_T    
        NOTRANSLATION 109	// don't touch the shadow color!
    }
 
-// Used by SBARINFO for Inventory Quantity of the selected item 
+// [Deprecated: SBARINFO isn't used at all now *] Used by SBARINFO for Inventory Quantity of the selected item 
+/*
 INDEXFONT
    {
        0 STYSNUM0
@@ -32,4 +39,4 @@ INDEXFONT
        8 STYSNUM8
        9 STYSNUM9
        NOTRANSLATION 160
-   }
+   }*/

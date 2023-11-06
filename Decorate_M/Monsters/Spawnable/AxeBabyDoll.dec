@@ -284,7 +284,7 @@ Actor BFire : EvilDollClass
 	DamageFactor "Silverware", 4.5
 	DamageFactor "Plates", 4.5
 	DamageFactor "FootBall", 1.5
-	DamageFactor "FlameThrower", 9
+	DamageFactor "FlameThrower", 0 //0 sounds more fun //Original: 9
 	DamageFactor "Banana", 9
 	Monster
 	+AMBUSH
