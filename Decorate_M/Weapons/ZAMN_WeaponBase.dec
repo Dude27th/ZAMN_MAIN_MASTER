@@ -42,3 +42,4 @@ Actor WeaponClass_ZAMN : Weapon //Base Weapon Class
 			Stop//Goto Ready
 	}
 }
+

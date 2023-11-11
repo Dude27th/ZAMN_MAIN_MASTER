@@ -3,6 +3,7 @@ Actor GhostWeapon : WeaponClass_ZAMN	//Dummy Weapon while Ghost Player
 	Weapon.AmmoUse 0
 	Weapon.AmmoGive 1
 	Weapon.SlotNumber 2
+	//Inventory.Icon "TNT1A0"
 	+FORCEPAIN
 	+WEAPON.CHEATNOTWEAPON
 	States

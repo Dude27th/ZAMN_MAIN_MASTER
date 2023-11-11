@@ -581,3 +581,635 @@ Script "CleanWeaponTokens" (void)
 	{	TakeInventory(weapontokens[i],1);}
 }
 
+
+//		:: CUSTOM START STUFF ::	//
+
+bool Player1WeaponSet = false;
+bool Player2WeaponSet = false;
+int Weapon_1 = 0;
+int Wep_Ammo_1 = 0;
+int Weapon_2 = 0;
+int Wep_Ammo_2 = 0;
+Script "SetStartingWeapon"  (int Weapon, int Wep_Ammo, int PlayerTag)
+{
+	if(PlayerTag == 2000)
+		{	Player1WeaponSet = true;
+			Weapon_1 = Weapon;
+			Wep_Ammo_1 = Wep_Ammo;	}
+	else
+		{	Player2WeaponSet = true;
+			Weapon_2 = Weapon;
+			Wep_Ammo_2 = Wep_Ammo;	}
+}
+
+bool Player1ItemSet = false;
+bool Player2ItemSet = false;
+int Item_1 = 0;
+int Itm_Count_1 = 0;
+int Item_2 = 0;
+int Itm_Count_2 = 0;
+Script "SetStartingItem" (int Item, int Itm_Count, int PlayerTag)
+{
+	if(PlayerTag == 2000)
+		{	Player1ItemSet = true;
+			Item_1 = Item;
+			Itm_Count_1 = Itm_Count;	}
+	else
+		{	Player2ItemSet = true;
+			Item_2 = Item;
+			Itm_Count_2 = Itm_Count;	}
+}
+
+#define PlayerTag_1 2000
+#define PlayerTag_2 2001
+Script "GetPlayerWeaponSet" (int PlayerTag)
+{
+	switch(PlayerTag)
+	{
+		case PlayerTag_1:
+				if(Player1WeaponSet)
+					SetResultValue(1);
+				else
+					SetResultValue(0);
+				Break;
+		case PlayerTag_2:
+				if(Player2WeaponSet)
+					SetResultValue(1);
+				else
+					SetResultValue(0);
+				Break;
+	}
+}
+
+Script "GetPlayerItemSet" (int PlayerTag)
+{
+	switch(PlayerTag)
+	{
+		case PlayerTag_1:
+				if(Player1ItemSet)
+					SetResultValue(1);
+				else
+					SetResultValue(0);
+				Break;
+		case PlayerTag_2:
+				if(Player2ItemSet)
+					SetResultValue(1);
+				else
+					SetResultValue(0);
+				Break;
+	}
+}
+
+
+
+//Internal Function
+function int ClearAmmo (void)
+{
+	TakeInventory("WDWKER_Z_Ammo", 999);
+	TakeInventory("WDWKER_J_Ammo", 999);
+	TakeInventory("TOMATO_Z_Ammo", 999);
+	TakeInventory("TOMATO_J_Ammo", 999);
+	TakeInventory("SODA_Z_Ammo", 999);
+	TakeInventory("SODA_J_Ammo", 999);
+	TakeInventory("WTRGUN_Z_Ammo", 999);
+	TakeInventory("WTRGUN_J_Ammo", 999);
+	TakeInventory("BAZOKA_Z_Ammo", 999);
+	TakeInventory("BAZOKA_J_Ammo", 999);
+	TakeInventory("FIREXT_Z_Ammo", 999);
+	TakeInventory("FIREXT_J_Ammo", 999);
+	TakeInventory("CRUCFX_Z_Ammo", 999);
+	TakeInventory("CRUCFX_J_Ammo", 999);
+	//
+	//
+	TakeInventory("FTBALL_Z_Ammo", 999);
+	TakeInventory("FTBALL_J_Ammo", 999);
+
+	//TakeInventory("GhostWeapon",1);
+
+	return 0;
+}
+
+
+//Internal Function
+function int ClearItems (void)
+{
+	TakeInventory("MedikitPickup", 10);
+	TakeInventory("ZamnKey", 10);
+	TakeInventory("MonsterPotion", 20);
+	TakeInventory("GhostPotion", 20);
+	TakeInventory("RandomPotion", 20);
+	TakeInventory("SpeedyShoes", 10);
+	TakeInventory("Clowns", 20);
+
+	return 0;
+}
+
+
+#define SetWeedWacker 1
+#define SetTomato 2
+#define SetSoda 3
+#define SetWater 4
+#define SetBazooka 5
+#define SetFireExtinguisher 6
+#define SetPopsicle 7
+#define SetCrucifix 8
+#define SetSilverware 9
+#define SetPlates 10
+#define SetFootBall 11
+#define SetMartianGun 12
+#define SetFlamethrower 13
+#define SetBanana 14
+#define UnsetWeapons 15
+#define ChickenRunMode 16
+
+Script "TransferStartingWeapon" (void)
+{
+	GiveInventory("NoItemSound", 2);
+	ClearAmmo();
+	
+	int Weapon= 0;
+	int Wep_Ammo= 0;
+	if(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == PlayerTag_1)
+		{	Weapon = Weapon_1;
+			Wep_Ammo = Wep_Ammo_1;}
+	else
+		{	Weapon = Weapon_2;
+			Wep_Ammo = Wep_Ammo_2;}
+
+
+	int PlayerType = 0;
+	if((CheckInventory("ZekeToken")==1)||(CheckInventory("ZekeTicket")==1))
+		PlayerType = 1;	//Zeke
+	else
+		PlayerType = 2;	//Julie
+
+
+
+	switch(PlayerType)
+	{
+		case 1:		//Zeke_Player
+			switch(Weapon)
+			{
+				case 0:
+						Break;
+				case SetWeedWacker:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("WDWKER_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("WDWKER_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("WDWKER_Z");
+						Break;
+				case SetTomato:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("TOMATO_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("TOMATO_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("TOMATO_Z");
+						Break;
+				case SetSoda:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("SODA_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("SODA_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("SODA_Z");
+						Break;
+				case SetWater:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("WTRGUN_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("WTRGUN_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("WTRGUN_Z");
+						Break;
+				case SetBazooka:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("BAZOKA_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("BAZOKA_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("BAZOKA_Z");
+						Break;
+				case SetFireExtinguisher:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("FIREXT_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("FIREXT_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("FIREXT_Z");
+						Break;
+				case SetPopsicle:
+						//
+						Break;
+				case SetCrucifix:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("CRUCFX_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("CRUCFX_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("CRUCFX_Z");
+						Break;
+				case SetSilverware:
+						//
+						Break;
+				case SetPlates:
+						//
+						Break;
+				case SetFootBall:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("FTBALL_Z", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("FTBALL_Z_Ammo", Wep_Ammo);
+						}
+						SetWeapon("FTBALL_Z");
+						Break;
+				case SetMartianGun:
+						//
+						Break;
+				case SetFlamethrower:
+						//
+						Break;
+				case SetBanana:
+						//
+						Break;
+				case UnsetWeapons:
+						TakeInventory("WDWKER_Z", 1);
+						TakeInventory("WDWKER_Z_Ammo", 999);
+						TakeInventory("TOMATO_Z", 1);
+						TakeInventory("TOMATO_Z_Ammo", 999);
+						TakeInventory("SODA_Z", 1);
+						TakeInventory("SODA_Z_Ammo", 999);
+						//TakeInventory("WTRGUN_Z", 1);
+						TakeInventory("WTRGUN_Z_Ammo", 999);
+						TakeInventory("BAZOKA_Z", 1);
+						TakeInventory("BAZOKA_Z_Ammo", 999);
+						TakeInventory("FIREXT_Z", 1);
+						TakeInventory("FIREXT_Z_Ammo", 999);
+						//
+						//
+						TakeInventory("CRUCFX_Z", 1);
+						TakeInventory("CRUCFX_Z_Ammo", 999);
+						//
+						//	
+						//
+						//
+						TakeInventory("FTBALL_Z", 1);
+						TakeInventory("FTBALL_Z_Ammo", 999);
+						//
+						//
+						//
+						//
+						//
+						//
+						Break;
+				case ChickenRunMode:	//Wip
+						TakeInventory("WDWKER_Z", 1);
+						TakeInventory("WDWKER_Z_Ammo", 999);
+						TakeInventory("TOMATO_Z", 1);
+						TakeInventory("TOMATO_Z_Ammo", 999);
+						TakeInventory("SODA_Z", 1);
+						TakeInventory("SODA_Z_Ammo", 999);
+						//TakeInventory("WTRGUN_Z", 1);
+						TakeInventory("WTRGUN_Z_Ammo", 999);
+						TakeInventory("BAZOKA_Z", 1);
+						TakeInventory("BAZOKA_Z_Ammo", 999);
+						TakeInventory("FIREXT_Z", 1);
+						TakeInventory("FIREXT_Z_Ammo", 999);
+						//
+						//
+						TakeInventory("CRUCFX_Z", 1);
+						TakeInventory("CRUCFX_Z_Ammo", 999);
+						//
+						//	
+						//
+						//
+						TakeInventory("FTBALL_Z", 1);
+						TakeInventory("FTBALL_Z_Ammo", 999);
+						//
+						//
+						//
+						//
+						//
+						//
+						GiveInventory("GhostWeapon",1);
+						SetWeapon("GhostWeapon");
+						Break;
+			}
+			Break;
+
+
+		case 2:		//Julie_Player
+			switch(Weapon)
+			{
+				case 0:
+						Break;
+				case SetWeedWacker:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("WDWKER_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("WDWKER_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("WDWKER_J");
+						Break;
+				case SetTomato:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("TOMATO_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("TOMATO_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("TOMATO_J");
+						Break;
+				case SetSoda:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("SODA_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("SODA_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("SODA_J");
+						Break;
+				case SetWater:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("WTRGUN_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("WTRGUN_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("WTRGUN_J");
+						Break;
+				case SetBazooka:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("BAZOKA_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("BAZOKA_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("BAZOKA_J");
+						Break;
+				case SetFireExtinguisher:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("FIREXT_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("FIREXT_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("FIREXT_J");
+						Break;
+				case SetPopsicle:
+						//
+						Break;
+				case SetCrucifix:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("CRUCFX_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("CRUCFX_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("CRUCFX_J");
+						Break;
+				case SetSilverware:
+						//
+						Break;
+				case SetPlates:
+						//
+						Break;
+				case SetFootBall:
+						ClearAmmo(); //Again so it sets 0
+						GiveInventory("FTBALL_J", 1);
+						if (Wep_Ammo != 0)
+						{
+							ClearAmmo(); //Again so it sets 0
+							GiveInventory("FTBALL_J_Ammo", Wep_Ammo);
+						}
+						SetWeapon("FTBALL_J");
+						Break;
+				case SetMartianGun:
+						//
+						Break;
+				case SetFlamethrower:
+						//
+						Break;
+				case SetBanana:
+						//
+						Break;
+				case UnsetWeapons:
+						TakeInventory("WDWKER_J", 1);
+						TakeInventory("WDWKER_J_Ammo", 999);
+						TakeInventory("TOMATO_J", 1);
+						TakeInventory("TOMATO_J_Ammo", 999);
+						TakeInventory("SODA_J", 1);
+						TakeInventory("SODA_J_Ammo", 999);
+						//TakeInventory("WTRGUN_J", 1);
+						TakeInventory("WTRGUN_J_Ammo", 999);
+						TakeInventory("BAZOKA_J", 1);
+						TakeInventory("BAZOKA_J_Ammo", 999);
+						TakeInventory("FIREXT_J", 1);
+						TakeInventory("FIREXT_J_Ammo", 999);
+						//
+						//
+						TakeInventory("CRUCFX_J", 1);
+						TakeInventory("CRUCFX_J_Ammo", 999);
+						//
+						//	
+						//
+						//
+						TakeInventory("FTBALL_J", 1);
+						TakeInventory("FTBALL_J_Ammo", 999);
+						//
+						//
+						//
+						//
+						//
+						//
+						Break;
+				case ChickenRunMode:		//Wip
+						TakeInventory("WDWKER_J", 1);
+						TakeInventory("WDWKER_J_Ammo", 999);
+						TakeInventory("TOMATO_J", 1);
+						TakeInventory("TOMATO_J_Ammo", 999);
+						TakeInventory("SODA_J", 1);
+						TakeInventory("SODA_J_Ammo", 999);
+						//TakeInventory("WTRGUN_J", 1);
+						TakeInventory("WTRGUN_J_Ammo", 999);
+						TakeInventory("BAZOKA_J", 1);
+						TakeInventory("BAZOKA_J_Ammo", 999);
+						TakeInventory("FIREXT_J", 1);
+						TakeInventory("FIREXT_J_Ammo", 999);
+						//
+						//
+						TakeInventory("CRUCFX_J", 1);
+						TakeInventory("CRUCFX_J_Ammo", 999);
+						//
+						//	
+						//
+						//
+						TakeInventory("FTBALL_J", 1);
+						TakeInventory("FTBALL_J_Ammo", 999);
+						//
+						//
+						//
+						//
+						//
+						//
+						GiveInventory("GhostWeapon",1);
+						SetWeapon("GhostWeapon");
+						Break;
+			}
+			Break;
+	}
+	TakeInventory("NoItemSound", 2);
+}
+
+
+
+
+
+#define Item_Medikit 1
+#define Item_ZamnKey 2
+#define Item_Monster 3
+#define Item_GhostPt 4
+#define Item_RandomP 5
+#define Item_SpedySh 6
+#define Item_ClownsS 7
+#define Item_ZamSKey 8
+#define Item_LifeTok 9
+
+#define Item_NoItems 15
+
+Script "TransferStartingItem" (void)
+{
+	GiveInventory("NoItemSound", 2);
+	ClearItems();
+	
+	int Item= 0;
+	int Itm_Count= 0;
+	if(ACS_NamedExecuteWithResult("GetTid",0,0,0,0) == PlayerTag_1)
+		{	Item = Item_1;
+			Itm_Count = Itm_Count_1;}
+	else
+		{	Item = Item_2;
+			Itm_Count = Itm_Count_2;}
+
+
+			switch(Item)
+			{
+				case 0:
+						Break;
+				case Item_Medikit:
+						GiveInventory("MedikitPickup", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("MedikitPickup", Itm_Count);
+						}
+						Break;
+				case Item_ZamnKey:
+						GiveInventory("ZamnKey", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("ZamnKey", Itm_Count);
+						}
+						Break;
+				case Item_Monster:
+						GiveInventory("MonsterPotion", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("MonsterPotion", Itm_Count);
+						}
+						Break;
+				case Item_GhostPt:
+						GiveInventory("GhostPotion", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("GhostPotion", Itm_Count);
+						}
+						Break;
+				case Item_RandomP:
+						GiveInventory("RandomPotion", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("RandomPotion", Itm_Count);
+						}
+						Break;
+				case Item_SpedySh:
+						GiveInventory("SpeedyShoes", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("SpeedyShoes", Itm_Count);
+						}
+						Break;
+				case Item_ClownsS:
+						GiveInventory("Clowns", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("Clowns", Itm_Count);
+						}
+						Break;
+				case Item_ZamSKey:
+						GiveInventory("ZamnSkullKey", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("ZamnSkullKey", Itm_Count);
+						}
+						Break;
+				case Item_LifeTok:
+						GiveInventory("LifeToken", 1);
+						if (Itm_Count != 0)
+						{
+							ClearItems(); //Again so it sets 0
+							GiveInventory("LifeToken", Itm_Count);
+						}
+						Break;
+				case Item_NoItems:
+						TakeInventory("MedikitPickup", 999);
+						TakeInventory("ZamnKey", 999);
+						TakeInventory("MonsterPotion", 999);
+						TakeInventory("GhostPotion", 999);
+						TakeInventory("RandomPotion", 999);
+						TakeInventory("SpeedyShoes", 999);
+						TakeInventory("Clowns", 999);
+						TakeInventory("ZamnSkullKey", 999);
+						TakeInventory("LifeToken", 999);
+						Break;
+			}
+	TakeInventory("NoItemSound", 2);
+}
+
+
+
+
+

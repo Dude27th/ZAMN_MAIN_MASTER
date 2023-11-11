@@ -39,7 +39,7 @@ int StartPoint2 [4] = {0, 0, 0, 0};		// X, Y, Z, Angle
 
 
 
-
+//Player Initial Checks per level
 Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 {
 	if(!IsOpenGL())		//<-- Deactivate to test on OpenGL
@@ -95,6 +95,17 @@ Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 	SetPlayerProperty(FALSE,ON,PROP_TOTALLYFROZEN);
 	ACS_NamedExecuteAlways("CallAnimation",0,0,0,0);	//<-- Calls Title Cards Animation
 	Delay(1);
+
+	//Check Starting Inventory
+	if(ACS_NamedExecuteWithResult("GetPlayerWeaponSet",	ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0,0) == 1)
+		{
+			ACS_NamedExecuteAlways("TransferStartingWeapon",0,0,0,0);
+		}
+	if(ACS_NamedExecuteWithResult("GetPlayerItemSet",	ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0,0) == 1)
+		{
+			ACS_NamedExecuteAlways("TransferStartingItem",0,0,0,0);
+		}
+
 	while(TitleCardsDone==0)
 		{Delay(1);}
 	
@@ -149,6 +160,8 @@ Script "SetPlayer" (int MusicTrack, int NumLevel, int BonuLevel)
 	Delay(1);
 	//ChangeCamera(0,0,0);	//**
 	ACS_NamedExecuteAlways("ScoreCheck",0,1,0,0);
+
+	
 }
 
 //Wrapper

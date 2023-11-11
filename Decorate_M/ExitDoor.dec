@@ -1,39 +1,88 @@
-Actor StartLevelPlayer1 : TeleportDest2 15032
+Actor StartLevelPlayerX : TeleportDest2
 {
   Height 1
   Radius 10
   Mass 7000 
   SpawnID 51
   //$Category "Zombies Ate My Neighbors/PlayerStarts"
-  //$Sprite "DPGZA1"
+  //$Arg0 "Starting_Weapon"
+  //$Arg0Type 11
+  //$Arg0Enum {0 = "Default"; 1 = "WeedWacker"; 2 = "Tomato"; 3 = "Soda"; 4 = "Water"; 5 = "Bazooka"; 6 = "FireExtinguisher"; 7 = ""; 8 = "Crucifix"; 9 = ""; 10 = ""; 11 = "FootBall"; 12 = ""; 13 = ""; 14 = ""; 15 = "No Weapons";}
+  //$Arg1 "Weapon_Ammo"
+  //$Arg2 "Starting_Item"
+  //$Arg2Type 11
+  //$Arg2Enum {0 = "Default"; 1 = "Medikit"; 2 = "ZamnKey"; 3 = "Monster_Potion"; 4 = "GhostPotion"; 5 = "RandomPotion"; 6 = "SpeedyShoes"; 7 = "Clowns"; 8 = "ZamnSkullKey"; 9 = "LifeToken"; 10 = ""; 11 = ""; 12 = ""; 13 = ""; 14 = ""; 15 = "No Items";}
+  //$Arg3 "Item_Amount"
+  //$Arg4 "Custom Starting Inventory Script"
   +NOCLIP
   -SOLID
   -SHOOTABLE
+}
+
+Actor StartLevelPlayer1 : StartLevelPlayerX 15032
+{
+  //$Sprite "DPGZA1"
   States
 		{
 		Spawn:
 		TNT1 A 1
+		TNT1 A 0 A_JumpIf(Args[0] != 0, "SetWeapon")	//Skip next line
+		TNT1 A 0 A_JumpIf(Args[2] != 0, "SetItem")	//Skip next line
+		TNT1 A 0 A_JumpIf(Args[4] != 0, "CustomStartScript")
+		Goto SetCoordinates
+		
+		SetWeapon:
+		TNT1 A 0 ACS_NamedExecuteAlways("SetStartingWeapon",0, Args[0],Args[1],2000)
+		TNT1 A 0 A_JumpIf(Args[2] != 0, "SetItem")	//Skip next line
+		TNT1 A 0 A_JumpIf(Args[4] != 0, "CustomStartScript")
+		Goto SetCoordinates
+
+		SetItem:
+		TNT1 A 0 ACS_NamedExecuteAlways("SetStartingItem",0, Args[2],Args[3],2000)
+		TNT1 A 0 A_JumpIf(Args[4] != 0, "CustomStartScript")
+		Goto SetCoordinates
+
+
+		CustomStartScript:
+		TNT1 A 0 ACS_ExecuteAlways(Args[4],0, 2000,0,0)
+		Goto SetCoordinates
+			
+		SetCoordinates:
 		TNT1 A 1 ACS_NamedExecuteAlways("StartPointCoordinates",0,1,0,0)
 		TNT1 A 1
 		Stop
 		}
 }
 
-Actor StartLevelPlayer2 : TeleportDest2 15033
+Actor StartLevelPlayer2 : StartLevelPlayerX 15033
 {
-  Height 1
-  Radius 10
-  Mass 7000 
-  SpawnID 51
-  //$Category "Zombies Ate My Neighbors/PlayerStarts"
   //$Sprite "DPGJA1"
-  +NOCLIP
-  -SOLID
-  -SHOOTABLE
   States
 		{
 		Spawn:
 		TNT1 A 1
+		TNT1 A 0 A_JumpIf(Args[0] != 0, "SetWeapon")	//Skip next line
+		TNT1 A 0 A_JumpIf(Args[2] != 0, "SetItem")	//Skip next line
+		TNT1 A 0 A_JumpIf(Args[4] != 0, "CustomStartScript")
+		Goto SetCoordinates
+		
+		SetWeapon:
+		TNT1 A 0 ACS_NamedExecuteAlways("SetStartingWeapon",0, Args[0],Args[1],2001)
+		TNT1 A 0 A_JumpIf(Args[2] != 0, "SetItem")	//Skip next line
+		TNT1 A 0 A_JumpIf(Args[4] != 0, "CustomStartScript")
+		Goto SetCoordinates
+
+		SetItem:
+		TNT1 A 0 ACS_NamedExecuteAlways("SetStartingItem",0, Args[2],Args[3],2001)
+		TNT1 A 0 A_JumpIf(Args[4] != 0, "CustomStartScript")
+		Goto SetCoordinates
+
+
+		CustomStartScript:
+		TNT1 A 0 ACS_ExecuteAlways(Args[4],0, 2001,0,0)
+		Goto SetCoordinates
+			
+		SetCoordinates:
 		TNT1 A 1 ACS_NamedExecuteAlways("StartPointCoordinates",0,2,0,0)
 		TNT1 A 1
 		Stop

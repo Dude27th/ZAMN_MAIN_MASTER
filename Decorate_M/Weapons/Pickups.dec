@@ -218,7 +218,11 @@ Actor FrExPick : FireExtinguisherPickup {}
 Actor CruxPick : CrucifixPickup {}
 
 
-
+// Help with Custom Start
+Actor NoItemSound : Inventory
+{
+	Inventory.MaxAmount 2
+}
 
 
 /*---------------------------------*/

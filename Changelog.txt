@@ -1,8 +1,19 @@
++ "ZAMN_MAIN" (??th November, 2023) [Idk , qol stuff I guess]
+-------------------------------------------------------------
+[Zamn TC]
+- Added Yellow Couch decoration for the Grass Levels
+- Added Cloth Decorations inside the Houses in Grass Levels
+
+[Zamn Modding]
+- Added the option to set "Starting Inventory" for players, per map.
+
+
+
+
 + "ZAMN_MAIN" (06th November, 2023) [Hotfix Stuff 1]
 -------------------------------------------------------------
 [Zamn TC]
 - Reverted a couple of monsters wich where being tested with different damage values
-
 
 
 + "ZAMN_MAIN" (31th October, 2023) [DEVELOPMENT HELL IM SO SORRY]

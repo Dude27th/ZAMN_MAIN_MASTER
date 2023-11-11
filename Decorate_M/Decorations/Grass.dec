@@ -857,6 +857,299 @@ ACTOR TOYS : Solid_Decoration 13252
 }
 
 
+
+ACTOR SILLON_B0 : Solid_Decoration 13263
+{
+  Height 30
+  Radius 18
+  XScale 1.75
+  YScale 1.50
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  +SOLID
+  States
+  {
+  Spawn:
+    SLB0 A -1//3 
+    Loop
+  }
+}
+
+ACTOR SILLON_B1 : Solid_Decoration 13264
+{
+  Height 30
+  Radius 18
+  XScale 1.75
+  YScale 1.50
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  +SOLID
+  States
+  {
+  Spawn:
+    SLB1 A -1//3 
+    Loop
+  }
+}
+
+ACTOR SILLON_B2 : Solid_Decoration 13265
+{
+  Height 30
+  Radius 18
+  XScale 1.75
+  YScale 1.50
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  +SOLID
+  States
+  {
+  Spawn:
+    SLB2 A -1//3 
+    Loop
+  }
+}
+
+ACTOR SILLON_B3 : Solid_Decoration 13266
+{
+  Height 30
+  Radius 18
+  XScale 1.75
+  YScale 1.50
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  +SOLID
+  States
+  {
+  Spawn:
+    SLB3 A -1//3 
+    Loop
+  }
+}
+
+ACTOR TOLHSDAY_CL 13267
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    THCL A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSDAY_GR 13268
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    THGR A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSDAY_PK 13269
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    THPK A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSNIGHT_CL 13270
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TNCL A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSNIGHT_GR 13271
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TNGR A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSNIGHT_PK 13272
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TNPK A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSTOXIC_CL 13273
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TTCL A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSTOXIC_GR 13274
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TTGR A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSTOXIC_PK 13275
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TTPK A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSWINTER_CL 13276
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TWCL A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSWINTER_GR 13277
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TWGR A -1//3
+    Loop
+  }
+}
+
+ACTOR TOLHSWINTER_PK 13278
+{
+  Height 16
+  PainChance 1
+  Speed 0
+  Radius 5
+  Mass 100
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    TWPK A -1//3
+    Loop
+  }
+}
+
 ACTOR TUBA0 : Solid_Decoration 13516
 {
   Height 8
