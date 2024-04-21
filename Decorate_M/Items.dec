@@ -82,6 +82,30 @@ Actor MedikitSound : CustomInventoryItem
 		}
 }
 
+ACTOR HAMBURGER : Health 13339
+{
+  Height 30
+  PainChance 1
+  Speed 0
+  Radius 10
+  Mass 100  
+  Scale 0.5
+  //$Category "Zombies Ate My Neighbors/Items"
+  Inventory.Amount 40
+  Inventory.MaxAmount 100
+  Inventory.PickupMessage""
+  Inventory.PickupSound "Player/Pickup"
+  +INVENTORY.ALWAYSPICKUP
+  -SOLID
+  +NOGRAVITY
+  States
+  {
+  Spawn:
+    HAMB B -1//3
+    Loop
+  }
+}
+
 Actor ZamnKey : CustomInventoryItem 10493
 {
 	Game Doom

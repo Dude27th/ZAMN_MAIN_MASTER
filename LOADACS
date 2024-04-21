@@ -1,16 +1,16 @@
 //:: Player Scripts ::
 
-PlayerScripts	// Player Script Mechanics are in here
-HUD				// All that is drawn on screen [minus the items] is managed by this library
-				// [+] Also implemented the radar add-on by Cybermind / Endless123
-				// [+] The GetAspectRatio function was updated by me to detect also AspectRatio 21:9  
-LevelScripts	// Level Called Scripts that are relevant to player information are written in here
-ItemScripts		// For items that need a little bit of ACS
+PlayerScripts		// Player Script Mechanics are in here
+HUD					// All that is drawn on screen [minus the items] is managed by this library
+					// [+] Also implemented the radar add-on by Cybermind / Endless123
+					// [+] The GetAspectRatio function was updated by me to detect also AspectRatio 21:9  
+LevelScripts		// Level Called Scripts that are relevant to player information are written in here
+ItemScripts			// For items that need a little bit of ACS
 ThirdPersonCamera	// By Solarsnowfall
-MonsterPlayer	// The scripts that check the time of the monster powerup, the counters for the health and all that sort of stuff
-LivesSystem 	// [Moved this script to his own library because it is kinda extensive]
-				// [+] This library was reworked , now is 50x less code
-SpectatorMode	// Scripts for the Co-Op "Spectator Mode" where moved here as they where in pieces in several libraries.
+MonsterPlayer		// The scripts that check the time of the monster powerup, the counters for the health and all that sort of stuff
+LivesSystem 		// [Moved this script to his own library because it is kinda extensive]
+					// [+] This library was reworked , now is 50x less code
+SpectatorMode		// Scripts for the Co-Op "Spectator Mode" where moved here as they where in pieces in several libraries.
 
 
 //:: Map Scripts ::
@@ -39,4 +39,4 @@ ScoreboardSelection	// This is my most valuable library, my completely own HighS
 					// Please don't copy and paste this one, I'll probably make it universal at some point for other modders to use.
 					// But for now I'm just proud of my madman-ish ability to make stuff that is considered impossible or unlikely in this engine.
 
-EasterEggs			//Easter Eggs Gameplay and Mechanics!
+EasterEggs			// Easter Eggs Gameplay and Mechanics!

@@ -5,7 +5,7 @@
 global int 3:SurvivorMaximum;	// = 10;		//Total for the level and next levels
 global int 4:SurvivorPrevMax;	// = 10;		//Total for the previous level for comparison
 global int 5:SurvivorDead;		// = 0;			//Survivors who Died in relation to the SurvivorMaximum,
-	 		 									//resulting in a percentage based which translates to an int at the start.
+	 		  									//resulting in a percentage based which translates to an int at the start.
 /*  
 Survivor Spawn System :
 

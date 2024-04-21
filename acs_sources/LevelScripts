@@ -5,7 +5,7 @@
 ///////////////////////////////
 //     MAIN LEVEL SCRIPTS    //
 ///////////////////////////////
-   
+     
 Script "DontStart" ENTER
 {	SetPlayerProperty(FALSE,ON,PROP_FROZEN);	}
 
@@ -679,7 +679,7 @@ Script "FinishPoint1" (void)
 Script "FinishPoint2" (void)
 	{ Thing_ChangeTID(0,TAG_P2FINISHSPOT); }
 
-
+ 
 ///////////////////////////////
 
 

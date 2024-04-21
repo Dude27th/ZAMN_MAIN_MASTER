@@ -955,7 +955,7 @@ Actor SpikeHazardProjectileBig : SpikeHazardProjectile
 Actor FireSeed 12300
 {
 	Health 60
-	Height 40
+	Height 16
 	Radius 10
 	Scale 1.65
 	Speed 0

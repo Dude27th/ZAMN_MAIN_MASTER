@@ -180,6 +180,9 @@ Scale 1.50
 -SOLID
 +NOBLOOD
 +PUSHABLE
+//+NOBLOCKMAP //TEST
+//+SLIDESONWALLS//TEST
++BOUNCEONWALLS //TEST
 Inventory.Amount 200
 Inventory.MaxAmount 400
 Ammo.BackpackAmount 200
@@ -190,6 +193,8 @@ DamageType "Crucifix"
  States
 {
  Spawn: 
+ TNT1 A 0
+ TNT1 A 0 A_SetPitch(0)
  CRXP A 1
  TNT1 A 0 A_CustomMissile("Crucifix_Ent1", 0, 0, 20)
  TNT1 A 1
@@ -210,6 +215,8 @@ Tag 2200
 States
 	{
 	Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SetPitch(0)
 	CRXP ABCD 1 Bright
 	TNT1 A 0 A_CustomMissile("Crucifix_Ent2", 0, 0, 20)
 	TNT1 A 1
@@ -227,6 +234,8 @@ Tag 2200
 States
 	{
 	Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SetPitch(0)
 	CRXP ABCD 1 Bright
 	TNT1 A 0 A_CustomMissile("Crucifix_Ent3", 0, 0, 20)
 	TNT1 A 1
@@ -244,6 +253,8 @@ Tag 2200
 States
 	{
 	Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SetPitch(0)
 	CRXP ABCD 1 Bright
 	TNT1 A 0 A_CustomMissile("Crucifix_Ent4", 0, 0, 20)
 	TNT1 A 1
@@ -261,6 +272,8 @@ Tag 2200
 States
 	{
 	Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SetPitch(0)
 	TNT1 A 1 
 	CRXP ABCD 1 Bright
 	Stop

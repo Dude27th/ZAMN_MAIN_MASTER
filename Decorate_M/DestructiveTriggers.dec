@@ -118,10 +118,12 @@ ACTOR T_LEAFSDAY 14500
 	Goto Death
  Death:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-	TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],0)
+	TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],0)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Day", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],0)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Day", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
@@ -231,10 +233,12 @@ ACTOR T_LEAFSNIGHT : T_LEAFSDAY 14501
 	Goto Death
   Death:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-	TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],1)
+	TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],1)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Night", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],1)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],1)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Night", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
@@ -268,10 +272,12 @@ ACTOR T_LEAFSTOXIC : T_LEAFSDAY 14503
 	Goto Death
   Death:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-	TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],2)
+	TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],2)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Toxic", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],2)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],2)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Toxic", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
@@ -343,10 +349,12 @@ ACTOR T_LEAFSWINTER : T_LEAFSDAY 14505
 	Goto Death
   Death:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-	TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],3)
+	TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,Args[0],Args[1],3)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Winter", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],3)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerLeafs_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),Args[1],3)
+	TNT1 A 1 A_SpawnItemEx("LeafySpawner_Winter", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
@@ -457,6 +465,9 @@ ACTOR BT_CUSTOM : T_LEAFSDAY 14549
 {
  Radius 32
  //$Arg0 "Script Number"
+ //$Arg1 "Debris Spawner"
+ //$Arg1Type 11
+ //$Arg1Enum {0 = "Nah"; 1 = "LEAFS_DAY"; 2 = "LEAFS_NIGHT"; 3 = "LEAFS_TOXIC"; 4 = "LEAFS_WINTER"; 5 = "-"; 6 = "WOOD_DAY"; 7 = "WOOD_NIGHT"; 8 = "WOOD_TOXIC"; 9 = "WOOD_WINTER"; 10 = "-"; 11 = "HOUSE_DAY"; 12 = "HOUSE_NIGHT"; 13 = "HOUSE_TOXIC"; 14 = "HOUSE_WINTER"; 15 = "-"; 16 = "WIP...";}
  States
   {
   Death.MonsterFist:
@@ -464,6 +475,7 @@ ACTOR BT_CUSTOM : T_LEAFSDAY 14549
 	Goto Death
   Death:
 	TNT1 A 1 ACS_ExecuteAlways(Args[0],0,0,0,0)
+	TNT1 A 1 ACS_NamedExecuteAlways("SpawnSomething",0,Args[1],0,0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
@@ -479,6 +491,9 @@ ACTOR BT_CUSTOM : T_LEAFSDAY 14549
 ACTOR T_CUSTOM : T_LEAFSDAY 14550
 {
  //$Arg0 "Script Number"
+ //$Arg1 "Debris Spawner"
+ //$Arg1Type 11
+ //$Arg1Enum {0 = "Nah"; 1 = "LEAFS_DAY"; 2 = "LEAFS_NIGHT"; 3 = "LEAFS_TOXIC"; 4 = "LEAFS_WINTER"; 5 = "-"; 6 = "WOOD_DAY"; 7 = "WOOD_NIGHT"; 8 = "WOOD_TOXIC"; 9 = "WOOD_WINTER"; 10 = "-"; 11 = "HOUSE_DAY"; 12 = "HOUSE_NIGHT"; 13 = "HOUSE_TOXIC"; 14 = "HOUSE_WINTER"; 15 = "-"; 16 = "WIP...";}
  States
   {
   ToDestroy:
@@ -494,6 +509,7 @@ ACTOR T_CUSTOM : T_LEAFSDAY 14550
 	Goto Death
   Death:
 	TNT1 A 1 ACS_ExecuteAlways(Args[0],0,0,0,0)
+	TNT1 A 1 ACS_NamedExecuteAlways("SpawnSomething",0,Args[1],0,0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
@@ -662,12 +678,14 @@ ACTOR MT_FENCEDAY 14700 // - 14900
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],0,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],0,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Day", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-	TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Day", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -693,12 +711,14 @@ ACTOR MT_HOUSENIGHT : MT_FENCEDAY 14701
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],1,0)
+	TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],1,0)
+    TNT1 A 1 A_SpawnItemEx("HouseSpawner_Night", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),1,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),1,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Night", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -787,12 +807,14 @@ ACTOR MT_HOUSEDAY : MT_FENCEDAY 14705
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],0,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],0,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Day", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),0,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Day", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -810,12 +832,14 @@ ACTOR MT_HOUSETOXIC : MT_HOUSEDAY 14706
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],2,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],2,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Toxic", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),2,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),2,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Toxic", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -833,12 +857,14 @@ ACTOR MT_FENCENIGHT : MT_FENCEDAY 14707
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],1,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],1,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Night", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),1,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),1,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Night", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -856,12 +882,14 @@ ACTOR MT_FENCETOXIC : MT_FENCEDAY 14708
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],2,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],2,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Toxic", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),2,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),2,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Toxic", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -881,7 +909,8 @@ ACTOR MT_BATHROOM_DAY : MT_HOUSEDAY 14709
 	TNT1 A 1 A_GiveInventory("BazookaDeathToken",1)
 	Goto DeathReal
   DeathReal:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerBathroomDay",0,Args[0],Args[1],Args[2])
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerBathroomDay",0,Args[0],Args[1],Args[2])
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Day", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -898,7 +927,8 @@ ACTOR MT_BATHROOM_NIGHT : MT_BATHROOM_DAY 14710
 	TNT1 A 1 A_GiveInventory("BazookaDeathToken",1)
 	Goto DeathReal
   DeathReal:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerBathroomNight",0,Args[0],Args[1],Args[2])
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerBathroomNight",0,Args[0],Args[1],Args[2])
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Night", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -915,7 +945,8 @@ ACTOR MT_BATHROOM_TOXIC : MT_BATHROOM_DAY 14711
 	TNT1 A 1 A_GiveInventory("BazookaDeathToken",1)
 	Goto DeathReal
   DeathReal:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerBathroomToxic",0,Args[0],Args[1],Args[2])
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerBathroomToxic",0,Args[0],Args[1],Args[2])
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Toxic", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -932,7 +963,8 @@ ACTOR MT_BATHROOM_WINTER : MT_BATHROOM_DAY 14712	//WIP
 	TNT1 A 1 A_GiveInventory("BazookaDeathToken",1)
 	Goto DeathReal
   DeathReal:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerBathroomDay",0,Args[0],Args[1],Args[2])
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerBathroomDay",0,Args[0],Args[1],Args[2])
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Winter", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -950,12 +982,14 @@ ACTOR MT_FENCEWINTER : MT_FENCEDAY 14713
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],3,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,Args[0],3,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Winter", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),3,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerFence_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),3,0)
+	TNT1 A 1 A_SpawnItemEx("WoodSpawner_Winter", 0,0,0, 0,0,0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION, 0, 0)
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -973,12 +1007,14 @@ ACTOR MT_HOUSEWINTER : MT_HOUSEDAY 14714
 	Goto DeathReal
   DeathReal:
 	TNT1 A 0 A_JumpIf(Args[0]==0,"ArgbyTag")
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],3,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,Args[0],3,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Winter", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
   ArgbyTag:
-    TNT1 A 1 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),3,0)
+    TNT1 A 0 ACS_NamedExecuteAlways("TriggerHouse_X",0,ACS_NamedExecuteWithResult("GetTid",0,0,0,0),3,0)
+	TNT1 A 1 A_SpawnItemEx("HouseSpawner_Winter", 0, 0, 0, 0, 0, 0, 0, SXF_ABSOLUTEPOSITION|SXF_NOCHECKPOSITION,0,0)		
 	//TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)
 	//TNT1 A 2
 	Goto Finish
@@ -1265,6 +1301,9 @@ ACTOR P_WALL_COL
 ACTOR MT_CUSTOM : MT_FENCEDAY 14750
 {
  //$Arg0 "Script Number"
+ //$Arg1 "Debris Spawner"
+ //$Arg1Type 11
+ //$Arg1Enum {0 = "Nah"; 1 = "LEAFS_DAY"; 2 = "LEAFS_NIGHT"; 3 = "LEAFS_TOXIC"; 4 = "LEAFS_WINTER"; 5 = "-"; 6 = "WOOD_DAY"; 7 = "WOOD_NIGHT"; 8 = "WOOD_TOXIC"; 9 = "WOOD_WINTER"; 10 = "-"; 11 = "HOUSE_DAY"; 12 = "HOUSE_NIGHT"; 13 = "HOUSE_TOXIC"; 14 = "HOUSE_WINTER"; 15 = "-"; 16 = "WIP...";}
  States
   {
   Death.Bazooka:
@@ -1274,6 +1313,7 @@ ACTOR MT_CUSTOM : MT_FENCEDAY 14750
 	Goto DeathReal
   DeathReal:
 	TNT1 A 1 ACS_ExecuteAlways(Args[0],0,0,0,0)
+	TNT1 A 1 ACS_NamedExecuteAlways("SpawnSomething",0,Args[1],0,0)
 	Goto Finish
   Finish:
 	TNT1 A 0 A_GiveInventory("ScorePoints",50,AAPTR_TARGET)

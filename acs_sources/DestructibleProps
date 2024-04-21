@@ -1,6 +1,6 @@
 #library "DestructibleProps"
 #include "zcommon.acs"  
-   
+      
 Script "SpawnLeafs_X" (int pal){
 	str pallete;
 	switch(pal){
@@ -14,8 +14,9 @@ Script "SpawnLeafs_X" (int pal){
 	int PositionX = GetActorX(555);
 	int PositionY = GetActorY(555);
 	int PositionZ = GetActorZ(555);
+	int AngleSelf = GetActorAngle(555);
 	Delay(1);
-	SpawnForced(StrParam(s: "LeafySpawner_", s: pallete),PositionX,PositionY,PositionZ,0,0); 
+	SpawnForced(StrParam(s: "LeafySpawner_", s: pallete),PositionX,PositionY,PositionZ,0,AngleSelf); 
 	Delay(1);
 	Thing_ChangeTID(555,0);
 }
@@ -33,8 +34,35 @@ Script "SpawnWood_X" (int pal){
 	int PositionX = GetActorX(555);
 	int PositionY = GetActorY(555);
 	int PositionZ = GetActorZ(555);
+	int AngleSelf = GetActorAngle(555);
 	Delay(1);
-	SpawnForced(StrParam(s: "WoodSpawner_", s: pallete),PositionX,PositionY,PositionZ,0,0);
+	SpawnForced(StrParam(s: "WoodSpawner_", s: pallete),PositionX,PositionY,PositionZ,0,AngleSelf);
 	Delay(1);
 	Thing_ChangeTID(555,0);
 }
+ 
+Script "SpawnDebris_X" (int pal){
+	str pallete;
+	switch(pal){
+		case 0:	pallete="Day";	break;
+		case 1:	pallete="Night";break;
+		case 2:	pallete="Toxic";break;
+		case 3: pallete="Winter";break;
+		//case4:pallete="Spring";break;
+	}
+	Thing_ChangeTID(0,555);
+	int PositionX = GetActorX(555);
+	int PositionY = GetActorY(555);
+	int PositionZ = GetActorZ(555);
+	int AngleSelf = GetActorAngle(555);
+	Delay(1);
+	//while( !(SpawnForced(StrParam(s: "HouseSpawner_", s: pallete),PositionX,PositionY,PositionZ,0,AngleSelf)) )
+	//{Delay(1);}
+	while( SpawnForced(StrParam(s: "HouseSpawner_", s: pallete),PositionX,PositionY,PositionZ,0,AngleSelf) >1)
+					{ Delay(1);}
+	
+	
+	Thing_ChangeTID(555,0);
+}
+
+

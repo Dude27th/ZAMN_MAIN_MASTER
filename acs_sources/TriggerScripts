@@ -1,12 +1,13 @@
-#library "LevelScripts"
+#library "TriggerScripts"
 #include "zcommon.acs"
-	     
-
+#include "CUValues.acs"
+	      
+ 
 ///////////////////////////////
 //        TRAMPOLINES!       //
 ///////////////////////////////
-
-
+ 
+ 
 
 // Wrapper	(if not specified in the level itself)////////////////////////////////
 Script "TrampolineJump" (int TrampolineTag, int Pallete)						//
@@ -26,7 +27,7 @@ Script "TrampolineMaster" (int trampolinetag, int pallete)
 				case 0:	bouncetiles[0]="TRAMP_J"; bouncetiles[1]="TRAMP_J2"; bouncetiles[2]="TRAMP_F";	Break;
 				case 1: bouncetiles[0]="NTRAM_J"; bouncetiles[1]="NTRAM_J2"; bouncetiles[2]="NTRAM_F";	Break;
 				case 2: bouncetiles[0]="TTRAMPJ"; bouncetiles[1]="TTRAMPJ2"; bouncetiles[2]="TTRAMPF";	Break;
-				case 3: /* Winter */																	Break;
+				case 3: bouncetiles[0]="WTRAM_J"; bouncetiles[1]="WTRAM_J2"; bouncetiles[2]="WTRAM_F";	Break;
 				case 4: /* Spring */																	Break;
 			}
 			ChangeFloor(trampolinetag,bouncetiles[0]);
@@ -38,9 +39,7 @@ Script "TrampolineMaster" (int trampolinetag, int pallete)
 	else
 		{
 		if(trampolinetag==0)
-			{	
-			Log(s: "There is no sector tag asigned for this trampoline!\n---------------------------------------------------\n( Argument 1 )");
-			}
+			{	Log(s: "There is no sector tag asigned for this trampoline!\n---------------------------------------------------\n( Argument 1 )");	}
 		}
 }
 
@@ -80,16 +79,44 @@ Script "GetInt" (int number)
 {	SetResultValue (number);}
 
 
+int LastTriggerX= 0;
+int LastTriggerY= 0;
+int LastTriggerZ= 0;
+Script "SetLastTriggerXYZ" (int myXTrg, int myYTrg, int myZTrg)
+{
+	//LastTriggerX= myXTrg;
+	//LastTriggerY= myYTrg;
+	//LastTriggerZ= myZTrg;
 
-//TO DO: Clean unused scripts in the next revision!!! [06/06/21]
+	LastTriggerX= myXTrg;
+	LastTriggerY= myYTrg;
+	LastTriggerZ= myZTrg;
 
+	Log(s: StrParam(i: myXTrg, i: myYTrg, i: myZTrg));
+}
 
+Script "GetLastTriggerX" (void)
+{	SetResultValue(LastTriggerX);	}
+
+Script "GetLastTriggerY" (void)
+{	SetResultValue(LastTriggerY);	}
+
+Script "GetLastTriggerZ" (void)
+{	SetResultValue(LastTriggerZ);	}
+
+#define FlotAngleUnit 0.00277777777777777777777777777778
 Script "TriggerLeafs_X" (int maintag, int sidetag, int pallete)
 {
 		if(maintag==0)
 			ACS_NamedExecuteAlways("EmptyTriggerError",0,0,0,0);
 		else
 			{
+				//Set this immediately
+				//int	LastTrgX = GetActorX(0);	//needs conversion ?
+				//int LastTrgY = GetActorY(0);	//needs conversion ?
+				//int LastTrgZ = GetActorZ(0);	//needs conversion ?
+				//ACS_NamedExecuteAlways("SetLastTriggerXYZ", 0, LastTrgX, LastTrgY, LastTrgZ); 
+
 				if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
 					{
 						if(sidetag==0)
@@ -116,10 +143,11 @@ Script "TriggerLeafs_X" (int maintag, int sidetag, int pallete)
 						SetLineTexture(sidetag,SIDE_FRONT,TEXTURE_MIDDLE, sidetexture);	
 						SetLineTexture(sidetag,SIDE_BACK,TEXTURE_MIDDLE , sidetexture);
 						
-						ACS_NamedExecuteAlways("SpawnLeafs_X",0,pallete,0,0);
+						Delay(1);
+						//ACS_NamedExecuteAlways("SpawnLeafs_X",0,pallete,0,0);		//Handled by ACS now, it's more reliable
 						
 						
-					}
+					} 
 				else
 					{
 						if(maintag==0)
@@ -155,7 +183,8 @@ Script "TriggerFence_X" (int maintag, int pallete)
 				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE, maintexture);
 				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE,  maintexture);
 				
-				ACS_NamedExecuteAlways("SpawnWood_X",0,pallete,0,0);
+				Delay(1);
+				//ACS_NamedExecuteAlways("SpawnWood_X",0,pallete,0,0);				//Handled by ACS now, it's more reliable
 			
 			}
 		else
@@ -174,6 +203,12 @@ Script "TriggerHouse_X" (int maintag, int pallete)
 	{
 		if(!((maintag==0)||(maintag<=200)||(maintag>=2000)))
 			{
+				//Set this immediately
+				//int LastTrgX = GetActorX(0);	//needs conversion ?
+				//int LastTrgY = GetActorY(0);	//needs conversion ?
+				//int LastTrgZ = GetActorZ(0);	//needs conversion ?
+				//ACS_NamedExecuteAlways("SetLastTriggerXYZ", 0, LastTrgX, LastTrgY, LastTrgZ); 
+
 				int sidetag = maintag-200;
 				Floor_LowerToNearest(maintag, 512);
 				Line_SetTextureOffset(maintag,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
@@ -191,11 +226,9 @@ Script "TriggerHouse_X" (int maintag, int pallete)
 				}
 				SetLineTexture(maintag,SIDE_FRONT,TEXTURE_MIDDLE,maintexture);
 				SetLineTexture(maintag,SIDE_BACK,TEXTURE_MIDDLE, maintexture);
-				
-				
-				//- Spawn something in here maybe?
-				//- Oh yeah, spawning debree would look cool
-				//- All right then!
+					
+				Delay(1);
+				//ACS_NamedExecuteAlways("SpawnDebris_X",0,pallete,0,0);			//Handled by ACS now, it's more reliable
 			}
 		else 
 			{
@@ -272,7 +305,12 @@ Script "TriggerBathroomDay" (int SectorTag, int InnerWall, int OuterWall)	//int 
 				else if(SectorTag>=2000)
 					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
 				Terminate;
-			}	
+			}
+
+
+			Delay(1);
+			//ACS_NamedExecuteAlways("SpawnDebris_X",0,0,0,0);						//Handled by ACS now, it's more reliable
+	
 	}
 	
 Script "TriggerBathroomNight" (int SectorTag, int InnerWall, int OuterWall)	//int InnerWall == int Sink , int OuterWall == int Tub
@@ -339,6 +377,8 @@ Script "TriggerBathroomNight" (int SectorTag, int InnerWall, int OuterWall)	//in
 					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
 				Terminate;
 			}	
+		
+			//ACS_NamedExecuteAlways("SpawnDebris_X",0,1,0,0);						//Handled by ACS now, it's more reliable
 	}
 
 Script "TriggerBathroomToxic" (int SectorTag, int InnerWall, int OuterWall)	//int InnerWall == int Sink , int OuterWall == int Tub
@@ -405,6 +445,78 @@ Script "TriggerBathroomToxic" (int SectorTag, int InnerWall, int OuterWall)	//in
 					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
 				Terminate;
 			}	
+
+			//ACS_NamedExecuteAlways("SpawnDebris_X",0,2,0,0);						//Handled by ACS now, it's more reliable
+
+	}
+
+Script "TriggerBathroomWinter" (int SectorTag, int InnerWall, int OuterWall)	//int InnerWall == int Sink , int OuterWall == int Tub
+	{
+		if(!((SectorTag==0)||(SectorTag>=2000)))
+			{	Floor_LowerToNearest(SectorTag, 512);
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(InnerWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_FRONT,TEXFLAG_BOTTOM);	
+				Line_SetTextureOffset(OuterWall,0,0,SIDE_BACK,TEXFLAG_BOTTOM);
+				
+				SetLineTexture(InnerWall,SIDE_FRONT,TEXTURE_MIDDLE,"W_HWALDB");	//To do: Add Bathroom Winter Textures
+				SetLineTexture(InnerWall,SIDE_BACK,TEXTURE_MIDDLE,"W_HWALDB");	//To do: Add Bathroom Winter Textures
+				
+				SetLineTexture(OuterWall,SIDE_FRONT,TEXTURE_MIDDLE,"W_HWALDB");
+				SetLineTexture(OuterWall,SIDE_BACK,TEXTURE_MIDDLE,"W_HWALDB");
+				str tospawn= "";
+				str tospawn2= "";
+				
+				if(ThingCount(T_NONE, InnerWall)>=1)
+				{
+					if(ThingCount(T_NONE, InnerWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, InnerWall), s: " actors with the Tag ( ",
+					i: InnerWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(InnerWall, APROP_SPECIES, "SINKA3"))
+					{ tospawn = "SINKA3_BROKEN"; }
+					
+					int xsink = GetActorX(InnerWall);
+					int ysink = GetActorY(InnerWall);
+					int zsink = GetActorZ(InnerWall);
+					int asink = GetActorAngle(InnerWall);
+					Thing_Remove(InnerWall);
+					
+					SpawnForced(tospawn,xsink,ysink,zsink,InnerWall,asink);	
+					SetActorAngle(InnerWall,asink);
+				} 
+				if(ThingCount(T_NONE, OuterWall)>=1)
+				{
+					if(ThingCount(T_NONE, OuterWall)>1)		//Warning Log
+					{log(s: StrParam(s: "There's ", i: ThingCount(T_NONE, OuterWall), s: " actors with the Tag ( ", 
+					i: OuterWall, s: " ). \nOnly the last one will be used as reference.\n"));}
+					
+					
+					if(CheckActorProperty(OuterWall, APROP_SPECIES, "TUBA3"))
+					{ tospawn2 = "TUBA3_BROKEN"; }
+					
+					int xtub = GetActorX(OuterWall);
+					int ytub = GetActorY(OuterWall);
+					int ztub = GetActorZ(OuterWall);
+					int atub = GetActorAngle(OuterWall);
+					Thing_Remove(OuterWall);
+					
+					SpawnForced(tospawn2,xtub,ytub,ztub,OuterWall,atub);	
+					SetActorAngle(OuterWall,atub);
+				}
+			}
+		else 
+			{
+				if(SectorTag==0)
+					ACS_NamedExecuteAlways("SectorZero",0,0,0,0);
+				else if(SectorTag>=2000)
+					ACS_NamedExecuteAlways("TagReservedError",0,0,0,0);
+				Terminate;
+			}	
+
+			//ACS_NamedExecuteAlways("SpawnDebris_X",0,3,0,0);						//Handled by ACS now, it's more reliable
+
 	}
 	 
 Script "TriggerWallPipes" (int maintag)
@@ -706,3 +818,102 @@ Script "TriggerOfficeDark" (int maintag)
 						Terminate;
 			}	
 	}
+
+
+//onto nothing fr		0
+//GRASS::	-------------------------
+#define	SPW_LEAF_DAY	1
+#define	SPW_LEAF_NIGHT	2
+#define	SPW_LEAF_TOXIC	3
+#define	SPW_LEAF_WINTER	4
+#define	SPW_LEAF_SPRING	5	//NOT YET
+#define	SPW_WOOD_DAY	6
+#define	SPW_WOOD_NIGHT	7
+#define	SPW_WOOD_TOXIC	8
+#define	SPW_WOOD_WINTER	9
+#define	SPW_WOOD_SPRING	10	//NOT YET
+#define	SPW_HOUS_DAY	11
+#define	SPW_HOUS_NIGHT	12
+#define	SPW_HOUS_TOXIC	13
+#define	SPW_HOUS_WINTER	14
+#define	SPW_HOUS_SPRING	15	//NOT YET
+//MALL/FACTORY::	-------------------------
+//WIP
+
+Script "SpawnSomething" (int Debree)
+{
+	Thing_ChangeTID(0,555);
+	int PositionX = GetActorX(555);
+	int PositionY = GetActorY(555);
+	int PositionZ = GetActorZ(555);
+	int AngleSelf = GetActorAngle(555);
+
+	Delay(1);
+	switch(Debree)
+	{
+		CASE 0:					
+								Break;
+
+		CASE SPW_LEAF_DAY:		SpawnForced("LeafySpawner_Day",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_LEAF_NIGHT:	SpawnForced("LeafySpawner_Night",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_LEAF_TOXIC:	SpawnForced("LeafySpawner_Toxic",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_LEAF_WINTER:	SpawnForced("LeafySpawner_Winter",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_LEAF_SPRING:	//SpawnForced("LeafySpawner_Spring",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+
+		CASE SPW_WOOD_DAY:		SpawnForced("WoodSpawner_Day",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_WOOD_NIGHT:	SpawnForced("WoodSpawner_Night",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_WOOD_TOXIC:	SpawnForced("WoodSpawner_Toxic",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_WOOD_WINTER:	SpawnForced("WoodSpawner_Winter",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_WOOD_SPRING:	//SpawnForced("WoodSpawner_Spring",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+
+		CASE SPW_HOUS_DAY:		SpawnForced("HouseSpawner_Day",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_HOUS_NIGHT:	SpawnForced("HouseSpawner_Night",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_HOUS_TOXIC:	SpawnForced("HouseSpawner_Toxic",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_HOUS_WINTER:	SpawnForced("HouseSpawner_Winter",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+		CASE SPW_HOUS_SPRING:	//SpawnForced("HouseSpawner_Spring",PositionX,PositionY,PositionZ,0,AngleSelf);
+								Break;
+
+		//WIP --
+		Default:				Break;
+	}
+
+	Thing_ChangeTID(555,0);
+}
+
+Script "CoordinateTriggerFailsafe" (void)
+{
+	int GottemX = MapUnit_ToInt(GetActorX(0));
+	int GottemY = MapUnit_ToInt(GetActorY(0));
+	int GottemZ = MapUnit_ToInt(GetActorZ(0));
+	//Log(s: strParam(s: "Coordinates: ", i: GottemX, s: ", ", i: GottemY, s: ", ", i: GottemZ));
+	//Thing_ChangeTID(0,555);
+
+	if ((GottemX == 0)&&(GottemY == 0))
+	{
+		//Log(s: "Debris failed to spawn correctly :c \nReplace this trigger with a custom one...");
+		//while((GottemX == 0)&&(GottemY == 0))
+		//{
+		//	Delay(1);
+		//	SetActorPosition(555, ACS_NamedExecuteWithResult("GetLastTriggerX",0,0,0,0), ACS_NamedExecuteWithResult("GetLastTriggerY",0,0,0,0), ACS_NamedExecuteWithResult("GetLastTriggerZ",0,0,0,0), false);
+		//}
+		
+		
+	}
+	//Thing_ChangeTID(555,0);
+
+
+}

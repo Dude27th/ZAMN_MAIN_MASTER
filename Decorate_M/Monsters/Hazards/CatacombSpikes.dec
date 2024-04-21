@@ -10,7 +10,6 @@ Actor SpikeMetal_Tiny_0 12310
 	+NOBLOOD
 	-FRIENDLY
 	+AMBUSH	//TEST
-	//$Sprite "SKCNA0"
 	//$Arg0 "Sequence"
 	//$Arg0Type 11
 	//$Arg0Enum {1 = "Sequence 1"; 2 = "Sequence 2"; 3 = "Sequence 3";}
@@ -154,6 +153,7 @@ Actor SpikeMetal_Big_0 12311
 	//$Arg0Enum {1 = "Sequence 1"; 2 = "Sequence 2"; 3 = "Sequence 3";}
 	//Arg4 Selector
 	//$Category "Zombies Ate My Neighbors/Monsters/"
+	//$Color 4
 	States
 	{
 		Spawn:

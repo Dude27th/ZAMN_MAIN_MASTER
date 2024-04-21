@@ -90,6 +90,10 @@ Titanic/Stomp		TITNSTEP
 //Frankestein
 Frankestein/Attack	FRANKRAY
 
+//Vampires
+Vampire/Spawn		DRACLAF1
+Vampire/ReSpawn		DRACLAF2
+
 /*------------------------------*/
 
 

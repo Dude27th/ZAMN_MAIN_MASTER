@@ -11,6 +11,7 @@ ACTOR FENCEPIECES_Day 13296
   //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
   -SOLID
   +NOCLIP
+  +NOBLOCKMAP
   States
   {
   Spawn:
@@ -32,6 +33,7 @@ ACTOR FENCEPIECES_Night 13300
   //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
   -SOLID
   +NOCLIP
+  +NOBLOCKMAP
   States
   {
   Spawn:
@@ -53,6 +55,7 @@ ACTOR FENCEPIECES_Toxic 13298
   //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
   -SOLID
   +NOCLIP
+  +NOBLOCKMAP
   States
   {
   Spawn:
@@ -74,6 +77,7 @@ ACTOR FENCEPIECES_Winter 13301
   //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
   -SOLID
   +NOCLIP
+  +NOBLOCKMAP
   States
   {
   Spawn:
@@ -86,23 +90,99 @@ ACTOR FENCEPIECES_Winter 13301
   }
 }
 
+
+ACTOR HOUSEPIECES_Day 13303
+{
+  Height 10
+  Radius 1
+  SpawnID 2
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOCLIP
+  +NOBLOCKMAP
+  States
+  {
+  Spawn:
+	HPSD A -1
+	Stop
+  }
+}
+
+ACTOR HOUSEPIECES_Night 13304
+{
+  Height 10
+  Radius 1
+  SpawnID 2
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOCLIP
+  +NOBLOCKMAP
+  States
+  {
+  Spawn:
+	HPSN A -1
+	Stop
+  }
+}
+
+ACTOR HOUSEPIECES_Toxic 13305
+{
+  Height 10
+  Radius 1
+  SpawnID 2
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOCLIP
+  +NOBLOCKMAP
+  States
+  {
+  Spawn:
+	HPST A -1
+	Stop
+  }
+}
+
+ACTOR HOUSEPIECES_Winter 13306
+{
+  Height 10
+  Radius 1
+  SpawnID 2
+  Scale 1.5
+  //$Category "Zombies Ate My Neighbors/Decorations/Theme/Grass"
+  -SOLID
+  +NOCLIP
+  +NOBLOCKMAP
+  States
+  {
+  Spawn:
+	HPSW A -1
+	Stop
+  }
+}
+
+
 // They aren't placed in the map directly
 //$GZDB_SKIP
 
 Actor LeafySpawner_Day
 {
 Mass 20000
-Height 30
-//Radius 20
+Height 16//30
+Radius 4//20
 Radius 2
 -SOLID
 +FLOORHUGGER
 +NOGRAVITY
 +NOCLIP
++NOBLOCKMAP
 States
 	{
 	Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_A1_D",0,0,20,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_B2_D",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_Mini_D",0,0,5,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
@@ -349,14 +429,16 @@ Actor Leaf_Mini_D_F : Leaf_Mini_D	//Static Actor
 Actor LeafySpawner_Night
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
++NOBLOCKMAP
 States
 	{
 	Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_A1_N",0,0,20,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_B2_N",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_Mini_N",0,0,5,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
@@ -642,14 +724,16 @@ States
 Actor LeafySpawner_Toxic
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
++NOBLOCKMAP
 States
 	{
 	Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_A1_T",0,0,20,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_B2_T",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_Mini_T",0,0,5,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
@@ -936,14 +1020,16 @@ States
 Actor LeafySpawner_Winter
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
++NOBLOCKMAP
 States
 	{
 	Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_A1_W",0,0,20,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_B2_W",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Leaf_Mini_W",0,0,5,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
@@ -1234,15 +1320,17 @@ States
 Actor WoodSpawner_Day
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
 +NOCLIP
++NOBLOCKMAP
 States
 	{
 		Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Day",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Day",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		//TNT1 A 1
@@ -1328,15 +1416,17 @@ States
 Actor WoodSpawner_Night
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
 +NOCLIP
++NOBLOCKMAP
 States
 	{
 		Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Night",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Night",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Wood_B2_N",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
@@ -1422,15 +1512,17 @@ States
 Actor WoodSpawner_Toxic
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
 +NOCLIP
++NOBLOCKMAP
 States
 	{
 		Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Toxic",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Toxic",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Wood_B2_T",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
@@ -1515,15 +1607,17 @@ States
 Actor WoodSpawner_Winter
 {
 Mass 20000
-Height 30
-Radius 20
+Height 16//30
+Radius 4//20
 -SOLID
 +NOGRAVITY
 +NOCLIP
++NOBLOCKMAP
 States
 	{
 		Spawn:
 		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Winter",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("FENCEPIECES_Winter",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
 		TNT1 A 0 A_SpawnItemEx("Wood_B2_W",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
@@ -2109,5 +2203,854 @@ States
 ///////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////
+
+
+
+
+Actor HouseSpawner_Day
+{
+Mass 20000
+Height 16//30
+Radius 4//20
+-SOLID
++NOGRAVITY
++NOCLIP
++NOBLOCKMAP
+States
+	{
+		Spawn:
+		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Day",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Day",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,20,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,10,10,1,5,50,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,20,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,10,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_D",0,0,20,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,10,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,20,10,1,5,160,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,10,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,20,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,10,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_D",0,0,20,10,1,5,250,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,260,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,10,10,1,5,275,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,20,10,1,5,295,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,305,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,10,10,1,5,320,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,20,10,1,5,340,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,5,10,1,5,350,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,40,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,30,10,1,5,30,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,40,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,55,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,30,10,1,5,75,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_D",0,0,40,10,1,5,90,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,100,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,30,10,1,5,120,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,40,10,1,5,135,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,145,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,30,10,1,5,165,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,40,10,1,5,180,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,190,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,30,10,1,5,210,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_D",0,0,40,10,1,5,225,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,235,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,30,10,1,5,255,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,40,10,1,5,270,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,280,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,30,10,1,5,300,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,40,10,1,5,315,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,25,10,1,5,325,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,30,10,1,5,345,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,45,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,55,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,45,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,45,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_D",0,0,55,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,45,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,45,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,55,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,45,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_D",0,0,45,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_D",0,0,55,10,1,5,155,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,45,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_D",0,0,45,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_D",0,0,55,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,45,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_D",0,0,45,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_D",0,0,55,10,1,5,245,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_D",0,0,45,10,1,5,255,SXF_NOCHECKPOSITION,0,0)  
+		TNT1 A 1
+		Stop
+	}
+}
+
+
+Actor HouD_A1_D				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDD A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_A_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+		
+	}
+}
+
+Actor HouD_A2_D : HouD_A1_D	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD A 2
+		TNT1 A 0 A_SpawnItemEx("HouD_A_F",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+
+Actor HouD_A3_D : HouD_A1_D	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD A 4
+		TNT1 A 0 A_SpawnItemEx("HouD_A_F",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+Actor HouD_A_F : HouD_A1_D	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD A 49
+		Stop	
+	}
+}
+Actor HouD_B1_D				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDD B 1 
+		TNT1 A 0	A_SpawnItemEx("HouD_B_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B2_D : HouD_B1_D	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD B 2 
+		TNT1 A 0	A_SpawnItemEx("HouD_B_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B3_D : HouD_B1_D	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD B 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_B_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B_F : HouD_B1_D	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD B 49
+		Stop
+	}
+}
+Actor HouD_Mini_D			//Movement Actor |4| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
+Scale 1.25
++NOCLIP
+States
+	{
+		Spawn:
+		HSDD C 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_Mini_D_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+
+Actor HouD_Mini_D_F : HouD_Mini_D	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDD C 44
+		Stop
+	}
+}
+
+Actor HouseSpawner_Night
+{
+Mass 20000
+Height 16//30
+Radius 4//20
+-SOLID
++NOGRAVITY
++NOCLIP
++NOBLOCKMAP
++NOINTERACTION
++NOSECTOR
+States
+	{
+		Spawn:
+		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Night",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Night",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,20,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,10,10,1,5,50,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,20,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,10,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_N",0,0,20,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,10,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,20,10,1,5,160,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,10,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,20,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,10,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_N",0,0,20,10,1,5,250,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,260,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,10,10,1,5,275,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,20,10,1,5,295,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,305,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,10,10,1,5,320,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,20,10,1,5,340,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,5,10,1,5,350,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,40,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,30,10,1,5,30,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,40,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,55,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,30,10,1,5,75,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_N",0,0,40,10,1,5,90,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,100,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,30,10,1,5,120,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,40,10,1,5,135,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,145,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,30,10,1,5,165,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,40,10,1,5,180,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,190,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,30,10,1,5,210,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_N",0,0,40,10,1,5,225,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,235,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,30,10,1,5,255,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,40,10,1,5,270,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,280,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,30,10,1,5,300,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,40,10,1,5,315,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,25,10,1,5,325,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,30,10,1,5,345,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,45,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,55,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,45,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,45,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_N",0,0,55,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,45,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,45,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,55,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,45,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_N",0,0,45,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_N",0,0,55,10,1,5,155,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,45,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_N",0,0,45,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_N",0,0,55,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,45,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_N",0,0,45,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_N",0,0,55,10,1,5,245,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_N",0,0,45,10,1,5,255,SXF_NOCHECKPOSITION,0,0)  
+		TNT1 A 1
+		Stop
+	}
+}
+
+
+Actor HouD_A1_N				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDN A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_AFN",0,0,0,0,0,0,0,0,0,0)
+		Stop
+		
+	}
+}
+
+Actor HouD_A2_N : HouD_A1_N	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN A 2
+		TNT1 A 0 A_SpawnItemEx("HouD_AFN",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+
+Actor HouD_A3_N : HouD_A1_N	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN A 4
+		TNT1 A 0 A_SpawnItemEx("HouD_AFN",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+Actor HouD_AFN : HouD_A1_N	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN A 49
+		Stop	
+	}
+}
+Actor HouD_B1_N				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDN B 1 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFN",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B2_N : HouD_B1_N	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN B 2 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFN",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B3_N : HouD_B1_N	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN B 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFN",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_BFN : HouD_B1_N	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN B 49
+		Stop
+	}
+}
+Actor HouD_Mini_N			//Movement Actor |4| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
+Scale 1.25
++NOCLIP
+States
+	{
+		Spawn:
+		HSDN C 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_Mini_N_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+
+Actor HouD_Mini_N_F : HouD_Mini_N	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDN C 44
+		Stop
+	}
+}
+
+Actor HouseSpawner_Toxic
+{
+Mass 20000
+Height 16//30
+Radius 4//20
+-SOLID
++NOGRAVITY
++NOCLIP
++NOBLOCKMAP
+States
+	{
+		Spawn:
+		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Toxic",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Toxic",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,20,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,10,10,1,5,50,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,20,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,10,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_T",0,0,20,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,10,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,20,10,1,5,160,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,10,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,20,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,10,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_T",0,0,20,10,1,5,250,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,260,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,10,10,1,5,275,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,20,10,1,5,295,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,305,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,10,10,1,5,320,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,20,10,1,5,340,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,5,10,1,5,350,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,40,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,30,10,1,5,30,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,40,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,55,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,30,10,1,5,75,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_T",0,0,40,10,1,5,90,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,100,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,30,10,1,5,120,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,40,10,1,5,135,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,145,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,30,10,1,5,165,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,40,10,1,5,180,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,190,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,30,10,1,5,210,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_T",0,0,40,10,1,5,225,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,235,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,30,10,1,5,255,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,40,10,1,5,270,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,280,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,30,10,1,5,300,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,40,10,1,5,315,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,25,10,1,5,325,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,30,10,1,5,345,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,45,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,55,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,45,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,45,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_T",0,0,55,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,45,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,45,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,55,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,45,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_T",0,0,45,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_T",0,0,55,10,1,5,155,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,45,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_T",0,0,45,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_T",0,0,55,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,45,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_T",0,0,45,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_T",0,0,55,10,1,5,245,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_T",0,0,45,10,1,5,255,SXF_NOCHECKPOSITION,0,0)  
+		TNT1 A 1
+		Stop
+	}
+}
+
+
+Actor HouD_A1_T				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDT A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_AFT",0,0,0,0,0,0,0,0,0,0)
+		Stop
+		
+	}
+}
+
+Actor HouD_A2_T : HouD_A1_T	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT A 2
+		TNT1 A 0 A_SpawnItemEx("HouD_AFT",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+
+Actor HouD_A3_T : HouD_A1_T	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT A 4
+		TNT1 A 0 A_SpawnItemEx("HouD_AFT",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+Actor HouD_AFT : HouD_A1_T	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT A 49
+		Stop	
+	}
+}
+Actor HouD_B1_T				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDT B 1 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFT",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B2_T : HouD_B1_T	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT B 2 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFT",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B3_T : HouD_B1_T	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT B 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFT",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_BFT : HouD_B1_T	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT B 49
+		Stop
+	}
+}
+Actor HouD_Mini_T			//Movement Actor |4| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
+Scale 1.25
++NOCLIP
+States
+	{
+		Spawn:
+		HSDT C 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_Mini_T_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+
+Actor HouD_Mini_T_F : HouD_Mini_T	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDT C 44
+		Stop
+	}
+}
+
+
+Actor HouseSpawner_Winter
+{
+Mass 20000
+Height 16//30
+Radius 4//20
+-SOLID
++NOGRAVITY
++NOCLIP
++NOBLOCKMAP
+States
+	{
+		Spawn:
+		TNT1 A 1
+		TNT1 A 0 ACS_NamedExecuteAlways("CoordinateTriggerFailsafe",0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Winter",-10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HOUSEPIECES_Winter",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,10,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,20,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,10,10,1,5,50,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,20,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,10,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_W",0,0,20,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,10,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,20,10,1,5,160,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,10,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,20,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,10,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_W",0,0,20,10,1,5,250,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,260,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,10,10,1,5,275,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,20,10,1,5,295,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,305,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,10,10,1,5,320,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,20,10,1,5,340,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,5,10,1,5,350,SXF_NOCHECKPOSITION,0,0)
+		//TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,40,10,1,5,5,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,15,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,30,10,1,5,30,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,40,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,55,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,30,10,1,5,75,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_W",0,0,40,10,1,5,90,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,100,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,30,10,1,5,120,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,40,10,1,5,135,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,145,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,30,10,1,5,165,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,40,10,1,5,180,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,190,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,30,10,1,5,210,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_W",0,0,40,10,1,5,225,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,235,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,30,10,1,5,255,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,40,10,1,5,270,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,280,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,30,10,1,5,300,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,40,10,1,5,315,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,25,10,1,5,325,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,30,10,1,5,345,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,45,10,1,5,10,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,55,10,1,5,25,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,45,10,1,5,35,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,45,10,1,5,45,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_W",0,0,55,10,1,5,70,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,45,10,1,5,80,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,45,10,1,5,95,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,55,10,1,5,115,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,45,10,1,5,125,SXF_NOCHECKPOSITION,0,0)   
+		TNT1 A 0 A_SpawnItemEx("HouD_B3_W",0,0,45,10,1,5,140,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A1_W",0,0,55,10,1,5,155,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,45,10,1,5,170,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B1_W",0,0,45,10,1,5,185,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A2_W",0,0,55,10,1,5,205,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,45,10,1,5,215,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_B2_W",0,0,45,10,1,5,230,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_A3_W",0,0,55,10,1,5,245,SXF_NOCHECKPOSITION,0,0)
+		TNT1 A 0 A_SpawnItemEx("HouD_Mini_W",0,0,45,10,1,5,255,SXF_NOCHECKPOSITION,0,0)  
+		TNT1 A 1
+		Stop
+	}
+}
+
+
+Actor HouD_A1_W				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDW A 1
+		TNT1 A 0 A_SpawnItemEx("HouD_AFW",0,0,0,0,0,0,0,0,0,0)
+		Stop
+		
+	}
+}
+
+Actor HouD_A2_W : HouD_A1_W	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW A 2
+		TNT1 A 0 A_SpawnItemEx("HouD_AFW",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+
+Actor HouD_A3_W : HouD_A1_W	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW A 4
+		TNT1 A 0 A_SpawnItemEx("HouD_AFW",0,0,0,0,0,0,0,0,0,0)
+		Stop	
+	}
+}
+Actor HouD_AFW : HouD_A1_W	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW A 49
+		Stop	
+	}
+}
+Actor HouD_B1_W				//Movement Actor |1| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
++NOCLIP
+States
+	{
+		Spawn:
+		HSDW B 1 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFW",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B2_W : HouD_B1_W	//Movement Actor |2| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW B 2 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFW",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_B3_W : HouD_B1_W	//Movement Actor |4| Spawn Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW B 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_BFW",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+Actor HouD_BFW : HouD_B1_W	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW B 49
+		Stop
+	}
+}
+Actor HouD_Mini_W			//Movement Actor |4| Spawn Static Actor
+{
+Mass 90000
+Height 3
+Radius 5
+Scale 1.25
++NOCLIP
+States
+	{
+		Spawn:
+		HSDW C 4 
+		TNT1 A 0	A_SpawnItemEx("HouD_Mini_W_F",0,0,0,0,0,0,0,0,0,0)
+		Stop
+	}
+}
+
+
+Actor HouD_Mini_W_F : HouD_Mini_W	//Static Actor
+{
+States
+	{
+		Spawn:
+		HSDW C 44
+		Stop
+	}
+}
+
+
+
 
 

@@ -1471,5 +1471,6 @@ Script "IgnoreSurvivorGameOver" (void)
 
 Script "IsLevelFinished" (void)
 {
+	//Log(i: LevelFinished);
 	SetResultValue(LevelFinished);
 }

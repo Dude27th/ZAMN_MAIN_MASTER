@@ -1,7 +1,7 @@
 #library "SpectatorMode"
 #include "zcommon.acs"  
 #include "CUValues.acs"
-
+ 
 
 
 int Spectators = 0;
@@ -90,7 +90,8 @@ Script "SpectatorModeText" (void)
 		//int realgoo = CheckActorInventory(OtherPlayer,"GooTimer");
 		SetHudSize(320,200,FALSE);
 
-		SetFont( GetGooEffectGraphic(CheckActorInventory(OtherPlayer,"GooTimer")) );
+		//SetFont( GetGooEffectGraphic(CheckActorInventory(OtherPlayer,"GooTimer")) );			//DEPRECATED
+		SetFont( GetHudEffect(CheckActorInventory(OtherPlayer,"GooTimer"), HUDFX_GOO) );
 		HudMessage(s:"A";HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, 11005, 0, 160.0, 80.0, 1873);
 		//Log(s: "Layer 11005: Goo Screen Effect");	//Test
 	}
@@ -101,7 +102,8 @@ Script "SpectatorModeText" (void)
 			//int bubblenow = CheckActorInventory(OtherPlayer,"BubbleTime");
 			SetHudSize(320,200,FALSE);
 							
-			SetFont( GetBubbleEffectGraphic(CheckActorInventory(OtherPlayer,"BubbleTime")) );				
+			//SetFont( GetBubbleEffectGraphic(CheckActorInventory(OtherPlayer,"BubbleTime")) );	//DEPRECATED	
+			SetFont( GetHudEffect(CheckActorInventory(OtherPlayer,"BubbleTime"), HUDFX_BUBBLE) );
 			HudMessage(s:"A";HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, 11005, 0, 160.0, 100.0, 1873);
 			//Log(s: "Layer 11005: Martian Bubble Screen Effect");	//Test
 		}

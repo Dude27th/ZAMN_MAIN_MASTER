@@ -76,6 +76,13 @@ picname = "T_CMPTRR"
 NoSkillMenu
 }
 
+Episode DEADCOLD				
+{							
+name = "You should set a picname"
+key = "c"
+picname = "T_DEDCOL"			
+NoSkillMenu
+}
 
 
 // Menu Maps
@@ -369,7 +376,16 @@ Next = "THANKS"
 SecretNext = "THANKS"
 }
 
-
+map DEADCOLD "Dead Cold"
+{
+KeepFullInventory
+NoIntermission
+SpawnWithWeaponRaised
+Sky1 = "Sky1", 0
+music = ""	//""
+Next = "THANKS"
+SecretNext = "THANKS"
+}
 
 //Easter Eggs
 Map METRO01 "Ghoul Patrol: Metropolis 1"

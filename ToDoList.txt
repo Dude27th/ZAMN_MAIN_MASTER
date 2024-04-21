@@ -7,9 +7,6 @@
 // - [BUG] Stanley Wrong:	If stanley triggers a Custom Trigger it will not only display the default grass texture,
 //							but he may also get stuck in the trigger not knowing properly where to be positionated.
 //
-// - Survivor 404 Failsafe:	Add an exception case for survivors in case that they have a 404 tag.
-//							As 404 actors get erased, and this would cause a softlock.
-//
 //------------ Low Priority ------------//
 //
 // - [BUG]	:				Player pain sound doesn't activate always

@@ -1,11 +1,43 @@
-+ "ZAMN_MAIN" (??th November, 2023) [Idk , qol stuff I guess]
++ "ZAMN_MAIN" (21th, April 2024) [Hotfix 1 - "More like Warmfix am I right?"]
 -------------------------------------------------------------
 [Zamn TC]
+- Custom Triggers now spawn selected Debris as an argument (wip)
+- Normal Triggers handle spawning Debree trough Decorate instead of ACS.
+	This prevents Debris not spawning due to "SpawnForced (ACS)"
+		failing to accept spawning conditions.
+- Rewrote part of the "ExitDoor" radius  logic, so the latest qol change works,
+		and the Radius doesn't go berserk due to rounding.
+- "Dog Survivors" will only bark audibly when the player is nearby.
+- Added missing "Freeze State" to Vampire enemies.
+
+[Zamn Core]
+- Re-organized several textures from the "Grass" Tilesets.
+- [TO DO: Find what's causing stuttering in GameLoop]
+
+
++ "ZAMN_MAIN" (04th, April 2024) [Some new things]
+-------------------------------------------------------------
+[Zamn TC]
+- Added Custom Level "Dead Cold"
+- Added "Grass:Winter" textures for the Winter Tileset
+- Added several Winter variations from Grass decorations
+- Added Broken House Walls Debree
 - Added Yellow Couch decoration for the Grass Levels
 - Added Cloth Decorations inside the Houses in Grass Levels
+- Added missing sounds for the "Vampire" enemy.
+- Tweaked a little Crucifix projectiles.
+- Minor cleaning on MetalSpike Hazards
+- Patched a compilation error on "ExitDoor.dec"
+- Fixed vampires following the players outside the level
 
 [Zamn Modding]
 - Added the option to set "Starting Inventory" for players, per map.
+
+[Zamn Core]
+- Started re-organizing textures from single textures to texture sheets,
+	specially for decorations that used several loose textures 
+		but where part from the same object.
+
 
 
 
@@ -20,6 +52,7 @@
 -------------------------------------------------------------
 [Zamn TC]
 - Added bonus map "Cheerleaders Vs Monsters" (WIP)
+- Added "Vampire" enemy (WIP)
 - Added Office Tileset Decorations:: "Ceiling Web", "Drawer_Dark", "Chest_Dark"
 - Added Pallete Translation for "Ants_Red"
 - Added "Ants_Red" wip enemies
@@ -49,8 +82,7 @@
 	"Custom Levels" will not change though as they need the previous, more flexible approach.
 - Re-organized the [Guide] documentation as .acs files so it's more accesible from map editors.
 - Some cleaning of unnecesary acs libraries, and re-organized "LOADACS" as to portray better the libraries loaded.
-- Re-organized "Maps" folder, compiled Custom Level maps into "Maps_3-Custom" and 
-	compiled Menu maps into "Maps_0-Menu" as well. This was done to reduce clutter on the maps folder. 
+- Re-organized "Maps" folder, compiled Menu maps into "Maps_0-Menu", to reduce clutter on the maps folder. 
 - Separated "DoorsAndDrawers.dec" into "Doors.dec" and "Drawers.dec" 
 	due to becoming both categories too big to mantain in the same file.
 - Re-organized "Decorate_M/Decorations" folder, actors are now stored by level theme and interactive actors are stored separatedly.

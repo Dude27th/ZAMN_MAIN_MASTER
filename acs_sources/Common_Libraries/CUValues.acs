@@ -134,7 +134,6 @@ Script "Reposition" (void)
 	SetActorPosition(0,OwnX,OwnY,OwnZ,false);
 }
 
-
 //[RESERVED TAGS]
 
 #libdefine TAG_POINT1SHOWCASE 51
@@ -161,7 +160,7 @@ Script "Reposition" (void)
 #libdefine NONE				0
 
 
-#libdefine  ZAMN_WATSIZE  8	 //<-- <-- Update the size by the number of textures to check
+#libdefine  ZAMN_WATSIZE  12	 //<-- <-- Update the size by the number of textures to check
 str 		ZAMN_WATRTEX [ZAMN_WATSIZE] = 
 {
 	/*[Grass: Day  ]*/
@@ -169,9 +168,9 @@ str 		ZAMN_WATRTEX [ZAMN_WATSIZE] =
 	/*[Grass: Night]*/
 		"WAT_DRN1","WAT_DRN2","WAT_PLN1",
 	/*[Grass: Toxic]*/
-		"WAT_DRT2","WAT_PLT1"
+		"WAT_DRT1","WAT_DRT2","WAT_PLT1",
 	/*[Grass:Winter]*/
-		//---
+		"WAT_DRW1","WAT_DRW2","WAT_PLW1"
 	/*[Grass:Spring]*/
 		//---														
 };
@@ -357,63 +356,6 @@ function str GetHudEffect(int Amount, int Type)
 	return fontresult;
 }
 
-
-
-/*
-function str GetGooEffectGraphic(int GooAmount)
-{
-	str fontresult = "";
-		 if(GooAmount >= 105)		fontresult = "GLOO20";
-	else if(GooAmount >= 100)		fontresult = "GLOO19";
-	else if(GooAmount >= 95)		fontresult = "GLOO18";
-	else if(GooAmount >= 90)		fontresult = "GLOO17";
-	else if(GooAmount >= 85)		fontresult = "GLOO16";
-	else if(GooAmount >= 80)		fontresult = "GLOO15";
-	else if(GooAmount >= 75)		fontresult = "GLOO14";
-	else if(GooAmount >= 70)		fontresult = "GLOO13";
-	else if(GooAmount >= 65)		fontresult = "GLOO12";
-	else if(GooAmount >= 60)		fontresult = "GLOO11";
-	else if(GooAmount >= 55)		fontresult = "GLOO10";
-	else if(GooAmount >= 50)		fontresult = "GLOO9";
-	else if(GooAmount >= 45)		fontresult = "GLOO8";
-	else if(GooAmount >= 40)		fontresult = "GLOO7";
-	else if(GooAmount >= 25)		fontresult = "GLOO6";
-	else if(GooAmount >= 20)		fontresult = "GLOO5";
-	else if(GooAmount >= 15)		fontresult = "GLOO4";
-	else if(GooAmount >= 10)		fontresult = "GLOO3";
-	else if(GooAmount >= 5)			fontresult = "GLOO2";
-	else if(GooAmount >= 0)			fontresult = "GLOO1";
-
-	return fontresult;
-}*/
-/*
-function str GetBubbleEffectGraphic(int BubbleTime)
-{
-	str fontresult = "";
-	switch(BubbleTime)
-		{
-			case 50:	fontresult = "MBBLA0";	Break;
-			case 49:	fontresult = "MBBLB0";	Break;
-			case 48:	fontresult = "MBBLC0";	Break;
-			case 47:	fontresult = "MBBLD0";	Break;
-			case 46:	fontresult = "MBBLE0";	Break;
-			case 45:	fontresult = "MBBLF0";	Break;
-			case 44:	fontresult = "MBBLG0";	Break;
-			case 43:	fontresult = "MBBLH0";	Break;
-			case 42:	fontresult = "MBBLI0";	Break;
-			case 41:	fontresult = "MBBLJ0";	Break;
-
-			Default:	fontresult = "MBBLJ0";	Break;
-			case 6 :	fontresult = "MBBLK0";	Break;
-			case 5 :	fontresult = "MBBLL0";	Break;
-			case 4 :	fontresult = "MBBLM0";	Break;
-			case 3 :	fontresult = "MBBLN0";	Break;
-			case 2 :	fontresult = "MBBLO0";	Break;
-			case 1 :	fontresult = "MBBLP0";	Break;
-		}
-
-	return fontresult;
-}*/
 
 
 
